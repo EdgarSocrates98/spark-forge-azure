@@ -1,0 +1,40 @@
+# Roadmap faseado
+
+> Fase 0, item 9 (§294). Cada onda = SDD compacto em `docs/sdd/<onda>/` (define/design/plan/ship +
+> evidence) e **um commit por onda** (ou mais, nunca menos). Status real: `parity.yaml`.
+
+## v0.1.0 — Azure Data Engineering Foundation (§258)
+
+| Onda | Fases do prompt | Entrega | Prova mínima |
+|---|---|---|---|
+| W0 | 0, 1, 2 | Discovery: audit AWS, portability matrix, product definition, ADRs, RFC multi-forge, capability map, shared primitives, roadmap | `aws_audit.json` regenerável |
+| W1 | 3 | Fundação do repo: `pyproject`, pacote `sparkforge_azure`, ferramentas (ruff/pytest), `scripts/port_from_aws.py`, teste de camadas, SDD machinery | `pytest`, `ruff` verdes |
+| W2 | 4 | Core Agentic OS: trust, context, memory, governor, budget, decision, recovery, stop, info gain, checkpoint, model router | testes portados + testes Azure-contexto |
+| W3 | 5 | Economy OS: TokenSave (ladder L0–L6), Context Ledger, Token Ledger, Reconciliation, Cache, profiles, AgentOps, OTel | invariantes observed≠estimated, unknown≠0, bytes≠tokens |
+| W4 | 6 | Code Intelligence: Python/PySpark/SQL/Terraform/Bicep/YAML/JSON/notebooks Databricks e Fabric/ADF JSON, incremental fingerprinted, change impact | fixtures por formato |
+| W5 | 7 | Graphfy: code/data/azure-resource/knowledge/evidence graphs, workspace manifest, live graph, federation, impact, query | composição só por ID explícito |
+| W6 | 8 (parte) | Knowledge base + compiler + freshness/drift + impact graph; 21 skills; agents & 20 specialists | metadados obrigatórios validados |
+| W7 | 9, 10 | Spark genérico + Azure identity/storage/network/Key Vault (facts, rules, knowledge) | regras com fixtures positivas/negativas |
+| W8 | 11, 12 | Azure Databricks + Unity Catalog (primeiro vertical, §255) + governança multicamada | cenário UC external-location ponta a ponta |
+| W9 | 13–19 (foundation) | Fabric, Synapse, ADF, Event Hubs/Streaming, Purview, Observability, FinOps | 1+ regra e 1+ fixture por domínio |
+| W10 | 8, 18 | Collectors read-only + redaction + `collect workspace-graph` | redaction red-team |
+| W11 | 8 | CLI `sparkforge-azure` completa + MCP (risk, compact, pagination, conformance) + Doctor + Offline Bundle | surface lock |
+| W12 | 20 | Forge Lab + Digital Twin + 17 cenários | `lab verify` |
+| W13 | 21 | Security / red team (11 ameaças §207) | casos declarados passam |
+| W14 | 22 | Supply chain: lock com hashes, SBOM CycloneDX, wheel reprodutível, clean install, CI tiers | `verify_wheel` |
+| W15 | 23, 24 | Forge Protocol / The Forger discovery + compat API Forge; parity audit; claims lock; docs finais | `claims verify` |
+
+## v0.2.0 (§259) — profundidade
+
+ADF, Synapse, Event Hubs, Streaming, Purview, FinOps em profundidade (collectors live, mais regras,
+cenários Lab com transcript gravado — Tier 3).
+
+## v0.3.0 (§260)
+
+Deep Databricks, deep Fabric, governança avançada, migração (Synapse→Fabric; AWS→Azure §219),
+live graph contínuo, Lab avançado.
+
+## v1.0 (§261)
+
+Somente com profundidade **comprovada** (claims + evals) em Databricks, Fabric, ADLS, ADF,
+Streaming, Governance, Security, Observability, FinOps, Agentic OS, TokenSave, Graphfy, MCP, Lab.
