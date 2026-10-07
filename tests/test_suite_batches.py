@@ -40,9 +40,10 @@ TESTES = ROOT / "tests"
 
 # A receita, e ela e a fonte da verdade. Cada entrada e (nome, inclui, exclui).
 #
-# O lote de goldens e quebrado em cinco por medida, nao por gosto: cada golden
-# reextrai o corpus, e o corpus cresceu. `CLAUDE.md` ja mandava "quebrar outra
-# vez"; hoje sao cinco partes.
+# O lote de goldens e um so porque o corpus Azure medido tem dois arquivos
+# (`observability`, `sdd`) -- a quebra em cinco era medida do corpus AWS e aqui
+# produziria lotes vazios. Quando o corpus crescer, redividir por medida e por
+# nome, nunca por `*golden*`: ver o aviso abaixo.
 #
 # ATENCAO ao terceiro lote: o exclui e `test_fixtures_golden_*.py`, COM
 # underscore. Escrever `*golden*` aqui reabriria exatamente o buraco que este
@@ -51,11 +52,7 @@ LOTES: tuple[tuple[str, tuple[str, ...], tuple[str, ...]], ...] = (
     ("a-c", ("test_[a-c]*.py",), ()),
     ("d-e", ("test_[d-e]*.py",), ()),
     ("f-sem-golden", ("test_f*.py",), ("test_fixtures_golden_*.py",)),
-    ("goldens-1", ("test_fixtures_golden_[a-e]*.py",), ()),
-    ("goldens-2", ("test_fixtures_golden_[f-h]*.py",), ()),
-    ("goldens-3", ("test_fixtures_golden_[i-o]*.py",), ()),
-    ("goldens-4", ("test_fixtures_golden_[p-r]*.py",), ()),
-    ("goldens-5", ("test_fixtures_golden_[s-z]*.py",), ()),
+    ("goldens", ("test_fixtures_golden_*.py",), ()),
     ("g-z", ("test_[g-z]*.py",), ()),
 )
 

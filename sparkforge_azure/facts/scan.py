@@ -175,6 +175,7 @@ DIRETORIOS_IGNORADOS: frozenset[str] = frozenset(
         ".eggs",
         ".mypy_cache",
         ".pytest_cache",
+        ".pytest-tmp",
         ".ruff_cache",
         ".idea",
         ".vscode",

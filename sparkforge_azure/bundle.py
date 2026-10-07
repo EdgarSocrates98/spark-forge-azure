@@ -30,7 +30,8 @@ class BundleError(ValueError):
 
 
 def _dump(obj: Any) -> str:
-    return json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=1) + "\n"
+    # `verified_at:` sem aspas nas matrices YAML vira `datetime.date`; ISO basta.
+    return json.dumps(obj, ensure_ascii=False, sort_keys=True, indent=1, default=str) + "\n"
 
 
 def _load_json(path: Path) -> Any:

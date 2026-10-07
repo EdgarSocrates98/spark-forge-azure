@@ -40,19 +40,28 @@ def _criar(raiz: pathlib.Path, caminho: str, conteudo: str = "x = 1\n") -> pathl
 # seria excecao para um problema que ele nao tem -- e se um dia ele passar a
 # usar `glob`, o gate deve obrigar a decisao, nao aprova-la de antemao.
 VARREDURA_CRUA_PERMITIDA: dict[str, str] = {
-    "adapters/_core.py": (
-        "varre o knowledge/ embarcado no proprio wheel, 19 arquivos curados, "
-        "nao repositorio de cliente"
+    "agentmanifest/model.py": "varre os manifests de agents embarcados no wheel",
+    "bundle.py": (
+        "varre o catalogo de regras e as matrizes de knowledge do proprio "
+        "repositorio para montar o bundle offline -- corpus curado e "
+        "versionado, nunca arvore de cliente"
     ),
     "case/playbook.py": "varre os agents embarcados no wheel",
-    "integrate/sources.py": "varre skills/ e agents/ embarcados no wheel (o bundle)",
-    "integrate/render.py": "varre os agents embarcados no wheel para as tabelas de despacho",
-    "integrate/conflict.py": (
-        "varre UMA pasta de skill ja nomeada dentro de `.claude`/`.agents` do repo, "
-        "depois de `inside_repo` recusar todo componente que seja link ou juncao; "
-        "a denylist de `iter_source_files` e para arvore de codigo, e aqui a lista "
-        "de arquivos precisa ser completa para o SOBRESCREVER mostrar tudo antes"
+    "doctor.py": (
+        "varre skills/, agents/ e o diretorio de estado `.sparkforge-azure/` "
+        "do proprio repo -- o doctor mede o que o wheel embarca e o que a "
+        "maquina gravou, nao arvore de cliente"
     ),
+    "graph/adapters.py": (
+        "varre skills/, agents/ e knowledge/ do proprio repositorio para o "
+        "grafo estatico -- corpus curado e versionado"
+    ),
+    "knowledgebase/impact.py": (
+        "varre rules/catalog, skills/, agents/ e os padroes declarados do "
+        "proprio repositorio para o grafo de impacto -- corpus curado"
+    ),
+    "knowledgebase/matrices.py": "varre as matrizes de versao embarcadas no wheel",
+    "knowledgebase/metadata.py": "varre o corpus knowledge/ embarcado no wheel",
     "registry/loader.py": "varre os agents embarcados no wheel",
     "rules/loader.py": "varre o catalogo de regras embarcado no wheel",
     "context/progressive.py": "varre as references embarcadas no wheel",

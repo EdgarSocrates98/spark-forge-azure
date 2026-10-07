@@ -64,122 +64,42 @@ def _cenario_com_injecao(tmp_path: Path):
     facts = extract_tree(tmp_path, repo_root=tmp_path)
     # O runtime e inerte neste cenario -- SF-PY-002 tem `runtime_scope` vazio,
     # entao dispara em qualquer versao. O dict existe porque `judge` exige um,
-    # nao porque o teste dependa de Glue 5.0.
-    return facts, judge(facts, load_catalog(), {"glue": "5.0"})
+    # nao porque o teste dependa da versao do Databricks.
+    return facts, judge(facts, load_catalog(), {"databricks": "15.4"})
 
 
 # Os extratores que o documento nomeia como produtores de `subject.snippet` nao
 # vazio. A lista e escrita a mao; o que NAO e mantido a mao e a conferencia dela:
 # `extratores_com_snippet()` deriva o conjunto executando os modulos, e o teste
 # abaixo compara os dois. Divergir e falha.
-EXTRATORES_COM_SNIPPET = frozenset({"event_log", "graph", "pyspark_ast", "spark_plan"})
+#
+# Na arvore Azure medida hoje so `pyspark_ast` produz snippet nao vazio:
+# `host_transcript` emite o fact de proveniencia do transcript com subject sem
+# snippet, e `scan` e auxiliar (sem EMITTED_KINDS). Os derivadores fact->fact do
+# AWS (fusion, funcval, call_graph, exception, timeout_diagnosis, utilization,
+# streaming_*) nao foram portados -- os extratores de que dependem ainda nao
+# existem, e os especificos de Glue/Lake Formation nao tem equivalente Azure
+# (AWS_TO_AZURE_PORTABILITY_MATRIX.md). A medida fail-closed abaixo continua
+# valendo: um derivador novo que declarar EMITTED_KINDS sem extract_*_tree/path
+# para o teste aqui ate ser exercitado.
+EXTRATORES_COM_SNIPPET = frozenset({"pyspark_ast"})
 
 
 def _derivados_de_facts(pool):
     """Os modulos que derivam fact A PARTIR de fact, e nao de caminho.
 
-    Eles nao leem artefato: a entrada e um pool de facts ja extraidos. Ficam
-    nomeados um a um, com a chamada que a assinatura de cada um exige, porque
-    adivinhar a forma da chamada mediria o que a adivinhacao acertou. Sem eles a
-    medida pulava 5 dos 20 modulos em silencio -- `alvos` ficava vazio, `any([])`
-    dava False, e o modulo entrava como "sem snippet" por nao ter rodado nada.
+    Eles nao leem artefato: a entrada e um pool de facts ja extraidos. Cada um
+    fica nomeado com a chamada que a assinatura exige, porque adivinhar a forma
+    da chamada mediria o que a adivinhacao acertou -- e a guarda fail-closed em
+    `extratores_com_snippet` para com o NOME do modulo quando um derivador novo
+    nao e exercitado.
+
+    Hoje nao ha derivador fact->fact no pacote Azure (a arvore AWS tinha 20; os
+    provider-neutros entram com a wave de extratores). Quando o primeiro
+    chegar, ele entra aqui do mesmo jeito: nomeado, com a chamada exata.
     """
-    from sparkforge_azure.errors import matcher
-
-    from sparkforge_azure.facts import (
-        benchmark,
-        bridge,
-        call_graph,
-        exception,
-        funcval,
-        fusion,
-        lakeformation,
-        lakeformation_missing_grant,
-        run_cost,
-        runtime_detect,
-        streaming_composition,
-        streaming_glue_cross,
-        streaming_glue_runtime,
-        streaming_iceberg_temporal,
-        streaming_pipeline,
-        streaming_slo,
-        streaming_temporal,
-        timeout_diagnosis,
-        utilization,
-    )
-
-    yield "bridge", bridge.build_bridge(pool)
-    yield "call_graph", call_graph.build_call_graph(pool)
-    yield "fusion", fusion.fuse(pool)
-    yield "funcval", funcval.build_plan(pool)
-    yield "benchmark", benchmark.build_benchmark(pool, pool)
-    yield "runtime_detect", runtime_detect.detect_runtime({})[1]
-    yield "streaming_composition", streaming_composition.build_streaming_composition(
-        pool, mode="observability", transport_key="<unresolved>"
-    )
-    yield "streaming_temporal", streaming_temporal.build_streaming_temporal_diagnostics(
-        pool, query_name="<unresolved>", transport_key="<unresolved>", max_skew_seconds=0
-    )
-    yield "streaming_iceberg_temporal", streaming_iceberg_temporal.build_streaming_iceberg_temporal(
-        pool, table="<unresolved>", query_name="<unresolved>", max_skew_seconds=0
-    )
-    # Glue cross-artifact e runtime observation derivam somente de facts. A
-    # lista explícita mantém a medida fail-closed quando um novo derivador
-    # declara EMITTED_KINDS mas não possui extract_*_path/tree.
-    yield "streaming_glue_cross", streaming_glue_cross.build_streaming_glue_cross_artifact(pool)
-    yield (
-        "streaming_glue_runtime",
-        streaming_glue_runtime.build_streaming_glue_runtime_observation(pool),
-    )
-    yield "streaming_pipeline", streaming_pipeline.build_streaming_pipeline(
-        pool,
-        {
-            "schema_version": 1,
-            "pipeline_id": "<unresolved>",
-            "nodes": [{"id": "node", "selector": {"kind": "<unresolved>"}}],
-            "edges": [],
-        },
-    )
-    yield "streaming_slo", streaming_slo.build_streaming_slo(
-        pool, slo_name="<unresolved>", query_name="<unresolved>"
-    )
-    # `run_cost` deriva custo a partir de `glue.job_run`, e nao de caminho.
-    # O pool pode nao ter run nenhum: a chamada devolve lista vazia, e isso
-    # ainda conta como exercitado -- o que a medida precisa saber e que o
-    # modulo RODOU, nao que produziu.
-    yield "run_cost", run_cost.extract_run_cost(pool, "<pool>")
-    # `timeout_diagnosis` tambem deriva de fact, e nao de caminho: a entrada
-    # sao os facts de `glue.job_run`, `spark.executor.lost`,
-    # `spark.stage.failure` e `spark.conf_effective` ja extraidos.
-    yield "timeout_diagnosis", timeout_diagnosis.extract_timeout_diagnosis(pool, "<pool>")
-    yield "utilization", utilization.extract_utilization(pool, "<pool>")
-    # `lakeformation` deriva das TRES superficies de conf (`spark.conf_effective`,
-    # `tf.spark_conf`, `pyspark.conf_set`) mais `tf.attribute`, e nao de caminho.
-    # Ele COPIA o `subject` do fact de conf que o ancora -- entao um dia em que
-    # `tf.spark_conf` passe a carregar snippet, `lakeformation` propaga, e e esta
-    # chamada que faz a medida perceber.
-    #
-    # ELE FALTAVA AQUI, e a guarda fail-closed derrubava o teste dizendo o nome
-    # do modulo: a entrega que criou `sparkforge/facts/lakeformation.py`
-    # registrou-o nas duas listas de cobertura de kind e nao nesta.
-    yield "lakeformation", lakeformation.build_lakeformation(pool)
-    # `lakeformation_missing_grant` deriva de `error.signature_match` mais grant,
-    # decisao de IAM e operacao, e nao de caminho. Sem esta chamada a guarda
-    # fail-closed para com o nome do modulo.
-    yield "lakeformation_missing_grant", lakeformation_missing_grant.build_missing_grant(pool)
-    # `exception` deriva de `spark.stage.failure.attrs.reason`, e nao de
-    # caminho. Ele COPIA o `subject` do fact de origem -- entao se um dia
-    # `spark.stage.failure` passar a carregar snippet, `exception` propaga, e e
-    # esta chamada que faz a medida perceber. Sem ela, a guarda fail-closed
-    # acima para com o nome do modulo, que foi o que aconteceu ao acrescenta-lo.
-    yield "exception", exception.build_exceptions(pool)
-    # `matcher` deriva de `spark.exception`, e nao de caminho -- e ele mora em
-    # `sparkforge/errors/`, fora do `iter_modules(facts_pkg)` que monta `todos`
-    # acima. A guarda fail-closed portanto NAO o cobraria: ele esta aqui porque
-    # a medida de snippet precisa ve-lo, nao porque algo o obrigaria. A entrada
-    # e encadeada de proposito: se um dia `spark.exception` propagar snippet, e
-    # esta chamada que faz a medida perceber que `matcher` propaga junto.
-    yield "matcher", matcher.build_signature_matches(exception.build_exceptions(pool))
+    return
+    yield  # pragma: no cover - generator protocol
 
 
 def extratores_com_snippet() -> set[str]:

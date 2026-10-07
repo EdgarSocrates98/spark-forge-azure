@@ -147,8 +147,10 @@ def redact_text(text: str, report: RedactionReport | None = None, path: str = "$
     sub(_JWT, "jwt", token("jwt"))
     sub(_BEARER, "bearer", lambda m: f"{m.group(1)} {token('bearer')}")
     sub(_URL_USERINFO, "url_password", lambda m: f"{m.group(1)}:{token('password')}@")
+    # O nome do parametro sai junto do valor: `AccountKey=` num bundle offline
+    # ja diz qual segredo existia, e o contrato do bundle e que ele nao apareca.
     sub(_KV_SECRET, "connection_secret",
-        lambda m: f"{m.group(1)}{m.group(2)}{m.group(3)}{token('secret')}")
+        lambda m: f"{m.group(3)}{token('secret')}{m.group(3)}")
     sub(_SAS, "sas_signature", lambda m: f"{m.group(1)}{token('sas')}")
     sub(_STORAGE_KEY, "storage_key", token("storage_key"))
 
