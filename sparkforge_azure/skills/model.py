@@ -35,6 +35,7 @@ SKILL_NAMES: tuple[str, ...] = (
     "iceberg",
     "spark-performance",
     "spark-streaming",
+    "analyze-batch-loop",
     "azure-terraform",
     "azure-bicep",
     "azure-observability",

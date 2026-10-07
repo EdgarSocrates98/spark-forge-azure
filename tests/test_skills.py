@@ -75,8 +75,10 @@ def _errors(root: Path, name: str = "unity-catalog", **kw) -> list[str]:
 # ------------------------------------------------------------------ real tree
 
 
-def test_catalogue_has_exactly_21_skills():
-    assert len(SKILL_NAMES) == 21 == len(set(SKILL_NAMES))
+def test_catalogue_has_exactly_22_skills():
+    # 21 skills de domínio (seção 156) + `analyze-batch-loop`, a skill de método
+    # que ancora a análise de lote no extrator pyspark (citada por SF-PY-004).
+    assert len(SKILL_NAMES) == 22 == len(set(SKILL_NAMES))
     found = sorted(p.name for p in (ROOT / "skills").iterdir() if (p / "SKILL.md").is_file())
     assert found == sorted(SKILL_NAMES)
 
@@ -382,6 +384,6 @@ def test_check_script_summary(tmp_path):
     script = _load_script("check_skills_agents")
     summary = script.run(ROOT, allow_pending_knowledge=True)
     assert summary["ok"], summary["errors"]
-    assert summary["skills"] == 21
+    assert summary["skills"] == 22
     assert summary["agents"] == {"roles": 14, "specialists": 20, "subagents": 4}
     assert script.main(["--root", str(tmp_path)]) == 1
