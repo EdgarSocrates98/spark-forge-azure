@@ -1,0 +1,2057 @@
+{
+ "files": {
+  "config/decisions/agentic_control_plane.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "e5d0011bd322f40623b082c13208961e27e51be4573a58206ac3c30f0afa4a91",
+   "source_sha256": "e5d0011bd322f40623b082c13208961e27e51be4573a58206ac3c30f0afa4a91",
+   "src": "config/decisions/agentic_control_plane.yaml"
+  },
+  "config/decisions/kernel.synthetic.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "bfe18af2354869ab33f672c331c00629823b06131d2ca25200f7fcf7df3f1cb1",
+   "source_sha256": "bfe18af2354869ab33f672c331c00629823b06131d2ca25200f7fcf7df3f1cb1",
+   "src": "config/decisions/kernel.synthetic.yaml"
+  },
+  "config/decisions/routing.data_domain.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "8ffb8f639e36e7433388ad3ff970abd6816cbf77442a36144cd9899317e2bf65",
+   "source_sha256": "8ffb8f639e36e7433388ad3ff970abd6816cbf77442a36144cd9899317e2bf65",
+   "src": "config/decisions/routing.data_domain.yaml"
+  },
+  "config/evolution/prompt_agents.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "4407f83285bc3655dd7e1c4f8731e38d5537b91f7edd8ef1a8679cc8afd0a114",
+   "source_sha256": "8847aecfb24fc3d49fda0c72f64848d9c9d34bbff10ab1e472d891c818854760",
+   "src": "config/evolution/prompt_agents.yaml"
+  },
+  "evals/mcp-conformance/matrix.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "7d75ce1173e0cfc2e936c4a5483ad79dbc607e8116aee9eb3958e4a591b23285",
+   "source_sha256": "7d75ce1173e0cfc2e936c4a5483ad79dbc607e8116aee9eb3958e4a591b23285",
+   "src": "evals/mcp-conformance/matrix.yaml"
+  },
+  "evals/token_efficient/fixtures/calibration_history.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "af94aed309d621eb35315692ea592b9595a8ce7428101c4ef8a3cafabff7746b",
+   "source_sha256": "af94aed309d621eb35315692ea592b9595a8ce7428101c4ef8a3cafabff7746b",
+   "src": "evals/token_efficient/fixtures/calibration_history.yaml"
+  },
+  "evals/token_efficient/fixtures/decision_control_plane_cases.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6a0dc33b93e59c8510c619bf0d9ab4bca4f403e61522e629f558cfaa72289bd9",
+   "source_sha256": "6a0dc33b93e59c8510c619bf0d9ab4bca4f403e61522e629f558cfaa72289bd9",
+   "src": "evals/token_efficient/fixtures/decision_control_plane_cases.yaml"
+  },
+  "evals/token_efficient/fixtures/decision_kernel_cases.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "fed89a6341ffe2800636e0f96e54fe4eda30fd2c4194a9b398025b712fcdca22",
+   "source_sha256": "fed89a6341ffe2800636e0f96e54fe4eda30fd2c4194a9b398025b712fcdca22",
+   "src": "evals/token_efficient/fixtures/decision_kernel_cases.yaml"
+  },
+  "evals/token_efficient/fixtures/evolution_candidates.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "17403339966cf2c52de00d212b678f8a9834d126f4ac1e334e689cafb3ac2ad8",
+   "source_sha256": "17403339966cf2c52de00d212b678f8a9834d126f4ac1e334e689cafb3ac2ad8",
+   "src": "evals/token_efficient/fixtures/evolution_candidates.yaml"
+  },
+  "evals/token_efficient/fixtures/evolution_evidence_bundles.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "48d8ad34d30f5c48a598a18fbcb63b54a11718dc233cd817396bac1b31130f43",
+   "source_sha256": "48d8ad34d30f5c48a598a18fbcb63b54a11718dc233cd817396bac1b31130f43",
+   "src": "evals/token_efficient/fixtures/evolution_evidence_bundles.yaml"
+  },
+  "evals/token_efficient/fixtures/host_replay.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "8d4e2b40c7a675e2e209cae964350cc304a5b9c89739ff8c46c8d955c168c477",
+   "source_sha256": "8d4e2b40c7a675e2e209cae964350cc304a5b9c89739ff8c46c8d955c168c477",
+   "src": "evals/token_efficient/fixtures/host_replay.yaml"
+  },
+  "evals/token_efficient/fixtures/provider_transcripts.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "afe1e3d9de4ec5c7dd15d8de72beb66613bc94d49adbaf83962f872b4239aa79",
+   "source_sha256": "afe1e3d9de4ec5c7dd15d8de72beb66613bc94d49adbaf83962f872b4239aa79",
+   "src": "evals/token_efficient/fixtures/provider_transcripts.yaml"
+  },
+  "fixtures/pyspark/action_in_loop/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "3eb6d9a56ced864cbb5a58e0923b118b7913d45993410c9f40d4a92f20d747a7",
+   "source_sha256": "3eb6d9a56ced864cbb5a58e0923b118b7913d45993410c9f40d4a92f20d747a7",
+   "src": "fixtures/pyspark/action_in_loop/input/lib/job.py"
+  },
+  "fixtures/pyspark/cache_no_unpersist/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "b7c109b836db7fc6e2ca03c9ae9c57e1ff8cba58c76d0ff6eb50e18bcf7c01de",
+   "source_sha256": "b7c109b836db7fc6e2ca03c9ae9c57e1ff8cba58c76d0ff6eb50e18bcf7c01de",
+   "src": "fixtures/pyspark/cache_no_unpersist/input/lib/job.py"
+  },
+  "fixtures/pyspark/clean_job/input/lib/job.py": {
+   "aws_markers": {
+    "s3": 2
+   },
+   "changes": [
+    "example paths s3://bucket/entrada|saida -> abfss://bronze|silver@conta.dfs.core.windows.net/... (ADLS Gen2); job logic unchanged"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "7322f5e505a69dc65464d15d7bffc7148653ce83427e51120c182a5ebe6778d0",
+   "src": "fixtures/pyspark/clean_job/input/lib/job.py"
+  },
+  "fixtures/pyspark/coalesce_one/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "3664cb743d04cec895b0a19885d6bc5da1890ca3594b2fca30690c7b79ed9462",
+   "source_sha256": "3664cb743d04cec895b0a19885d6bc5da1890ca3594b2fca30690c7b79ed9462",
+   "src": "fixtures/pyspark/coalesce_one/input/lib/job.py"
+  },
+  "fixtures/pyspark/collect_unbounded/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6ed5761e86ec568c5f738c694a472d90fd7a83426ac1d7c50d492d477780b5a3",
+   "source_sha256": "6ed5761e86ec568c5f738c694a472d90fd7a83426ac1d7c50d492d477780b5a3",
+   "src": "fixtures/pyspark/collect_unbounded/input/lib/job.py"
+  },
+  "fixtures/pyspark/conf_set_conflict/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "593815cc90913d6a602c6c83e30171feea2a2b6386d3b01fd7933754ee9f9c78",
+   "source_sha256": "593815cc90913d6a602c6c83e30171feea2a2b6386d3b01fd7933754ee9f9c78",
+   "src": "fixtures/pyspark/conf_set_conflict/input/lib/job.py"
+  },
+  "fixtures/pyspark/dedup_no_columns/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ce88530dcf7bf796a3bb0c12bc9c22c134c39aa8a1fba4241caa3d6e7b00e54c",
+   "source_sha256": "ce88530dcf7bf796a3bb0c12bc9c22c134c39aa8a1fba4241caa3d6e7b00e54c",
+   "src": "fixtures/pyspark/dedup_no_columns/input/lib/job.py"
+  },
+  "fixtures/pyspark/dynamic_dispatch/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "79b6688d6b2514194f6d04383e7d905dc98e81160da26b5fead76e35fd961a88",
+   "source_sha256": "79b6688d6b2514194f6d04383e7d905dc98e81160da26b5fead76e35fd961a88",
+   "src": "fixtures/pyspark/dynamic_dispatch/input/lib/job.py"
+  },
+  "fixtures/pyspark/explode_unbounded/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6f8a926343922153302d923812965096935f3fa14d817714022eac2fe047fcc9",
+   "source_sha256": "6f8a926343922153302d923812965096935f3fa14d817714022eac2fe047fcc9",
+   "src": "fixtures/pyspark/explode_unbounded/input/lib/job.py"
+  },
+  "fixtures/pyspark/forced_broadcast/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "af03e8c4638965a22313d581584aceae14a97d0e94f30c667c8def6aca036203",
+   "source_sha256": "af03e8c4638965a22313d581584aceae14a97d0e94f30c667c8def6aca036203",
+   "src": "fixtures/pyspark/forced_broadcast/input/lib/job.py"
+  },
+  "fixtures/pyspark/join_before_reduction/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6238bff723c7f905c54acf2e189ff5477216e143a8ab4ce0940553e13b679359",
+   "source_sha256": "6238bff723c7f905c54acf2e189ff5477216e143a8ab4ce0940553e13b679359",
+   "src": "fixtures/pyspark/join_before_reduction/input/lib/job.py"
+  },
+  "fixtures/pyspark/near_threshold/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f4f79f83dddef00802e04f9821135a30ad12e62518e71d6b4bd2ee45876f20cd",
+   "source_sha256": "f4f79f83dddef00802e04f9821135a30ad12e62518e71d6b4bd2ee45876f20cd",
+   "src": "fixtures/pyspark/near_threshold/input/lib/job.py"
+  },
+  "fixtures/pyspark/python_udf/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "41d792f9e0c955feae464ef7f208bc2eda6464dddae9580737852f83c2de6b3a",
+   "source_sha256": "41d792f9e0c955feae464ef7f208bc2eda6464dddae9580737852f83c2de6b3a",
+   "src": "fixtures/pyspark/python_udf/input/lib/job.py"
+  },
+  "fixtures/pyspark/repartition_literal/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "3424078685b0853f7cdf72d36d52617b54e0d6818243b856b7c162c0adea4a00",
+   "source_sha256": "3424078685b0853f7cdf72d36d52617b54e0d6818243b856b7c162c0adea4a00",
+   "src": "fixtures/pyspark/repartition_literal/input/lib/job.py"
+  },
+  "fixtures/pyspark/version_out_of_scope/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ee38a6c480edfbb63d853260dd83fffcc6643a252ee840c8e47244fb0306c05c",
+   "source_sha256": "ee38a6c480edfbb63d853260dd83fffcc6643a252ee840c8e47244fb0306c05c",
+   "src": "fixtures/pyspark/version_out_of_scope/input/lib/job.py"
+  },
+  "fixtures/pyspark/withcolumn_run/input/lib/job.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "528b47771fc72b71b398c7ec9524e119f3ba58a2f1168c3221c990445b72bd31",
+   "source_sha256": "528b47771fc72b71b398c7ec9524e119f3ba58a2f1168c3221c990445b72bd31",
+   "src": "fixtures/pyspark/withcolumn_run/input/lib/job.py"
+  },
+  "knowledge/source_authority.yaml": {
+   "aws_markers": {
+    "glue": 1
+   },
+   "changes": [
+    "rewritten host map for Azure authorities (section 161): T1 learn.microsoft.com, docs.databricks.com, Apache project docs, docs.delta.io, registry.terraform.io/developer.hashicorp.com; T2 GitHub/Maven/PyPI unchanged; T4 azure.microsoft.com (blog/pricing), www.databricks.com, techcommunity.microsoft.com, community.databricks.com",
+    "removed AWS hosts (docs.aws.amazon.com, aws.amazon.com, repost.aws) and AWS-product-specific hosts (documents.bmc.com, docs.devin.ai, graphframes.io, docs.greatexpectations.io, www.dremio.com)",
+    "kept the policy: unknown host -> T4 default, no host may claim T3"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "cfe6588c7b1bb29a4a0884e159469ef84b2508f51d81110064647b8eb3b2d3b9",
+   "src": "knowledge/source_authority.yaml"
+  },
+  "lab/scenarios/golden.yaml": {
+   "aws_markers": {},
+   "changes": [
+    "fidelity.does_not_prove: `aws_service_semantics` -> `cloud_service_semantics`, `aws_networking` -> `cloud_networking` (the lab never proves any cloud provider semantics, Azure included)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "c6365c68bac0bf16b00351caf3629c1ad75b363e9b2cf55c7e2a30edfbf7ac32",
+   "src": "lab/scenarios/golden.yaml"
+  },
+  "lab/versions.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "e973c1696e0b234acb5256d89c2043d4270c1f7a877b66d38077c8de17b5f7a2",
+   "source_sha256": "e973c1696e0b234acb5256d89c2043d4270c1f7a877b66d38077c8de17b5f7a2",
+   "src": "lab/versions.yaml"
+  },
+  "labs/forge-lab/README.md": {
+   "aws_markers": {},
+   "changes": [
+    "removed links to AWS docs (docs/guia/forge-lab.md, docs/knowledge/forge-lab-product.md) that do not exist here",
+    "replaced the AWS `sparkforge analyze/lab ...` CLI walkthrough with the Python entry points (`sparkforge_azure.lab.spec.analyze_forge_lab`, `sparkforge_azure.lab.contract`) -- the `sparkforge-azure` CLI does not expose lab commands yet",
+    "kept the seven topology scenario ids and the offline/fidelity boundary text"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "eee2f87a3526a92dbf018ec1b784f01a501a2a52cfb467882ecee579cebbb6a1",
+   "src": "labs/forge-lab/README.md"
+  },
+  "labs/forge-lab/lab.yaml": {
+   "aws_markers": {},
+   "changes": [
+    "product.safety: `aws_default: refused` -> `cloud_default: refused` (no cloud run of any provider by default; key is declarative, no code reads it)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "ecd6a16de7e1a0ac3d56a0ca1f984cc48836866fe073c4d23fd926f0eb1d28c8",
+   "src": "labs/forge-lab/lab.yaml"
+  },
+  "rules/catalog/action_kinds.yaml": {
+   "aws_markers": {
+    "athena": 2,
+    "emr": 6,
+    "glue": 1,
+    "lakeformation": 1
+   },
+   "changes": [
+    "removed AWS-only kinds: catalog.rename_resource_link and catalog.resolve_link_target (Lake Formation resource links), capacity.change_preinitialized_capacity (EMR Serverless pre-initialized capacity)",
+    "removed axis cost.dpu_seconds (Glue DPU-seconds; no Azure meaning), consistent with proof_axes.yaml",
+    "descriptions: network.provide_service_route VPC endpoint -> private/service endpoint; network.fix_security_group_rule security group -> network security group (NSG); capacity.change_idle_shutdown application -> auto-termination of cluster or pool",
+    "dropped rationale comment blocks that cite AWS rule ids/catalogs (SF-GLUE, SF-EMR, SF-LF, SF-ATH, SF-CTM, ..., lakeformation.yaml, athena.yaml, sparkforge/facts/*.py); the data (directions, kinds, axes with nature/reversible) is otherwise unchanged and provider-neutral"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "a27f1feb7fe648cad1795ed145516d37d0647b42fc32b17604b736b612345fbf",
+   "src": "rules/catalog/action_kinds.yaml"
+  },
+  "rules/catalog/debate_gate.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "a7c05639230953e8f10c69ae1f51d4c6696ca8e9d246e96c99896070b28e28b3",
+   "source_sha256": "a7c05639230953e8f10c69ae1f51d4c6696ca8e9d246e96c99896070b28e28b3",
+   "src": "rules/catalog/debate_gate.yaml"
+  },
+  "rules/catalog/proof_axes.yaml": {
+   "aws_markers": {
+    "cloudwatch": 1,
+    "glue": 3
+   },
+   "changes": [
+    "cost.provisioned_capacity_time unlock: `glue.run_cost` in `sparkforge finops` -> per-run cost of both executions side by side (Databricks system.billing.usage / Azure Cost Management export), no interpolation between capacities",
+    "removed axis cost.dpu_seconds (Glue DPU-seconds has no Azure meaning; DBU is a different billing unit and gets its own axis with the SFA-* catalog)",
+    "storage.file_layout unlock: `sparkforge analyze s3-listing` -> ADLS Gen2 listing before/after",
+    "storage.delete_file_count / storage.snapshot_count / runtime.engine_version / capacity.worker_count unlock: AWS CLI verbs replaced by the neutral artifact to compare (table metadata dump, runtime fingerprint, cluster/pool sizing history)",
+    "capacity.executor_footprint unlock: `collect cloudwatch` -> executor metrics from Azure Monitor / Spark event log",
+    "availability.interruption_exposure unlock: `analyze glue-job-runs` -> job run history (Databricks Jobs runs / Fabric or Synapse pipeline runs)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "5b62b620ea0dd49a6ef905ea6d90913f1eb2da6d430a200f8284e6d7ebe00264",
+   "src": "rules/catalog/proof_axes.yaml"
+  },
+  "sparkforge_azure/agentic/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "90bc7a5a79c2cc5f4c9758c7710190da7a1ef1bd9a3a3e2f1c420350d85dace9",
+   "source_sha256": "d648010c80914b9c50ecb9a17b4cbae69f44d982a5d896f8c358cd0e9f624693",
+   "src": "sparkforge/agentic/__init__.py"
+  },
+  "sparkforge_azure/agentic/arbitration.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "e19ea92fb7f7fd5ba53e814597b715d31f1630d2db918ba695b5ecbbe1f3323f",
+   "source_sha256": "290c3e595f6a29d5dbf0da760a4814dbb716acd5ab31ba1f2cf4c6f0ad660f3b",
+   "src": "sparkforge/agentic/arbitration.py"
+  },
+  "sparkforge_azure/agentic/autonomy.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "2cd911d0cc3a380e50b9f172cdc15445b25553477f13763647d2694202cf7658",
+   "source_sha256": "2cd911d0cc3a380e50b9f172cdc15445b25553477f13763647d2694202cf7658",
+   "src": "sparkforge/agentic/autonomy.py"
+  },
+  "sparkforge_azure/agentic/blackboard.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "02418d74c2cc7a3cc4ebf06e0e8eed0340339083738595af0ff09c41b15775fd",
+   "source_sha256": "cde0bbb13e871a7918a78e27f9561889fa1debe707e4c5f9c00346d20b8137f8",
+   "src": "sparkforge/agentic/blackboard.py"
+  },
+  "sparkforge_azure/agentic/budget.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d9d12e25e8858f7a5b1944d2c5de8419cdfc462d5f6d46c43af813da20a13397",
+   "source_sha256": "834409c705b9837ffc53f22f4da2c3a859bbb755485b49d1f1872b6e6c765f7a",
+   "src": "sparkforge/agentic/budget.py"
+  },
+  "sparkforge_azure/agentic/checkpoint.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "5142f7e98babdfd3bd7282fd5562908de25405c6dead79bc195ea1fb19f364e7",
+   "source_sha256": "5142f7e98babdfd3bd7282fd5562908de25405c6dead79bc195ea1fb19f364e7",
+   "src": "sparkforge/agentic/checkpoint.py"
+  },
+  "sparkforge_azure/agentic/control.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "13b270d05d87d2cba991a016f0396e2158b107c3bebd73fa062f7250677d27fd",
+   "source_sha256": "c1b90a52ec0b27f825cf17ade92c73362db89e06d7367ffd08bf7f4b4f1db497",
+   "src": "sparkforge/agentic/control.py"
+  },
+  "sparkforge_azure/agentic/debate.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "55c439d666f2750dec352c70ea8a4e365363492273e4393b37dcbe5e447a1a9a",
+   "source_sha256": "dc8975f4cf902e16b1ca3c1a3ceed44047b2dbb9ef7443c345a7d54b3ad4f9c0",
+   "src": "sparkforge/agentic/debate.py"
+  },
+  "sparkforge_azure/agentic/decision.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "457983db3efb024f5b2f881caad8ac0c7123282844a8f87d162ded966671b2ed",
+   "source_sha256": "3fc35b5c96626b8af627a97f72fdfcedc7f54a5da5779aabff3217b2de93d8ec",
+   "src": "sparkforge/agentic/decision.py"
+  },
+  "sparkforge_azure/agentic/evidence.py": {
+   "aws_markers": {
+    "glue": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "e2c7869ed0d4522e1de9f9c5f4520e408ad572faf159a9225148a8bd5d896cec",
+   "src": "sparkforge/agentic/evidence.py"
+  },
+  "sparkforge_azure/agentic/executor/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ea879ae4204f4f04f201dcbae9d6e18ab5d108a6dd40354c86feb64032479180",
+   "source_sha256": "f875fb64de4d260d37d7372ce01e8f1c90a831134075ee36c0dcb9a1aaf4647c",
+   "src": "sparkforge/agentic/executor/__init__.py"
+  },
+  "sparkforge_azure/agentic/executor/authority.py": {
+   "aws_markers": {
+    "glue": 6
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=6"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "ff8b3fdae009d876fb0da73292a6c8a110c064bed2f050384ea2eff5bb999e09",
+   "src": "sparkforge/agentic/executor/authority.py"
+  },
+  "sparkforge_azure/agentic/executor/claims.py": {
+   "aws_markers": {
+    "glue": 2
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=2"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "575e7defdbf0f0811f10788193dde976a3a1c830a2a5dc139a32fd58b786aa9f",
+   "src": "sparkforge/agentic/executor/claims.py"
+  },
+  "sparkforge_azure/agentic/executor/conflict.py": {
+   "aws_markers": {
+    "emr": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers emr=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "a762b377c76a2b41e2ca2206471402de3cb7e6d61facb13362eb9b20d4a5eb3c",
+   "src": "sparkforge/agentic/executor/conflict.py"
+  },
+  "sparkforge_azure/agentic/executor/debate_evidence.py": {
+   "aws_markers": {
+    "athena": 1,
+    "cloudwatch": 1,
+    "emr": 3,
+    "glue": 1,
+    "lakeformation": 4
+   },
+   "changes": [
+    "PENDING: review AWS markers athena=1,cloudwatch=1,emr=3,glue=1,lakeformation=4"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "347508930b5a085e609d30c1d8f7cdda9df7ac09cadfbb5dc8c96739e0fdbba6",
+   "src": "sparkforge/agentic/executor/debate_evidence.py"
+  },
+  "sparkforge_azure/agentic/executor/debate_run.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ba859f005c62c4b082a9e1a2a7a778dd3887bbc57469da1a91362429de42a40c",
+   "source_sha256": "ac84060f54bd447fabdd65207e998fc4c88283ce753d69179da2563f93173397",
+   "src": "sparkforge/agentic/executor/debate_run.py"
+  },
+  "sparkforge_azure/agentic/executor/digest.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d830565a6724fbcbb390ad284a2671ea3fed414a18d0eda423d79c32fdb305ef",
+   "source_sha256": "9a6db9795d8387ae64c0a58dcf96bb0d44300d0b72e166cc847bfbee45e852bf",
+   "src": "sparkforge/agentic/executor/digest.py"
+  },
+  "sparkforge_azure/agentic/executor/gate.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "87da8fb75194252243cb4c59ef84567f6e91d86e698cd5883d734906c68da831",
+   "source_sha256": "28c9c512340eda5aeccf7b126e95578809997480abb2e89f5d6dde2b81a51b8f",
+   "src": "sparkforge/agentic/executor/gate.py"
+  },
+  "sparkforge_azure/agentic/executor/ordering.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6f819ae53c2559461449b3e2a6e018d45fb3f4d47e147b5d8a1724c3858d95b0",
+   "source_sha256": "11cea6747d0dcdf56be6397b41dd6d88d6e140da6822969b9c2475d1b820248f",
+   "src": "sparkforge/agentic/executor/ordering.py"
+  },
+  "sparkforge_azure/agentic/executor/plan.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6e69096749d1796a6585b0e2f6d3dfb6cdbd13a1d00e022cc92069e450a738b5",
+   "source_sha256": "1d4f87cbd35802174324d9aaa8cbac2e47ee5abaa0cbb25eba58c658d5cdd8c2",
+   "src": "sparkforge/agentic/executor/plan.py"
+  },
+  "sparkforge_azure/agentic/executor/run.py": {
+   "aws_markers": {
+    "glue": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "a7268b1333067d43a72a1bc033dbaca5918c40addaec53fbe82ad7e6e49c947d",
+   "src": "sparkforge/agentic/executor/run.py"
+  },
+  "sparkforge_azure/agentic/executor/unknowns.py": {
+   "aws_markers": {
+    "glue": 3
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=3"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "19fe6ac9a4313597f68b6872608ff357abac5d82924b0a9a07ea801d55d3841d",
+   "src": "sparkforge/agentic/executor/unknowns.py"
+  },
+  "sparkforge_azure/agentic/experiment.py": {
+   "aws_markers": {
+    "glue": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "a86f9ebf8ef7108fe2bc0a8e6238664b730395b4bccaf80b4bd462b0f7a78cc5",
+   "src": "sparkforge/agentic/experiment.py"
+  },
+  "sparkforge_azure/agentic/governor.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "a0dddb6142ef149fb246ed46311755567cfe62a693f4d73dc5eb5e307dc580f1",
+   "source_sha256": "6bd593cd85ff24c60027e5598d6dd471451c4fb18dc32b3c12fdb52ec452e8da",
+   "src": "sparkforge/agentic/governor.py"
+  },
+  "sparkforge_azure/agentic/graph.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "93fbce04372ed05976f65eadc845a7062cd951fc388a5affd0d8aecc377ab458",
+   "source_sha256": "93fbce04372ed05976f65eadc845a7062cd951fc388a5affd0d8aecc377ab458",
+   "src": "sparkforge/agentic/graph.py"
+  },
+  "sparkforge_azure/agentic/handoff.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "744d1c930d5e6b99c39a1e396ddf5ca879bd345101f760adabb68b52eb8edacd",
+   "source_sha256": "c9e9f8cc11b25b985b656c1cdd009233b1b92b31a8eb9b1bcd131ccc22a002c8",
+   "src": "sparkforge/agentic/handoff.py"
+  },
+  "sparkforge_azure/agentic/memory.py": {
+   "aws_markers": {
+    "emr": 1,
+    "glue": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers emr=1,glue=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "32688bf66ab1a2272922d6a692ae0d3624ec71b04c49bc86c7f44ada8f43b59b",
+   "src": "sparkforge/agentic/memory.py"
+  },
+  "sparkforge_azure/agentic/models.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ae9468d5a90372c7072254144948e284e61a9287047023cc5e21162bbccfb5f5",
+   "source_sha256": "648974bed8e6e35a3e170515e01d6be55fa694a0b35cecfbeac4cf903c59d4a1",
+   "src": "sparkforge/agentic/models.py"
+  },
+  "sparkforge_azure/agentic/recovery.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "2f0fc4367c630b84a6dfbb5b8111504ca01fad4d62f946532e21a873ab4b4ca5",
+   "source_sha256": "2f0fc4367c630b84a6dfbb5b8111504ca01fad4d62f946532e21a873ab4b4ca5",
+   "src": "sparkforge/agentic/recovery.py"
+  },
+  "sparkforge_azure/agentic/referee.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "8157d40f2e23d35df5ab052e8ba86a22c29199c0682469460806f54acfc56076",
+   "source_sha256": "5ba889808f8c9e3f790ca6b68e3c89af915dadb356c010b2534467ed9b17c8f4",
+   "src": "sparkforge/agentic/referee.py"
+  },
+  "sparkforge_azure/agentic/role_plans.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "a0317cc3dad0118c8616ffa1b8fbab63699bdcb3274ebfb1409396be1bb4ef67",
+   "source_sha256": "5e824bbe430bd7432ee0555500540067a3f9038b71ad43596e066483d36b99ee",
+   "src": "sparkforge/agentic/role_plans.py"
+  },
+  "sparkforge_azure/agentic/runtime.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "7055c8be06caa5a341084eac5c4d7d66c0ed554c88b41c129c21f220bb868344",
+   "source_sha256": "7055c8be06caa5a341084eac5c4d7d66c0ed554c88b41c129c21f220bb868344",
+   "src": "sparkforge/agentic/runtime.py"
+  },
+  "sparkforge_azure/agentic/security.py": {
+   "aws_markers": {
+    "glue": 1,
+    "s3": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=1,s3=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "537cb68df688768c53011c15621868c52198b1ebfe0998577ed2902e2b77ccae",
+   "src": "sparkforge/agentic/security.py"
+  },
+  "sparkforge_azure/agentic/shadow.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "34f8c931719cdb16203f7d46b519fa8e42930599a3e2ff0470550b1aeeacfabe",
+   "source_sha256": "3536eb2d850065e449a95d40597a29a60ceb961d8bd18322228faf3b13e96e11",
+   "src": "sparkforge/agentic/shadow.py"
+  },
+  "sparkforge_azure/agentic/stop.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "011352601bc72ffb32ad2cf02769a2867c5920c67e5aacf7683280525c77b7d2",
+   "source_sha256": "011352601bc72ffb32ad2cf02769a2867c5920c67e5aacf7683280525c77b7d2",
+   "src": "sparkforge/agentic/stop.py"
+  },
+  "sparkforge_azure/agentic/trust.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "bf61bd4e36bc6d942d70ffad49a97f45f39725ec5bb57a37232be399a223a71a",
+   "source_sha256": "bf61bd4e36bc6d942d70ffad49a97f45f39725ec5bb57a37232be399a223a71a",
+   "src": "sparkforge/agentic/trust.py"
+  },
+  "sparkforge_azure/agents/autonomy.py": {
+   "aws_markers": {},
+   "changes": [
+    "CallPolicy docstring: \"os sete coletores AWS\" -> \"os coletores de dominio\" (no Azure collectors ported yet; claim stays generic)",
+    "_argumento_fora_da_raiz docstring: credential-path example `~/.aws/credentials` -> `~/.azure/msal_token_cache.json` (Azure CLI token cache)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "7d9272490e88db5855c71ab95953eafba393adad7f21e05cdc1af19d819d2da0",
+   "src": "sparkforge/agents/autonomy.py"
+  },
+  "sparkforge_azure/agents/budget.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "e1b88515ca2d40391222d6a5c133b917b2211bfe4104429c2f44a5919f88b1e5",
+   "source_sha256": "1d2f2c14393f1d413a41ccdd0b1a53aba2e20e0a86374976d2d49690c7f4b393",
+   "src": "sparkforge/agents/budget.py"
+  },
+  "sparkforge_azure/agents/observability.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "59bb3f4f270d9c1f42852894807007c82a8759ad49b685f498b6a85ba0d06b65",
+   "source_sha256": "59bb3f4f270d9c1f42852894807007c82a8759ad49b685f498b6a85ba0d06b65",
+   "src": "sparkforge/agents/observability.py"
+  },
+  "sparkforge_azure/agents/room.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "395b5c6541c734016a199420edbf49a652d25bd57c3b93dedb7efd75e1700205",
+   "source_sha256": "395b5c6541c734016a199420edbf49a652d25bd57c3b93dedb7efd75e1700205",
+   "src": "sparkforge/agents/room.py"
+  },
+  "sparkforge_azure/case/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "bd18329185f518469e65f633226b2d0b68080c6cccf53b21f45acc78b41beaa2",
+   "source_sha256": "bd18329185f518469e65f633226b2d0b68080c6cccf53b21f45acc78b41beaa2",
+   "src": "sparkforge/case/__init__.py"
+  },
+  "sparkforge_azure/case/playbook.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "920bad716270094ec0430510de3c2a6d162aee9504804887702a452927dd052d",
+   "source_sha256": "1ae05c3cd9845a4e356e8832350384f148b66fbd4a8775f171023451c968d9e7",
+   "src": "sparkforge/case/playbook.py"
+  },
+  "sparkforge_azure/case/resume.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f8740728b6b9b5153f8725be4fb80c0912e0231016b08e3c541010878b0fb873",
+   "source_sha256": "26e5449c3b600409bce37f0df27c35fdc195f1d49f21e1352648986103c2a430",
+   "src": "sparkforge/case/resume.py"
+  },
+  "sparkforge_azure/case/router.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "0428872d8e00a17a27b665411c8e9b194b6bdce32a71afa844f870f21453009f",
+   "source_sha256": "01e84b549890b87c7c446cd9e3d83950e2402f6968b208c0104144bb2a720c98",
+   "src": "sparkforge/case/router.py"
+  },
+  "sparkforge_azure/case/store.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "98f138852fde546bc9992b3f9331cf8ade9853b9303592cf5aad64af26ef6111",
+   "source_sha256": "d6516007db4e0f932c89c9cf90488695028c85037b0ddad55fbd3f474767d019",
+   "src": "sparkforge/case/store.py"
+  },
+  "sparkforge_azure/change/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "66935f3c3d4fda200ec8b3835be4cf26993e5f4348e2f9cc036b91f7ca161d6a",
+   "source_sha256": "1bf8bed7576dea57e4199e1971aa8ccfdf7ecb124901e9fb7a4bc8c40565153a",
+   "src": "sparkforge/change/__init__.py"
+  },
+  "sparkforge_azure/change/apply.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "33d0da2e6d3452a3dd1fd48fe5ded03396f514cd7d61f07ff4ee4b843bf6efdb",
+   "source_sha256": "775de18bd74be054d567292ffd6f5c2bec9be8ed3aea52812aaab0ef39a48680",
+   "src": "sparkforge/change/apply.py"
+  },
+  "sparkforge_azure/change/plan.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "321e90542daad6d5a983152a25157f3568d0baab57e68b9c54d7c0925455321b",
+   "source_sha256": "e341bf1b9ba2c4aa015558f2fcb21a64ddad1da27c73fa3c4bec739ec409165f",
+   "src": "sparkforge/change/plan.py"
+  },
+  "sparkforge_azure/change/proposal.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "25897c4eccb49256c75b5ed2d1ec328ca5cadda155e4dbcc2a799bd4d4e9f5d5",
+   "source_sha256": "249ad1d208381ce85a737d8bfddce18d20531c11964d92767e4bd25980074691",
+   "src": "sparkforge/change/proposal.py"
+  },
+  "sparkforge_azure/change/refusals.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "40afeb73ee1afde1f331078ac4c60404b313f5b7157a20f6e704199d628f77d1",
+   "source_sha256": "40afeb73ee1afde1f331078ac4c60404b313f5b7157a20f6e704199d628f77d1",
+   "src": "sparkforge/change/refusals.py"
+  },
+  "sparkforge_azure/change/sandbox.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "b1e4ddf728895eb764c692e22f8e3bd850a065f99e784db2c6ff6e5419ae2421",
+   "source_sha256": "890fbc40530deedd47f47a8796e2c655c93de168f744a5203ecce61298ba8a95",
+   "src": "sparkforge/change/sandbox.py"
+  },
+  "sparkforge_azure/codeintel/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "41130ac49aaea005ed5e78bd9f8496131733772acf011186e7c5c7c8c009dfa6",
+   "source_sha256": "72232e3099a0211e4626f2682c2a73b7f5e23ce965d5adf31110b01a8ec55452",
+   "src": "sparkforge/codeintel/__init__.py"
+  },
+  "sparkforge_azure/codeintel/budget.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "3d71da80efa18026018a4295cdec39b5c4fc6d7a77b8b51289b79868c6101496",
+   "source_sha256": "3d71da80efa18026018a4295cdec39b5c4fc6d7a77b8b51289b79868c6101496",
+   "src": "sparkforge/codeintel/budget.py"
+  },
+  "sparkforge_azure/codeintel/context.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "1bd6cb1ff988c5aa0e652e09e9a6a47a814d225bd3827bf62862ad4d4d9b9dac",
+   "source_sha256": "bbf22a5965a5859c0bd821788ea67ca186fb5a48c6797356d289e161ed312f22",
+   "src": "sparkforge/codeintel/context.py"
+  },
+  "sparkforge_azure/codeintel/db.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "75017eeb40786831bea906bf60520f3463b7a7176ab2aaf7e9a6574eccf9bbbc",
+   "source_sha256": "f1d53011aae2931a6a747353a8d01adce4cf188d46c99faf83a1981de1fbae40",
+   "src": "sparkforge/codeintel/db.py"
+  },
+  "sparkforge_azure/codeintel/domain_terms.yaml": {
+   "aws_markers": {
+    "athena": 3,
+    "glue": 3
+   },
+   "changes": [
+    "PENDING: review AWS markers athena=3,glue=3"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "7b3555ae0e881f94923748c81e4cf86a3f12e34bac0ff1252bcef49d060fa5d5",
+   "src": "sparkforge/codeintel/domain_terms.yaml"
+  },
+  "sparkforge_azure/codeintel/export.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "26fea1f620e67dbc057bb6087e47a0a79867906e9d053bab3e61e5925af3f942",
+   "source_sha256": "00279ab1ef7b1d01d5cff349fb85dc0d53edef3b104627c7a690145f10853788",
+   "src": "sparkforge/codeintel/export.py"
+  },
+  "sparkforge_azure/codeintel/extract.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "839c824ff0a9306f59274a4736bfd78b6643d4430f66154e94fd25a21332d5ef",
+   "source_sha256": "ab2d6ec668ef78aab9251405a901fd4984b5e4c230dc6405816efaf043d50a7f",
+   "src": "sparkforge/codeintel/extract.py"
+  },
+  "sparkforge_azure/codeintel/graph.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "bd436956312df4c307aab3fa79621f601f3935461402f093a8376715073c6590",
+   "source_sha256": "a6342c07037d9732f2944d7a733b5a4f931486a977d680df9d74208442c168a1",
+   "src": "sparkforge/codeintel/graph.py"
+  },
+  "sparkforge_azure/codeintel/ids.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c41a3572f3a287f3a77596f65380e0c8d0255e1eefa6ae3b358a230cb0327a93",
+   "source_sha256": "c41a3572f3a287f3a77596f65380e0c8d0255e1eefa6ae3b358a230cb0327a93",
+   "src": "sparkforge/codeintel/ids.py"
+  },
+  "sparkforge_azure/codeintel/incremental.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "06d06de2d6ab5a20fbf67fdeee7fb78bfdee2554d8b7aac5b9d23404b6246a2e",
+   "source_sha256": "e5b65c708dc94d48e495632de4d274ca978ed4e5ec9af5014bfdb5c5dd94dbbf",
+   "src": "sparkforge/codeintel/incremental.py"
+  },
+  "sparkforge_azure/codeintel/index.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "8debd41bfdf858f3f545a9259299977e4920fe21e9bfd14087ac6535c1feeef8",
+   "source_sha256": "c883091038d864cd6d51a0b68cb2a6b4d7874624c4daf344b41dd863ba6941a3",
+   "src": "sparkforge/codeintel/index.py"
+  },
+  "sparkforge_azure/codeintel/lineage.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c83bd95149e90f6d6e31bdf11e9aa1eb4b2d084347180524549bed830cdeb1e9",
+   "source_sha256": "f8e0f1d05c89d6f83d8af6f06888b2da77bbafa6a8bd3346d33cd56456672954",
+   "src": "sparkforge/codeintel/lineage.py"
+  },
+  "sparkforge_azure/codeintel/query_expansion.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "cba378caca488828c2d3f53eb665a1a2541f98ca381e7225c08d7172e60d6e8b",
+   "source_sha256": "cba378caca488828c2d3f53eb665a1a2541f98ca381e7225c08d7172e60d6e8b",
+   "src": "sparkforge/codeintel/query_expansion.py"
+  },
+  "sparkforge_azure/codeintel/ranking.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "b3aec29b7a488794c9bb315a80de40d2c9de968169d20ffd32ef248eed344f06",
+   "source_sha256": "4cc4c5bed2bc2ba85eeb4fe19d30cd41d088523140ba8d77a316578f597f1f84",
+   "src": "sparkforge/codeintel/ranking.py"
+  },
+  "sparkforge_azure/codeintel/refs.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "795837eff8d5ebb963643bd116c628ffbc0e1df0cafd66520ea021ee09007d6b",
+   "source_sha256": "9ffd32ab523feb545d2a51de2d02e545ada2163dd4a84348c4ca67aa4b895113",
+   "src": "sparkforge/codeintel/refs.py"
+  },
+  "sparkforge_azure/codeintel/resolve.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "620072b3557d5051e5e0d7e26830f2af776e7d0ff98e267900deba01273c7951",
+   "source_sha256": "f5dfba1f05b64364369c21c7fd4c5a442c2a49290e1f37e8cbede253e900746e",
+   "src": "sparkforge/codeintel/resolve.py"
+  },
+  "sparkforge_azure/codeintel/search.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "60981c3f206f8703a1c8ffa014b6fc2ea3a2eacf581107424a879a4e9708c7de",
+   "source_sha256": "ef328070fd57650ea253d689e351012cf13defc57d7cbda59fad71d51d018ba6",
+   "src": "sparkforge/codeintel/search.py"
+  },
+  "sparkforge_azure/codeintel/security.py": {
+   "aws_markers": {
+    "sdk": 2
+   },
+   "changes": [
+    "PENDING: review AWS markers sdk=2"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "dbd7813aca3be5d2f4dac3e9a2b6597cc0ae1a10247a1aec73469e57dee6c881",
+   "src": "sparkforge/codeintel/security.py"
+  },
+  "sparkforge_azure/codeintel/staleness.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "9ef44e22122867c85f07ecde278d885af582663ab269c6149161f8f7f503e136",
+   "source_sha256": "4fa9699dfdea2be072a2527e6146e131d94e4c3c1355b1f4ac602dba33be8f33",
+   "src": "sparkforge/codeintel/staleness.py"
+  },
+  "sparkforge_azure/collect/host_usage.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "204bc45bfc230980c3b5013a161b95d86cc4d0581d71e57d6d25d30a9322e9c1",
+   "source_sha256": "204bc45bfc230980c3b5013a161b95d86cc4d0581d71e57d6d25d30a9322e9c1",
+   "src": "sparkforge/collect/host_usage.py"
+  },
+  "sparkforge_azure/context/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "9226317320d3c7ac9410e77064fd422b9f33bd77d7f55efb30863d314fa7c1ac",
+   "source_sha256": "c6688eed37e4f2344be6aa91386f7d895cb03f15fd69bcdc674fbb75073af8ad",
+   "src": "sparkforge/context/__init__.py"
+  },
+  "sparkforge_azure/context/context_tree.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "10b0290a9272bf182a4eadeef58cbd728022a0e01edb95e43ed470433d86b4dc",
+   "source_sha256": "34989253f5149b85ee3dc1ffdcc7ca80ce1678623fc0967ea1a94a9420c83b51",
+   "src": "sparkforge/context/context_tree.py"
+  },
+  "sparkforge_azure/context/funnel.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "b5bb9a03e066d1e420736d46781bfe855f86a193740b8b05297117b9f5b28980",
+   "source_sha256": "22a18795bc9ceb9671aa38d2ed8f4e9e852cb673b7feb37af7ee79a4f5986e51",
+   "src": "sparkforge/context/funnel.py"
+  },
+  "sparkforge_azure/context/gateway.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c567ed19475166ceef94347e8ce03c2451114610d73d63034b4b7854e6da7c01",
+   "source_sha256": "34a4c5cde85a1a2ee46b6c37136c90df4818b967019afb408fe0b2786fbccd3b",
+   "src": "sparkforge/context/gateway.py"
+  },
+  "sparkforge_azure/context/gateway_budget.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "96bf49e9a58784393628d8f2d5817910f804207855266b9827b2ff5a045cc717",
+   "source_sha256": "96bf49e9a58784393628d8f2d5817910f804207855266b9827b2ff5a045cc717",
+   "src": "sparkforge/context/gateway_budget.py"
+  },
+  "sparkforge_azure/context/gateway_capabilities.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "0ba383dcd73c47b5d8c366e131ddc826efee8793627806b73402669f0aba2da7",
+   "source_sha256": "cf7a44ff2d0d77cce38a6bcd4cca807cb0121a7b207b804ed2618fd2e8cd6ab7",
+   "src": "sparkforge/context/gateway_capabilities.py"
+  },
+  "sparkforge_azure/context/gateway_models.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "03cd7ec5dfe642e533cfa29be2741d872171c7a6bf0a7fe24014096e34dddc23",
+   "source_sha256": "e69d872d1ec8ae5337034ff593068162341118b2004d70edd6910c39f84f8f3e",
+   "src": "sparkforge/context/gateway_models.py"
+  },
+  "sparkforge_azure/context/gateway_profiles.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "1b8c9c748f5627370f5ba7001e705eb17b0215dfacef8722447976ba46b34f00",
+   "source_sha256": "1b8c9c748f5627370f5ba7001e705eb17b0215dfacef8722447976ba46b34f00",
+   "src": "sparkforge/context/gateway_profiles.yaml"
+  },
+  "sparkforge_azure/context/gateway_refs.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "2bfe9014fa3e0095cbca567922f61c72c3c6dd4517047cc3406d30720032516a",
+   "source_sha256": "86b6fb2511be03ac4f6bd9e9b726990d25554424690ea095b89d247333dd31ec",
+   "src": "sparkforge/context/gateway_refs.py"
+  },
+  "sparkforge_azure/context/host_usage.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "42664c1d9065a16cd274d54c8d189e9eb621971313cb1a3950fcac88f79384d1",
+   "source_sha256": "42664c1d9065a16cd274d54c8d189e9eb621971313cb1a3950fcac88f79384d1",
+   "src": "sparkforge/context/host_usage.py"
+  },
+  "sparkforge_azure/context/knowledge_pack.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ac385cb4f32d664dc2bfed7946c1ab0e5f6a61aeca8e3a6c3e90895ad94feb23",
+   "source_sha256": "cdd693f71406169650b706298f45f27be6be8459f1adc3bb3f35a151eb485ddc",
+   "src": "sparkforge/context/knowledge_pack.py"
+  },
+  "sparkforge_azure/context/planner.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "472da89b57e1c140f13e62286c7b072cb108a8b5486a1b2e53f6efd6281c8217",
+   "source_sha256": "472da89b57e1c140f13e62286c7b072cb108a8b5486a1b2e53f6efd6281c8217",
+   "src": "sparkforge/context/planner.py"
+  },
+  "sparkforge_azure/context/progressive.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "eb15016b7efa57a3082e3316bfbf8ddb632a70fcd719d30ee609c4131b8d8419",
+   "source_sha256": "eb15016b7efa57a3082e3316bfbf8ddb632a70fcd719d30ee609c4131b8d8419",
+   "src": "sparkforge/context/progressive.py"
+  },
+  "sparkforge_azure/context/quality.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "21275567e527f975b4a06526f85c7f45cc207124ca40a47f20b0ee1aa59ab1cd",
+   "source_sha256": "21275567e527f975b4a06526f85c7f45cc207124ca40a47f20b0ee1aa59ab1cd",
+   "src": "sparkforge/context/quality.py"
+  },
+  "sparkforge_azure/context/schemas/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "e0eb76e6c3320f8305de3a6a3731438b3b44bf535e21e99359467c8623b44111",
+   "source_sha256": "66449452f92d18a042b93401775a3b82d3151f422082513301d4bd063b3265c1",
+   "src": "sparkforge/context/schemas/__init__.py"
+  },
+  "sparkforge_azure/context/schemas/gateway.schema.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "2a48ed88f598e991bdd9efee76f43895f42fa1fa393820fc0dd9d9876c7a0caa",
+   "source_sha256": "b8ceb664c02e5c9bc006ca36e3928b15459e746102425e3cac1f8a15b88a9005",
+   "src": "sparkforge/context/schemas/gateway.schema.json"
+  },
+  "sparkforge_azure/decision/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "b12aee0b1dbf72f114428d6df94874a0158423d33a667e6b6c7c7a087ab81018",
+   "source_sha256": "a2a6b5e2d52a31cc2458edb2153bdb88f88dbd111d50b898d3e041c1e81bf16c",
+   "src": "sparkforge/decision/__init__.py"
+  },
+  "sparkforge_azure/decision/authority.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "0fcf7914a8f31d93ecb4278b3de6e596fa278206fb4cc8dff24b4ab7b4c7f86e",
+   "source_sha256": "0fcf7914a8f31d93ecb4278b3de6e596fa278206fb4cc8dff24b4ab7b4c7f86e",
+   "src": "sparkforge/decision/authority.py"
+  },
+  "sparkforge_azure/decision/cache.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "fdd38d19cad9c6d774df701689aeeed8fc006a7297658c4e13daea72f2e3a317",
+   "source_sha256": "cc5f585b43d8e5d06a8b0cb37a3a77b5f753953a9115b888ebe6388b1e2a042f",
+   "src": "sparkforge/decision/cache.py"
+  },
+  "sparkforge_azure/decision/calibration.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d018801ef93af463adcfc4e5fd96c501713265782e61caf5e5d21ec09131b0a4",
+   "source_sha256": "d011f51fc9b3884140af4221baa546126633e17db298eba9adbc025dac748345",
+   "src": "sparkforge/decision/calibration.py"
+  },
+  "sparkforge_azure/decision/conditions.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "922450eed47cdd75d03cd7cd9984ef4353a4210e3b62a653f73834eee58c40ab",
+   "source_sha256": "922450eed47cdd75d03cd7cd9984ef4353a4210e3b62a653f73834eee58c40ab",
+   "src": "sparkforge/decision/conditions.py"
+  },
+  "sparkforge_azure/decision/contracts.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d87e74c08da792c84d3ec279bd73156aa5db948da404464bc1cb55eca5c72f21",
+   "source_sha256": "49fb491afdafa51b4eec4d98b1a82c512f8f6bc4a7ceb8eb9b9d960b2f8cc09c",
+   "src": "sparkforge/decision/contracts.py"
+  },
+  "sparkforge_azure/decision/fingerprint.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6175a185b6e165734c59d49b048486d1d1c398ba3ef70d177929c8c02b419bdc",
+   "source_sha256": "e959364eafcbe3315fcf0b24e7f1753921b3ae4820a73d663caf4c0857c050d7",
+   "src": "sparkforge/decision/fingerprint.py"
+  },
+  "sparkforge_azure/decision/host.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f47a449da5fef23c4e90a3af8aad8fd757fe701105495a4b96a95181a8b1f70a",
+   "source_sha256": "907cf6485b537a1db47c8a178b4ebaf041fa15839c3cf583660299761eab809f",
+   "src": "sparkforge/decision/host.py"
+  },
+  "sparkforge_azure/decision/host_adapters.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6ca9c972131541c5a442b6dc7bbf0f56f1a3a0b34c4069fcd045522151ef74ea",
+   "source_sha256": "704e8e5cf1be5d8c0719705097415315527ff2d9fb0766fdbd291675e6683609",
+   "src": "sparkforge/decision/host_adapters.py"
+  },
+  "sparkforge_azure/decision/measurement.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "bae356f3031bad3e38a222e1382342014dc7ab87e928464fb1961076291a1dd5",
+   "source_sha256": "a8273a87472b0d4e65ac68ad97d5fe62a5ccdadeaca9ec4977ae54f3ea24acb1",
+   "src": "sparkforge/decision/measurement.py"
+  },
+  "sparkforge_azure/decision/models.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "106ec177f35c4ecaf27909aaab8822d2a3c19be122f271bc44d2a9d0e99385ab",
+   "source_sha256": "106ec177f35c4ecaf27909aaab8822d2a3c19be122f271bc44d2a9d0e99385ab",
+   "src": "sparkforge/decision/models.py"
+  },
+  "sparkforge_azure/decision/primitives.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "604287df5510fb6d52fd092d41a24e48ea9668ee96beb42a97c42cf3aa30adb6",
+   "source_sha256": "7e308e8dd3a776f6a305b427cd266a960a54e8e828f06495411f2ce69a65d917",
+   "src": "sparkforge/decision/primitives.py"
+  },
+  "sparkforge_azure/decision/receipts.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f0d1c606c9b44736070a15fd61927e8306f1cb485e115645905b709635ba4517",
+   "source_sha256": "904a783f67f59910c74200dbd56f7cbac2285f2eb8b829e3cd9252c182a086c7",
+   "src": "sparkforge/decision/receipts.py"
+  },
+  "sparkforge_azure/decision/runtime.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "22c322a87a528bf05e029120bdc1d1a9008c0ac8523fc4b796ec3dcd1ae60b2f",
+   "source_sha256": "0bdd490a78ffaa66131c9f58dd0904597155a3e6b87bfbb8c6448458faf5f563",
+   "src": "sparkforge/decision/runtime.py"
+  },
+  "sparkforge_azure/decision/state.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "a3a196cd925fce83260b35c26d67d54c2e71bc6db72f5c4b8656eea1bb4ef95e",
+   "source_sha256": "c6056961907ec3ced45552b174e79bfcfa78c6016ba4d6e6e89b70269509a268",
+   "src": "sparkforge/decision/state.py"
+  },
+  "sparkforge_azure/durable.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "699d2f37bd6e73c24baa08cd76d6d47af23a3d40a9d008749f4502be0e4650ce",
+   "source_sha256": "699d2f37bd6e73c24baa08cd76d6d47af23a3d40a9d008749f4502be0e4650ce",
+   "src": "sparkforge/durable.py"
+  },
+  "sparkforge_azure/economy/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "707d151d8dfb8ae66c9d4d630c9fd703540bdc8704fb3b8620265878756ea814",
+   "source_sha256": "cf709cbbad6f4aaddeed06635b8ee3b0fe0297dff1db1be65f7e10454108d86a",
+   "src": "sparkforge/economy/__init__.py"
+  },
+  "sparkforge_azure/economy/cache.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "16056489ae1b100a9a8573244b893aa2fcdb03cfd0ade65e168598c99bee5db8",
+   "source_sha256": "e679946af51f5816d432546029440aee2db597f08f146bde77159503d3b968c6",
+   "src": "sparkforge/economy/cache.py"
+  },
+  "sparkforge_azure/economy/decision_activation.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c17b51b4afd4f79dc30718867c1a6955ffa4e4cdbb94bc37b0fe7c3796e0136d",
+   "source_sha256": "c17b51b4afd4f79dc30718867c1a6955ffa4e4cdbb94bc37b0fe7c3796e0136d",
+   "src": "sparkforge/economy/decision_activation.py"
+  },
+  "sparkforge_azure/economy/decision_compare.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ad67a3ffb413868205cee0d763e4687b3793859aec031e03264fc26570b37f15",
+   "source_sha256": "8b27cf4e382fbd58b82e703da45003feb11936f0697e246a604e2c4c8f868a02",
+   "src": "sparkforge/economy/decision_compare.py"
+  },
+  "sparkforge_azure/economy/decision_contracts.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ebbaab72d513e13723c1c290a595ce8f240129afdd8d8e7478b15e281e5e8770",
+   "source_sha256": "6093a78d14134531b6cf1f6523f814cba633424e8f2ba5aeba2b33d7fb369466",
+   "src": "sparkforge/economy/decision_contracts.py"
+  },
+  "sparkforge_azure/economy/decision_engine.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "a7aed6e7fadfa4cb184373c016497e53503818da41ef68e0a900a369e04ac9b7",
+   "source_sha256": "75670d1d4bdd59b4b03bd63078542a1e079edcb832d616831fd358c234405263",
+   "src": "sparkforge/economy/decision_engine.py"
+  },
+  "sparkforge_azure/economy/decision_evaluation.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "61808e4f586209825664021e1ab23d1c23c8fae720647c31461ef3562762b452",
+   "source_sha256": "c7cfe6922cc4efefe9c1a186dfd3404b2e72f68ad4259109a641a45f71822789",
+   "src": "sparkforge/economy/decision_evaluation.py"
+  },
+  "sparkforge_azure/economy/decision_kernel_bridge.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "09950cf783d43e21deb34b891125d51af29f8af51ae064cf5f60e566b73fdce8",
+   "source_sha256": "025894dde5ee09b1c8416b29b476f6a8e35a15730c1cd9e82c93f8478a83c553",
+   "src": "sparkforge/economy/decision_kernel_bridge.py"
+  },
+  "sparkforge_azure/economy/decision_models.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "3edcd1a9e71185819f649cf999fe78f427c19fead9a7d2243f908478422cc1fa",
+   "source_sha256": "3edcd1a9e71185819f649cf999fe78f427c19fead9a7d2243f908478422cc1fa",
+   "src": "sparkforge/economy/decision_models.py"
+  },
+  "sparkforge_azure/economy/decision_plane.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c5d34e0ccc6d6adc65c6be87ddf22daa41e69ed7ed52bb85e55adc2cbeb7ec28",
+   "source_sha256": "0b6eb667d9e8998ad23ae7036183f7f2e0edbb15e75a4e22150b8d741e0e17b3",
+   "src": "sparkforge/economy/decision_plane.py"
+  },
+  "sparkforge_azure/economy/decision_receipts.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d1feadf86e90caf5e257b931e67464d8ed43783b751c23ddd039f4ecf3acf385",
+   "source_sha256": "0e7f819ea0320e101847ee38da468106851c03cc5869c1a0049e942249430209",
+   "src": "sparkforge/economy/decision_receipts.py"
+  },
+  "sparkforge_azure/economy/goldset.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d8e1004f1ffc10ac3d6679ff2145bc27d64736a45e7adf7fefcbb479f7505eac",
+   "source_sha256": "097fa2a676eec3163f915f430c5367759b8f025dee006a4455c5bdceab0595b0",
+   "src": "sparkforge/economy/goldset.py"
+  },
+  "sparkforge_azure/economy/ledger.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "0c10ada30009ad39846b186f30d44ecbd253d2f7562ec94da339f7140b525d88",
+   "source_sha256": "0c10ada30009ad39846b186f30d44ecbd253d2f7562ec94da339f7140b525d88",
+   "src": "sparkforge/economy/ledger.py"
+  },
+  "sparkforge_azure/economy/model_router.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ecd73366c037ead8e3fcbf8ed1fd8f0452c1a1f3823832582011ec79c56056fd",
+   "source_sha256": "ecd73366c037ead8e3fcbf8ed1fd8f0452c1a1f3823832582011ec79c56056fd",
+   "src": "sparkforge/economy/model_router.py"
+  },
+  "sparkforge_azure/economy/provider_cost.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "33a6dc9ab40cd94ff7de09917af11a395b02150c3fda275fe38818a713d8b750",
+   "source_sha256": "9fecc954c41827368d2d5e7bef4c6e0e9fa0a523500e49ed998178f354a1e465",
+   "src": "sparkforge/economy/provider_cost.py"
+  },
+  "sparkforge_azure/economy/recall.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "dbcba36cc623ab684b0483ae44b80ab619b1d15edc625f60a320181c96512658",
+   "source_sha256": "b1fbbc7d7db95a15a674343fd98c67b05c298399b17c3984eebb0b42b5e76fa7",
+   "src": "sparkforge/economy/recall.py"
+  },
+  "sparkforge_azure/economy/reconcile.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "8adee427a5ddd9ef98ecc891bb3fcdc64c46f31a792b32fd47f68553807af7f8",
+   "source_sha256": "4f1cca50f2a0e0ff2cf4dfb3f46648558162425de716e1280502dbccaa418a65",
+   "src": "sparkforge/economy/reconcile.py"
+  },
+  "sparkforge_azure/economy/report.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "cbac664d44cbd632e8e7b8b8150349a25e82b05fbb9296993e18c094fee8616c",
+   "source_sha256": "25beeba02f80efae13b39f96a8a9344a8f47c96ad81e478dface101d95da9113",
+   "src": "sparkforge/economy/report.py"
+  },
+  "sparkforge_azure/economy/router.py": {
+   "aws_markers": {
+    "emr": 2,
+    "glue": 2
+   },
+   "changes": [
+    "PENDING: review AWS markers emr=2,glue=2"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "04618bb1092563395dc99f221e90393c36ab115e18e0827b515ef3610e051dfc",
+   "src": "sparkforge/economy/router.py"
+  },
+  "sparkforge_azure/economy/waste_detector.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "2a0213eca9f42698fcdea8ca65aa9a901113a4fbc96ef90056a03cfd947607d0",
+   "source_sha256": "2a0213eca9f42698fcdea8ca65aa9a901113a4fbc96ef90056a03cfd947607d0",
+   "src": "sparkforge/economy/waste_detector.py"
+  },
+  "sparkforge_azure/evals/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d576b8bd585484081552406ad2e12e4c64f269f799511791f2b026507ccd65ae",
+   "source_sha256": "9782656cfbfba417740f605d8a2f236de4772a8e1615fca335ceaa7ffd9817e2",
+   "src": "sparkforge/evals/__init__.py"
+  },
+  "sparkforge_azure/evals/__main__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c53360245304e21e3f397a6e65259797a259f85d5569c57cc4398b8d94908e2d",
+   "source_sha256": "e0a031bee83e151264d66a0c7b6156267690e6b40354e03ed99a2892da0aa5e8",
+   "src": "sparkforge/evals/__main__.py"
+  },
+  "sparkforge_azure/evals/cli.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "77a918149474389f34fbeb3d02676e4b30cf40dc8625c5cdc1bde989b5ae092e",
+   "source_sha256": "5496232978df73670383bbcbf29f44ec9bf0858835a87d4d2948beabae22cd42",
+   "src": "sparkforge/evals/cli.py"
+  },
+  "sparkforge_azure/evals/compare.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "19ef85f3e57951bc1edabb80e0cf81e11b1355e613a52aaa4cc4f9e8592e178d",
+   "source_sha256": "837c2eb24cf5845e057fe6a97d53d37a27a0c90fccac0616ea172fc4d27f42bc",
+   "src": "sparkforge/evals/compare.py"
+  },
+  "sparkforge_azure/evals/datasets/router_dataset.json": {
+   "aws_markers": {
+    "glue": 1,
+    "s3": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=1,s3=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "e030fbfd6cb22262aecb0aa0a1a9bc9391c8e566f13b31f8e34fce85488c7c91",
+   "src": "sparkforge/evals/datasets/router_dataset.json"
+  },
+  "sparkforge_azure/evals/debate_grade.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "fa8c05a225448df3c63ddd0af09dbdbf51558c22413662511201ea95bd08cbd2",
+   "source_sha256": "6a6ee78163cf88964530625a581727fcf02fc23698eab7ab022599893ab2521c",
+   "src": "sparkforge/evals/debate_grade.py"
+  },
+  "sparkforge_azure/evals/decision_plane.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "494c2998d37e2a0c0ac9d100321f76d1e379f81ba93ef8c26886fbb9588aa839",
+   "source_sha256": "540947bb7f5da6ca4d2f6fc403baa04ffd9c4f9bc1eb39b5d6a3cd917e9ba2cb",
+   "src": "sparkforge/evals/decision_plane.py"
+  },
+  "sparkforge_azure/evals/decision_replay.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "a3568a35fd39c40a5dae8166a86775385ce9a39c4884d1c3ba28817a70a4a050",
+   "source_sha256": "a3568a35fd39c40a5dae8166a86775385ce9a39c4884d1c3ba28817a70a4a050",
+   "src": "sparkforge/evals/decision_replay.py"
+  },
+  "sparkforge_azure/evals/evidence.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "135af65c1863413b5aaec955ec5dce15c49db4230736aead1123057da8ea1d5e",
+   "source_sha256": "135af65c1863413b5aaec955ec5dce15c49db4230736aead1123057da8ea1d5e",
+   "src": "sparkforge/evals/evidence.py"
+  },
+  "sparkforge_azure/evals/evidence_adapters.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "75040374efeda5bb7243d6256fe3aa12ff4156172a38ada7ae311e01eb10cba7",
+   "source_sha256": "4f96c3b044953bc6ea49c09564d78b388e6cc6035e9b0f91b4250413378f72e1",
+   "src": "sparkforge/evals/evidence_adapters.py"
+  },
+  "sparkforge_azure/evals/evidence_resolver.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "24a1a3217f23f4c016987ecd3d80c02c7b9d19ba46f2f5dba7a4188bc39fc047",
+   "source_sha256": "1c70c6d459a027b53900b4bdeb74f6a4b2ce3afc25c832a48116e49401865aee",
+   "src": "sparkforge/evals/evidence_resolver.py"
+  },
+  "sparkforge_azure/evals/evolution.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f6fbd291c1d292ff0e6a84af3c508f1da562eb5842fc1f69d00b82689aa4de3f",
+   "source_sha256": "39c7d6db4abce377a298b95f0e224895badddb20f1f0d9f3c212171571b40629",
+   "src": "sparkforge/evals/evolution.py"
+  },
+  "sparkforge_azure/evals/grade.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "88b121d989ea01791f90acdc41002861f7c94a5d6b1f61449fd13bd11597a917",
+   "source_sha256": "5c2dfc8871bdce952f518d9d0025508d12d14709d74f7f6f436c12f5cd5d8d69",
+   "src": "sparkforge/evals/grade.py"
+  },
+  "sparkforge_azure/evals/lifecycle.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "94668214ad3f834c4ae35f9c5d608afe7839ddb6c2a2f099c40b39f89d74321c",
+   "source_sha256": "a18f453e4503b0056aaaf704f8d3fde495e1dd542bdc718e2ae170c953aab205",
+   "src": "sparkforge/evals/lifecycle.py"
+  },
+  "sparkforge_azure/evals/metric_compiler.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "4e922208525385b44b258a662f82dbe006bfb6803dfb6e2171d2554d7cce2bb7",
+   "source_sha256": "165e3748e98b03c6592d4025df0dfe8a4dd9f6a4f385a4b4c67dab2c95689d85",
+   "src": "sparkforge/evals/metric_compiler.py"
+  },
+  "sparkforge_azure/evals/policy.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "49974164441f80ce51d0883174c491946e2349709ba13b47db29ae5988648b76",
+   "source_sha256": "435e0c75a229057f8ed877eb796f22612ffa48e374e7540908ef774c2ac4a2f6",
+   "src": "sparkforge/evals/policy.py"
+  },
+  "sparkforge_azure/evals/runner.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "63bc5563844bbba688273f83e7882435fb01b15eb94ddd051a325e8e52c74a2f",
+   "source_sha256": "242a38657949119aba2101d66b947a94026ebb88400a8ff738669bab1d444f51",
+   "src": "sparkforge/evals/runner.py"
+  },
+  "sparkforge_azure/evals/suite.py": {
+   "aws_markers": {
+    "glue": 2
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=2"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "d64bf059fa56494f1e7c5737fb1929ef75abbfc2fc13bedba8b6252c866bbfe3",
+   "src": "sparkforge/evals/suite.py"
+  },
+  "sparkforge_azure/facts/host_transcript.py": {
+   "aws_markers": {},
+   "changes": [
+    "canonical_verb: MCP channel now matches this forge's `sfa_*` tools (`mcp__<server>__sfa_<verb>`), not the AWS `sparkforge_*` tools",
+    "canonical_verb: Bash channel recognises the `sparkforge-azure` CLI and `python -m sparkforge_azure`; the mechanical rewrite had produced a `sparkforge_azure` CLI token that no shell command uses, and bare `sparkforge` is the spark-forge-aws CLI (another forge -> `other`)",
+    "docstring: independence note now points at sparkforge_azure.cli instead of the unported adapters package"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "5b29daf5f20dc9432d192417e5a956e637d3d38ab759b8950a67645d2902ff47",
+   "src": "sparkforge/facts/host_transcript.py"
+  },
+  "sparkforge_azure/facts/pyspark_ast.py": {
+   "aws_markers": {
+    "glue": 2
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=2"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "5e00d8c145da4d6ece5818e02847cf8b22e8383cc5696fd8e2e704ebe629d7e5",
+   "src": "sparkforge/facts/pyspark_ast.py"
+  },
+  "sparkforge_azure/facts/scan.py": {
+   "aws_markers": {
+    "s3": 2
+   },
+   "changes": [
+    "PENDING: review AWS markers s3=2"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "b28eab9385f43b93caa37586df5f3873c1ed1f5f51582d19b966cbe0484e16d4",
+   "src": "sparkforge/facts/scan.py"
+  },
+  "sparkforge_azure/findings/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "bd18329185f518469e65f633226b2d0b68080c6cccf53b21f45acc78b41beaa2",
+   "source_sha256": "bd18329185f518469e65f633226b2d0b68080c6cccf53b21f45acc78b41beaa2",
+   "src": "sparkforge/findings/__init__.py"
+  },
+  "sparkforge_azure/findings/models.py": {
+   "aws_markers": {
+    "athena": 4,
+    "emr": 5,
+    "glue": 5
+   },
+   "changes": [
+    "PENDING: review AWS markers athena=4,emr=5,glue=5"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "b88c86e5058dc8cde761e44b2834474789fe13270a7b91f177bd43d337be6bfc",
+   "src": "sparkforge/findings/models.py"
+  },
+  "sparkforge_azure/findings/schemas/business_rule.schema.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "b60dc6278207f02a8d693fc982f8404d68cbcbb24ec05162e79f2c1a568e6ed7",
+   "source_sha256": "b23a0e8e26034fbcf380d98c9af3209c6f7dc567c06d128222a6a98cb4ec14e4",
+   "src": "sparkforge/findings/schemas/business_rule.schema.json"
+  },
+  "sparkforge_azure/findings/schemas/dq_ai_report.schema.json": {
+   "aws_markers": {
+    "glue": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "8145c2b244c9bed9b08ac8661a0ad3346cd8d140d2244b056fdcc37a9e9a6d0a",
+   "src": "sparkforge/findings/schemas/dq_ai_report.schema.json"
+  },
+  "sparkforge_azure/findings/schemas/fact.schema.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "5a084db1d74fde9b1a2a826a69ec1bf098588634a72a88ce07d4080dcf474aa0",
+   "source_sha256": "c43c3a0d01ae185dc402ea4c1edb934e8c392bec54472bd92a12fd6f233b8cc3",
+   "src": "sparkforge/findings/schemas/fact.schema.json"
+  },
+  "sparkforge_azure/findings/schemas/finding.schema.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c2ce3b1aa0696bd5d44227094a1def58c6536d1cce04a0f57092f2447bef3c71",
+   "source_sha256": "5015af887a36c02e544114cb8f14065ed4b948cd259a740125f79d15488880b7",
+   "src": "sparkforge/findings/schemas/finding.schema.json"
+  },
+  "sparkforge_azure/findings/signature.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "36ad4ff3542df2baf5a8fe1ed162dac52d182e3484d6952ae69618ef77b58073",
+   "source_sha256": "bdfed9d2f55cc41b592341d588cb688bd05868f3cd76307352aae774783414ca",
+   "src": "sparkforge/findings/signature.py"
+  },
+  "sparkforge_azure/findings/validate.py": {
+   "aws_markers": {
+    "s3": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers s3=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "8ec0cc67c31bd9dd24de145429e25f592f2902cd11b5f34cb5dc3629fd14ec2c",
+   "src": "sparkforge/findings/validate.py"
+  },
+  "sparkforge_azure/knowledge_drift.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ec8d98079c150ae747e9524a806d0264b7a852db5ae6d9fd446208658e2e7595",
+   "source_sha256": "67faa8bc1113a3f5b474bed806f516b855e1d1b06f5fb47919207dc06075d9b0",
+   "src": "sparkforge/knowledge_drift.py"
+  },
+  "sparkforge_azure/knowledge_engine/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "0bed243c1d9f826ee4aedd1a2bcd909e9aad31ba80a57eebe11376701af27985",
+   "source_sha256": "b86245e95cdf3acffca144c997162a3935f12597d43ac2892e79a30ccbc3f119",
+   "src": "sparkforge/knowledge_engine/__init__.py"
+  },
+  "sparkforge_azure/knowledge_engine/compiler.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "7a080f62f281098ada293b09a3d1420fa0b31f44f4970d47bb023504846054ac",
+   "source_sha256": "7a080f62f281098ada293b09a3d1420fa0b31f44f4970d47bb023504846054ac",
+   "src": "sparkforge/knowledge_engine/compiler.py"
+  },
+  "sparkforge_azure/knowledge_engine/packs.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "2c34794281a2e68fb0e2fd1d7462eb9c6a61c5fa5991ced07693c79a745cb2f9",
+   "source_sha256": "fc43fa7918c51885a4420845ab52618aab4ee4cdb561eed97785c617493cfcd6",
+   "src": "sparkforge/knowledge_engine/packs.py"
+  },
+  "sparkforge_azure/knowledge_freshness.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "1cb723a8d9fa370adc988ee59f86f14145c3fe3433a9eeacfd439aedcd6ad2c6",
+   "source_sha256": "5959ceedb9603719d79d92ed8030b1af4269608329e6bd0b3ab78c16525329a4",
+   "src": "sparkforge/knowledge_freshness.py"
+  },
+  "sparkforge_azure/knowledge_ref.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "237ac472e12de0bc073377520bc96cfce36c85856c98cb1e52e5647ffa2c27fc",
+   "source_sha256": "9d95de490b98884a5aa561dbed6e8f7659d635c6d9e6e61d6dac463034ee6a81",
+   "src": "sparkforge/knowledge_ref.py"
+  },
+  "sparkforge_azure/lab/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f9c5989925a649eb9f59feddd36d9007e9f537506f77e53c53c859d6da803d8e",
+   "source_sha256": "76ad50759d34db006deb8b123310f8f1ad63b26212822346c3e1e005de8ccfb6",
+   "src": "sparkforge/lab/__init__.py"
+  },
+  "sparkforge_azure/lab/cli.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "796506f3e6126f497bebf335b6ba02721d58b3cccff3dd8ce35f01755e388129",
+   "source_sha256": "796506f3e6126f497bebf335b6ba02721d58b3cccff3dd8ce35f01755e388129",
+   "src": "sparkforge/lab/cli.py"
+  },
+  "sparkforge_azure/lab/compatibility.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "74ae0c6b807228bc795b69f8e7228907f16303387370754b9b517cd6a9f45b48",
+   "source_sha256": "74ae0c6b807228bc795b69f8e7228907f16303387370754b9b517cd6a9f45b48",
+   "src": "sparkforge/lab/compatibility.py"
+  },
+  "sparkforge_azure/lab/contract.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f23ac520909110be9e00840a8c255f1514219e93d904bf57e857e832e6a31888",
+   "source_sha256": "f23ac520909110be9e00840a8c255f1514219e93d904bf57e857e832e6a31888",
+   "src": "sparkforge/lab/contract.py"
+  },
+  "sparkforge_azure/lab/doctor.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d9818d3629aae6e5cf4095e93e966926170b431d304f275164406d1ef4c2b9a8",
+   "source_sha256": "d9818d3629aae6e5cf4095e93e966926170b431d304f275164406d1ef4c2b9a8",
+   "src": "sparkforge/lab/doctor.py"
+  },
+  "sparkforge_azure/lab/evidence.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "946c42d73f3c6d627dc69122053cb85b8853929ce5c59fddf9bee5913020e38d",
+   "source_sha256": "aec1e33b23faa497d3a8282c3f3f53219374779505bbf093fe5b27e9fe7d96e3",
+   "src": "sparkforge/lab/evidence.py"
+  },
+  "sparkforge_azure/lab/faults.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "93ce18118ae5b5d900256b0920910659dbc42b152dcea11318ab92cc3f2d1254",
+   "source_sha256": "93ce18118ae5b5d900256b0920910659dbc42b152dcea11318ab92cc3f2d1254",
+   "src": "sparkforge/lab/faults.py"
+  },
+  "sparkforge_azure/lab/generators.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "b8eec8b3d599761894af765ac08b5f8521d1005ec2fd7eb60b2064a2c533df52",
+   "source_sha256": "b8eec8b3d599761894af765ac08b5f8521d1005ec2fd7eb60b2064a2c533df52",
+   "src": "sparkforge/lab/generators.py"
+  },
+  "sparkforge_azure/lab/oracle.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "429e08438052dff74449873503d6ce414a6c41941b3808c13827320ce3668ff8",
+   "source_sha256": "429e08438052dff74449873503d6ce414a6c41941b3808c13827320ce3668ff8",
+   "src": "sparkforge/lab/oracle.py"
+  },
+  "sparkforge_azure/lab/runtime.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "e66691afd670e09c1c82053237fb0aac2265c0a5602c046580e0d8e3cdf4b3d4",
+   "source_sha256": "75cba0b5508d38d7dc60ff11f9fc61d914000f06306d6f8b1db413215d244667",
+   "src": "sparkforge/lab/runtime.py"
+  },
+  "sparkforge_azure/lab/scenario.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6c349167d6c51a09d8107ed7e9cf73cbc94b8187a83f5b10795ce4e994ff39d0",
+   "source_sha256": "6c349167d6c51a09d8107ed7e9cf73cbc94b8187a83f5b10795ce4e994ff39d0",
+   "src": "sparkforge/lab/scenario.py"
+  },
+  "sparkforge_azure/lab/spec.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "6bc4320acbff153744ca4ea9e82747c87d51d10bd4f6892ca5f7cced892e54d8",
+   "source_sha256": "6bc4320acbff153744ca4ea9e82747c87d51d10bd4f6892ca5f7cced892e54d8",
+   "src": "sparkforge/lab/spec.py"
+  },
+  "sparkforge_azure/lab/workload.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "8ad71c06a4068f139746df2c2779904c9b4ba4f6885a61eaad9658a1f2fa65c2",
+   "source_sha256": "8ad71c06a4068f139746df2c2779904c9b4ba4f6885a61eaad9658a1f2fa65c2",
+   "src": "sparkforge/lab/workload.py"
+  },
+  "sparkforge_azure/observability/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "a27ceee577e9c41e952815fde96269cd4e1999ff633140099a6f0c145963eee5",
+   "source_sha256": "f2d64b4f2d59b9adfc9741f34b8841dc1f34f2d4e05e6050690e7f80802403c1",
+   "src": "sparkforge/observability/__init__.py"
+  },
+  "sparkforge_azure/observability/agentops.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "00e054904b5856616784551b503ca5ee999166fe63496a69c5e0454754d0c6f1",
+   "source_sha256": "19d02b4181c97e126c87d5b70bce1d0d940449986b16d4bd22bcaf22bef9c670",
+   "src": "sparkforge/observability/agentops.py"
+  },
+  "sparkforge_azure/observability/context_ledger.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c07b8e85284c2b481eac38f42b743af9bd2b6686cd49026180324d070f0fa3ae",
+   "source_sha256": "165c6d114e9670cd02549a322a9a93fbb5fab259de0c24a97a50b1fcac4c0dae",
+   "src": "sparkforge/observability/context_ledger.py"
+  },
+  "sparkforge_azure/observability/otlp.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "eeed60ff3ee51a86e8db33d80eda672009d2d2d3ffe229dde7520b5480600a48",
+   "source_sha256": "fb34a605f8e1941fd4cde1dc4980634bb57db786e5ad642c621f702e09f9fd57",
+   "src": "sparkforge/observability/otlp.py"
+  },
+  "sparkforge_azure/observability/sre.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "225ce42d98a19886664797198779f83ff960c39dcb8574f6602b760f907e3a14",
+   "source_sha256": "225ce42d98a19886664797198779f83ff960c39dcb8574f6602b760f907e3a14",
+   "src": "sparkforge/observability/sre.py"
+  },
+  "sparkforge_azure/observability/store.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "7d5043f66e41b05a69e29d5faa982d14dc865883e6712332d28c1fea090a8edc",
+   "source_sha256": "442fa3fe5d3fbc97496947a46910bb6137192c16de424f09d9cf696cac135467",
+   "src": "sparkforge/observability/store.py"
+  },
+  "sparkforge_azure/observability/tracer.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "e3cc7c58d4a2a38a2af48adbb2c9a9b41475a954badc6b09d64423535140d376",
+   "source_sha256": "e3cc7c58d4a2a38a2af48adbb2c9a9b41475a954badc6b09d64423535140d376",
+   "src": "sparkforge/observability/tracer.py"
+  },
+  "sparkforge_azure/packs/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "1f70be50a6a04e70abfd1399ba7be34e7abab4ac3ccc24c23442b9b8cda3c817",
+   "source_sha256": "e2502a257a1ce0562d9c57522f7fe773954df0d3eae19f414d5434c4b2613051",
+   "src": "sparkforge/packs/__init__.py"
+  },
+  "sparkforge_azure/packs/check.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f0b42f1c730bcc5dedb540413fda8d9076bbc1f4a4fefbee2656b5ebdab14445",
+   "source_sha256": "2d2b23649444d116083d4a878087df89f7b731f121881d16885ca0df3d497d36",
+   "src": "sparkforge/packs/check.py"
+  },
+  "sparkforge_azure/packs/load.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "157642badb3c74eb83fd28399428f2235a1d72283fd5d1e97aa6534308220d70",
+   "source_sha256": "95a6e1661c04916e1e395858d0539d04844332a5339ef245c803902bdd7e2d6b",
+   "src": "sparkforge/packs/load.py"
+  },
+  "sparkforge_azure/packs/manifest.py": {
+   "aws_markers": {},
+   "changes": [
+    "PACKAGE distribution name \"sparkforge-aws\" -> \"sparkforge-azure\" (installed_version read the AWS distribution metadata and returned None; the mechanical rewrite only touches import-shaped names)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "985207a9e4dc77b7be314cfb744efcf77c1434e90f37f48a44fc3c0a28b7e83a",
+   "src": "sparkforge/packs/manifest.py"
+  },
+  "sparkforge_azure/paths.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "22fef1af1bceb7d3a98b7669401e09edea97072dde1e54d8fb3a9fc8beb07cbb",
+   "source_sha256": "e67c7c8608c57d279c2c660b395ee9eb3fb2639e8876fe250f18b777260047ea",
+   "src": "sparkforge/paths.py"
+  },
+  "sparkforge_azure/policy/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "9637d8ea78c868c7b03edcebf3877c7ab6d87c8c8c0ba7871a182dd4da605b22",
+   "source_sha256": "e3c131f894c2f152dcee58af3b288a93283cb82a786463ea7ebecf2585d3eea6",
+   "src": "sparkforge/policy/__init__.py"
+  },
+  "sparkforge_azure/policy/decide.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "22ef30a89fa3964eaf20a6a06e298c16d931f23ab1c1dfa9970976b057d76bae",
+   "source_sha256": "26f423b631fec82a02751033dad4c768d345b5d8a7f448bfdd7c188536a16f52",
+   "src": "sparkforge/policy/decide.py"
+  },
+  "sparkforge_azure/policy/hook.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ad59753367ae767933ea347355dc4795847eb8f457afadcf45f4a546fa63b525",
+   "source_sha256": "ea0564d29fab7bfadd0064de406fe0759c8e098413e45f21f27827ac1ac37025",
+   "src": "sparkforge/policy/hook.py"
+  },
+  "sparkforge_azure/policy/load.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "12b2a7a07c246d28187aaf7bb96f96e5270fd890fa6932a876f7a70da8a5d1e1",
+   "source_sha256": "b1e08f82e1a8ac82da8c52180fe658e5a86691c033adead6b944fe2b93ba5a65",
+   "src": "sparkforge/policy/load.py"
+  },
+  "sparkforge_azure/policy/schema.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "672b1858d999cc2ec5b9834723185ae4280acfa6dc0440b43b30a590fe23c643",
+   "source_sha256": "672b1858d999cc2ec5b9834723185ae4280acfa6dc0440b43b30a590fe23c643",
+   "src": "sparkforge/policy/schema.py"
+  },
+  "sparkforge_azure/policy/settings.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "726cccf5f93165297c1be1976853e2d91cbf9193dcd6d66efa19baa231cfc8f8",
+   "source_sha256": "190b2b95db5d8a6c413d15781f00996118e8973b340ae06aafd230f562a44f9f",
+   "src": "sparkforge/policy/settings.py"
+  },
+  "sparkforge_azure/proof/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "8a30aa624ce6b47089299987f0af106f02d1b1e2f8c99252dc932f737ddcd35c",
+   "source_sha256": "bc851256d59c876da89ca820282d8f9d231bac94fef895999ed82152b809b70c",
+   "src": "sparkforge/proof/__init__.py"
+  },
+  "sparkforge_azure/proof/axes.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "1bb02b1a4506b04c90ba5e6fdbc44e07b664e6b4117bfd56d5a8126fbf6b7345",
+   "source_sha256": "b9b17293350d2c02f8cda05a144bd511196dd7a2d68158f0205944b6f6b92556",
+   "src": "sparkforge/proof/axes.py"
+  },
+  "sparkforge_azure/proof/axis.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ebc118f19ba3b0b7e168b6b0d8d147196f8e04826a4137d8d345a6a1d3c7baed",
+   "source_sha256": "ebc118f19ba3b0b7e168b6b0d8d147196f8e04826a4137d8d345a6a1d3c7baed",
+   "src": "sparkforge/proof/axis.py"
+  },
+  "sparkforge_azure/proof/keys.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "0548b85245b440c933d8fed44170cc5040404e5d9edbbd08b6459ad3900beb71",
+   "source_sha256": "0548b85245b440c933d8fed44170cc5040404e5d9edbbd08b6459ad3900beb71",
+   "src": "sparkforge/proof/keys.py"
+  },
+  "sparkforge_azure/proof/prove.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "63dc213cd4ecdfdb4148e45dcafe27af296ac4538731016f4f13ef6e972b0262",
+   "source_sha256": "b9df13a1ae071786faf00d1993fce618dce13b0c1ef6a92546e5c798975e4e02",
+   "src": "sparkforge/proof/prove.py"
+  },
+  "sparkforge_azure/proof/resolution.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ce605f9655149c711ef0240ae4f3813f00ce710fe63b355dd450de3432a6220a",
+   "source_sha256": "cea315bc550243662769ee9ec20a0eecab998efaf389fa9cf6905f459397e0ff",
+   "src": "sparkforge/proof/resolution.py"
+  },
+  "sparkforge_azure/protocols/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "9ba12542b4485cdc0aacb3962af2ab30543d93adf003eea96d6e43b4d66ce779",
+   "source_sha256": "b07385465edae6e09e8dd759a7a180b99dd74ea981d2c72eb5d71e1b7cb5c44a",
+   "src": "sparkforge/protocols/__init__.py"
+  },
+  "sparkforge_azure/protocols/a2a_adapter.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c3b4cfc4a800be8639b280bd23afa9eeaec5056b56dd5255bba8e120c9a1039c",
+   "source_sha256": "4a9aff8865daf7736d35862317d3a07673a187dc3b5eeba0df71d6064178b6a0",
+   "src": "sparkforge/protocols/a2a_adapter.py"
+  },
+  "sparkforge_azure/protocols/forge.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "79c3b3b3244f32a76dd9ccfc8dcc234c80547f7bdbf56a84e0cef333f63eb6a5",
+   "source_sha256": "79c3b3b3244f32a76dd9ccfc8dcc234c80547f7bdbf56a84e0cef333f63eb6a5",
+   "src": "sparkforge/protocols/forge.py"
+  },
+  "sparkforge_azure/receipt/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d1e4c935c7cc183365ea154ccd434a1c7df4fea155b83b85b0ffefdd3abd2307",
+   "source_sha256": "d51a1c002c25b5d65f9d4d33cdb27f5d8d84b0bd03c8271b6f463ab1467d4a8c",
+   "src": "sparkforge/receipt/__init__.py"
+  },
+  "sparkforge_azure/receipt/_hash.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c15c644bc0a7ff80b6fa2a164c0651fbd87953345fba07fa4184dd46563bb0a0",
+   "source_sha256": "4f82b5bfbd101924a1c9ed921a8700df54a0f9748f5ee328339dda2a50c13c03",
+   "src": "sparkforge/receipt/_hash.py"
+  },
+  "sparkforge_azure/receipt/build.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "a357f290c405f66433d088d44a0facbd5f287db7c415e75bdf8aa7093f4579e5",
+   "source_sha256": "3ce9719d7bb9a585df993d5cef6178d62c0ecf0d55eac4bb9e5fd2d144b6e3a1",
+   "src": "sparkforge/receipt/build.py"
+  },
+  "sparkforge_azure/receipt/verify.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "22214fcfa5a850d20f96008a4e9ef1258a05f548d3e935d75bc7480c9f101728",
+   "source_sha256": "03534f5c20faf09246e172717b48f202940d99b9eb2d6270328afaaf388bb04e",
+   "src": "sparkforge/receipt/verify.py"
+  },
+  "sparkforge_azure/registry/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "431dba50f9edb89c8877948087147083557678171bb7b339e18547fb3f0eec50",
+   "source_sha256": "a2a0ac74e328e0b6092541725732d5ea8046b34fad868577a40c442407f6c2f1",
+   "src": "sparkforge/registry/__init__.py"
+  },
+  "sparkforge_azure/registry/loader.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "180ad444d2eb4ec33074077f975afc2d3b3dd2a553055b5e38b88888013f7dde",
+   "source_sha256": "82359217cf0a2541ff104ba22e1136858f7c8b07afa53054283acb2de5b76586",
+   "src": "sparkforge/registry/loader.py"
+  },
+  "sparkforge_azure/registry/models.py": {
+   "aws_markers": {
+    "lakeformation": 2
+   },
+   "changes": [
+    "PENDING: review AWS markers lakeformation=2"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "729a3422ef5a09052da77a125f00d05da7067813ef2f0a145e3ac1d47f7ff8b2",
+   "src": "sparkforge/registry/models.py"
+  },
+  "sparkforge_azure/registry/validator.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "28aeab1156ead174b4878c55ede4b4246bd4de0094f1d9e56563d844c0e54a31",
+   "source_sha256": "28aeab1156ead174b4878c55ede4b4246bd4de0094f1d9e56563d844c0e54a31",
+   "src": "sparkforge/registry/validator.py"
+  },
+  "sparkforge_azure/rules/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "bd18329185f518469e65f633226b2d0b68080c6cccf53b21f45acc78b41beaa2",
+   "source_sha256": "bd18329185f518469e65f633226b2d0b68080c6cccf53b21f45acc78b41beaa2",
+   "src": "sparkforge/rules/__init__.py"
+  },
+  "sparkforge_azure/rules/engine.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d09e6f7e3b7abb7733f4c3dd9ea60bb636862dbfa7cf311b66ed4d5f0ac16536",
+   "source_sha256": "21e8da51eddae7aabd4901b173aa6b928bf33a7e4e69c8b774a47c6314bebd93",
+   "src": "sparkforge/rules/engine.py"
+  },
+  "sparkforge_azure/rules/expr.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "76a2b1df016584c0e61409063fb858aa2279c4729990bec90f75d13b7c3e630e",
+   "source_sha256": "76a2b1df016584c0e61409063fb858aa2279c4729990bec90f75d13b7c3e630e",
+   "src": "sparkforge/rules/expr.py"
+  },
+  "sparkforge_azure/rules/loader.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "8b1563e5729859c7734555b2b1fa028127c715a609a5eca2bfe25fc993646f61",
+   "source_sha256": "4cbe59d5ea2a56e4ca952dbc888b2016fa282d3c8fd075233ede876cf17e7d8b",
+   "src": "sparkforge/rules/loader.py"
+  },
+  "sparkforge_azure/rules/version_scope.py": {
+   "aws_markers": {
+    "emr": 3,
+    "glue": 2
+   },
+   "changes": [
+    "PENDING: review AWS markers emr=3,glue=2"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "e789f2011dd6e1d716753bc1fb1eddf815e666827b544ccc5f0c0a807c39f665",
+   "src": "sparkforge/rules/version_scope.py"
+  },
+  "sparkforge_azure/sdd/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "cc5451b796904ee75fbece43e16ce9ecb7a7a043ad0469625fa9b477b9463094",
+   "source_sha256": "cc5451b796904ee75fbece43e16ce9ecb7a7a043ad0469625fa9b477b9463094",
+   "src": "sparkforge/sdd/__init__.py"
+  },
+  "sparkforge_azure/sdd/change_kinds.yaml": {
+   "aws_markers": {
+    "glue": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "916d43e4651703269aacc5eae5fde62c32922cf0d952622debc633b2d30e2e79",
+   "src": "sparkforge/sdd/change_kinds.yaml"
+  },
+  "sparkforge_azure/sdd/checks.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "782c6d6e0e92f3598f0002bb7ee13b762118a595e5703c86a4f630cb37af9a3c",
+   "source_sha256": "6e38a6d05d636bf225b0ca70c440a6b41c4fd3d2bb0e75df1157ffd81f797f90",
+   "src": "sparkforge/sdd/checks.py"
+  },
+  "sparkforge_azure/sdd/load.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "3d7a7100d8ecdc47336ff8d13051c7c2361955f32c4de3316406c29cf3a5cc2c",
+   "source_sha256": "b06dd5bd70c534d57510cad5c8381be328614cedc8c460c30e07780a8ed37698",
+   "src": "sparkforge/sdd/load.py"
+  },
+  "sparkforge_azure/sdd/schema/build_report.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "11928d6c1d8235de1043a5def4b04299c5876e3c74d9ae0bc4f59d47c320d27b",
+   "source_sha256": "11928d6c1d8235de1043a5def4b04299c5876e3c74d9ae0bc4f59d47c320d27b",
+   "src": "sparkforge/sdd/schema/build_report.json"
+  },
+  "sparkforge_azure/sdd/schema/common.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "e190e2595d590cfc5a5d6abfc467e14c6bc498640bf0e1be8951dc8647cf1c13",
+   "source_sha256": "e190e2595d590cfc5a5d6abfc467e14c6bc498640bf0e1be8951dc8647cf1c13",
+   "src": "sparkforge/sdd/schema/common.json"
+  },
+  "sparkforge_azure/sdd/schema/define.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "890ee6ffd578947d1a3af2f48b5a8455cf23ca0f4fadc0ca8e1d9452433f2633",
+   "source_sha256": "890ee6ffd578947d1a3af2f48b5a8455cf23ca0f4fadc0ca8e1d9452433f2633",
+   "src": "sparkforge/sdd/schema/define.json"
+  },
+  "sparkforge_azure/sdd/schema/design.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "45db1cfc3d19138d133c1bdf2e83ca0a7ccf28be3559d2ce8c982a9929caa305",
+   "source_sha256": "45db1cfc3d19138d133c1bdf2e83ca0a7ccf28be3559d2ce8c982a9929caa305",
+   "src": "sparkforge/sdd/schema/design.json"
+  },
+  "sparkforge_azure/sdd/schema/explore.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "c7a4826438dfbe12ffb0088d38f571a8fbb8ffa6e4aef11ce3d74134e9618064",
+   "source_sha256": "c7a4826438dfbe12ffb0088d38f571a8fbb8ffa6e4aef11ce3d74134e9618064",
+   "src": "sparkforge/sdd/schema/explore.json"
+  },
+  "sparkforge_azure/sdd/schema/plan.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "4d091baec660c119f39aa1c46ae12ec13b72beb40f66694ad59a898870d5f9e1",
+   "source_sha256": "4d091baec660c119f39aa1c46ae12ec13b72beb40f66694ad59a898870d5f9e1",
+   "src": "sparkforge/sdd/schema/plan.json"
+  },
+  "sparkforge_azure/sdd/schema/ship.json": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "7508ccbeb6cc7d123bae9dcc4c04d7c14da5a39d0b11d75053b9eca1b05b34d6",
+   "source_sha256": "7508ccbeb6cc7d123bae9dcc4c04d7c14da5a39d0b11d75053b9eca1b05b34d6",
+   "src": "sparkforge/sdd/schema/ship.json"
+  },
+  "sparkforge_azure/sdd/stamp.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d13cfcd61f3656221d3c553a120f4e7723dc56dd7a180fbe833c6cca43bfb7ad",
+   "source_sha256": "67214936215f986973560b3cafa1b1a9688db0508781918da1ebb999a837f0d2",
+   "src": "sparkforge/sdd/stamp.py"
+  },
+  "sparkforge_azure/sdd/status.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "22bf3f7c294d6bc51ff9585c202ead4853934f8c71a40fbc8450f3becdee4ab6",
+   "source_sha256": "941ac5a0c5a6b91c1ba605e88d8f1e7e5d6da04ea58f397d47356e6545b77ddd",
+   "src": "sparkforge/sdd/status.py"
+  },
+  "sparkforge_azure/simulate/diff.py": {
+   "aws_markers": {
+    "lakeformation": 6
+   },
+   "changes": [
+    "PENDING: review AWS markers lakeformation=6"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "92e8507e80a5c9f9cab409aa09cf0c012c9eaea9008d7c4a08e23f5c8a3f61c4",
+   "src": "sparkforge/simulate/diff.py"
+  },
+  "sparkforge_azure/workspace/__init__.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "0298812079563c5897da4b49735dd07b475ca5a60a1a7378f159949454acc9ea",
+   "source_sha256": "214fb969c4736066976c530c1f33554613b6f99920ee8bb3b93613c7e18e324e",
+   "src": "sparkforge/workspace/__init__.py"
+  },
+  "sparkforge_azure/workspace/adapters.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "44b7f83520910539f324de2043014f894c780dee05da525ab9cfd3095097ae89",
+   "source_sha256": "5606b3d6e7df3edb36f1e1b6fa772c40aa4fe9f74b2e1c9dcbe1f7bb4f17d4bd",
+   "src": "sparkforge/workspace/adapters.py"
+  },
+  "sparkforge_azure/workspace/federated.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "36586cc2a76b21ea2cb0b7087816f364efcf4598ccbac2287a8e3307534642b3",
+   "source_sha256": "061c901380d61ba0f8d2839d2519bb77e33ee1f3cef38e25ed304fabc814c807",
+   "src": "sparkforge/workspace/federated.py"
+  },
+  "sparkforge_azure/workspace/federation.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "be89794369c05f79cbcc000e2cdde22af85331aa8f3a046de00e090df020bfbd",
+   "source_sha256": "8e0a0a9faf83efb5411e7a2a9d4189bcf3f8a9458b4e4f443bdd72d2c88ad00d",
+   "src": "sparkforge/workspace/federation.py"
+  },
+  "sparkforge_azure/workspace/freshness.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "547160de78b649f8d19a48eed217499c8db418c00c25d269880d3a249c7cf31f",
+   "source_sha256": "547160de78b649f8d19a48eed217499c8db418c00c25d269880d3a249c7cf31f",
+   "src": "sparkforge/workspace/freshness.py"
+  },
+  "sparkforge_azure/workspace/graph.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "5a19d440684b0c65443bb6a4663562ed3d225281f0e064f4614b008a60e27f33",
+   "source_sha256": "3229452b62ac5c47778e1f6cf05e05fd3e26aa59f09729deea770d6d44b43a64",
+   "src": "sparkforge/workspace/graph.py"
+  },
+  "sparkforge_azure/workspace/impact.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "3c2ece649d9e41b6fe0bee8c788ac811e7f4a06e302c9775936b21dd0edf1fb9",
+   "source_sha256": "5f506730ee1e55a84ba00fcd6c5bd262d2e95677059bc592c7bd5a28f08f0b3c",
+   "src": "sparkforge/workspace/impact.py"
+  },
+  "sparkforge_azure/workspace/manifest.py": {
+   "aws_markers": {
+    "glue": 1,
+    "lakeformation": 1
+   },
+   "changes": [
+    "PENDING: review AWS markers glue=1,lakeformation=1"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "c00d9d9e8d1df2adbc4f79751b28976b2ac2f5393925fe630fec5b49c24933c1",
+   "src": "sparkforge/workspace/manifest.py"
+  },
+  "sparkforge_azure/workspace/semantic.py": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "556028ee7225734744fc900b69081af09dca9185df3650d74dffcac2203bda05",
+   "source_sha256": "72edf4aae6baec2a3d02bdc8ae417689fdadcc78035b1198cee248966ac6ff51",
+   "src": "sparkforge/workspace/semantic.py"
+  }
+ },
+ "reference_repo": "EdgarSocrates98/spark-forge-aws",
+ "reference_sha": "6b1b97a137d7397ff6c7a98f7fe7be100132983f",
+ "schema_version": 1
+}

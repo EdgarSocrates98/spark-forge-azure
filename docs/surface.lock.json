@@ -1,0 +1,121 @@
+{
+ "basis": "sha256(json.dumps(obj, sort_keys=True, separators=(\",\", \":\")))",
+ "capabilities": {
+  "count": 0,
+  "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+ },
+ "cli": {
+  "commands": [
+   "doctor",
+   "governance diagnose",
+   "tokensave context",
+   "tokensave diff",
+   "tokensave expand",
+   "tokensave read",
+   "tokensave refs",
+   "tokensave search",
+   "tokensave symbols",
+   "version"
+  ]
+ },
+ "knowledge": {
+  "count": 34,
+  "total_bytes": 157648
+ },
+ "mcp": {
+  "compact": [
+   "sfa_governance_diagnose",
+   "sfa_tokensave_context",
+   "sfa_tokensave_search",
+   "sfa_version"
+  ],
+  "compact_bytes": 2798,
+  "tool_count": 6,
+  "tools": {
+   "sfa_governance_diagnose": {
+    "compact": true,
+    "domain": "governance",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "340bd53de172d008361d2adea4f0b7a411db2409f8482be3968cf741239579f5"
+   },
+   "sfa_tokensave_context": {
+    "compact": true,
+    "domain": "tokensave",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "21d0ec66f65642f1d4e2f50fec8a32a897d6d5b2c4cff47d0a1fc98490ad8718"
+   },
+   "sfa_tokensave_read": {
+    "compact": false,
+    "domain": "tokensave",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "14dc30b810272281a615defc22e87de96e16521180f477b72d91698aea69bc0e"
+   },
+   "sfa_tokensave_search": {
+    "compact": true,
+    "domain": "tokensave",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "323ae4a3f57aeb0d4e84889595d8a89a2a7501a1b10da421dff0406cd976273c"
+   },
+   "sfa_tokensave_symbols": {
+    "compact": false,
+    "domain": "tokensave",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "603b3aa698e6586202fc7b5ce0d52ef73ae08aa21e390dcc91e5e1cd7d7ca887"
+   },
+   "sfa_version": {
+    "compact": true,
+    "domain": "core",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "6bd987b0c6c8f2be05885730b77a5a71441572bd2ce3c4d3af3146a11ef5c04d"
+   }
+  },
+  "total_bytes": 4238
+ },
+ "schema_version": 2,
+ "skills": {
+  "count": 21,
+  "total_bytes": 90512
+ }
+}
