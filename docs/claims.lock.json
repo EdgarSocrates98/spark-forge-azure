@@ -6,19 +6,35 @@
    "doc": "README.md",
    "text": "uma saida JSON por comando",
    "proof": {
-    "cmd": ["python", "-m", "sparkforge_azure.cli.main", "version"],
-    "expect": {"kind": "regex", "pattern": "\"provider\":\\s*\"azure\""}
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "version"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"provider\":\\s*\"azure\""
+    }
    },
    "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
   },
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "2404 testes verdes",
+   "text": "2415 testes verdes",
    "proof": {
-    "cmd": ["python", "-m", "pytest", "-q"],
+    "cmd": [
+     "python",
+     "-m",
+     "pytest",
+     "-q"
+    ],
     "timeout": 600,
-    "expect": {"kind": "regex", "pattern": "2404 passed"}
+    "expect": {
+     "kind": "regex",
+     "pattern": "2415 passed"
+    }
    },
    "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
   },
@@ -27,8 +43,13 @@
    "doc": "docs/ROADMAP.md",
    "text": "`check_surface_lock`",
    "proof": {
-    "cmd": ["python", "scripts/check_surface_lock.py"],
-    "expect": {"kind": "exit0"}
+    "cmd": [
+     "python",
+     "scripts/check_surface_lock.py"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
    },
    "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
   },
@@ -37,18 +58,69 @@
    "doc": "docs/ROADMAP.md",
    "text": "**22 catalogadas**",
    "proof": {
-    "cmd": ["python", "scripts/check_skills_agents.py"],
-    "expect": {"kind": "json", "path": "skills", "op": "==", "value": 22}
+    "cmd": [
+     "python",
+     "scripts/check_skills_agents.py"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "skills",
+     "op": "==",
+     "value": 22
+    }
    },
    "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
+  },
+  {
+   "id": "mcp-tools-9",
+   "doc": "docs/reference/mcp-tools.md",
+   "text": "Catálogo (9 tools)",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.mcp.tools import load_all; import json; print(json.dumps({'tools': len(load_all())}))"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "tools",
+     "op": "==",
+     "value": 9
+    }
+   },
+   "sha": "1f69b0d26b9a4155e481268bdbec0e12fb5f68c6"
   },
   {
    "id": "knowledge-check",
    "doc": "docs/ROADMAP.md",
    "text": "`check_knowledge`",
    "proof": {
-    "cmd": ["python", "scripts/check_knowledge.py"],
-    "expect": {"kind": "exit0"}
+    "cmd": [
+     "python",
+     "scripts/check_knowledge.py"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
+  },
+  {
+   "id": "lab-verify",
+   "doc": "docs/reference/cli.md",
+   "text": "exit 1 se inválido",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "lab",
+     "verify"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"valid\":\\s*true"
+    }
    },
    "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
   }

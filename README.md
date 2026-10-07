@@ -15,4 +15,8 @@ append-only (local, em `.sparkforge-azure/journal.jsonl`, fora do git).
 - Especificacao: SDD em `docs/sdd/` — `sdd-define` abre a feature e
   `sparkforge-azure sdd check` e o gate (no sibling AWS e `sparkforge sdd check`)
 
+Documentacao completa: `docs/README.md` — CLI (`docs/reference/cli.md`),
+tools MCP (`docs/reference/mcp-tools.md`), mapa de modulos
+(`docs/architecture/MODULE-MAP.md`) e runbook (`docs/operations/runbook.md`).
+
 Work in progress (v0.1.0 foundation). See docs/ROADMAP.md.

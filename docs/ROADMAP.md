@@ -43,7 +43,7 @@ Streaming, Governance, Security, Observability, FinOps, Agentic OS, TokenSave, G
 
 Medido em 2026-10-07 sobre `feat/v0.1.0-foundation-delivery`:
 
-- Suite: **2404 testes verdes** (9 skipped), `ruff` limpo, `check_surface_lock`,
+- Suite: **2415 testes verdes** (9 skipped), `ruff` limpo, `check_surface_lock`,
   `check_claims`, `check_knowledge`, `check_skills_agents` verdes.
 - Skills: **22 catalogadas** — as 21 de domínio do §157 + `analyze-batch-loop`
   (skill de método; ancora a análise de lote no extrator PySpark e cita `SF-PY-004`).
@@ -55,6 +55,6 @@ Medido em 2026-10-07 sobre `feat/v0.1.0-foundation-delivery`:
   (`delegated_to_sdk`, `unresolved`, `not_applicable` onde o Azure não implementa).
 - Divergências intencionais do AWS documentadas: extratores `af.*`/`graph.*` e
   derivadores de facts não portados (medido em `test_harness_untrusted`); áreas de
-  regra além de `SF-PY` entram com seus catálogos; verbos `analyze`/`judge`/`lab`
-  são tool_refs planejados da CLI (superfície atual: collect/graph/tokensave/
-  governance/doctor/offline-bundle).
+  regra além de `SF-PY` entram com seus catálogos; verbos `analyze`/`judge`/
+  `knowledge`/`agentops`/`sdd` são tool_refs planejados da CLI (superfície
+  atual: collect/graph/tokensave/governance/doctor/offline-bundle/lab).

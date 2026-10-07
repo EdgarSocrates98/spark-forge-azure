@@ -59,6 +59,18 @@ def dispatch(args: Any) -> dict[str, Any]:
             ],
         }
     if args.lab_action in {"describe", "plan", "run"}:
+        if getattr(args, "all", False) and args.lab_action != "describe":
+            return {
+                "scenarios": [
+                    _plan_for(item, args, repo)
+                    for item in suite.scenarios
+                ],
+                "count": len(suite.scenarios),
+            }
+        if not getattr(args, "scenario", None):
+            raise LabContractError(
+                f"lab {args.lab_action} requires a scenario id or --all"
+            )
         scenario = suite.by_id(args.scenario)
         if args.lab_action == "describe":
             return scenario.to_dict()
@@ -126,6 +138,22 @@ def dispatch(args: Any) -> dict[str, Any]:
             "status": "planned" if not args.execute else "unresolved_host_execution",
         }
     raise LabContractError(f"unknown lab action: {args.lab_action}")
+
+
+def _plan_for(scenario: Any, args: Any, repo: Path) -> dict[str, Any]:
+    """Plano de um cenario para `run --all`/`plan --all` (dry-run por padrao)."""
+    plan = build_runtime_plan(
+        scenario, backend=args.backend, execute=args.execute, confirm=args.confirm
+    )
+    return {
+        "id": scenario.scenario_id,
+        "slug": scenario.slug,
+        "plan": plan.to_dict(),
+        "execution": {
+            "status": "planned",
+            "reason": "dry-run default; use --execute --confirm on an operator host",
+        },
+    }
 
 
 def _inspect(path: Path) -> dict[str, Any]:
