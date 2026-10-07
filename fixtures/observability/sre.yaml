@@ -1,0 +1,74 @@
+# Golden offline de observabilidade de dados/SRE para `orders-platform`.
+# O contrato mantem `orders_latency_missing` SEM observacao compativel:
+# medicao ausente e `slo_measurement_unresolved`, nunca zero (AGENTS.md, regra 4).
+service: orders-platform
+slos:
+  - id: orders_completeness
+    indicator: "fracao de pedidos com payload completo no lote"
+    objective: 0.999
+    operator: gte
+    target: 0.98
+    unit: fraction
+  - id: orders_freshness
+    indicator: "atraso maximo entre evento e disponibilidade no Lakehouse"
+    objective: 0.99
+    operator: lte
+    target: 300
+    unit: seconds
+  - id: orders_lag
+    indicator: "lag maximo do consumidor Event Hubs (particoes)"
+    objective: 0.995
+    operator: lte
+    target: 5000
+    unit: messages
+  - id: orders_latency_missing
+    indicator: "latencia p95 do pipeline declarado (sem medicao exportada)"
+    objective: 0.99
+    operator: lte
+    target: 120
+    unit: seconds
+measurements:
+  - slo_id: orders_completeness
+    value: 0.995
+    unit: fraction
+    observed_at: "2026-09-28T02:00:00Z"
+  - slo_id: orders_completeness
+    value: 0.991
+    unit: fraction
+    observed_at: "2026-09-28T04:00:00Z"
+  - slo_id: orders_freshness
+    value: 187
+    unit: seconds
+    observed_at: "2026-09-28T02:00:00Z"
+  - slo_id: orders_freshness
+    value: 342
+    unit: seconds
+    observed_at: "2026-09-28T04:00:00Z"
+  - slo_id: orders_lag
+    value: 1200
+    unit: messages
+    observed_at: "2026-09-28T02:00:00Z"
+incidents:
+  - id: inc-2026-09-21-lag
+    title: "lag do consumidor estourou durante reprocessamento"
+    severity: sev2
+    started_at: "2026-09-21T18:12:00Z"
+    resolved_at: "2026-09-21T19:04:00Z"
+dependencies:
+  - id: eventhubs-orders
+    kind: event_hubs
+    status: healthy
+  - id: adls-lake-raw
+    kind: adls_gen2
+    status: healthy
+  - id: purview-lineage
+    kind: purview
+    status: unknown
+blast_radius:
+  - id: dataset-orders-curated
+    kind: delta_table
+    affected_by: [orders_completeness, orders_freshness]
+unresolved:
+  - code: dependency_health_unresolved
+    dependency_id: purview-lineage
+    reason: "Purview nao exporta health endpoint leitavel offline"

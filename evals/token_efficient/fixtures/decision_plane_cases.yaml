@@ -1,0 +1,225 @@
+# Seed do Decision Plane (shadow, nao-autoritativo): 23 casos versionados que
+# cravam a verdade declarada do roteador por predicados. `source` marca de qual
+# fixture offline o caso descende — a contagem e contrato (6/2/15).
+schema_version: 1
+suite_id: decision-plane-seed-v1
+cases:
+  # --- federated_graph (6): evidencia vem do grafo composto -----------------
+  - id: fg-deterministic-route
+    source: federated_graph
+    task_description: "impacto de mudanca com grafo deterministico disponivel"
+    deterministic_available: true
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true
+
+  - id: fg-cached-fragment
+    source: federated_graph
+    task_description: "fragmento de grafo em cache"
+    cached: true
+    expected_status: accepted
+    expected_route: tier_1_cached
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true
+
+  - id: fg-specialist-kind
+    source: federated_graph
+    task_description: "aresta exige especialista"
+    evidence_kinds: [specialist]
+    expected_status: accepted
+    expected_route: tier_4_specialist
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true
+
+  - id: fg-sensitive-lineage
+    source: federated_graph
+    task_description: "linhagem sensivel"
+    risk_level: sensitive
+    expected_status: accepted
+    expected_route: tier_5_premium
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true
+
+  - id: fg-default-route
+    source: federated_graph
+    task_description: "consulta de grafo sem evidencia forte"
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true
+
+  - id: fg-budget-unresolved
+    source: federated_graph
+    task_description: "grafo grande estoura budget"
+    budget: {tokens_used: 9000, max_total_tokens: 100}
+    expected_status: unresolved
+    expected_route: null
+    expected_comparison: unresolved
+    expected_tokens_unresolved: true
+
+  # --- provider_transcript (2): tokens separados e explicitos ---------------
+  - id: tr-tokens-resolved
+    source: provider_transcript
+    task_description: "uso do provider vindo do transcript do host"
+    provider_usage:
+      provider_tokens: {input_tokens: 23, output_tokens: 11}
+      transcript_sha256: "sha256:synthetic-transcript-v1"
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: false
+
+  - id: tr-tokens-absent
+    source: provider_transcript
+    task_description: "sem transcript, token fica unresolved e nunca zero"
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true
+
+  # --- quality (15): agreement/disagreement/coverage_gap/unresolved ---------
+  - id: q-det-agreement
+    source: quality
+    task_description: "rota atual concorda com deterministica"
+    deterministic_available: true
+    current_route: tier_0_deterministic
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: agreement
+    expected_tokens_unresolved: true
+
+  - id: q-cached-agreement
+    source: quality
+    task_description: "rota atual concorda com cache"
+    cached: true
+    current_route: tier_1_cached
+    expected_status: accepted
+    expected_route: tier_1_cached
+    expected_comparison: agreement
+    expected_tokens_unresolved: true
+
+  - id: q-specialist-agreement
+    source: quality
+    task_description: "rota atual concorda com especialista"
+    evidence_kinds: [specialist]
+    current_route: tier_4_specialist
+    expected_status: accepted
+    expected_route: tier_4_specialist
+    expected_comparison: agreement
+    expected_tokens_unresolved: true
+
+  - id: q-sensitive-agreement
+    source: quality
+    task_description: "rota atual concorda com reviewer"
+    risk_level: sensitive
+    current_route: tier_5_premium
+    expected_status: accepted
+    expected_route: tier_5_premium
+    expected_comparison: agreement
+    expected_tokens_unresolved: true
+
+  - id: q-default-agreement
+    source: quality
+    task_description: "rota atual concorda com default"
+    current_route: tier_3_cheap_local
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: agreement
+    expected_tokens_unresolved: true
+
+  - id: q-det-vs-cached-priority
+    source: quality
+    task_description: "deterministico vence cache por prioridade"
+    deterministic_available: true
+    cached: true
+    current_route: tier_1_cached
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: disagreement
+    expected_tokens_unresolved: true
+
+  - id: q-default-when-det-declared
+    source: quality
+    task_description: "atual diz deterministico sem evidencia — shadow discorda"
+    current_route: tier_0_deterministic
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: disagreement
+    expected_tokens_unresolved: true
+
+  - id: q-specialist-beats-sensitive
+    source: quality
+    task_description: "especialista (prioridade 10) vence reviewer (20)"
+    evidence_kinds: [specialist]
+    risk_level: sensitive
+    current_route: tier_5_premium
+    expected_status: accepted
+    expected_route: tier_4_specialist
+    expected_comparison: disagreement
+    expected_tokens_unresolved: true
+
+  - id: q-det-beats-sensitive
+    source: quality
+    task_description: "deterministico vence reviewer"
+    deterministic_available: true
+    risk_level: sensitive
+    current_route: tier_5_premium
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: disagreement
+    expected_tokens_unresolved: true
+
+  - id: q-specialist-vs-default
+    source: quality
+    task_description: "especialista contra rota default atual"
+    evidence_kinds: [specialist]
+    current_route: tier_3_cheap_local
+    expected_status: accepted
+    expected_route: tier_4_specialist
+    expected_comparison: disagreement
+    expected_tokens_unresolved: true
+
+  - id: q-coverage-gap-no-current
+    source: quality
+    task_description: "sem rota atual, agreement e impossivel"
+    deterministic_available: true
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true
+
+  - id: q-coverage-gap-default
+    source: quality
+    task_description: "default seleciona mas nada para comparar"
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true
+
+  - id: q-budget-tokens-unresolved
+    source: quality
+    task_description: "budget de tokens estourado antes de avaliar"
+    budget: {tokens_used: 9000, max_total_tokens: 100}
+    expected_status: unresolved
+    expected_route: null
+    expected_comparison: unresolved
+    expected_tokens_unresolved: true
+
+  - id: q-budget-tools-unresolved
+    source: quality
+    task_description: "budget de tool calls estourado"
+    budget: {tool_calls_used: 50, max_tool_calls: 5}
+    expected_status: unresolved
+    expected_route: null
+    expected_comparison: unresolved
+    expected_tokens_unresolved: true
+
+  - id: q-profile-no-routing-effect
+    source: quality
+    task_description: "perfil nao muda rota sem predicado declarado"
+    profile: performance
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: coverage_gap
+    expected_tokens_unresolved: true

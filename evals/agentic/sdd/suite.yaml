@@ -1,0 +1,54 @@
+# SDD_EVAL: a suite agentica sobre os repositorios sinteticos de `fixtures/sdd/`.
+#
+# A resposta de cada pergunta sai do GATE (`sparkforge_azure.sdd.checks.check` e
+# `sdd.status.status`), recomputada por `tests/test_sdd_eval_suite.py` — o
+# `answer` aqui e a declaracao, e o teste falha se divergir do gate.
+schema_version: 1
+id: sdd
+answer_protocol: >-
+  Responda cada pergunta com UMA linha no formato `ANSWER: <valor>`, onde
+  <valor> e o valor exato devolvido pelo gate do SDD (um code, um path, um id
+  de criterio ou uma fase), sem explicacao e sem crases.
+questions:
+  - id: sdd-01
+    question: >-
+      Rode o gate do SDD no repositorio de fixtures/sdd/cascata e responda com
+      o `code` da unica recusa devolvida.
+    required_tools: [sdd_check]
+    answer: upstream_stale
+
+  - id: sdd-02
+    question: >-
+      Rode o gate do SDD no repositorio de fixtures/sdd/cascata e responda com
+      o `path` da unica recusa devolvida.
+    required_tools: [sdd_check]
+    answer: docs/sdd/IMPORTACAO/design.md
+
+  - id: sdd-03
+    question: >-
+      Rode o gate do SDD no repositorio de fixtures/sdd/cobertura e responda
+      com o primeiro token do `unlock` da unica recusa — o id do criterio sem
+      cobertura no design.
+    required_tools: [sdd_check]
+    answer: AC2
+
+  - id: sdd-04
+    question: >-
+      Rode o gate do SDD no repositorio de fixtures/sdd/tdd e responda com o
+      `code` da unica recusa devolvida.
+    required_tools: [sdd_check]
+    answer: red_not_declared
+
+  - id: sdd-05
+    question: >-
+      Pergunte a fase da unica feature do repositorio de fixtures/sdd/limpo
+      pelo status do SDD e responda com o nome da fase.
+    required_tools: [sdd_status]
+    answer: ship
+
+  - id: sdd-06
+    question: >-
+      Rode o gate do SDD no repositorio de fixtures/sdd/operador e responda
+      com o `code` da unica recusa devolvida.
+    required_tools: [sdd_check]
+    answer: change_missing
