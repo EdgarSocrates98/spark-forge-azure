@@ -1,1 +1,29 @@
 prompt_evo_*.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest-tmp/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local state (never commit raw cloud data -- section 176)
+.sparkforge-azure/
+.sparkforge-azure/journal.jsonl
+*.raw.json
+.env
+.env.*
+
+# AgentSpec-era local harness state (superseded by sparkforge_azure/sdd; SDD_MIGRATION)
+.claude/sdd/
+.claude/agents/
+
+# Tool indexes
+.tokensave/
