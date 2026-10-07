@@ -7,3 +7,5 @@ Atalhos:
 - Arquitetura: `docs/architecture/adr/ADR-0001-architecture.md`
 - O que veio do AWS e por quê: `docs/architecture/AWS_TO_AZURE_PORTABILITY_MATRIX.md`, `parity.yaml`
 - Status real de cada capability: `parity.yaml`, `manifest.json`
+- Especificar mudança: `docs/sdd/` — `sdd-define` abre a feature; o gate é
+  `sparkforge-azure sdd check` (no sibling AWS é `sparkforge sdd check`)

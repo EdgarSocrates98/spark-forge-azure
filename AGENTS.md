@@ -26,6 +26,15 @@ Vale para Claude Code, Codex, Devin, Copilot e qualquer agente. `CLAUDE.md` apon
    "secure" — diga "declared threat cases passed".
 10. **Arquivo existir ≠ capability pronta** (DoD em `docs/product/PRODUCT_DEFINITION.md`).
 
+## Especificação de mudança: SDD
+
+Toda mudança comportamental passa pelo SDD (`docs/sdd/`): `sdd-define` abre a
+feature com hipótese + critérios `AC*` verificáveis; `design`/`plan` encadeiam
+artefatos por `upstream.sha256`; `build_report` registra `red`/`green`; `ship`
+fecha com `hypothesis_outcome`. O gate é `sparkforge-azure sdd check` (no
+sibling AWS é `sparkforge sdd check`). Cada falha é uma recusa nomeada com
+`unlock` — não é opinião de revisor.
+
 ## Código portado do Spark Forge AWS
 
 Só via `scripts/port_from_aws.py` + `scripts/port_manifest.yaml`. Arquivo `COPY_SAFE` é
