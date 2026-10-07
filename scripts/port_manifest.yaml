@@ -1,0 +1,637 @@
+# Generated seed, then curated. See scripts/port_from_aws.py.
+reference_sha: 6b1b97a137d7397ff6c7a98f7fe7be100132983f
+entries:
+- src: sparkforge/agentic/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/arbitration.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/autonomy.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/blackboard.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/budget.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/checkpoint.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/control.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/debate.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/decision.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/evidence.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=1'
+- src: sparkforge/agentic/executor/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/executor/authority.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=6'
+- src: sparkforge/agentic/executor/claims.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=2'
+- src: sparkforge/agentic/executor/conflict.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers emr=1'
+- src: sparkforge/agentic/executor/debate_evidence.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers athena=1,cloudwatch=1,emr=3,glue=1,lakeformation=4'
+- src: sparkforge/agentic/executor/debate_run.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/executor/digest.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/executor/gate.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/executor/ordering.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/executor/plan.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/executor/run.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=1'
+- src: sparkforge/agentic/executor/unknowns.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=3'
+- src: sparkforge/agentic/experiment.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=1'
+- src: sparkforge/agentic/governor.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/graph.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/handoff.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/memory.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers emr=1,glue=1'
+- src: sparkforge/agentic/models.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/recovery.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/referee.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/role_plans.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/runtime.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/security.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=1,s3=1'
+- src: sparkforge/agentic/shadow.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/stop.py
+  class: COPY_SAFE
+- src: sparkforge/agentic/trust.py
+  class: COPY_SAFE
+- src: sparkforge/agents/budget.py
+  class: COPY_SAFE
+- src: sparkforge/agents/observability.py
+  class: COPY_SAFE
+- src: sparkforge/agents/room.py
+  class: COPY_SAFE
+- src: sparkforge/case/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/case/playbook.py
+  class: COPY_SAFE
+- src: sparkforge/case/resume.py
+  class: COPY_SAFE
+- src: sparkforge/case/router.py
+  class: COPY_SAFE
+- src: sparkforge/case/store.py
+  class: COPY_SAFE
+- src: sparkforge/change/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/change/apply.py
+  class: COPY_SAFE
+- src: sparkforge/change/plan.py
+  class: COPY_SAFE
+- src: sparkforge/change/proposal.py
+  class: COPY_SAFE
+- src: sparkforge/change/refusals.py
+  class: COPY_SAFE
+- src: sparkforge/change/sandbox.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/budget.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/context.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/db.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/domain_terms.yaml
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers athena=3,glue=3'
+- src: sparkforge/codeintel/export.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/extract.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/graph.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/ids.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/incremental.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/index.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/lineage.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/query_expansion.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/ranking.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/refs.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/resolve.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/search.py
+  class: COPY_SAFE
+- src: sparkforge/codeintel/security.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers sdk=2'
+- src: sparkforge/codeintel/staleness.py
+  class: COPY_SAFE
+- src: sparkforge/collect/host_usage.py
+  class: COPY_SAFE
+- src: sparkforge/context/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/context/context_tree.py
+  class: COPY_SAFE
+- src: sparkforge/context/funnel.py
+  class: COPY_SAFE
+- src: sparkforge/context/gateway.py
+  class: COPY_SAFE
+- src: sparkforge/context/gateway_budget.py
+  class: COPY_SAFE
+- src: sparkforge/context/gateway_capabilities.py
+  class: COPY_SAFE
+- src: sparkforge/context/gateway_models.py
+  class: COPY_SAFE
+- src: sparkforge/context/gateway_profiles.yaml
+  class: COPY_SAFE
+- src: sparkforge/context/gateway_refs.py
+  class: COPY_SAFE
+- src: sparkforge/context/host_usage.py
+  class: COPY_SAFE
+- src: sparkforge/context/knowledge_pack.py
+  class: COPY_SAFE
+- src: sparkforge/context/planner.py
+  class: COPY_SAFE
+- src: sparkforge/context/progressive.py
+  class: COPY_SAFE
+- src: sparkforge/context/quality.py
+  class: COPY_SAFE
+- src: sparkforge/context/schemas/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/context/schemas/gateway.schema.json
+  class: COPY_SAFE
+- src: sparkforge/decision/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/decision/authority.py
+  class: COPY_SAFE
+- src: sparkforge/decision/cache.py
+  class: COPY_SAFE
+- src: sparkforge/decision/calibration.py
+  class: COPY_SAFE
+- src: sparkforge/decision/conditions.py
+  class: COPY_SAFE
+- src: sparkforge/decision/contracts.py
+  class: COPY_SAFE
+- src: sparkforge/decision/fingerprint.py
+  class: COPY_SAFE
+- src: sparkforge/decision/host.py
+  class: COPY_SAFE
+- src: sparkforge/decision/host_adapters.py
+  class: COPY_SAFE
+- src: sparkforge/decision/measurement.py
+  class: COPY_SAFE
+- src: sparkforge/decision/models.py
+  class: COPY_SAFE
+- src: sparkforge/decision/primitives.py
+  class: COPY_SAFE
+- src: sparkforge/decision/receipts.py
+  class: COPY_SAFE
+- src: sparkforge/decision/runtime.py
+  class: COPY_SAFE
+- src: sparkforge/decision/state.py
+  class: COPY_SAFE
+- src: sparkforge/durable.py
+  class: COPY_SAFE
+- src: sparkforge/economy/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/economy/cache.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_activation.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_compare.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_contracts.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_engine.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_evaluation.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_kernel_bridge.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_models.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_plane.py
+  class: COPY_SAFE
+- src: sparkforge/economy/decision_receipts.py
+  class: COPY_SAFE
+- src: sparkforge/economy/goldset.py
+  class: COPY_SAFE
+- src: sparkforge/economy/ledger.py
+  class: COPY_SAFE
+- src: sparkforge/economy/model_router.py
+  class: COPY_SAFE
+- src: sparkforge/economy/provider_cost.py
+  class: COPY_SAFE
+- src: sparkforge/economy/recall.py
+  class: COPY_SAFE
+- src: sparkforge/economy/reconcile.py
+  class: COPY_SAFE
+- src: sparkforge/economy/report.py
+  class: COPY_SAFE
+- src: sparkforge/economy/router.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers emr=2,glue=2'
+- src: sparkforge/economy/waste_detector.py
+  class: COPY_SAFE
+- src: sparkforge/evals/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/evals/__main__.py
+  class: COPY_SAFE
+- src: sparkforge/evals/cli.py
+  class: COPY_SAFE
+- src: sparkforge/evals/compare.py
+  class: COPY_SAFE
+- src: sparkforge/evals/datasets/router_dataset.json
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=1,s3=1'
+- src: sparkforge/evals/debate_grade.py
+  class: COPY_SAFE
+- src: sparkforge/evals/decision_plane.py
+  class: COPY_SAFE
+- src: sparkforge/evals/decision_replay.py
+  class: COPY_SAFE
+- src: sparkforge/evals/evidence.py
+  class: COPY_SAFE
+- src: sparkforge/evals/evidence_adapters.py
+  class: COPY_SAFE
+- src: sparkforge/evals/evidence_resolver.py
+  class: COPY_SAFE
+- src: sparkforge/evals/evolution.py
+  class: COPY_SAFE
+- src: sparkforge/evals/grade.py
+  class: COPY_SAFE
+- src: sparkforge/evals/lifecycle.py
+  class: COPY_SAFE
+- src: sparkforge/evals/metric_compiler.py
+  class: COPY_SAFE
+- src: sparkforge/evals/policy.py
+  class: COPY_SAFE
+- src: sparkforge/evals/runner.py
+  class: COPY_SAFE
+- src: sparkforge/evals/suite.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=2'
+- src: sparkforge/facts/host_transcript.py
+  class: ADAPT
+  changes:
+  - 'canonical_verb: MCP channel now matches this forge''s `sfa_*` tools (`mcp__<server>__sfa_<verb>`), not the AWS `sparkforge_*` tools'
+  - 'canonical_verb: Bash channel recognises the `sparkforge-azure` CLI and `python -m sparkforge_azure`; the mechanical rewrite had produced a `sparkforge_azure` CLI token that no shell command uses, and bare `sparkforge` is the spark-forge-aws CLI (another forge -> `other`)'
+  - 'docstring: independence note now points at sparkforge_azure.cli instead of the unported adapters package'
+- src: sparkforge/facts/pyspark_ast.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=2'
+- src: sparkforge/facts/scan.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers s3=2'
+- src: sparkforge/findings/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/findings/models.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers athena=4,emr=5,glue=5'
+- src: sparkforge/findings/schemas/business_rule.schema.json
+  class: COPY_SAFE
+- src: sparkforge/findings/schemas/dq_ai_report.schema.json
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=1'
+- src: sparkforge/findings/schemas/fact.schema.json
+  class: COPY_SAFE
+- src: sparkforge/findings/schemas/finding.schema.json
+  class: COPY_SAFE
+- src: sparkforge/findings/signature.py
+  class: COPY_SAFE
+- src: sparkforge/findings/validate.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers s3=1'
+- src: sparkforge/knowledge_drift.py
+  class: COPY_SAFE
+- src: sparkforge/knowledge_engine/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/knowledge_engine/compiler.py
+  class: COPY_SAFE
+- src: sparkforge/knowledge_engine/packs.py
+  class: COPY_SAFE
+- src: sparkforge/knowledge_freshness.py
+  class: COPY_SAFE
+- src: sparkforge/knowledge_ref.py
+  class: COPY_SAFE
+- src: sparkforge/lab/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/lab/cli.py
+  class: COPY_SAFE
+- src: sparkforge/lab/compatibility.py
+  class: COPY_SAFE
+- src: sparkforge/lab/contract.py
+  class: COPY_SAFE
+- src: sparkforge/lab/doctor.py
+  class: COPY_SAFE
+- src: sparkforge/lab/evidence.py
+  class: COPY_SAFE
+- src: sparkforge/lab/faults.py
+  class: COPY_SAFE
+- src: sparkforge/lab/generators.py
+  class: COPY_SAFE
+- src: sparkforge/lab/oracle.py
+  class: COPY_SAFE
+- src: sparkforge/lab/runtime.py
+  class: COPY_SAFE
+- src: sparkforge/lab/scenario.py
+  class: COPY_SAFE
+- src: sparkforge/lab/spec.py
+  class: COPY_SAFE
+- src: sparkforge/lab/workload.py
+  class: COPY_SAFE
+- src: sparkforge/observability/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/observability/agentops.py
+  class: COPY_SAFE
+- src: sparkforge/observability/context_ledger.py
+  class: COPY_SAFE
+- src: sparkforge/observability/otlp.py
+  class: COPY_SAFE
+- src: sparkforge/observability/sre.py
+  class: COPY_SAFE
+- src: sparkforge/observability/store.py
+  class: COPY_SAFE
+- src: sparkforge/observability/tracer.py
+  class: COPY_SAFE
+- src: sparkforge/packs/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/packs/check.py
+  class: COPY_SAFE
+- src: sparkforge/packs/load.py
+  class: COPY_SAFE
+- src: sparkforge/packs/manifest.py
+  class: ADAPT
+  changes:
+  - 'PACKAGE distribution name "sparkforge-aws" -> "sparkforge-azure" (installed_version read the AWS distribution metadata and returned None; the mechanical rewrite only touches import-shaped names)'
+- src: sparkforge/paths.py
+  class: COPY_SAFE
+- src: sparkforge/policy/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/policy/decide.py
+  class: COPY_SAFE
+- src: sparkforge/policy/hook.py
+  class: COPY_SAFE
+- src: sparkforge/policy/load.py
+  class: COPY_SAFE
+- src: sparkforge/policy/schema.py
+  class: COPY_SAFE
+- src: sparkforge/policy/settings.py
+  class: COPY_SAFE
+- src: sparkforge/proof/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/proof/axes.py
+  class: COPY_SAFE
+- src: sparkforge/proof/axis.py
+  class: COPY_SAFE
+- src: sparkforge/proof/keys.py
+  class: COPY_SAFE
+- src: sparkforge/proof/prove.py
+  class: COPY_SAFE
+- src: sparkforge/proof/resolution.py
+  class: COPY_SAFE
+- src: sparkforge/protocols/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/protocols/a2a_adapter.py
+  class: COPY_SAFE
+- src: sparkforge/protocols/forge.py
+  class: COPY_SAFE
+- src: sparkforge/receipt/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/receipt/_hash.py
+  class: COPY_SAFE
+- src: sparkforge/receipt/build.py
+  class: COPY_SAFE
+- src: sparkforge/receipt/verify.py
+  class: COPY_SAFE
+- src: sparkforge/registry/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/registry/loader.py
+  class: COPY_SAFE
+- src: sparkforge/registry/models.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers lakeformation=2'
+- src: sparkforge/registry/validator.py
+  class: COPY_SAFE
+- src: sparkforge/rules/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/rules/engine.py
+  class: COPY_SAFE
+- src: sparkforge/rules/expr.py
+  class: COPY_SAFE
+- src: sparkforge/rules/loader.py
+  class: COPY_SAFE
+- src: sparkforge/rules/version_scope.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers emr=3,glue=2'
+- src: sparkforge/sdd/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/sdd/change_kinds.yaml
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=1'
+- src: sparkforge/sdd/checks.py
+  class: COPY_SAFE
+- src: sparkforge/sdd/load.py
+  class: COPY_SAFE
+- src: sparkforge/sdd/schema/build_report.json
+  class: COPY_SAFE
+- src: sparkforge/sdd/schema/common.json
+  class: COPY_SAFE
+- src: sparkforge/sdd/schema/define.json
+  class: COPY_SAFE
+- src: sparkforge/sdd/schema/design.json
+  class: COPY_SAFE
+- src: sparkforge/sdd/schema/explore.json
+  class: COPY_SAFE
+- src: sparkforge/sdd/schema/plan.json
+  class: COPY_SAFE
+- src: sparkforge/sdd/schema/ship.json
+  class: COPY_SAFE
+- src: sparkforge/sdd/stamp.py
+  class: COPY_SAFE
+- src: sparkforge/sdd/status.py
+  class: COPY_SAFE
+- src: sparkforge/simulate/diff.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers lakeformation=6'
+- src: sparkforge/workspace/__init__.py
+  class: COPY_SAFE
+- src: sparkforge/workspace/adapters.py
+  class: COPY_SAFE
+- src: sparkforge/workspace/federated.py
+  class: COPY_SAFE
+- src: sparkforge/workspace/federation.py
+  class: COPY_SAFE
+- src: sparkforge/workspace/freshness.py
+  class: COPY_SAFE
+- src: sparkforge/workspace/graph.py
+  class: COPY_SAFE
+- src: sparkforge/workspace/impact.py
+  class: COPY_SAFE
+- src: sparkforge/workspace/manifest.py
+  class: ADAPT
+  changes:
+  - 'PENDING: review AWS markers glue=1,lakeformation=1'
+- src: sparkforge/workspace/semantic.py
+  class: COPY_SAFE
+# --- W2: modules and neutral data assets needed by kept tests ---
+- src: sparkforge/agents/autonomy.py
+  class: ADAPT
+  changes:
+  - 'CallPolicy docstring: "os sete coletores AWS" -> "os coletores de dominio" (no Azure collectors ported yet; claim stays generic)'
+  - '_argumento_fora_da_raiz docstring: credential-path example `~/.aws/credentials` -> `~/.azure/msal_token_cache.json` (Azure CLI token cache)'
+- src: config/decisions/agentic_control_plane.yaml
+  class: COPY_SAFE
+- src: config/decisions/kernel.synthetic.yaml
+  class: COPY_SAFE
+- src: config/decisions/routing.data_domain.yaml
+  class: COPY_SAFE
+- src: config/evolution/prompt_agents.yaml
+  class: COPY_SAFE
+- src: evals/token_efficient/fixtures/calibration_history.yaml
+  class: COPY_SAFE
+- src: evals/token_efficient/fixtures/decision_control_plane_cases.yaml
+  class: COPY_SAFE
+- src: evals/token_efficient/fixtures/decision_kernel_cases.yaml
+  class: COPY_SAFE
+- src: evals/token_efficient/fixtures/evolution_candidates.yaml
+  class: COPY_SAFE
+- src: evals/token_efficient/fixtures/evolution_evidence_bundles.yaml
+  class: COPY_SAFE
+- src: evals/token_efficient/fixtures/host_replay.yaml
+  class: COPY_SAFE
+- src: evals/token_efficient/fixtures/provider_transcripts.yaml
+  class: COPY_SAFE
+- src: evals/mcp-conformance/matrix.yaml
+  class: COPY_SAFE
+- src: lab/versions.yaml
+  class: COPY_SAFE
+- src: lab/scenarios/golden.yaml
+  class: ADAPT
+  changes:
+  - 'fidelity.does_not_prove: `aws_service_semantics` -> `cloud_service_semantics`, `aws_networking` -> `cloud_networking` (the lab never proves any cloud provider semantics, Azure included)'
+- src: labs/forge-lab/lab.yaml
+  class: ADAPT
+  changes:
+  - 'product.safety: `aws_default: refused` -> `cloud_default: refused` (no cloud run of any provider by default; key is declarative, no code reads it)'
+- src: labs/forge-lab/README.md
+  class: ADAPT
+  changes:
+  - 'removed links to AWS docs (docs/guia/forge-lab.md, docs/knowledge/forge-lab-product.md) that do not exist here'
+  - 'replaced the AWS `sparkforge analyze/lab ...` CLI walkthrough with the Python entry points (`sparkforge_azure.lab.spec.analyze_forge_lab`, `sparkforge_azure.lab.contract`) -- the `sparkforge-azure` CLI does not expose lab commands yet'
+  - 'kept the seven topology scenario ids and the offline/fidelity boundary text'
+- src: rules/catalog/routing.yaml
+  class: ADAPT
+  changes:
+  - 'rewritten for Azure: kept only case-state routes (ROUTE-001/002/003/012/013/015) and the four-gate contract; dropped every finding/area route (SF-PY, SF-UI, SF-PQ, SF-ICE, SF-GLUE, SF-EMR, SF-LF, SF-ATH, ...) because they target the AWS rule catalog, which is not ported (Azure catalog uses SFA-* areas, later wave)'
+  - 'ROUTE-001/AGENT-001 runtime predicate `runtime.glue absent` -> `runtime.spark absent` (every Azure runtime resolves to a Spark version)'
+  - 'recommended_skill/recommended_agent point to Azure product skills/agents (azure-spark, spark-performance, inventory, spark-performance-specialist); AWS skills/coordinators removed'
+  - 'gates.produced_by: AWS CLI commands (`sparkforge benchmark|analyze call-graph|funcval plan`) -> description of the fact that unlocks the gate; producers are not ported yet, gates stay fail-closed under strict_gates'
+  - 'removed `collect_commands` (AWS CLI) and the AWS-only ROUTE-014 (review-glue-terraform) and ROUTE-016 (Athena consumer)'
+- src: rules/catalog/proof_axes.yaml
+  class: ADAPT
+  changes:
+  - 'cost.provisioned_capacity_time unlock: `glue.run_cost` in `sparkforge finops` -> per-run cost of both executions side by side (Databricks system.billing.usage / Azure Cost Management export), no interpolation between capacities'
+  - 'removed axis cost.dpu_seconds (Glue DPU-seconds has no Azure meaning; DBU is a different billing unit and gets its own axis with the SFA-* catalog)'
+  - 'storage.file_layout unlock: `sparkforge analyze s3-listing` -> ADLS Gen2 listing before/after'
+  - 'storage.delete_file_count / storage.snapshot_count / runtime.engine_version / capacity.worker_count unlock: AWS CLI verbs replaced by the neutral artifact to compare (table metadata dump, runtime fingerprint, cluster/pool sizing history)'
+  - 'capacity.executor_footprint unlock: `collect cloudwatch` -> executor metrics from Azure Monitor / Spark event log'
+  - 'availability.interruption_exposure unlock: `analyze glue-job-runs` -> job run history (Databricks Jobs runs / Fabric or Synapse pipeline runs)'
+- src: knowledge/source_authority.yaml
+  class: ADAPT
+  changes:
+  - 'rewritten host map for Azure authorities (section 161): T1 learn.microsoft.com, docs.databricks.com, Apache project docs, docs.delta.io, registry.terraform.io/developer.hashicorp.com; T2 GitHub/Maven/PyPI unchanged; T4 azure.microsoft.com (blog/pricing), www.databricks.com, techcommunity.microsoft.com, community.databricks.com'
+  - 'removed AWS hosts (docs.aws.amazon.com, aws.amazon.com, repost.aws) and AWS-product-specific hosts (documents.bmc.com, docs.devin.ai, graphframes.io, docs.greatexpectations.io, www.dremio.com)'
+  - 'kept the policy: unknown host -> T4 default, no host may claim T3'
+- src: rules/catalog/action_kinds.yaml
+  class: ADAPT
+  changes:
+  - 'removed AWS-only kinds: catalog.rename_resource_link and catalog.resolve_link_target (Lake Formation resource links), capacity.change_preinitialized_capacity (EMR Serverless pre-initialized capacity)'
+  - 'removed axis cost.dpu_seconds (Glue DPU-seconds; no Azure meaning), consistent with proof_axes.yaml'
+  - 'descriptions: network.provide_service_route VPC endpoint -> private/service endpoint; network.fix_security_group_rule security group -> network security group (NSG); capacity.change_idle_shutdown application -> auto-termination of cluster or pool'
+  - 'dropped rationale comment blocks that cite AWS rule ids/catalogs (SF-GLUE, SF-EMR, SF-LF, SF-ATH, SF-CTM, ..., lakeformation.yaml, athena.yaml, sparkforge/facts/*.py); the data (directions, kinds, axes with nature/reversible) is otherwise unchanged and provider-neutral'
+- src: rules/catalog/debate_gate.yaml
+  class: COPY_SAFE
+- src: fixtures/pyspark/action_in_loop/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/cache_no_unpersist/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/coalesce_one/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/collect_unbounded/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/conf_set_conflict/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/dedup_no_columns/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/dynamic_dispatch/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/explode_unbounded/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/forced_broadcast/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/join_before_reduction/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/near_threshold/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/python_udf/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/repartition_literal/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/version_out_of_scope/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/withcolumn_run/input/lib/job.py
+  class: COPY_SAFE
+- src: fixtures/pyspark/clean_job/input/lib/job.py
+  class: ADAPT
+  changes:
+  - 'example paths s3://bucket/entrada|saida -> abfss://bronze|silver@conta.dfs.core.windows.net/... (ADLS Gen2); job logic unchanged'
