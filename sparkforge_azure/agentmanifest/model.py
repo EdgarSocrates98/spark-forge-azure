@@ -132,6 +132,11 @@ REQUIRED_KEYS: tuple[str, ...] = (
     "trust_floor",
     "parent",
 )
+#: Optional keys — validated when present, never required. ``rule_areas`` names the
+#: rule-id prefixes (``SF-*``) an agent coordinates; consumed by ``case/playbook.py``
+#: and ``knowledge_drift.py``, and checked against routing by tests/test_router_agents.py.
+OPTIONAL_KEYS: tuple[str, ...] = ("rule_areas",)
+_RULE_AREA_RE = re.compile(r"^SF-[A-Z0-9-]+$")
 _TOOL_RE = re.compile(r"^sfa_[a-z][a-z0-9_]*$")
 
 
@@ -197,9 +202,15 @@ def validate_manifest(
     if missing:
         err(f"{where}: missing keys {missing}")
         return rep
-    unknown = sorted(set(data) - set(REQUIRED_KEYS))
+    unknown = sorted(set(data) - set(REQUIRED_KEYS) - set(OPTIONAL_KEYS))
     if unknown:
         err(f"{where}: unknown keys {unknown}")
+    if "rule_areas" in data:
+        areas = data["rule_areas"]
+        if not isinstance(areas, list) or not areas or any(
+            not isinstance(a, str) or not _RULE_AREA_RE.match(a) for a in areas
+        ):
+            err(f"{where}: rule_areas must be a non-empty list of 'SF-*' area prefixes")
 
     agent_id, kind = data["id"], data["kind"]
     if file_stem is not None and agent_id != file_stem:

@@ -160,6 +160,23 @@ rules:
       Gargalo dominante ou hipótese aberta: o specialist de performance Spark
       conduz a medição com evidência de execução.
 
+  # As rotas por `findings_area` entram junto com cada área do catálogo Azure
+  # (ver cabeçalho). SF-PY cobre os achados de código PySpark — a única área
+  # com catálogo hoje — e declaração sem rota é o defeito que
+  # tests/test_router_agents.py reprova na origem.
+  - id: AGENT-003
+    phase_in: [diagnosis, hypothesis, experiment]
+    title: Achado em código PySpark
+    when:
+      all:
+        - {findings_area: SF-PY, count_gt: 0}
+    recommended_agent: spark-performance-specialist
+    reason: >
+      Achados SF-PY são de forma de código PySpark (actions em loop, UDF,
+      collect, chains longas); o specialist de performance Spark investiga o
+      custo de execução com o event log, e declara `rule_areas: [SF-PY]`.
+      Quando outra área crescer junto, a precedência se declara aqui.
+
 fallback:
   recommended_skill: azure-spark
   reason: >

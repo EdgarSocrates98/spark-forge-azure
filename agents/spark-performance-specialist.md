@@ -12,6 +12,7 @@ allowed_context: [artifact, code, fact, rule, knowledge, finding, evidence, tool
 tools: [sfa_analyze, sfa_judge, sfa_knowledge_select, sfa_lab_run, sfa_lab_verify]
 skills: [spark-performance, azure-spark]
 knowledge_refs: [knowledge/spark/]
+rule_areas: [SF-PY]
 budget: {max_context_tokens: 8000, max_tool_calls: 8, max_model_calls: 2, model_tier: balanced}
 handoff_targets: [delta-specialist, performance-reviewer, verifier]
 handoff_mode: DATA_ONLY

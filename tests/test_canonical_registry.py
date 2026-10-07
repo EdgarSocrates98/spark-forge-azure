@@ -18,19 +18,19 @@ from sparkforge_azure.registry import (
 
 def test_agent_manifest_creation_and_dict():
     agent = AgentManifest(
-        id="sf-pyspark-specialist",
-        name="sf-pyspark-specialist",
+        id="spark-performance-specialist",
+        name="spark-performance-specialist",
         version="1.0.0",
         description="Specialist in PySpark performance and execution plans",
         purpose="PySpark tuning and diagnosis",
         role="specialist",
-        domains=["pyspark", "aws-glue"],
-        allowed_tools=["sparkforge_analyze_pyspark", "sparkforge_analyze_plan"],
+        domains=["pyspark", "azure-databricks"],
+        allowed_tools=["sfa_analyze", "sfa_judge"],
         risk_level=RiskLevel.READ_ONLY,
         model_policy=ModelPolicy(tier=ModelTier.TIER_4_SPECIALIST),
     )
     d = agent.to_dict()
-    assert d["id"] == "sf-pyspark-specialist"
+    assert d["id"] == "spark-performance-specialist"
     assert d["risk_level"] == "read_only"
     assert d["model_policy"]["tier"] == "tier_4_specialist"
     validate_agent_dict(d)
@@ -38,22 +38,22 @@ def test_agent_manifest_creation_and_dict():
 
 def test_skill_manifest_validation():
     skill = SkillManifest(
-        id="optimize-pyspark-code",
-        name="optimize-pyspark-code",
+        id="spark-performance",
+        name="spark-performance",
         version="1.0.0",
         description="Optimize PySpark AST transformations and avoid bad patterns",
         triggers=["high cpu", "python udf", "collect()"],
         anti_triggers=["bash script", "terraform only"],
     )
     d = skill.to_dict()
-    assert d["id"] == "optimize-pyspark-code"
+    assert d["id"] == "spark-performance"
     validate_skill_dict(d)
 
 
 def test_tool_manifest_validation():
     tool = ToolManifest(
-        id="sparkforge_analyze_pyspark",
-        name="sparkforge_analyze_pyspark",
+        id="sfa_analyze",
+        name="sfa_analyze",
         namespace="sparkforge_azure.facts",
         description="Extract deterministic AST facts from PySpark code",
         input_schema={"type": "object", "properties": {"path": {"type": "string"}}},
@@ -71,8 +71,8 @@ def test_registry_loading():
     registry = get_default_registry()
     assert len(registry.agents) > 0
     assert len(registry.skills) > 0
-    assert registry.get_agent("sf-runtime-specialist") is not None
-    assert registry.get_skill("optimize-pyspark-code") is not None
+    assert registry.get_agent("spark-performance-specialist") is not None
+    assert registry.get_skill("spark-performance") is not None
 
 
 def test_invalid_agent_validation_raises():
