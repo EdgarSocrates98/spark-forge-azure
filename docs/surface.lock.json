@@ -1,13 +1,21 @@
 {
  "basis": "sha256(json.dumps(obj, sort_keys=True, separators=(\",\", \":\")))",
  "capabilities": {
-  "count": 0,
-  "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  "count": 68,
+  "sha256": "02e3c9c1d039c1f9fa3cfe731f2dcc0cabcdbb4e3914595cc79e29ecb33d11d5"
  },
  "cli": {
   "commands": [
+   "collect resource-graph",
+   "collect workspace-graph",
    "doctor",
    "governance diagnose",
+   "graph build",
+   "graph federate",
+   "graph impact",
+   "graph query",
+   "offline-bundle build",
+   "offline-bundle verify",
    "tokensave context",
    "tokensave diff",
    "tokensave expand",
@@ -19,19 +27,33 @@
   ]
  },
  "knowledge": {
-  "count": 34,
-  "total_bytes": 157648
+  "count": 36,
+  "total_bytes": 166795
  },
  "mcp": {
   "compact": [
    "sfa_governance_diagnose",
+   "sfa_graph_impact",
    "sfa_tokensave_context",
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 2798,
-  "tool_count": 6,
+  "compact_bytes": 3654,
+  "tool_count": 9,
   "tools": {
+   "sfa_collect_workspace_graph": {
+    "compact": false,
+    "domain": "graph",
+    "risk": {
+     "cloud_read": true,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "1df3bb9ba67d7036a3795e3db6863f7c59072bf41556149c5121970a06e3c4c1"
+   },
    "sfa_governance_diagnose": {
     "compact": true,
     "domain": "governance",
@@ -44,6 +66,32 @@
      "security_impact": false
     },
     "schema_sha256": "340bd53de172d008361d2adea4f0b7a411db2409f8482be3968cf741239579f5"
+   },
+   "sfa_graph_impact": {
+    "compact": true,
+    "domain": "graph",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "027884215804e62537a45781efb4626df6eb8bd3e0edd97bc5448d2720ea04c1"
+   },
+   "sfa_graph_query": {
+    "compact": false,
+    "domain": "graph",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "89f52ca32a9ed2c12dcec6433e12d187e8d09317bef4e65ca19f54153af5c14d"
    },
    "sfa_tokensave_context": {
     "compact": true,
@@ -111,11 +159,11 @@
     "schema_sha256": "6bd987b0c6c8f2be05885730b77a5a71441572bd2ce3c4d3af3146a11ef5c04d"
    }
   },
-  "total_bytes": 4238
+  "total_bytes": 6727
  },
  "schema_version": 2,
  "skills": {
-  "count": 21,
-  "total_bytes": 90512
+  "count": 22,
+  "total_bytes": 95001
  }
 }
