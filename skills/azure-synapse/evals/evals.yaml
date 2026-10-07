@@ -1,0 +1,30 @@
+skill: azure-synapse
+version: 1
+cases:
+- id: azure-synapse-synapse-vs-fabric
+  prompt: Synapse e Fabric são a mesma coisa?
+  must_include:
+  - Synapse não é Fabric
+  must_not_include:
+  - são a mesma coisa
+  expected_tools:
+  - sparkforge-azure analyze synapse-spark-pool
+- id: azure-synapse-pool-version
+  prompt: Meu Spark pool Synapse está em versão suportada?
+  must_include:
+  - knowledge
+  - unresolved
+  must_not_include:
+  - está suportado
+  expected_tools:
+  - sparkforge-azure analyze synapse-spark-pool
+  - sfa_analyze
+- id: azure-synapse-migrate
+  prompt: Vamos migrar Synapse para Databricks, quanto economizamos?
+  must_include:
+  - baseline
+  - migration
+  must_not_include:
+  - economizamos 30%
+  expected_tools:
+  - sparkforge-azure graph build

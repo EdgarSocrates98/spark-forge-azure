@@ -1,0 +1,115 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "sparkforge-azure"
+version = "0.1.0"
+description = "Agentic Engineering OS for Azure Data Engineering: deterministic facts, rules and evidence for Databricks, Fabric, Synapse, ADF, ADLS, Event Hubs, Unity Catalog and Purview"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Edgar Socrates Caria" }]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Quality Assurance",
+    "Topic :: System :: Monitoring",
+]
+# Deterministic core: PyYAML + jsonschema only (ADR-0001 #5). Everything that talks
+# to Azure, Databricks, MCP or OTLP is an opt-in extra imported lazily.
+dependencies = [
+    "PyYAML>=6.0",
+    "jsonschema>=4.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/EdgarSocrates98/spark-forge-azure"
+Repository = "https://github.com/EdgarSocrates98/spark-forge-azure"
+Issues = "https://github.com/EdgarSocrates98/spark-forge-azure/issues"
+
+[project.optional-dependencies]
+# Read-only collectors (section 175). Versions verified on PyPI 2026-10-06
+# (docs/research/azure_sources_2026-10-06.md, section 13). Floors, not pins.
+azure = [
+    "azure-identity>=1.26",
+    "azure-mgmt-resourcegraph>=8.0",
+    "azure-mgmt-costmanagement>=5.0",
+    "azure-monitor-query>=2.0",
+    "azure-storage-file-datalake>=12.26",
+]
+databricks = ["databricks-sdk>=0.147"]
+# mcp 2.x: handlers in constructor; envelopes validated by sparkforge_azure.mcp.
+mcp = ["mcp>=2,<3"]
+otel = [
+    "opentelemetry-api>=1.45",
+    "opentelemetry-sdk>=1.45",
+]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+    "build>=1.0",
+    "mcp>=2,<3",
+]
+
+[project.scripts]
+# Official CLI. Never `sparkforge` (owned by spark-forge-aws) -- section 0.
+sparkforge-azure = "sparkforge_azure.cli.main:main"
+
+[tool.hatch.build]
+reproducible = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["sparkforge_azure"]
+
+# Data assets live at the repository root (readable by agents without Python)
+# and are force-included into the package at build time.
+[tool.hatch.build.targets.wheel.force-include]
+"rules/catalog" = "sparkforge_azure/_data/rules/catalog"
+"knowledge" = "sparkforge_azure/_data/knowledge"
+"skills" = "sparkforge_azure/_data/skills"
+"agents" = "sparkforge_azure/_data/agents"
+"lab/scenarios" = "sparkforge_azure/_data/lab/scenarios"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "sparkforge_azure",
+    "rules/catalog",
+    "knowledge",
+    "skills",
+    "agents",
+    "lab/scenarios",
+    "README.md",
+    "LICENSE",
+    "pyproject.toml",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-p no:cacheprovider --basetemp=.pytest-tmp"
+markers = [
+    "live_azure: Tier 4 opt-in tests that call real Azure (skipped unless SPARKFORGE_AZURE_LIVE=1)",
+    "slow: builds wheels or runs subprocess-heavy checks",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+exclude = ["fixtures", "tests/fixtures"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "S"]
+ignore = [
+    "S101", # assert is pytest vocabulary
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S603", "S607", "S108"]
+"scripts/*" = ["S603", "S607"]

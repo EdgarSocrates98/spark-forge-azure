@@ -1,0 +1,30 @@
+skill: unity-catalog
+version: 1
+cases:
+- id: unity-catalog-read-denied
+  prompt: Usuário tem SELECT na tabela mas recebe PERMISSION_DENIED
+  must_include:
+  - USE SCHEMA
+  - unresolved
+  must_not_include:
+  - o usuário tem acesso total
+  expected_tools:
+  - sparkforge-azure governance diagnose
+  - sfa_governance_diagnose
+- id: unity-catalog-lf-alias
+  prompt: Isso é igual ao Lake Formation? Posso mapear 1:1?
+  must_include:
+  - Lake Formation
+  must_not_include:
+  - equivalente 1:1 ao lake formation
+  expected_tools:
+  - sparkforge-azure analyze uc-grants
+- id: unity-catalog-ext-location
+  prompt: External location não consegue ler o container
+  must_include:
+  - storage credential
+  - azure-adls
+  must_not_include:
+  - a external location está correta
+  expected_tools:
+  - sparkforge-azure governance diagnose

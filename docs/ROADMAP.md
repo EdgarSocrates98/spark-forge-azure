@@ -38,3 +38,23 @@ live graph contínuo, Lab avançado.
 
 Somente com profundidade **comprovada** (claims + evals) em Databricks, Fabric, ADLS, ADF,
 Streaming, Governance, Security, Observability, FinOps, Agentic OS, TokenSave, Graphfy, MCP, Lab.
+
+## Estado medido — v0.1.0 foundation (delivery)
+
+Medido em 2026-10-07 sobre `feat/v0.1.0-foundation-delivery`:
+
+- Suite: **2404 testes verdes** (9 skipped), `ruff` limpo, `check_surface_lock`,
+  `check_claims`, `check_knowledge`, `check_skills_agents` verdes.
+- Skills: **22 catalogadas** — as 21 de domínio do §157 + `analyze-batch-loop`
+  (skill de método; ancora a análise de lote no extrator PySpark e cita `SF-PY-004`).
+- Regras: catálogo `SF-PY` (12 regras PySpark) + `routing.yaml` com rotas de estado
+  e `AGENT-003` (findings_area → coordenador); `rule_areas` declarado nos manifests.
+- Contratos fechados nesta entrega: `parity.yaml` + `manifest.json` gerados por
+  `scripts/gen_parity.py`; knowledge com `sources.lock.json` e `offline-manifest.json`;
+  goldens OTel; harness SDD agentico; matrix MCP com statuses honestos
+  (`delegated_to_sdk`, `unresolved`, `not_applicable` onde o Azure não implementa).
+- Divergências intencionais do AWS documentadas: extratores `af.*`/`graph.*` e
+  derivadores de facts não portados (medido em `test_harness_untrusted`); áreas de
+  regra além de `SF-PY` entram com seus catálogos; verbos `analyze`/`judge`/`lab`
+  são tool_refs planejados da CLI (superfície atual: collect/graph/tokensave/
+  governance/doctor/offline-bundle).

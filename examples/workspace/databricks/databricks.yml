@@ -1,0 +1,11 @@
+# SYNTHETIC Databricks Asset Bundle.
+bundle:
+  name: lakehouse
+resources:
+  jobs:
+    silver_orders:
+      name: silver_orders
+      tasks:
+        - task_key: silver
+          notebook_task:
+            notebook_path: notebooks/silver_orders.py

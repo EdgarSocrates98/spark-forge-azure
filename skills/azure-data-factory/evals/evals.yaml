@@ -1,0 +1,30 @@
+skill: azure-data-factory
+version: 1
+cases:
+- id: azure-data-factory-inline-secret
+  prompt: Revise este linked service do ADF
+  must_include:
+  - Key Vault
+  - azure-entra
+  must_not_include:
+  - linked service seguro
+  expected_tools:
+  - sparkforge-azure analyze adf-pipeline
+- id: azure-data-factory-impact
+  prompt: Se eu mudar este dataset, o que quebra?
+  must_include:
+  - graph impact
+  - unresolved
+  must_not_include:
+  - nenhum impacto
+  expected_tools:
+  - sparkforge-azure graph impact
+  - sfa_graph_impact
+- id: azure-data-factory-fabric-df
+  prompt: Esse pipeline do Fabric Data Factory segue as regras do ADF?
+  must_include:
+  - fabric-data-engineering
+  must_not_include:
+  - mesmas regras do adf
+  expected_tools:
+  - sparkforge-azure analyze adf-pipeline

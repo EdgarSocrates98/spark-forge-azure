@@ -1,0 +1,73 @@
+[
+  {
+    "rule_id": "SFA-LIB-001",
+    "title": "Biblioteca usada pelo job nao declarada no cluster",
+    "severity": "P1",
+    "subject": {
+      "type": "job",
+      "symbol": "etl_grafo"
+    },
+    "evidence": [
+      "f_lib001"
+    ],
+    "runtime_scope": {},
+    "sources": [
+      {
+        "url": "https://learn.microsoft.com/en-us/azure/databricks/libraries/cluster-libraries",
+        "retrieved": "2026-10-06"
+      }
+    ],
+    "action": {
+      "kind": "dependency.declare_in_iac",
+      "target": "databricks.cluster.libraries",
+      "direction": "add",
+      "requires_absent": [],
+      "moves": [
+        "dependency.delivered_artifacts"
+      ],
+      "depends_on": []
+    },
+    "validation": [
+      "executar o job e confirmar que ele passa do import"
+    ],
+    "risks": [
+      "JAR compilado contra outro minor de Spark falha em producao"
+    ]
+  },
+  {
+    "rule_id": "SFA-UC-001",
+    "title": "JAR fora da allowlist em cluster Unity Catalog access mode standard",
+    "severity": "P1",
+    "subject": {
+      "type": "job",
+      "symbol": "etl_grafo"
+    },
+    "evidence": [
+      "f_uc0001"
+    ],
+    "runtime_scope": {},
+    "sources": [
+      {
+        "url": "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/manage-privileges/allowlist",
+        "retrieved": "2026-10-06"
+      }
+    ],
+    "action": {
+      "kind": "dependency.remove_library",
+      "target": "databricks.cluster.libraries",
+      "direction": "remove",
+      "requires_absent": [],
+      "moves": [
+        "dependency.delivered_artifacts",
+        "correctness.write_result"
+      ],
+      "depends_on": []
+    },
+    "validation": [
+      "job roda de ponta a ponta no cluster alvo, sobre dado real"
+    ],
+    "risks": [
+      "trocar o access mode para manter o JAR afrouxa o controle de acesso"
+    ]
+  }
+]

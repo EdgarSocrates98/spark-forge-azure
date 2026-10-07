@@ -1,0 +1,15 @@
+# Line endings explicitos por tipo de arquivo.
+
+* text=auto
+*.py text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+
+# `fixtures/sdd/` — repositorios sinteticos com hash do upstream gravado em
+# arquivo versionado (`upstream.sha256`, calculado por `text_sha256` sobre o
+# texto normalizado). Uma conversao de quebra de linha no checkout mudaria o
+# texto e invalidaria o hash declarado, sem que nada tivesse mudado de
+# verdade: por isso estes arquivos ficam fora de `text=auto`.
+fixtures/sdd/** -text

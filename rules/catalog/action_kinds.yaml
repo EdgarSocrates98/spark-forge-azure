@@ -1,0 +1,442 @@
+# ADAPT (spark-forge-azure) de rules/catalog/action_kinds.yaml do spark-forge-aws:
+# vocabulario neutro de `action.kind` e `action.moves`. Kinds e eixos sem
+# sentido em Azure (resource link do Lake Formation, capacidade pre-iniciada do
+# EMR Serverless, DPU-seconds do Glue) sairam; a justificativa por regra AWS
+# saiu junto (ver provenance.json).
+schema_version: 1
+directions:
+  - increase
+  - decrease
+  - replace
+  - remove
+  - add
+  - investigate
+
+kinds:
+  # --- capacidade -----------------------------------------------------------
+  capacity.investigate_sizing:
+    axis: capacidade
+    reversible: true
+    description: Rodar o verbo de capacidade contra o SLA declarado, sem propor numero.
+  capacity.size_executor_explicitly:
+    axis: capacidade
+    reversible: true
+    description: Declarar memoria, cores e instancias do executor em vez de deixar o calculo derivado.
+  capacity.increase_memory_overhead:
+    axis: capacidade
+    reversible: true
+    description: Aumentar a memoria fora do heap do executor, sem mexer no heap.
+  capacity.change_purchasing_option:
+    axis: capacidade
+    reversible: true
+    description: Mudar em que capacidade um papel de no roda -- opcao de compra, ou node label que prende o driver.
+  capacity.change_idle_shutdown:
+    axis: capacidade
+    reversible: true
+    description: Ligar ou apertar a janela de ociosidade (auto-termination) que desliga o cluster ou o pool.
+  capacity.investigate_slow_executor:
+    axis: capacidade
+    reversible: true
+    description: Isolar o executor lento em varios stages (worker, disco, rede) antes de ligar speculation como mitigacao.
+
+  # --- provisionamento ------------------------------------------------------
+  provisioning.diagnose_bootstrap_failure:
+    axis: provisionamento
+    reversible: true
+    description: Ler os logs, as permissoes e os argumentos do bootstrap antes de reprovisionar.
+
+  # --- timeout --------------------------------------------------------------
+  timeout.investigate_symptom_first:
+    axis: timeout
+    reversible: true
+    description: Ler a categoria do timeout e os sintomas medidos ao lado antes de tocar em limite.
+  timeout.restore_interval_relation:
+    axis: timeout
+    reversible: true
+    description: Restaurar a folga entre duas propriedades de timeout que se referenciam.
+
+  # --- shuffle --------------------------------------------------------------
+  shuffle.reduce_bytes:
+    axis: shuffle
+    reversible: true
+    description: Reduzir os bytes que atravessam o shuffle por filtro, projecao ou pre-agregacao.
+  shuffle.change_partition_count:
+    axis: shuffle
+    reversible: true
+    description: Mudar o numero de particoes do shuffle ou da escrita, por configuracao ou por hint.
+
+  # --- skew -----------------------------------------------------------------
+  skew.classify_type:
+    axis: skew
+    reversible: true
+    description: Cruzar duracao e bytes de entrada por task para classificar o tipo de skew.
+  skew.apply_treatment:
+    axis: skew
+    reversible: true
+    description: Aplicar o tratamento de skew correspondente ao tipo classificado.
+
+  # --- join -----------------------------------------------------------------
+  join.restore_equi_condition:
+    axis: join
+    reversible: true
+    description: Recuperar ou derivar a condicao de igualdade que falta no join.
+  join.change_broadcast_decision:
+    axis: join
+    reversible: true
+    description: Remover ou rever o hint de broadcast e a estrategia de join que ele fixa.
+
+  # --- leitura --------------------------------------------------------------
+  scan.project_columns:
+    axis: leitura
+    reversible: true
+    description: Ler apenas as colunas usadas, em vez de projecao total.
+  scan.add_partition_filter:
+    axis: leitura
+    reversible: true
+    description: Acrescentar filtro sobre coluna de particao para restringir o escaneamento.
+  scan.push_filter_earlier:
+    axis: leitura
+    reversible: true
+    description: Mover filtro ou projecao para antes do join, do explode ou da UDF.
+
+  # --- codigo ---------------------------------------------------------------
+  code.replace_udf_with_native:
+    axis: codigo
+    reversible: true
+    description: Trocar UDF Python por funcao Spark SQL nativa, higher-order function ou UDF vetorizada.
+  code.replace_driver_collection:
+    axis: codigo
+    reversible: true
+    description: Trocar coleta para o driver por escrita distribuida, agregacao ou limite explicito.
+  code.restructure_loop:
+    axis: codigo
+    reversible: true
+    description: Tirar do laco ou da recursao o trabalho Spark que se repete, ou uni-lo numa acao so.
+  code.change_persistence:
+    axis: codigo
+    reversible: true
+    description: Persistir o DataFrame reusado, ou remover o cache sem reuso e liberar com unpersist.
+  code.rewrite_expression:
+    axis: codigo
+    reversible: true
+    description: Reescrever a expressao preservando a semantica -- select unico, chave explicita, cast guardado.
+  code.make_write_idempotent:
+    axis: codigo
+    reversible: true
+    description: Tornar a escrita idempotente por merge com chave, overwrite de particao ou controle de execucao.
+
+  # --- configuracao ---------------------------------------------------------
+  config.remove_property:
+    axis: configuracao
+    reversible: true
+    description: Remover a propriedade que nao deveria estar declarada, ou a declaracao que conflita com outra.
+  config.narrow_property_scope:
+    axis: configuracao
+    reversible: true
+    description: Mover a propriedade do escopo de cluster para o job ou para a escrita que a exige.
+  config.replace_property_key:
+    axis: configuracao
+    reversible: true
+    description: Trocar a chave pelo nome ou equivalente que o runtime alvo reconhece, preservando o valor.
+  config.replace_property_value:
+    axis: configuracao
+    reversible: true
+    description: Trocar o valor da propriedade pelo que a fonte publica para o efeito pretendido, preservando a chave.
+  config.align_value_to_supported_range:
+    axis: configuracao
+    reversible: true
+    description: Levar o valor da propriedade para a faixa que a fonte publica.
+  config.satisfy_property_precondition:
+    axis: configuracao
+    reversible: true
+    description: Cumprir a pre-condicao que a propriedade ou a API exige para ter efeito.
+  config.verify_effective_value:
+    axis: configuracao
+    reversible: true
+    description: Confirmar o valor efetivo e a procedencia da propriedade antes de mudar qualquer coisa.
+
+  # --- armazenamento --------------------------------------------------------
+  storage.change_partition_scheme:
+    axis: armazenamento
+    reversible: false
+    description: Mudar como a particao da tabela e definida ou resolvida -- coluna, cardinalidade, bucket, projection.
+  storage.change_storage_format:
+    axis: armazenamento
+    reversible: false
+    description: Trocar o formato de arquivo, o formato de tabela ou a versao de formato da tabela.
+  storage.set_write_layout_property:
+    axis: armazenamento
+    reversible: true
+    description: Definir propriedade de escrita da tabela -- distribution mode, tamanho-alvo de arquivo, sort order, retencao de metadata.
+
+  # --- manutencao -----------------------------------------------------------
+  maintenance.rewrite_data_files:
+    axis: manutencao
+    reversible: true
+    description: Reescrever os data files do passivo, por binpack ou por sort/zorder.
+  maintenance.compact_delete_files:
+    axis: manutencao
+    reversible: true
+    description: Compactar os delete files da tabela merge-on-read.
+  maintenance.expire_snapshots:
+    axis: manutencao
+    reversible: false
+    description: Expirar snapshots e metadata files acumulados, com retencao acordada.
+
+  # --- seguranca ------------------------------------------------------------
+  security.move_secret_to_manager:
+    axis: seguranca
+    reversible: true
+    description: Tirar o literal da definicao e referenciar o segredo pelo mecanismo que o servico sustenta.
+  security.verify_access_chain:
+    axis: seguranca
+    reversible: true
+    description: Confirmar cada elo da cadeia de concessao entre contas antes de ler qualquer achado.
+  security.enable_encryption_at_rest:
+    axis: seguranca
+    reversible: true
+    description: Habilitar a encriptacao em repouso na camada que a configuracao atual nao cobre.
+  # --- rede -----------------------------------------------------------------
+  network.provide_service_route:
+    axis: rede
+    reversible: true
+    description: Prover a rota da subnet ate o servico -- private endpoint, service endpoint ou NAT gateway.
+  network.fix_security_group_rule:
+    axis: rede
+    reversible: true
+    description: Corrigir a regra do network security group (NSG) que a conexao exige.
+
+  # --- observabilidade ------------------------------------------------------
+  observability.enable_telemetry:
+    axis: observabilidade
+    reversible: true
+    description: Ligar o destino de log ou a metrica de runtime que a definicao nao declara.
+  observability.enable_application_ui:
+    axis: observabilidade
+    reversible: true
+    description: Ligar o event log ou o armazenamento que faz a UI de aplicacao existir.
+
+  # --- versao ---------------------------------------------------------------
+  version.upgrade_runtime:
+    axis: versao
+    reversible: true
+    description: Levar o job para a versao de runtime, engine ou plataforma que sustenta a capacidade pedida.
+  version.align_declared_runtime:
+    axis: versao
+    reversible: true
+    description: Alinhar as fontes que declaram o runtime ao valor efetivo observado.
+  version.run_migration_assessment:
+    axis: versao
+    reversible: true
+    description: Rodar a avaliacao de migracao sobre o par de versoes antes de tratar a mudanca como ajuste.
+
+  # --- dependencia ----------------------------------------------------------
+  dependency.align_version_with_runtime:
+    axis: dependencia
+    reversible: true
+    description: Levar a dependencia ao build ou ao piso de versao que o runtime alvo exige.
+  dependency.declare_in_iac:
+    axis: dependencia
+    reversible: true
+    description: Declarar a dependencia no IaC, apontando para o caminho versionado do artefato.
+  dependency.migrate_to_successor_api:
+    axis: dependencia
+    reversible: true
+    description: Trocar a API removida pelo substituto declarado, conferindo a assinatura.
+  dependency.remove_library:
+    axis: dependencia
+    reversible: true
+    description: Remover a biblioteca, reescrevendo nativamente o que ela fazia.
+
+  # --- schema ---------------------------------------------------------------
+  schema.align_types:
+    axis: schema
+    reversible: false
+    description: Alinhar o tipo do literal ao da coluna, ou corrigir o tipo na definicao da tabela.
+  schema.split_change_into_own_delivery:
+    axis: schema
+    reversible: true
+    description: Separar a mudanca de schema em outra entrega, com aviso ao consumidor.
+  contract.review_compatibility:
+    axis: schema
+    reversible: true
+    description: Revisar compatibilidade do contrato entre produtor, registro e consumidores.
+  contract.require_review:
+    axis: schema
+    reversible: true
+    description: Exigir revisão explícita antes de promover uma mudança de contrato.
+  contract.collect_policy:
+    axis: schema
+    reversible: true
+    description: Coletar a política efetiva de compatibilidade que governa o contrato.
+
+  # --- validacao ------------------------------------------------------------
+  validation.move_before_write:
+    axis: validacao
+    reversible: true
+    description: Mover a validacao para antes da escrita, ou escrever em staging e promover depois.
+  validation.enforce_check_result:
+    axis: validacao
+    reversible: true
+    description: Ler o resultado do check e abortar o job quando ele reprovar, com excecao explicita.
+  validation.merge_checks_into_single_pass:
+    axis: validacao
+    reversible: true
+    description: Reunir os checks numa unica agregacao sobre o dado.
+  validation.correct_declared_key:
+    axis: validacao
+    reversible: true
+    description: Refazer o plano com a chave de negocio certa quando a chave declarada nao e a chave.
+  validation.complete_check_coverage:
+    axis: validacao
+    reversible: true
+    description: Medir nos dois lados os checks que faltaram, ou declarar por escrito por que nao ha valor.
+  validation.functional_replay:
+    axis: validacao
+    reversible: true
+    description: Reexecutar um caso funcional controlado para verificar semântica e replay.
+
+  # --- medicao --------------------------------------------------------------
+  measurement.collect_baseline:
+    axis: medicao
+    reversible: true
+    description: Coletar a medida ou o artefato que falta antes de mudar ou de afirmar.
+  measurement.recollect_comparable_artifacts:
+    axis: medicao
+    reversible: true
+    description: Refazer a coleta ou a execucao ate que os dois lados sejam comparaveis.
+  measurement.localize_divergence:
+    axis: medicao
+    reversible: true
+    description: Isolar a etapa, o stage ou a coluna em que a divergencia nasce, antes de corrigir.
+  measurement.narrow_claim_scope:
+    axis: medicao
+    reversible: true
+    description: Declarar a afirmacao mais fraca que a medida sustenta, em vez de apresentar o total.
+
+  # --- orquestracao ---------------------------------------------------------
+  event_driven.require_dlq:
+    axis: orquestracao
+    reversible: true
+    description: Exigir uma rota de descarte observável para eventos que não possam ser processados.
+  event_driven.verify_target:
+    axis: orquestracao
+    reversible: true
+    description: Confirmar o destino efetivo e a política de entrega do evento.
+  orchestration.replace_unsupported_capability:
+    axis: orquestracao
+    reversible: true
+    description: Trocar a capacidade que a versao do orquestrador nao tem pela alternativa que ela publica.
+  orchestration.fix_schedule_declaration:
+    axis: orquestracao
+    reversible: true
+    description: Corrigir a declaracao de agendamento -- anular os eixos concorrentes, ou trocar enumeracao por calendario.
+  orchestration.change_job_definition:
+    axis: orquestracao
+    reversible: true
+    description: Mudar a forma da definicao do job ou do folder -- tipo, estrutura, expressao de eventos, uso de template.
+  orchestration.restrict_run_policy:
+    axis: orquestracao
+    reversible: true
+    description: Restringir a politica de execucao do job -- concorrencia, retries.
+  orchestration.split_into_separate_job:
+    axis: orquestracao
+    reversible: true
+    description: Mover a etapa para um job separado, fora do caminho critico.
+
+axes:
+  cost.provisioned_capacity_time:
+    nature: measure
+    description: Tempo em que a capacidade fica provisionada e faturavel, com ou sem trabalho rodando.
+  runtime.wall_clock:
+    nature: measure
+    description: Duracao de relogio do job.
+  reliability.recovery:
+    nature: risk
+    description: Capacidade de recuperar o processamento por replay, retry ou runbook.
+  capacity.worker_count:
+    nature: measure
+    description: Numero de workers ou nos que a definicao declara.
+  capacity.executor_footprint:
+    nature: measure
+    description: Memoria, cores e numero de executores efetivos.
+  shuffle.partition_count:
+    nature: measure
+    description: Numero de particoes do shuffle e o paralelismo default derivado dele.
+  correctness.write_result:
+    # A UNICA certeza de partida deste lote: linhas na saida nao sao grandeza
+    # que se compare por subtracao entre duas acoes -- sao o resultado em si.
+    # Ver o comentario acima do bloco `axes` para o defeito que isso corrigiu.
+    nature: risk
+    description: As linhas que a escrita deixa no destino.
+  correctness.read_result:
+    nature: risk
+    description: Quais tabelas a leitura consegue resolver pelo catalogo em uso.
+  availability.interruption_exposure:
+    nature: risk
+    description: Quais papeis de no rodam em capacidade que o provedor pode reclamar.
+  observability.diagnostic_artifacts:
+    nature: risk
+    description: Os artefatos de execucao que sobrevivem ao job -- event log, log de container, UI de aplicacao.
+  security.secret_exposure:
+    # Exposicao de segredo e estado binario -- o literal aparece ou nao aparece
+    # numa superficie --, detectado por heuristica (`_is_secret_reference` e
+    # pares), nunca contado como grandeza.
+    nature: risk
+    description: As superficies de API e de IaC que devolvem o literal do segredo.
+  security.identity_access:
+    nature: risk
+    description: Identidade, permissoes e cadeia de acesso que autorizam a operacao.
+  security.verify_access_chain:
+    nature: risk
+    description: Verificacao dos elos da cadeia de acesso entre identidade e recurso.
+
+  # Acrescentado no lote B (spark-ui, spark-plan, timeout, benchmark).
+  skew.task_duration_ratio:
+    nature: measure
+    description: Razao entre a duracao da task mais lenta e a mediana do stage.
+  shuffle.spill_bytes:
+    nature: measure
+    description: Bytes derramados em disco e em memoria pelos stages do shuffle.
+  availability.executor_loss:
+    nature: measure
+    description: Executores removidos durante o run, medidos no event log.
+
+  # Acrescentado no lote C (pyspark, graph, callgraph, bridge). Os dois eixos
+  # sao da area de grafo: nenhuma regra dos lotes A e B trocava de runtime nem
+  # mexia no que o IaC entrega ao classpath.
+  runtime.engine_version:
+    nature: risk
+    description: Versao de runtime, engine e plataforma que a execucao ou a definicao declara.
+  dependency.delivered_artifacts:
+    nature: risk
+    description: Os artefatos que a definicao do job entrega ao classpath -- jars e arquivos declarados no IaC.
+
+  storage.file_layout:
+    nature: measure
+    description: Contagem e tamanho dos data files que a tabela ou o prefixo tem.
+  storage.delete_file_count:
+    nature: measure
+    description: Delete files da tabela merge-on-read, contados contra os data files.
+  storage.snapshot_count:
+    nature: measure
+    description: Snapshots e metadata files acumulados na tabela.
+  storage.snapshot_history:
+    nature: risk
+    description: Historico de snapshots e janela de replay preservados pela tabela.
+  scan.bytes_read:
+    nature: measure
+    description: Bytes que a leitura escaneia, medidos no plano fisico ou nas estatisticas de execucao da query.
+  scan.task_count:
+    nature: measure
+    description: Numero de tasks do stage de leitura, limitado pela splitabilidade dos arquivos de entrada.
+  metadata.partition_resolution_time:
+    nature: measure
+    description: Tempo gasto resolvendo as particoes da tabela antes do scan.
+  transport.backlog:
+    nature: measure
+    description: Backlog, lag ou idade observada no transporte de eventos.
+
+  schedule.ordered_dates:
+    nature: measure
+    description: Conjunto de datas em que o orquestrador ordena o job.

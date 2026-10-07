@@ -1,0 +1,30 @@
+[
+  {
+    "id": "f_lib001",
+    "kind": "databricks.cluster",
+    "subject": {},
+    "measures": {},
+    "attrs": {
+      "library": "graphframes"
+    }
+  },
+  {
+    "id": "f_uc0001",
+    "kind": "unity_catalog.access_mode",
+    "subject": {},
+    "measures": {},
+    "attrs": {
+      "access_mode": "standard"
+    }
+  },
+  {
+    "id": "f_cfg777",
+    "kind": "spark.conf_effective",
+    "subject": {},
+    "measures": {},
+    "attrs": {
+      "key": "spark.sql.shuffle.partitions",
+      "value": "200"
+    }
+  }
+]

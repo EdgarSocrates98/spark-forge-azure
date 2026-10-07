@@ -1,0 +1,34 @@
+{
+  "_comment": "SYNTHETIC fixture. Not real log data. No secret material (tests inject generated values).",
+  "tables": [
+    {
+      "name": "PrimaryResult",
+      "columns": [
+        {
+          "name": "TimeGenerated",
+          "type": "datetime"
+        },
+        {
+          "name": "OperationName",
+          "type": "string"
+        },
+        {
+          "name": "Uri",
+          "type": "string"
+        }
+      ],
+      "rows": [
+        [
+          "2026-10-01T10:00:00Z",
+          "GetBlob",
+          "https://stlakehouse.blob.core.windows.net/raw/a.parquet"
+        ],
+        [
+          "2026-10-01T10:05:00Z",
+          "ListBlobs",
+          "https://stlakehouse.blob.core.windows.net/raw?restype=container"
+        ]
+      ]
+    }
+  ]
+}

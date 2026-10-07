@@ -1,0 +1,522 @@
+# Gerado por scripts/gen_parity.py — nao editar a mao.
+schema_version: 1
+reference_audit: docs/architecture/evidence/aws_audit.json
+reference_sha: 6b1b97a137d7397ff6c7a98f7fe7be100132983f
+decision_record: scripts/port_manifest.yaml
+note: class do subsistema = pior classe entre seus arquivos no port_manifest; mudanca de classe exige reason (ver
+  AWS_TO_AZURE_PORTABILITY_MATRIX.md §6)
+platforms:
+- claude_code
+- devin_cli
+- devin_desktop
+- copilot_ci
+- codex
+capabilities:
+- id: parallel-specialist-dispatch
+  summary: despachar especialistas em paralelo durante analise
+  platforms:
+    claude_code:
+    - subagent
+    devin_cli:
+    - subagent
+    devin_desktop:
+    - subagent
+    copilot_ci:
+    - playbook
+    codex:
+    - playbook
+- id: mcp-tool-call
+  summary: chamar tools sfa_* via servidor MCP
+  platforms:
+    claude_code:
+    - mcp
+    devin_cli:
+    - mcp
+    devin_desktop:
+    - mcp
+    copilot_ci:
+    - cli
+    codex:
+    - cli
+- id: cli-commands
+  summary: comandos do binario sparkforge-azure
+  platforms:
+    claude_code:
+    - cli
+    devin_cli:
+    - cli
+    devin_desktop:
+    - cli
+    copilot_ci:
+    - cli
+    codex:
+    - cli
+- id: repo-skills
+  summary: skills versionadas em skills/ + .claude/skills/
+  platforms:
+    claude_code:
+    - skills
+    devin_cli:
+    - skills
+    devin_desktop:
+    - skills
+    copilot_ci:
+    - playbook
+    codex:
+    - playbook
+aws_subsystems:
+  __init__:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 0
+    aws_markers: 0
+    azure_path: sparkforge_azure/__init__
+    reason: nucleo neutro, copia com rename de pacote
+  adapters:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 0
+    aws_markers: 914
+    azure_path: sparkforge_azure/adapters
+    reason: COPY_SAFE apesar de 914 marcador(es) AWS; revisar port_manifest
+  agentic:
+    class: ADAPT
+    status: ported
+    aws_files: 36
+    aws_markers: 29
+    azure_path: sparkforge_azure/agentic
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  agents:
+    class: ADAPT
+    status: ported
+    aws_files: 4
+    aws_markers: 0
+    azure_path: sparkforge_azure/agents
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  analytics:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  architecture:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 7
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  capacity:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 1
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  case:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 5
+    aws_markers: 0
+    azure_path: sparkforge_azure/case
+    reason: nucleo neutro, copia com rename de pacote
+  catalog:
+    class: ADAPT
+    status: planned
+    aws_files: 4
+    aws_markers: 3
+    azure_path: null
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  change:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 6
+    aws_markers: 0
+    azure_path: sparkforge_azure/change
+    reason: nucleo neutro, copia com rename de pacote
+  cli:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 0
+    aws_markers: 13
+    azure_path: sparkforge_azure/cli
+    reason: COPY_SAFE apesar de 13 marcador(es) AWS; revisar port_manifest
+  cloud:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  codeintel:
+    class: ADAPT
+    status: ported
+    aws_files: 19
+    aws_markers: 2
+    azure_path: sparkforge_azure/codeintel
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  collect:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 1
+    aws_markers: 348
+    azure_path: sparkforge_azure/collect
+    reason: COPY_SAFE apesar de 348 marcador(es) AWS; revisar port_manifest
+  context:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 16
+    aws_markers: 0
+    azure_path: sparkforge_azure/context
+    reason: nucleo neutro, copia com rename de pacote
+  controlm:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 7
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  databases:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  decision:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 15
+    aws_markers: 0
+    azure_path: sparkforge_azure/decision
+    reason: nucleo neutro, copia com rename de pacote
+  diagnosis:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 1
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  doctor:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 0
+    aws_markers: 5
+    azure_path: sparkforge_azure/doctor
+    reason: COPY_SAFE apesar de 5 marcador(es) AWS; revisar port_manifest
+  dq_ai:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 12
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  dqdl:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  durable:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 1
+    aws_markers: 0
+    azure_path: sparkforge_azure/durable
+    reason: nucleo neutro, copia com rename de pacote
+  economy:
+    class: ADAPT
+    status: ported
+    aws_files: 20
+    aws_markers: 4
+    azure_path: sparkforge_azure/economy
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  errors:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 4
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  evals:
+    class: ADAPT
+    status: ported
+    aws_files: 18
+    aws_markers: 2
+    azure_path: sparkforge_azure/evals
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  facts:
+    class: ADAPT
+    status: ported
+    aws_files: 3
+    aws_markers: 850
+    azure_path: sparkforge_azure/facts
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  findings:
+    class: ADAPT
+    status: ported
+    aws_files: 8
+    aws_markers: 15
+    azure_path: sparkforge_azure/findings
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  finops:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 13
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  iceberg:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  integrate:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 27
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  journal:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  knowledge_drift:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 1
+    aws_markers: 0
+    azure_path: sparkforge_azure/knowledge_drift
+    reason: nucleo neutro, copia com rename de pacote
+  knowledge_engine:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 3
+    aws_markers: 0
+    azure_path: sparkforge_azure/knowledge_engine
+    reason: nucleo neutro, copia com rename de pacote
+  knowledge_freshness:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 1
+    aws_markers: 0
+    azure_path: sparkforge_azure/knowledge_freshness
+    reason: nucleo neutro, copia com rename de pacote
+  knowledge_ref:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 1
+    aws_markers: 0
+    azure_path: sparkforge_azure/knowledge_ref
+    reason: nucleo neutro, copia com rename de pacote
+  lab:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 13
+    aws_markers: 0
+    azure_path: sparkforge_azure/lab
+    reason: nucleo neutro, copia com rename de pacote
+  lakeformation:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 147
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  migration:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 113
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  observability:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 7
+    aws_markers: 3
+    azure_path: sparkforge_azure/observability
+    reason: COPY_SAFE apesar de 3 marcador(es) AWS; revisar port_manifest
+  orchestration:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  packs:
+    class: ADAPT
+    status: ported
+    aws_files: 4
+    aws_markers: 0
+    azure_path: sparkforge_azure/packs
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  paths:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 1
+    aws_markers: 0
+    azure_path: sparkforge_azure/paths
+    reason: nucleo neutro, copia com rename de pacote
+  platform:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  policy:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 6
+    aws_markers: 0
+    azure_path: sparkforge_azure/policy
+    reason: nucleo neutro, copia com rename de pacote
+  proof:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 6
+    aws_markers: 0
+    azure_path: sparkforge_azure/proof
+    reason: nucleo neutro, copia com rename de pacote
+  protocols:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 3
+    aws_markers: 0
+    azure_path: sparkforge_azure/protocols
+    reason: nucleo neutro, copia com rename de pacote
+  providers:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  receipt:
+    class: COPY_SAFE
+    status: ported
+    aws_files: 4
+    aws_markers: 0
+    azure_path: sparkforge_azure/receipt
+    reason: nucleo neutro, copia com rename de pacote
+  registry:
+    class: ADAPT
+    status: ported
+    aws_files: 4
+    aws_markers: 2
+    azure_path: sparkforge_azure/registry
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  reliability:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 2
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  reporting:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 2
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  rules:
+    class: ADAPT
+    status: ported
+    aws_files: 5
+    aws_markers: 5
+    azure_path: sparkforge_azure/rules
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  scan:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 16
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  sdd:
+    class: ADAPT
+    status: ported
+    aws_files: 13
+    aws_markers: 0
+    azure_path: sparkforge_azure/sdd
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  simulate:
+    class: ADAPT
+    status: ported
+    aws_files: 1
+    aws_markers: 9
+    azure_path: sparkforge_azure/simulate
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
+  spark:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  storage:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 38
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  streaming:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 7
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  terraform:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 3
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  tools:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 2
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  tuning:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 8
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  workflows:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 0
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  workload:
+    class: DEFER
+    status: planned
+    aws_files: 0
+    aws_markers: 4
+    azure_path: null
+    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+  workspace:
+    class: ADAPT
+    status: ported
+    aws_files: 9
+    aws_markers: 2
+    azure_path: sparkforge_azure/workspace
+    reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest

@@ -1,0 +1,32 @@
+skill: fabric-realtime
+version: 1
+cases:
+- id: fabric-realtime-no-loss
+  prompt: O Eventstream garante que não perco eventos?
+  must_include:
+  - reconciliação
+  - unresolved
+  must_not_include:
+  - sem perda de dados garantida
+  - exactly-once garantido
+  expected_tools:
+  - sparkforge-azure analyze fabric-eventstream
+- id: fabric-realtime-shared-cg
+  prompt: Dois consumidores usam o mesmo consumer group
+  must_include:
+  - consumer group
+  - azure-event-hubs
+  must_not_include:
+  - não há problema
+  expected_tools:
+  - sparkforge-azure analyze fabric-eventstream
+  - sfa_analyze
+- id: fabric-realtime-kql-empty
+  prompt: Tabela KQL no Eventhouse está vazia
+  must_include:
+  - ingestão
+  - retenção
+  must_not_include:
+  - a fonte está quebrada
+  expected_tools:
+  - sparkforge-azure analyze fabric-item

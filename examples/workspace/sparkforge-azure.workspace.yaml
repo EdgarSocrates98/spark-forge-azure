@@ -1,0 +1,49 @@
+# SYNTHETIC example workspace for Graphfy. IDs are fake and match fixtures/azure/.
+schema_version: 1
+workspace: contoso-lakehouse
+
+repositories:
+  - {name: terraform, path: terraform, role: terraform}
+  - {name: databricks, path: databricks, role: databricks}
+  - {name: adf, path: adf, role: adf}
+  - {name: fabric, path: fabric, role: fabric}
+  - {name: shared, path: shared, role: shared}
+
+relationships:
+  - {source: databricks, relation: depends_on, target: terraform}
+  - {source: adf, relation: depends_on, target: terraform}
+  - {source: databricks, relation: depends_on, target: shared}
+
+cloud_resources:
+  - name: lake
+    kind: storage_account
+    arm_id: /subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stlakehouse
+  - name: analytics
+    kind: databricks_workspace
+    arm_id: /subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Databricks/workspaces/dbw-analytics
+    databricks_workspace_id: "1234567890123456"
+    workspace_url: https://adb-1234567890123456.6.azuredatabricks.net
+  - name: shared-storage
+    kind: storage_account
+    arm_id: /subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stshared
+  - name: sales-fabric
+    kind: fabric_workspace
+    fabric_workspace_id: 33333333-3333-4333-8333-333333333333
+
+# Declared bindings: repository resource address -> declared cloud resource.
+# azurerm_storage_account.shared is intentionally NOT bound: it must surface as
+# unresolved, never be linked by its name.
+bindings:
+  - {repository: terraform, address: azurerm_storage_account.lake, target: lake}
+  - {repository: terraform, address: azurerm_databricks_workspace.analytics, target: analytics}
+
+domains:
+  - name: sales
+    repositories: [databricks, adf, fabric]
+    cloud_resources: [lake, analytics, sales-fabric]
+
+boundaries:
+  - name: fabric-does-not-touch-terraform
+    source: fabric
+    target: terraform
+    allowed: false

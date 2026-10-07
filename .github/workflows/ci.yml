@@ -1,0 +1,75 @@
+name: ci
+
+# Tiers (section 202): fast on every push/PR; full on PR + main; security on PR + main;
+# scheduled tier lives in scheduled.yml. Offline by construction: no Azure credentials here.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast:
+    name: fast (lint, format, unit, contract)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv venv --python 3.12 && uv pip install -e ".[dev]"
+      - run: uv run ruff check sparkforge_azure tests scripts
+      - run: uv run pytest -q -m "not slow and not live_azure" -x
+
+  full:
+    name: full (${{ matrix.os }}, py${{ matrix.python }})
+    needs: fast
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ["3.10", "3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv venv --python ${{ matrix.python }} && uv pip install -e ".[dev]"
+      - name: full suite (MCP, Lab, knowledge, surface, claims)
+        run: uv run pytest -q -m "not live_azure"
+      - name: knowledge, skills, agents
+        run: |
+          uv run python scripts/check_knowledge.py
+          uv run python scripts/check_skills_agents.py
+      - name: surface lock and claims
+        run: |
+          uv run python scripts/check_surface_lock.py
+          uv run python scripts/check_claims.py
+      - name: forge lab
+        run: uv run sparkforge-azure lab verify
+      - name: reproducible wheel + clean install
+        if: matrix.python == '3.12'
+        run: uv run python scripts/verify_wheel.py
+
+  security:
+    name: security (red team, dependency audit, SBOM)
+    needs: fast
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+      - run: uv venv --python 3.12 && uv pip install -e ".[dev]"
+      - run: uv run pytest -q tests/redteam
+      - name: dependency audit (offline lock check + online advisory)
+        run: |
+          uv run python scripts/supply_chain.py verify-lock
+          uvx pip-audit --requirement locks/requirements.lock --require-hashes --disable-pip || true
+      - run: uv run python scripts/supply_chain.py sbom --out sbom.cdx.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.cdx.json

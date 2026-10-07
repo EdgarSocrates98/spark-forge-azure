@@ -1,0 +1,42 @@
+{
+  "_comment": "SYNTHETIC fixture. Not real Databricks data. No secret material (tests inject generated values).",
+  "observed_at": "2026-10-01T12:00:00+00:00",
+  "workspace": {
+    "workspace_id": "1234567890123456",
+    "arm_id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Databricks/workspaces/dbw-analytics",
+    "url": "https://adb-1234567890123456.6.azuredatabricks.net"
+  },
+  "jobs": [
+    {
+      "job_id": 101,
+      "settings": {
+        "name": "silver_orders",
+        "max_concurrent_runs": 1
+      }
+    },
+    {
+      "job_id": 102,
+      "settings": {
+        "name": "gold_sales",
+        "max_concurrent_runs": 1
+      }
+    }
+  ],
+  "clusters": [
+    {
+      "cluster_id": "0101-000000-fake001",
+      "cluster_name": "etl-shared",
+      "spark_version": "15.4.x-scala2.12"
+    }
+  ],
+  "catalogs": [
+    {
+      "name": "main",
+      "owner": "data-platform"
+    },
+    {
+      "name": "sales",
+      "owner": "sales-eng"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+# Host da URL -> tier de autoridade. DADO versionado, nao codigo: host novo
+# citado por regra nova e mudanca de DADO, e revisa-la num diff de YAML e mais
+# barato do que revisa-la dentro de um dicionario embutido no motor.
+#
+# ADAPT de knowledge/source_authority.yaml do spark-forge-aws: os hosts AWS
+# (docs.aws.amazon.com, aws.amazon.com, repost.aws) e os especificos do produto
+# AWS (Control-M, Devin, GraphFrames, Great Expectations, Dremio) sairam; entram
+# as autoridades da secao 161: Microsoft Learn, documentacao Databricks, Apache,
+# registro Terraform, fornecedor e comunidade.
+#
+# O tier gradua FONTE DE CONHECIMENTO. Ele nao gradua a medida do artefato do
+# cliente: event log, plano fisico, export de job/run do workspace sao medida,
+# nao fonte, e nao passam por aqui.
+#
+# T3 (benchmark reproduzivel) NAO aparece neste arquivo, e nao por esquecimento:
+# host nao prova reprodutibilidade. Um benchmark so vira T3 quando alguem o
+# reproduz, e isso e propriedade da evidencia, nunca do dominio que a hospeda.
+#
+# Conhecimento interno (knowledge/ deste repositorio, ADRs) nao tem host: e
+# citado por caminho e nao passa por este mapa.
+schema_version: 1
+
+# Host que este arquivo nao nomeia cai aqui. T4 e o piso conservador: nunca
+# promove um desconhecido a documentacao oficial, e nunca o rebaixa a
+# conjectura, que e afirmacao sobre o CONTEUDO e nao sobre o host.
+default: T4_RECOGNIZED_AUTHORITY
+
+hosts:
+  # --- T1: documentacao de referencia do proprio produto ---------------------
+  # Microsoft Learn: referencia de Azure, Fabric, Synapse, ADF, ADLS, Entra,
+  # Event Hubs, Purview e Azure Databricks.
+  learn.microsoft.com: T1_OFFICIAL_DOCS
+  # Documentacao oficial Databricks (inclui as paginas /azure/).
+  docs.databricks.com: T1_OFFICIAL_DOCS
+  spark.apache.org: T1_OFFICIAL_DOCS
+  iceberg.apache.org: T1_OFFICIAL_DOCS
+  parquet.apache.org: T1_OFFICIAL_DOCS
+  hadoop.apache.org: T1_OFFICIAL_DOCS
+  kafka.apache.org: T1_OFFICIAL_DOCS
+  docs.delta.io: T1_OFFICIAL_DOCS
+  docs.python.org: T1_OFFICIAL_DOCS
+  # Registro Terraform: documentacao versionada dos providers azurerm, azapi e
+  # databricks, publicada junto com a versao do provider.
+  registry.terraform.io: T1_OFFICIAL_DOCS
+  developer.hashicorp.com: T1_OFFICIAL_DOCS
+
+  # --- T2: codigo-fonte, release notes e artefato publicado ------------------
+  github.com: T2_SOURCE_CODE
+  raw.githubusercontent.com: T2_SOURCE_CODE
+  api.github.com: T2_SOURCE_CODE
+  # Maven Central e PyPI publicam o POM e o JSON de release: o artefato e a
+  # metadata DECLARADA pela versao. Provam que a versao existe e o que ela
+  # declara depender; nao provam comportamento, que continua exigindo medida.
+  repo1.maven.org: T2_SOURCE_CODE
+  pypi.org: T2_SOURCE_CODE
+
+  # --- T4: primeira parte ou fornecedor, mas nao referencia -------------------
+  # azure.microsoft.com NAO e learn.microsoft.com. Ele serve blog, updates e
+  # pricing: anuncio e tabela de preco, nao mantidos junto com a versao.
+  # Declarado explicitamente, mesmo valendo o default, para que ninguem o
+  # conserte para T1 por parecer Microsoft oficial.
+  azure.microsoft.com: T4_RECOGNIZED_AUTHORITY
+  # Blog de engenharia da Databricks: fornecedor, nao referencia.
+  www.databricks.com: T4_RECOGNIZED_AUTHORITY
+  # Comunidades sob marca oficial: marca oficial nao torna o conteudo referencia.
+  techcommunity.microsoft.com: T4_RECOGNIZED_AUTHORITY
+  community.databricks.com: T4_RECOGNIZED_AUTHORITY
+  # Registro comunitario de pacotes Spark.
+  spark-packages.org: T4_RECOGNIZED_AUTHORITY
+  # Paper academico revisado por pares: DESCREVE um benchmark, e T3 exige que
+  # ele tenha sido reproduzido no ambiente alvo.
+  www.vldb.org: T4_RECOGNIZED_AUTHORITY

@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "documents": [
+    {
+      "path": "knowledge/agentic/evidence-first.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/databricks/runtime-and-compute.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/databricks/workflows.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/eventhubs/eventhubs-and-kafka.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/fabric/capacity-and-throttling.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/fabric/data-engineering-spark.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/fabric/data-factory.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/fabric/onelake-shortcuts.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/fabric/realtime-intelligence.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/finops/cost-management-and-dbu.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/iac/bicep.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/iac/terraform-azurerm.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/identity/entra-managed-identity.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/identity/keyvault.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/network/private-link-dns.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/observability/monitor-log-analytics.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/purview/unified-catalog-and-lineage.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/storage/adls-gen2.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/synapse/pipelines-and-linked-services.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/synapse/spark-runtimes.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/unity-catalog/privileges-and-fgac.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/unity-catalog/securable-model.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/azure/unity-catalog/troubleshooting-external-locations.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/data-quality/contracts-and-expectations.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/governance/multi-layer-conflicts.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/lakehouse/delta-lake.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/lakehouse/iceberg.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/lakehouse/open-table-formats.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/migration/aws-to-azure-concepts.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/migration/synapse-to-fabric.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/spark/execution-model.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/spark/performance-aqe-shuffle-skew.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/spark/streaming-state-checkpoint.md",
+      "sha256": null
+    },
+    {
+      "path": "knowledge/streaming/runtime-matrix.md",
+      "sha256": null
+    }
+  ]
+}

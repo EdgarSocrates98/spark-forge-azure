@@ -1,0 +1,36 @@
+skill: analyze-batch-loop
+version: 1
+cases:
+- id: batch-loop-write-per-iteration
+  prompt: Meu job escreve uma partição por lote dentro de um for, e cada lote demora mais
+  must_include:
+  - pyspark.loop
+  - contains_write
+  - SF-PY-004
+  must_not_include:
+  - vai ficar mais rápido
+  - problema resolvido
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sparkforge-azure judge
+- id: batch-loop-collect-keys
+  prompt: O driver estoura memória depois de horas, o job faz collect das chaves e filtra por isin em cada lote
+  must_include:
+  - pyspark.driver_collect
+  - join distribuído
+  must_not_include:
+  - aumente a memória do driver
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sparkforge-azure judge
+- id: batch-loop-no-evidence
+  prompt: O job está lento e só tem o código Python, sem event log
+  must_include:
+  - facts
+  - unresolved
+  must_not_include:
+  - a causa é o loop
+  - X% mais lento
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sfa_judge
