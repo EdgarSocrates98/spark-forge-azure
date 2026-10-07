@@ -1,0 +1,31 @@
+skill: azure-networking
+version: 1
+cases:
+- id: azure-networking-pe-dfs
+  prompt: Criei private endpoint blob mas abfss dá timeout
+  must_include:
+  - dfs
+  - privatelink
+  must_not_include:
+  - o private endpoint resolve tudo
+  expected_tools:
+  - sparkforge-azure analyze network-topology
+- id: azure-networking-isolated
+  prompt: Minha rede está totalmente isolada?
+  must_include:
+  - casos de ameaça declarados passaram
+  must_not_include:
+  - totalmente isolada
+  expected_tools:
+  - sparkforge-azure governance diagnose
+  - sfa_governance_diagnose
+- id: azure-networking-dns
+  prompt: O DNS resolve para IP público
+  must_include:
+  - zona
+  - unresolved
+  must_not_include:
+  - dns está correto
+  expected_tools:
+  - sparkforge-azure analyze network-topology
+  - sfa_analyze

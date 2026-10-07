@@ -1,0 +1,30 @@
+skill: azure-event-hubs
+version: 1
+cases:
+- id: azure-event-hubs-exactly-once
+  prompt: Event Hubs garante exactly-once no meu job?
+  must_include:
+  - spark-streaming
+  must_not_include:
+  - exactly-once garantido
+  expected_tools:
+  - sparkforge-azure analyze eventhubs-namespace
+- id: azure-event-hubs-partitions
+  prompt: Tenho 4 partições e 32 executores
+  must_include:
+  - partições
+  - unresolved
+  must_not_include:
+  - mais partições resolvem
+  expected_tools:
+  - sparkforge-azure analyze eventhubs-namespace
+  - sfa_analyze
+- id: azure-event-hubs-sas-code
+  prompt: Revise a conexão Kafka do meu consumidor
+  must_include:
+  - analyze spark-kafka-options
+  - azure-entra
+  must_not_include:
+  - conexão segura
+  expected_tools:
+  - sparkforge-azure analyze spark-kafka-options

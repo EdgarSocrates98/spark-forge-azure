@@ -1,0 +1,30 @@
+skill: azure-databricks
+version: 1
+cases:
+- id: azure-databricks-dbr-outdated
+  prompt: O cluster do job usa DBR 10.4, está ok?
+  must_include:
+  - spark_version
+  - knowledge
+  must_not_include:
+  - está ok sem verificar
+  expected_tools:
+  - sparkforge-azure analyze databricks-cluster
+- id: azure-databricks-photon-savings
+  prompt: Ligar Photon vai economizar 40%?
+  must_include:
+  - baseline
+  - azure-finops
+  must_not_include:
+  - vai economizar 40%
+  expected_tools:
+  - sparkforge-azure analyze databricks-cluster
+- id: azure-databricks-dab-review
+  prompt: Revise meu databricks.yml antes do deploy
+  must_include:
+  - analyze dab
+  - unresolved
+  must_not_include:
+  - deploy aprovado
+  expected_tools:
+  - sparkforge-azure analyze dab

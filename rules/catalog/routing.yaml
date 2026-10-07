@@ -1,0 +1,168 @@
+# Catálogo de roteamento — direcionamento determinístico (spark-forge-azure)
+# Mesmo motor de regras, predicado sobre o estado do case em vez de sobre facts.
+# É isto que faz o próximo passo ser decidido por dado e não por julgamento do modelo.
+#
+# Avaliado em ordem. O primeiro match vira recommended_skill; os seguintes que casarem
+# entram em alternatives, com rank.
+#
+# ADAPT de rules/catalog/routing.yaml do spark-forge-aws (ver
+# docs/architecture/evidence/provenance.json). O que mudou e por quê:
+# - Só ficaram as rotas sobre ESTADO DO CASE (runtime, inventário, gates). As
+#   rotas por finding/área (SF-PY, SF-UI, SF-GLUE, SF-EMR, SF-LF, ...) apontavam
+#   para o catálogo de regras AWS, que não é portado: o catálogo Azure novo usa
+#   áreas `SFA-*` (portability matrix) e as rotas por área entram junto com ele.
+# - Skills e coordenadores são os do produto Azure (`skills/`, `agents/`).
+# - O runtime confirmado é `runtime.spark` (todo runtime Azure — Databricks
+#   Runtime, Fabric runtime, Synapse Spark pool — resolve para uma versão Spark);
+#   não existe `runtime.glue` aqui.
+# - `produced_by` descreve o fact que destrava o gate. Os produtores de
+#   `bench.run_delta`, `callgraph.reachable_spark_work` e `funcval.plan` ainda não
+#   existem no `sparkforge-azure`; o gate continua fail-closed sob rigor (o lado
+#   seguro), e a mensagem diz o que falta em vez de citar um comando inexistente.
+
+catalog_version: 1
+schema_version: 1
+area: ROUTE
+retrieved: 2026-10-06
+
+# Contrato dos gates do case — quem produz a evidência que destrava cada um.
+# `store.set_phase` lê este bloco quando o case tem `strict_gates`: gate com
+# `satisfied_by` é fail-closed nas fases de `guards_phases`; gate sem
+# `satisfied_by` permanece advisory, mesmo sob rigor.
+#
+# Os QUATRO gates de `store.GATES` aparecem aqui, inclusive os advisory: gate
+# ausente do bloco seria ambíguo entre "esqueceram" e "é advisory de propósito".
+#
+# `guards_phases` é LISTA: o sufixo de `PHASES` a partir da primeira fase guardada.
+#
+# LIMITE: a checagem é por PRESENÇA do kind, não por conteúdo do fact.
+gates:
+
+  baseline_captured:
+    satisfied_by: bench.run_delta
+    produced_by: "fact bench.run_delta (medicao antes/depois do mesmo job) anexado ao case; produtor sparkforge-azure ainda nao portado"
+    # `experiment` não entra: `bench.run_delta` exige o lado "depois", que só
+    # existe depois de rodar o job mudado.
+    guards_phases: [validation, report]
+
+  flows_mapped:
+    satisfied_by: callgraph.reachable_spark_work
+    produced_by: "fact callgraph.reachable_spark_work (call graph dos entrypoints ate trabalho Spark) anexado ao case; produtor sparkforge-azure ainda nao portado"
+    # NÃO `callgraph.summary`: aquele kind é emitido incondicionalmente.
+    guards_phases: [hypothesis, experiment, validation, report]
+
+  dominant_bottleneck_identified:
+    advisory_reason: "nenhum fact prova dominancia; o julgamento e do catalogo, nao da evidencia"
+
+  functional_validation_defined:
+    # O nome do gate diz *defined*, não *executed*: o que satisfaz é o PLANO.
+    satisfied_by: funcval.plan
+    produced_by: "fact funcval.plan (plano de validacao funcional derivado do write e do schema da tabela) anexado ao case; produtor sparkforge-azure ainda nao portado"
+    # Só `report`: a ROUTE-015 que destrava este gate opera em [validation, report].
+    guards_phases: [report]
+
+rules:
+
+  - id: ROUTE-001
+    phase_in: [intake]
+    title: Runtime não detectado
+    when:
+      any:
+        - {case: runtime.spark, absent: true}
+        - {case: runtime.divergences, count_gt: 0}
+    recommended_skill: azure-spark
+    reason: >
+      Sem runtime confirmado (Databricks Runtime, Fabric runtime ou Synapse Spark
+      pool), nenhum limiar nem API pode ser aplicado com segurança. Divergência
+      entre fontes não é resolvida escolhendo uma.
+    missing_artifacts: [job_definition, event_log]
+
+  - id: ROUTE-002
+    phase_in: [intake, inventory]
+    title: Sem inventário de código
+    when:
+      all:
+        - {case: facts_index.count, count_eq: 0}
+    recommended_skill: azure-spark
+    reason: Nenhum fact extraído. Mapear entrypoint e biblioteca antes de qualquer hipótese.
+
+  - id: ROUTE-003
+    phase_in: [inventory, diagnosis]
+    title: Fluxos full e incremental não separados
+    when:
+      all:
+        - {case: scope.entrypoints, count_gt: 1}
+        - {case: gates.flows_mapped, equals: false}
+    recommended_skill: spark-performance
+    reason: >
+      Com dois fluxos, o DAG de cada um precisa ser separado antes de diagnosticar.
+      Trabalho global executado no fluxo incremental é a suspeita padrão, e não aparece
+      sem essa separação.
+
+  - id: ROUTE-012
+    phase_in: [diagnosis, hypothesis]
+    title: Gargalo identificado sem baseline
+    when:
+      all:
+        - {case: gates.dominant_bottleneck_identified, equals: true}
+        - {case: gates.baseline_captured, equals: false}
+    recommended_skill: spark-performance
+    blocked_by: [baseline_captured]
+    reason: >
+      Sem baseline medido, nenhuma mudança pode ser declarada melhoria. Medir o job
+      atual antes de propor a alteração.
+
+  - id: ROUTE-013
+    phase_in: [hypothesis, experiment]
+    title: Hipótese aberta com baseline
+    when:
+      all:
+        - {case: gates.baseline_captured, equals: true}
+        - {case: gates.dominant_bottleneck_identified, equals: true}
+        - {case: hypotheses, any_where: {status: open}}
+    recommended_skill: spark-performance
+    reason: Baseline e gargalo dominante estabelecidos; testar a hipótese aberta contra o baseline.
+
+  - id: ROUTE-015
+    phase_in: [validation, report]
+    title: Validação funcional não definida
+    when:
+      all:
+        - {case: gates.functional_validation_defined, equals: false}
+    recommended_skill: azure-spark
+    blocked_by: [functional_validation_defined]
+    reason: >
+      Definir a validação antes de fechar o relatório: o que prova que a saída do
+      job mudado é equivalente à do original.
+
+  - id: AGENT-001
+    phase_in: [intake, inventory]
+    title: Runtime não detectado — inventário primeiro
+    when:
+      any:
+        - {case: runtime.spark, absent: true}
+        - {case: runtime.divergences, count_gt: 0}
+    recommended_agent: inventory
+    reason: >
+      Sem runtime confirmado, o primeiro coordenador é o inventário: listar os
+      artefatos (definição do job, export do workspace, event log) e declarar o
+      que falta como unresolved.
+
+  - id: AGENT-002
+    phase_in: [diagnosis, hypothesis, experiment]
+    title: Gargalo de performance em investigação
+    when:
+      any:
+        - {case: gates.dominant_bottleneck_identified, equals: true}
+        - {case: hypotheses, any_where: {status: open}}
+    recommended_agent: spark-performance-specialist
+    reason: >
+      Gargalo dominante ou hipótese aberta: o specialist de performance Spark
+      conduz a medição com evidência de execução.
+
+fallback:
+  recommended_skill: azure-spark
+  reason: >
+    Nenhuma regra de roteamento casou com o estado atual do case. Voltar ao
+    diagnóstico ponta a ponta e registrar em open_questions qual evidência falta,
+    para que uma regra nova cubra este estado.

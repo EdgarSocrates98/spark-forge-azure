@@ -1,0 +1,218 @@
+# Expansao deterministica de consulta (secao 72). Sem LLM.
+# term/aliases: formas que casam na consulta (palavra inteira, minusculas).
+# expands: termos adicionados a busca (um nivel; nao reexpande).
+# targets: ids de knowledge ou dominios; validados por scripts/check_knowledge.py.
+schema_version: 1
+terms:
+  - term: external location
+    aliases: [external locations, externallocation]
+    expands: [storage credential, access connector, managed identity, adls rbac, adls acl, workspace binding, private endpoint, read files, write files]
+    targets: [azure.unity-catalog.troubleshooting-external-locations, azure.unity-catalog.securable-model, azure.adls.gen2, governance.multi-layer-conflicts]
+  - term: storage credential
+    aliases: [storage credentials]
+    expands: [access connector, managed identity, external location]
+    targets: [azure.unity-catalog.securable-model, azure.unity-catalog.troubleshooting-external-locations]
+  - term: access connector
+    aliases: [accessconnectors, databricks access connector]
+    expands: [managed identity, storage blob data contributor, resource instances, storage credential]
+    targets: [azure.unity-catalog.securable-model, azure.entra.managed-identity, azure.iac.terraform-azurerm]
+  - term: unity catalog
+    aliases: [uc, metastore]
+    expands: [catalog, schema, grant, external location, workspace binding, row filter, column mask]
+    targets: [unity-catalog, azure.unity-catalog.securable-model, azure.unity-catalog.privileges-and-fgac]
+  - term: workspace binding
+    aliases: [catalog binding, isolation mode, isolated]
+    expands: [unity catalog, external location]
+    targets: [azure.unity-catalog.securable-model, governance.multi-layer-conflicts]
+  - term: row filter
+    aliases: [row filters, column mask, column masks, fgac, abac]
+    expands: [governed tags, unity catalog]
+    targets: [azure.unity-catalog.privileges-and-fgac]
+  - term: permission denied
+    aliases: [permission_denied, access denied, '403', forbidden]
+    expands: [adls rbac, adls acl, private endpoint, firewall, workspace binding, read files]
+    targets: [governance.multi-layer-conflicts, azure.unity-catalog.troubleshooting-external-locations, azure.adls.gen2]
+  - term: adls
+    aliases: [adls gen2, data lake storage, abfss, hierarchical namespace, hns]
+    expands: [rbac, acl, abac, private endpoint, small files]
+    targets: [azure-adls, azure.adls.gen2]
+  - term: acl
+    aliases: [acls, posix acl, access control list]
+    expands: [rbac, traverse, default acl]
+    targets: [azure.adls.gen2, governance.multi-layer-conflicts]
+  - term: rbac
+    aliases: [role assignment, role assignments, storage blob data contributor]
+    expands: [acl, managed identity, control plane, data plane]
+    targets: [azure.adls.gen2, azure.entra.managed-identity, governance.multi-layer-conflicts]
+  - term: managed identity
+    aliases: [managed identities, msi, system-assigned, user-assigned, workload identity]
+    expands: [service principal, rbac, access connector]
+    targets: [azure.entra.managed-identity, azure-entra]
+  - term: service principal
+    aliases: [service principals, spn, app registration]
+    expands: [managed identity, rbac, oauth]
+    targets: [azure.entra.managed-identity]
+  - term: key vault
+    aliases: [keyvault, akv, secret scope, secret scopes]
+    expands: [access policy, rbac, private endpoint]
+    targets: [azure.keyvault.secrets-and-rbac, azure-keyvault, azure.databricks.runtime-and-compute]
+  - term: private endpoint
+    aliases: [private endpoints, private link, privatelink]
+    expands: [private dns zone, firewall, managed vnet]
+    targets: [azure.network.private-link-dns, azure-networking]
+  - term: private dns
+    aliases: [private dns zone, dns zone, nxdomain]
+    expands: [private endpoint, vnet]
+    targets: [azure.network.private-link-dns]
+  - term: firewall
+    aliases: [network rules, trusted services, resource instances, public network access]
+    expands: [private endpoint, vnet, nsg]
+    targets: [azure.network.private-link-dns, governance.multi-layer-conflicts]
+  - term: managed vnet
+    aliases: [managed virtual network, managed private endpoint, managed private endpoints]
+    expands: [integration runtime, private endpoint]
+    targets: [azure.adf.pipelines-ir-managed-vnet, azure.network.private-link-dns]
+  - term: databricks runtime
+    aliases: [dbr, lts, runtime version, spark_version]
+    expands: [photon, spark version, serverless]
+    targets: [azure.databricks.runtime-and-compute, azure-databricks]
+  - term: photon
+    aliases: [runtime_engine]
+    expands: [dbu, databricks runtime]
+    targets: [azure.databricks.runtime-and-compute, azure.finops.cost-management-and-dbu]
+  - term: serverless
+    aliases: [environment version, serverless compute]
+    expands: [databricks runtime, spark connect]
+    targets: [azure.databricks.runtime-and-compute]
+  - term: access mode
+    aliases: [standard access mode, shared access mode, dedicated access mode, single user]
+    expands: [spark connect, unity catalog]
+    targets: [azure.databricks.runtime-and-compute, azure.spark.execution-model]
+  - term: lakeflow jobs
+    aliases: [databricks jobs, workflows, job cluster, asset bundles]
+    expands: [task, trigger, system tables]
+    targets: [azure.databricks.workflows]
+  - term: system tables
+    aliases: [system.billing.usage, system.access.audit, system.query.history, system catalog]
+    expands: [audit, billing, lineage]
+    targets: [azure.databricks.runtime-and-compute, azure.observability.monitor-log-analytics, azure.finops.cost-management-and-dbu]
+  - term: aqe
+    aliases: [adaptive query execution, shuffle partitions, spark.sql.shuffle.partitions]
+    expands: [shuffle, skew, broadcast join]
+    targets: [azure.spark.performance-aqe-shuffle-skew, spark-performance]
+  - term: skew
+    aliases: [data skew, skewed, salting]
+    expands: [aqe, shuffle, spill]
+    targets: [azure.spark.performance-aqe-shuffle-skew]
+  - term: small files
+    aliases: [small file, file size, compaction]
+    expands: [optimize, liquid clustering, adls]
+    targets: [azure.spark.performance-aqe-shuffle-skew, lakehouse.delta-lake, azure.adls.gen2]
+  - term: oom
+    aliases: [out of memory, spill, executor memory, driver memory]
+    expands: [skew, collect, executor sizing]
+    targets: [azure.spark.performance-aqe-shuffle-skew, azure.spark.execution-model]
+  - term: structured streaming
+    aliases: [streaming, readstream, writestream, micro-batch]
+    expands: [checkpoint, watermark, state, trigger]
+    targets: [azure.spark.streaming-state-checkpoint, spark-streaming]
+  - term: checkpoint
+    aliases: [checkpointlocation, checkpoints]
+    expands: [offsets, state, structured streaming]
+    targets: [azure.spark.streaming-state-checkpoint]
+  - term: watermark
+    aliases: [withwatermark, late data, state store]
+    expands: [structured streaming, output mode]
+    targets: [azure.spark.streaming-state-checkpoint]
+  - term: exactly-once
+    aliases: [exactly once, idempotent sink, at-least-once]
+    expands: [checkpoint, foreachbatch, idempotent]
+    targets: [azure.spark.streaming-state-checkpoint, agentic.evidence-first]
+  - term: event hubs
+    aliases: [eventhubs, event hub, servicebus.windows.net]
+    expands: [kafka, partitions, consumer groups, capture, retention]
+    targets: [azure.eventhubs.kafka-and-spark, azure-event-hubs]
+  - term: kafka
+    aliases: [sasl_ssl, oauthbearer, '9093']
+    expands: [event hubs, structured streaming, maxoffsetspertrigger]
+    targets: [azure.eventhubs.kafka-and-spark, azure.spark.streaming-state-checkpoint]
+  - term: delta
+    aliases: [delta lake, merge, vacuum, optimize, time travel, change data feed, cdf]
+    expands: [deletion vectors, liquid clustering, uniform]
+    targets: [lakehouse.delta-lake, delta-lake]
+  - term: liquid clustering
+    aliases: [cluster by, zorder, z-order]
+    expands: [optimize, delta]
+    targets: [lakehouse.delta-lake]
+  - term: iceberg
+    aliases: [apache iceberg, uniform, iceberg rest]
+    expands: [snapshots, partition evolution, catalog]
+    targets: [lakehouse.iceberg, lakehouse.open-table-formats, iceberg]
+  - term: table format
+    aliases: [open table format, parquet, delta vs iceberg]
+    expands: [delta, iceberg, interoperability]
+    targets: [lakehouse.open-table-formats, open-table-formats]
+  - term: fabric runtime
+    aliases: [fabric spark, runtime 2.0, runtime 1.3, native execution engine]
+    expands: [lakehouse, notebook, spark job definition]
+    targets: [azure.fabric.data-engineering-spark, fabric-data-engineering]
+  - term: onelake
+    aliases: [shortcut, shortcuts, onelake shortcut]
+    expands: [lakehouse, adls, cloud connection]
+    targets: [azure.fabric.onelake-shortcuts, fabric-onelake]
+  - term: capacity
+    aliases: [fabric capacity, f sku, capacity units, cu, throttling, capacitylimitexceeded, smoothing]
+    expands: [bursting, overage, capacity metrics]
+    targets: [azure.fabric.capacity-and-throttling]
+  - term: eventstream
+    aliases: [eventstreams, eventhouse, real-time intelligence, activator, kql]
+    expands: [event hubs, at-least-once]
+    targets: [azure.fabric.realtime-intelligence, fabric-realtime]
+  - term: fabric data factory
+    aliases: [copy job, dataflow gen2, data gateway, opdg]
+    expands: [connection, pipeline]
+    targets: [azure.fabric.data-factory, fabric-data-factory]
+  - term: data factory
+    aliases: [adf, integration runtime, self-hosted integration runtime, shir, linked service, tumbling window]
+    expands: [managed vnet, trigger, copy activity]
+    targets: [azure.adf.pipelines-ir-managed-vnet, azure-data-factory]
+  - term: synapse
+    aliases: [synapse spark, synapse pipelines, spark pool]
+    expands: [fabric runtime, migration]
+    targets: [azure.synapse.spark-runtimes, azure.synapse.pipelines-and-linked-services, azure-synapse]
+  - term: migration
+    aliases: [migrate, upgrade, synapse to fabric]
+    expands: [synapse, fabric runtime]
+    targets: [migration.synapse-to-fabric, migration]
+  - term: aws
+    aliases: [s3, glue, emr, kinesis, msk, lake formation]
+    expands: [adls, onelake, event hubs, unity catalog]
+    targets: [migration.aws-to-azure-concepts]
+  - term: purview
+    aliases: [unified catalog, data map, lineage, governance domain]
+    expands: [unity catalog, classification]
+    targets: [azure.purview.unified-catalog-and-lineage, azure-purview]
+  - term: cost
+    aliases: [finops, dbu, billing, budget, cost management, savings]
+    expands: [system tables, capacity, idle resources]
+    targets: [azure.finops.cost-management-and-dbu, azure-finops]
+  - term: monitoring
+    aliases: [azure monitor, log analytics, diagnostic settings, event log, audit log]
+    expands: [system tables, capacity metrics]
+    targets: [azure.observability.monitor-log-analytics, azure-observability]
+  - term: terraform
+    aliases: [azurerm, azapi, hcl]
+    expands: [access connector, storage credential]
+    targets: [azure.iac.terraform-azurerm, azure-terraform]
+  - term: bicep
+    aliases: [arm template, what-if]
+    expands: [diagnostic settings]
+    targets: [azure.iac.bicep, azure-bicep]
+  - term: data quality
+    aliases: [expectations, expect_or_drop, data contract, data contracts]
+    expands: [lakeflow jobs, quarantine]
+    targets: [data-quality.contracts-and-expectations, data-quality]
+  - term: evidence
+    aliases: [finding, findings, unknown, estimated, observed]
+    expands: [facts, rules]
+    targets: [agentic.evidence-first, agentic]

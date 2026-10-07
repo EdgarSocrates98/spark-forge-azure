@@ -1,0 +1,84 @@
+name: uc-external-location-mi-without-storage-role
+principal:
+  id: u1
+  type: user
+  groups:
+  - g-eng
+operation: read
+target:
+  kind: path
+  url: abfss://raw@lake.dfs.core.windows.net/sales/orders/part-0.parquet
+compute:
+  type: classic_vnet
+  subnet_id: sub-1
+  workspace_id: ws1
+entra:
+  principals:
+    u1:
+      enabled: true
+    mi-connector-1:
+      enabled: true
+rbac:
+  assignments: []
+adls:
+  account_id: /subscriptions/s1/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/lake
+  hns: true
+  acl:
+    /:
+      owner: root
+      owning_group: g-own
+      entries:
+      - type: user
+        perms: rwx
+      - type: group
+        perms: r-x
+      - type: other
+        perms: '---'
+    /sales:
+      owner: root
+      owning_group: g-own
+      entries:
+      - type: user
+        perms: rwx
+      - type: group
+        perms: r-x
+      - type: other
+        perms: '---'
+    /sales/orders:
+      owner: root
+      owning_group: g-own
+      entries:
+      - type: user
+        perms: rwx
+      - type: group
+        perms: r-x
+      - type: other
+        perms: '---'
+    /sales/orders/part-0.parquet:
+      owner: root
+      owning_group: g-own
+      entries:
+      - type: user
+        perms: rwx
+      - type: group
+        perms: r-x
+      - type: other
+        perms: '---'
+network:
+  public_network_access: Enabled
+  default_action: Allow
+unity_catalog:
+  grants:
+  - securable: external_location:raw_loc
+    principal: g-eng
+    privileges:
+    - READ FILES
+  external_locations:
+  - name: raw_loc
+    url: abfss://raw@lake.dfs.core.windows.net/sales
+    credential: cred1
+    isolation_mode: OPEN
+  storage_credentials:
+    cred1:
+      access_connector_id: /subscriptions/s1/resourceGroups/rg/providers/Microsoft.Databricks/accessConnectors/ac1
+      identity_id: mi-connector-1

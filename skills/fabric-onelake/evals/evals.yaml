@@ -1,0 +1,30 @@
+skill: fabric-onelake
+version: 1
+cases:
+- id: fabric-onelake-shortcut-403
+  prompt: Shortcut para ADLS retorna 403
+  must_include:
+  - connection
+  - azure-adls
+  must_not_include:
+  - o shortcut está correto
+  expected_tools:
+  - sparkforge-azure governance diagnose
+- id: fabric-onelake-onelake-uc
+  prompt: Role OneLake é o mesmo que grant do Unity Catalog?
+  must_include:
+  - unity-catalog
+  must_not_include:
+  - é o mesmo que grant do unity catalog
+  expected_tools:
+  - sparkforge-azure analyze onelake-shortcuts
+- id: fabric-onelake-table-no-files
+  prompt: Vejo a tabela mas não os arquivos no OneLake
+  must_include:
+  - unresolved
+  - workspace
+  must_not_include:
+  - acesso garantido
+  expected_tools:
+  - sparkforge-azure governance diagnose
+  - sfa_governance_diagnose

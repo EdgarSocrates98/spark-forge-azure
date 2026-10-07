@@ -1,0 +1,30 @@
+skill: azure-observability
+version: 1
+cases:
+- id: azure-observability-healthy
+  prompt: O pipeline está saudável?
+  must_include:
+  - janela
+  - unresolved
+  must_not_include:
+  - está saudável
+  - sem incidentes
+  expected_tools:
+  - sparkforge-azure analyze log-analytics-export
+- id: azure-observability-no-logs
+  prompt: Não temos logs do workspace Databricks
+  must_include:
+  - diagnostic setting
+  must_not_include:
+  - logs estão completos
+  expected_tools:
+  - sparkforge-azure analyze diagnostic-settings
+  - sfa_analyze
+- id: azure-observability-alert
+  prompt: Esse alerta funciona?
+  must_include:
+  - histórico de disparo
+  must_not_include:
+  - o alerta funciona
+  expected_tools:
+  - sparkforge-azure analyze diagnostic-settings

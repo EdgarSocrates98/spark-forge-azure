@@ -1,0 +1,198 @@
+# Matriz com fonte por celula (secao 213). Base: docs/research/azure_sources_2026-10-06.md.
+schema_version: 1
+matrix: databricks-runtime
+verified_at: 2026-10-06
+rows:
+- key: '19'
+  values:
+    lts:
+      value: false
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    spark:
+      value: 4.2.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: CONFLICTED
+      note: spark.apache.org news lists Spark 4.2.0 on 2026-07-14 vs DBR 19 release 2026-06-15
+    release:
+      value: '2026-06-15'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    end_of_support:
+      value: determined at LTS transition
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    mlflow_ml_runtime:
+      value: 3.12.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+- key: 18 LTS
+  values:
+    lts:
+      value: true
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    spark:
+      value: 4.1.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    release:
+      value: '2026-06-10'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    end_of_support:
+      value: '2029-06-10'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    java:
+      value: Zulu21 (JDK 21)
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/18
+      status: VERIFIED
+    scala:
+      value: 2.13.16
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/18
+      status: VERIFIED
+    python:
+      value: 3.12.3
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/18
+      status: VERIFIED
+    delta:
+      value: 4.2.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/18
+      status: VERIFIED
+    mlflow_ml_runtime:
+      value: 3.8.1
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+- key: 17.3 LTS
+  values:
+    lts:
+      value: true
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    spark:
+      value: 4.0.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    release:
+      value: '2025-10-22'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    end_of_support:
+      value: '2028-10-22'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    java:
+      value: Zulu17
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/17.3lts
+      status: VERIFIED
+    scala:
+      value: 2.13.16
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/17.3lts
+      status: VERIFIED
+    python:
+      value: 3.12.3
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/17.3lts
+      status: VERIFIED
+    delta:
+      value: 4.0.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/17.3lts
+      status: VERIFIED
+    mlflow_ml_runtime:
+      value: 3.0.1
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+- key: 16.4 LTS
+  values:
+    lts:
+      value: true
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    spark:
+      value: 3.5.2
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    release:
+      value: '2025-05-09'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    end_of_support:
+      value: '2028-05-09'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    java:
+      value: Zulu17
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/16.4lts
+      status: VERIFIED
+    scala:
+      value: 2.12.15 or 2.13.10
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/16.4lts
+      status: VERIFIED
+    python:
+      value: 3.12.3
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/16.4lts
+      status: VERIFIED
+    delta:
+      value: 3.3.1
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/16.4lts
+      status: VERIFIED
+    mlflow_ml_runtime:
+      value: 2.21.3
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+- key: 15.4 LTS
+  values:
+    lts:
+      value: true
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    spark:
+      value: 3.5.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    release:
+      value: '2024-08-19'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    end_of_support:
+      value: '2027-08-19'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    java:
+      value: Zulu 8
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/15.4lts
+      status: VERIFIED
+    scala:
+      value: 2.12.15
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/15.4lts
+      status: VERIFIED
+    python:
+      value: 3.11.11
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/15.4lts
+      status: VERIFIED
+    delta:
+      value: 3.2.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/15.4lts
+      status: VERIFIED
+    mlflow_ml_runtime:
+      value: 2.13.1
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+- key: 14.3 LTS
+  values:
+    lts:
+      value: true
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    spark:
+      value: 3.5.0
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    release:
+      value: '2024-02-01'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED
+    end_of_support:
+      value: '2027-02-01'
+      source: https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/
+      status: VERIFIED

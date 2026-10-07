@@ -1,0 +1,32 @@
+skill: azure-spark
+version: 1
+cases:
+- id: azure-spark-collect-driver
+  prompt: Meu job PySpark faz df.collect() numa tabela grande e cai no driver. O que fazer?
+  must_include:
+  - analyze pyspark
+  - unresolved
+  must_not_include:
+  - roda igual em qualquer runtime
+  - economia garantida
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+- id: azure-spark-port-runtime
+  prompt: Esse notebook Databricks roda igual no Fabric?
+  must_include:
+  - spark.conf
+  - fabric-data-engineering
+  must_not_include:
+  - roda igual no fabric sem mudanças
+  expected_tools:
+  - sparkforge-azure analyze spark-conf
+- id: azure-spark-udf-claim
+  prompt: A UDF Python é a causa da lentidão?
+  must_include:
+  - event log
+  - spark-performance
+  must_not_include:
+  - a udf é a causa
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sfa_analyze

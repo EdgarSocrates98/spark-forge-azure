@@ -1,0 +1,5 @@
+name: azure_lib_vs_uc
+synthetic: true
+proves: 'Par de contradicao direta Azure-nativo: SFA-LIB-001 manda declarar o JAR de GraphFrames
+  nas bibliotecas do cluster; SFA-UC-001 manda remove-lo porque o cluster Unity Catalog em access
+  mode standard so carrega JAR da allowlist. Mesmo target, add x remove. Nao e saida de extrator real.'

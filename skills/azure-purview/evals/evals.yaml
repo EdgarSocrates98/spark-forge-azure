@@ -1,0 +1,28 @@
+skill: azure-purview
+version: 1
+cases:
+- id: azure-purview-lineage-complete
+  prompt: O lineage do Purview está completo?
+  must_include:
+  - unresolved
+  must_not_include:
+  - lineage completo
+  expected_tools:
+  - sparkforge-azure analyze purview-lineage
+- id: azure-purview-pii
+  prompt: Quais tabelas têm PII?
+  must_include:
+  - classificação
+  must_not_include:
+  - não há pii
+  expected_tools:
+  - sparkforge-azure analyze purview-lineage
+  - sfa_analyze
+- id: azure-purview-purview-access
+  prompt: Label confidencial no Purview bloqueia acesso no Databricks?
+  must_include:
+  - unity-catalog
+  must_not_include:
+  - o label bloqueia o acesso
+  expected_tools:
+  - sparkforge-azure graph query

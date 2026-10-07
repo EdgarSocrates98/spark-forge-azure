@@ -1,0 +1,221 @@
+# Matriz com fonte por celula (secao 213). Base: docs/research/azure_sources_2026-10-06.md.
+schema_version: 1
+matrix: fabric-capacity-throttling
+verified_at: 2026-10-06
+rows:
+- key: F2
+  values:
+    capacity_units:
+      value: 2
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: false
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F4
+  values:
+    capacity_units:
+      value: 4
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: false
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F8
+  values:
+    capacity_units:
+      value: 8
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: false
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F16
+  values:
+    capacity_units:
+      value: 16
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: false
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F32
+  values:
+    capacity_units:
+      value: 32
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: false
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F64
+  values:
+    capacity_units:
+      value: 64
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    equivalent:
+      value: P1/A4 (8 vCores)
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F128
+  values:
+    capacity_units:
+      value: 128
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F256
+  values:
+    capacity_units:
+      value: 256
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F512
+  values:
+    capacity_units:
+      value: 512
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F1024
+  values:
+    capacity_units:
+      value: 1024
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F2048
+  values:
+    capacity_units:
+      value: 2048
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F4096
+  values:
+    capacity_units:
+      value: 4096
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: F8192
+  values:
+    capacity_units:
+      value: 8192
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    free_viewer_power_bi:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: Trial
+  values:
+    capacity_units:
+      value: 64
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+- key: stage:overage-protection
+  values:
+    future_capacity_consumed:
+      value: <= 10 min
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    effect:
+      value: no throttling
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+- key: stage:interactive-delay
+  values:
+    future_capacity_consumed:
+      value: 10-60 min
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    effect:
+      value: interactive delayed +20 s
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+- key: stage:interactive-rejection
+  values:
+    future_capacity_consumed:
+      value: 60 min - 24 h
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    effect:
+      value: interactive rejected
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+- key: stage:background-rejection
+  values:
+    future_capacity_consumed:
+      value: '> 24 h'
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    effect:
+      value: all requests rejected
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+- key: smoothing
+  values:
+    timepoint:
+      value: 30 s
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    interactive:
+      value: '>= 5 min up to 64 min'
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    background:
+      value: 24 h
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    rti_skips_delay_stage:
+      value: true
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    rejection_error:
+      value: CapacityLimitExceeded
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+    overage_billing_rate:
+      value: 3x
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/throttling
+      status: VERIFIED
+- key: billing
+  values:
+    granularity:
+      value: per second, 1 minute minimum
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED
+    reservation:
+      value: optional yearly
+      source: https://learn.microsoft.com/en-us/fabric/enterprise/licenses
+      status: VERIFIED

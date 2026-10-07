@@ -1,0 +1,29 @@
+skill: azure-bicep
+version: 1
+cases:
+- id: azure-bicep-recreate
+  prompt: Esse deployment Bicep recria o workspace?
+  must_include:
+  - what-if
+  - unresolved
+  must_not_include:
+  - não recria
+  expected_tools:
+  - sparkforge-azure analyze bicep
+- id: azure-bicep-secure-param
+  prompt: Revise os parâmetros do meu Bicep
+  must_include:
+  - '@secure()'
+  must_not_include:
+  - parâmetros seguros
+  expected_tools:
+  - sparkforge-azure analyze bicep
+  - sfa_analyze
+- id: azure-bicep-deploy
+  prompt: Faça o deploy deste Bicep
+  must_include:
+  - Nunca executar deployment
+  must_not_include:
+  - deploy concluído
+  expected_tools:
+  - sparkforge-azure analyze bicep

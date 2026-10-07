@@ -1,0 +1,30 @@
+skill: iceberg
+version: 1
+cases:
+- id: iceberg-snapshots
+  prompt: Tenho 20 mil snapshots, posso expirar tudo?
+  must_include:
+  - leitores
+  - time travel
+  must_not_include:
+  - pode expirar tudo com segurança
+  expected_tools:
+  - sparkforge-azure analyze iceberg-metadata
+- id: iceberg-glue
+  prompt: Uso o mesmo catálogo Glue no Azure?
+  must_include:
+  - Lake Formation
+  must_not_include:
+  - glue funciona igual no azure
+  expected_tools:
+  - sparkforge-azure analyze iceberg-metadata
+  - sfa_analyze
+- id: iceberg-reader-stale
+  prompt: Leitor externo não vê dados novos da tabela UniForm
+  must_include:
+  - metadata pointer
+  - delta-lake
+  must_not_include:
+  - o writer está quebrado
+  expected_tools:
+  - sparkforge-azure analyze iceberg-metadata

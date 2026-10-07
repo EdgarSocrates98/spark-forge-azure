@@ -1,0 +1,66 @@
+# Matriz com fonte por celula (secao 213). Base: docs/research/azure_sources_2026-10-06.md.
+schema_version: 1
+matrix: synapse-runtime
+verified_at: 2026-10-06
+rows:
+- key: '3.5'
+  values:
+    release:
+      value: '2025-10-13'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    stage:
+      value: GA
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    lts_from:
+      value: '2027-11-01'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    eos_announcement:
+      value: '2027-10-31'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    eos_effective:
+      value: '2028-10-31'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+- key: '3.4'
+  values:
+    release:
+      value: '2023-11-21'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    stage:
+      value: deprecated and soon to be disabled
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    eos_announcement:
+      value: '2025-04-30'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    eos_effective:
+      value: '2026-03-31'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+- key: '3.3'
+  values:
+    release:
+      value: '2022-11-17'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    stage:
+      value: end of support
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+    eos_effective:
+      value: '2025-03-31'
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+- key: 4.x
+  values:
+    available:
+      value: false
+      source: https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support
+      status: VERIFIED
+      note: Microsoft recommends Fabric Runtime 2.0 for Spark 4
