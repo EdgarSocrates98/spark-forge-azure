@@ -33,7 +33,6 @@ from pathlib import Path
 from typing import Any
 
 import pytest
-import yaml
 
 from sparkforge_azure.agentic.blackboard import (
     read_claims,
@@ -515,7 +514,11 @@ def _case_condicional() -> tuple[list[dict], list[dict]]:
     ]
     facts = [
         _fact("databricks.cluster.spark_conf", "f_cfg001"),
-        _fact("databricks.cluster.spark_conf.unapplied", "f_una001", reason="cluster nao devolveu o bloco"),
+        _fact(
+            "databricks.cluster.spark_conf.unapplied",
+            "f_una001",
+            reason="cluster nao devolveu o bloco",
+        ),
     ]
     return findings, facts
 

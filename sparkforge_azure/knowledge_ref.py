@@ -34,7 +34,8 @@ def knowledge_dir() -> Path:
         resolved = Path(override).expanduser().resolve()
         if not resolved.is_dir():
             raise KnowledgeError(
-                f"SPARKFORGE_AZURE_KNOWLEDGE aponta para {resolved}, que nao e um diretorio existente"
+                f"SPARKFORGE_AZURE_KNOWLEDGE aponta para {resolved}, "
+                "que nao e um diretorio existente"
             )
         return resolved
 

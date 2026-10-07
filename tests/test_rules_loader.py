@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pytest
-import yaml
 
 from sparkforge_azure.findings.models import Fact
 from sparkforge_azure.rules.engine import judge

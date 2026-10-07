@@ -114,7 +114,12 @@ def canonical_verb(name: str, tool_input: Any) -> tuple[str, str | None]:
                     if tuple(tokens[: len(prefixo)]) == prefixo:
                         tokens = tokens[len(prefixo) :]
                         break
-                if tokens[:1] and tokens[0] in _CLI and len(tokens) > 1 and _PALAVRA.match(tokens[1]):
+                if (
+                    tokens[:1]
+                    and tokens[0] in _CLI
+                    and len(tokens) > 1
+                    and _PALAVRA.match(tokens[1])
+                ):
                     partes = [tokens[1]]
                     if len(tokens) > 2 and _PALAVRA.match(tokens[2]):
                         partes.append(tokens[2])

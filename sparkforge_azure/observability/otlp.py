@@ -269,7 +269,11 @@ def projetar(
         montado = _span_sparkforge(span, trace_sf)
         if montado is None:
             recusados.append(
-                {"origin": "sparkforge_azure", "id": str(span.get("span_id")), "reason": "sem_horario"}
+                {
+                    "origin": "sparkforge_azure",
+                    "id": str(span.get("span_id")),
+                    "reason": "sem_horario",
+                }
             )
             continue
         otlp, inicio, fim, ferramenta, grupo = montado
@@ -278,6 +282,7 @@ def projetar(
             grupos_mcp.setdefault((ferramenta, grupo), []).append((inicio, fim))
 
     if otlp_sf:
+        escopo_sf = _escopo([("sparkforge_azure.duration_scope", "call_tool")], versao)
         resource_spans.append(
             {
                 "resource": {
@@ -291,7 +296,7 @@ def projetar(
                 },
                 "scopeSpans": [
                     {
-                        "scope": _escopo([("sparkforge_azure.duration_scope", "call_tool")], versao),
+                        "scope": escopo_sf,
                         "spans": _ordenados(otlp_sf),
                     }
                 ],
@@ -349,6 +354,7 @@ def projetar(
 
     resource_metrics: list[dict[str, Any]] = []
     if metricas_sf:
+        escopo_sf = _escopo([("sparkforge_azure.duration_scope", "call_tool")], versao)
         resource_metrics.append(
             {
                 "resource": {
@@ -362,7 +368,7 @@ def projetar(
                 },
                 "scopeMetrics": [
                     {
-                        "scope": _escopo([("sparkforge_azure.duration_scope", "call_tool")], versao),
+                        "scope": escopo_sf,
                         "metrics": [_metrica("mcp.server.operation.duration", "s", metricas_sf)],
                     }
                 ],

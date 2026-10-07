@@ -1,6 +1,11 @@
 from pathlib import Path
 
-from sparkforge_azure.decision import BoundedDecisionKernel, ContractLoader, DecisionCache, DecisionStatus
+from sparkforge_azure.decision import (
+    BoundedDecisionKernel,
+    ContractLoader,
+    DecisionCache,
+    DecisionStatus,
+)
 
 
 def test_kernel_cache_and_activation_refusal():

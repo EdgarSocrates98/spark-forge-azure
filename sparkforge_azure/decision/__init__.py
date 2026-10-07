@@ -1,6 +1,10 @@
 """Provider-independent bounded decision kernel."""
 
-from sparkforge_azure.decision.authority import AuthorityDecision, AuthorityPolicy, PromotionEvidence
+from sparkforge_azure.decision.authority import (
+    AuthorityDecision,
+    AuthorityPolicy,
+    PromotionEvidence,
+)
 from sparkforge_azure.decision.cache import (
     ArtifactCache,
     CacheKey,

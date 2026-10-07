@@ -6,7 +6,11 @@ from collections.abc import Mapping
 from typing import Any
 
 from sparkforge_azure.workspace.adapters import artifact_graph_fragment, semantic_graph_fragment
-from sparkforge_azure.workspace.federated import FederatedGraph, GraphFragment, compose_federated_graph
+from sparkforge_azure.workspace.federated import (
+    FederatedGraph,
+    GraphFragment,
+    compose_federated_graph,
+)
 from sparkforge_azure.workspace.manifest import GraphLink, WorkspaceManifest
 from sparkforge_azure.workspace.semantic import build_semantic_graph
 

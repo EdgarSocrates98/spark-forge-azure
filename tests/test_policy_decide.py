@@ -82,7 +82,9 @@ def test_validacao_manual_concorda_com_o_json_schema(dados):
 
 def test_policy_invalida_levanta(tmp_path):
     (tmp_path / ".sparkforge-azure").mkdir()
-    (tmp_path / ".sparkforge-azure" / "policy.yaml").write_text("version: 1\nbash: 3\n", encoding="utf-8")
+    (tmp_path / ".sparkforge-azure" / "policy.yaml").write_text(
+        "version: 1\nbash: 3\n", encoding="utf-8"
+    )
     with pytest.raises(PolicyError, match="bash"):
         carregar(tmp_path)
 

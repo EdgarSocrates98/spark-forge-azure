@@ -9,7 +9,6 @@ nenhum debate de verdade (o placar sobre debates reais da suite mora em
 from __future__ import annotations
 
 import json
-import shutil
 from pathlib import Path
 from typing import Any
 
@@ -24,10 +23,8 @@ from sparkforge_azure.evals.debate_grade import (
     RESULT_FILE,
     DebateGradeError,
     grade_case,
-    grade_debate_run,
     load_expected,
     outcome_of,
-    suite_cases,
 )
 
 ROOT = Path(__file__).resolve().parents[1]

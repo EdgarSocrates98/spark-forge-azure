@@ -59,7 +59,10 @@ def test_adulterar_um_artefato_acusa_so_a_parte_dele(tmp_path, parte):
 
 @pytest.mark.parametrize(
     "arquivo",
-    [".sparkforge-azure/blackboard/adr/ADR-dec_1.md", ".sparkforge-azure/debate/dbt_0000abcd/plan.json"],
+    [
+        ".sparkforge-azure/blackboard/adr/ADR-dec_1.md",
+        ".sparkforge-azure/debate/dbt_0000abcd/plan.json",
+    ],
 )
 def test_adr_e_debate_caem_na_parte_decisao(tmp_path, arquivo):
     montar_case(tmp_path)

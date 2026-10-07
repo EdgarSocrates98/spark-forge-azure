@@ -12,7 +12,11 @@ from pathlib import Path
 from typing import Any
 
 from sparkforge_azure.agentic.governor import AgentGovernor, GovernorLimits
-from sparkforge_azure.decision.authority import AuthorityDecision, AuthorityPolicy, PromotionEvidence
+from sparkforge_azure.decision.authority import (
+    AuthorityDecision,
+    AuthorityPolicy,
+    PromotionEvidence,
+)
 from sparkforge_azure.decision.runtime import ActivePromotion
 from sparkforge_azure.economy.decision_activation import (
     ActivationDecision,

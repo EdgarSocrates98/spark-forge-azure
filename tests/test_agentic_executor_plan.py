@@ -32,7 +32,7 @@ from typing import Any
 import pytest
 
 from sparkforge_azure.agentic.budget import CaseBudget
-from sparkforge_azure.agentic.executor.plan import agent_for_area, area_of, debate_plan
+from sparkforge_azure.agentic.executor.plan import area_of, debate_plan
 
 
 def _texto(plano: dict[str, Any]) -> str:

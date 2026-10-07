@@ -7,7 +7,11 @@ from sparkforge_azure.evals import EvaluationRunner
 
 def test_router_golden_eval_dataset():
     dataset_path = (
-        Path(__file__).parent.parent / "sparkforge_azure" / "evals" / "datasets" / "router_dataset.json"
+        Path(__file__).parent.parent
+        / "sparkforge_azure"
+        / "evals"
+        / "datasets"
+        / "router_dataset.json"
     )
     assert dataset_path.is_file()
 

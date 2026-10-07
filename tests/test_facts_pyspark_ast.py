@@ -1,7 +1,12 @@
 import ast
 import textwrap
 
-from sparkforge_azure.facts.pyspark_ast import EXTRACTOR_ID, extract_path, extract_source, extract_tree
+from sparkforge_azure.facts.pyspark_ast import (
+    EXTRACTOR_ID,
+    extract_path,
+    extract_source,
+    extract_tree,
+)
 
 
 def facts_of(kind, facts):

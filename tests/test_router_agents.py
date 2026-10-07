@@ -30,7 +30,6 @@ from pathlib import Path
 import pytest
 import yaml
 
-from sparkforge_azure.case.playbook import build_playbook
 from sparkforge_azure.case.router import next_step
 from sparkforge_azure.case.store import new_case, set_phase
 from sparkforge_azure.rules.loader import load_catalog

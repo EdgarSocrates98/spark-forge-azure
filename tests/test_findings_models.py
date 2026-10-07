@@ -1,6 +1,12 @@
 import pytest
 
-from sparkforge_azure.findings.models import SEVERITY_ORDER, Fact, Finding, sort_facts, sort_findings
+from sparkforge_azure.findings.models import (
+    SEVERITY_ORDER,
+    Fact,
+    Finding,
+    sort_facts,
+    sort_findings,
+)
 
 
 def make_fact(**over):

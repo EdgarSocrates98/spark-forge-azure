@@ -338,7 +338,11 @@ import sys
 import tempfile
 from pathlib import Path
 
-from sparkforge_azure.codeintel.security import OperacaoBloqueada, hook_instalado, install_audit_hook
+from sparkforge_azure.codeintel.security import (
+    OperacaoBloqueada,
+    hook_instalado,
+    install_audit_hook,
+)
 
 r = {"antes": hook_instalado(), "primeira": install_audit_hook(),
      "segunda": install_audit_hook(), "depois": hook_instalado()}

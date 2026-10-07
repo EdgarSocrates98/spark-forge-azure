@@ -93,8 +93,9 @@ def test_suite_carrega_e_exige_as_tools():
 
 
 def test_runner_conhece_a_suite_sdd():
-    from scripts import run_agentic_eval as runner
     from sparkforge_azure.adapters.tools import TOOLS
+
+    from scripts import run_agentic_eval as runner
 
     assert runner.SDD_SUITE_DIR == SUITE_DIR
     assert runner._suite_dir("sdd") == SUITE_DIR

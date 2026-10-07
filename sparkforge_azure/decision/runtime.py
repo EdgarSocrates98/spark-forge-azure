@@ -7,7 +7,11 @@ from dataclasses import dataclass
 from time import perf_counter_ns
 from typing import Any
 
-from sparkforge_azure.decision.authority import AuthorityDecision, AuthorityPolicy, PromotionEvidence
+from sparkforge_azure.decision.authority import (
+    AuthorityDecision,
+    AuthorityPolicy,
+    PromotionEvidence,
+)
 from sparkforge_azure.decision.cache import DecisionCache, decision_cache_key
 from sparkforge_azure.decision.contracts import DecisionContract
 from sparkforge_azure.decision.fingerprint import decision_fingerprint, state_fingerprint

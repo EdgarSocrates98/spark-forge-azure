@@ -85,6 +85,7 @@ def _derivados_de_facts(pool):
     dava False, e o modulo entrava como "sem snippet" por nao ter rodado nada.
     """
     from sparkforge_azure.errors import matcher
+
     from sparkforge_azure.facts import (
         benchmark,
         bridge,

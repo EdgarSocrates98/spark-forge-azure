@@ -21,7 +21,8 @@ class SQLiteTraceStore:
         # `AttributeError` escapava para dentro do `except Exception` de quem
         # chama, e como o buffer ja tinha sido esvaziado ANTES do `try`
         # naquele ponto, todos os spans do processo sumiam de uma vez.
-        self.db_path = Path(db_path) if db_path else (Path.cwd() / ".sparkforge-azure" / "traces.db")
+        default = Path.cwd() / ".sparkforge-azure" / "traces.db"
+        self.db_path = Path(db_path) if db_path else default
         self._init_db()
 
     # Colunas que a Task 1 acrescentou a `spans`, com o tipo de cada uma. Usado

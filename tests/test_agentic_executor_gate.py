@@ -18,7 +18,7 @@ from typing import Any
 import pytest
 
 from sparkforge_azure.agentic.executor import gate
-from sparkforge_azure.agentic.executor.run import open_debate_plans, run_executor
+from sparkforge_azure.agentic.executor.run import open_debate_plans
 
 RAIZ = Path(__file__).resolve().parents[1]
 UNIAO = (
