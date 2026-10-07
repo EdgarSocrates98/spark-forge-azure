@@ -23,7 +23,7 @@
   {
    "id": "port.adapters",
    "status": "SUPPORTED",
-   "summary": "subsistema sparkforge.adapters portado (COPY_SAFE)"
+   "summary": "modulo azure-native adapters (homonimo AWS nao portado)"
   },
   {
    "id": "port.agentic",
@@ -58,7 +58,7 @@
   {
    "id": "port.catalog",
    "status": "PLANNED",
-   "summary": "subsistema sparkforge.catalog portado (ADAPT)"
+   "summary": "subsistema sparkforge.catalog portado (DEFER)"
   },
   {
    "id": "port.change",
@@ -68,7 +68,7 @@
   {
    "id": "port.cli",
    "status": "SUPPORTED",
-   "summary": "subsistema sparkforge.cli portado (COPY_SAFE)"
+   "summary": "modulo azure-native cli (homonimo AWS nao portado)"
   },
   {
    "id": "port.cloud",
@@ -113,7 +113,7 @@
   {
    "id": "port.doctor",
    "status": "SUPPORTED",
-   "summary": "subsistema sparkforge.doctor portado (COPY_SAFE)"
+   "summary": "modulo azure-native doctor (homonimo AWS nao portado)"
   },
   {
    "id": "port.dq_ai",
@@ -198,7 +198,7 @@
   {
    "id": "port.lab",
    "status": "SUPPORTED",
-   "summary": "subsistema sparkforge.lab portado (COPY_SAFE)"
+   "summary": "subsistema sparkforge.lab portado (ADAPT)"
   },
   {
    "id": "port.lakeformation",

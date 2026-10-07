@@ -113,34 +113,52 @@ def main() -> int:
     audit = json.loads(AUDIT.read_text(encoding="utf-8"))
     port = yaml.safe_load(PORT.read_text(encoding="utf-8"))
 
-    # arquivo -> classe declarada no manifesto de port
-    per_subsystem: dict[str, dict] = {s: {"classes": set(), "files": 0}
+    # arquivo -> classe declarada no manifesto de port. `sparkforge/<sub>/...`
+    # atribui para <sub>; paths sem o prefixo (`rules/catalog/x`, `lab/...`,
+    # `evals/...`) sao dados de repo e atribuem pelo primeiro componente.
+    # `rules/catalog` NAO e o subsistema `catalog` (Glue Data Catalog).
+    per_subsystem: dict[str, dict] = {s: {"classes": set(), "entries": 0}
                                     for s in audit["subsystems"]}
     for entry in port["entries"]:
-        rel = entry["src"].split("/")  # sparkforge/<sub>/... ou sparkforge/<sub>.py
-        sub = rel[1].rsplit(".", 1)[0] if len(rel) == 2 else rel[1]
+        rel = entry["src"].split("/")
+        if rel[0] == "sparkforge":
+            sub = rel[1].rsplit(".", 1)[0] if len(rel) == 2 else rel[1]
+        else:
+            sub = rel[0].rsplit(".", 1)[0] if len(rel) == 1 else rel[0]
         if sub in per_subsystem:
             per_subsystem[sub]["classes"].add(entry["class"])
-            per_subsystem[sub]["files"] += 1
+            per_subsystem[sub]["entries"] += 1
 
     subsystems = {}
     for sub in sorted(audit["subsystems"]):
         info = per_subsystem[sub]
+        aws = audit["subsystems"][sub]
         azure_present = (PKG / sub).is_dir() or (PKG / f"{sub}.py").is_file()
-        cls = _rollup_class(info["classes"], info["files"] > 0 or azure_present)
-        markers = audit["subsystems"][sub]["aws_marker_total"]
-        if azure_present:
-            status = "ported"
+        markers = aws["aws_marker_total"]
+        if azure_present and info["entries"] == 0:
+            # Existe no Azure mas NENHUMA decisao de port cobre o homonimo AWS:
+            # e modulo novo, nao port (ex.: `adapters` = eval tools Azure; o
+            # pacote AWS de adapters MCP nao foi portado).
+            cls, status = "REIMPLEMENT_AZURE_NATIVE", "new_azure"
+            reason = (
+                f"modulo Azure nativo; o homonimo AWS ({aws['files']} arquivos, "
+                f"{markers} marcadores) nao tem decisao registrada no port_manifest"
+            )
         else:
-            status = "planned" if cls != "NOT_APPLICABLE" else "not_applicable"
-        reason = REASONS[cls]
-        if markers and cls == "COPY_SAFE":
-            reason = f"COPY_SAFE apesar de {markers} marcador(es) AWS; revisar port_manifest"
+            cls = _rollup_class(info["classes"], info["entries"] > 0)
+            if azure_present:
+                status = "ported"
+            else:
+                status = "planned" if cls != "NOT_APPLICABLE" else "not_applicable"
+            reason = REASONS[cls]
+            if markers and cls == "COPY_SAFE":
+                reason = f"COPY_SAFE apesar de {markers} marcador(es) AWS; revisar port_manifest"
         subsystems[sub] = {
             "class": cls,
             "status": status,
-            "aws_files": info["files"],
+            "aws_files": aws["files"],
             "aws_markers": markers,
+            "manifest_entries": info["entries"],
             "azure_path": f"sparkforge_azure/{sub}" if azure_present else None,
             "reason": reason,
         }
@@ -175,11 +193,15 @@ def main() -> int:
     for sub, info in subsystems.items():
         if info["status"] == "not_applicable" or sub == "__init__":
             continue
+        if info["status"] == "new_azure":
+            summary = f"modulo azure-native {sub} (homonimo AWS nao portado)"
+        else:
+            summary = f"subsistema sparkforge.{sub} portado ({info['class']})"
         capabilities.append(
             {
                 "id": f"port.{sub}",
-                "summary": f"subsistema sparkforge.{sub} portado ({info['class']})",
-                "status": "SUPPORTED" if info["status"] == "ported" else "PLANNED",
+                "summary": summary,
+                "status": "SUPPORTED" if info["status"] in ("ported", "new_azure") else "PLANNED",
             }
         )
     manifest = {
