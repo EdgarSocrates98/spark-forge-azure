@@ -27,7 +27,9 @@ quase todo provider-neutro, mas o grafo de imports o acopla ao AWS por poucas ar
    L7 surfaces     cli (sparkforge-azure), mcp, doctor, offline bundle, lab
    L8 assurance    claims, surface lock, manifest, parity, supply chain
    ```
-   `tests/test_architecture_layers.py` impõe a direção.
+   `tests/test_architecture_layers.py` impõe a direção: mede as arestas reais e
+   mantém uma lista fechada de exceções com razão (kernel folha, domínio só via
+   superfícies, `collect` como port isolando `collectors`).
 
 2. **Cortes de aresta** no código copiado: um módulo COPY_SAFE não pode importar L5/L6.
    Integração com domínio Azure acontece via *ports* (protocolos) no L2.
