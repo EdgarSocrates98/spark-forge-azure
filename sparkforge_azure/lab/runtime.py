@@ -131,12 +131,12 @@ def build_lifecycle_command(
 
 
 def guard_mutation(*, execute: bool, confirm: bool, target: str = "local") -> None:
-    if target not in {"local", "aws"}:
+    if target not in {"local", "azure"}:
         raise LabContractError(f"unsupported lab target: {target}")
     if execute and not confirm:
         raise LabContractError("mutating Lab action refused: --confirm is required")
-    if target == "aws" and execute:
-        raise LabContractError("AWS Lab execution is a separate explicit validation tier")
+    if target == "azure" and execute:
+        raise LabContractError("Azure Lab execution is a separate explicit validation tier")
 
 
 def _project_name(slug: str) -> str:

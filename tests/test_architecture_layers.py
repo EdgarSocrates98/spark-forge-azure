@@ -169,6 +169,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("cli", "bundle"): "verbo offline-bundle",
     ("cli", "doctor"): "verbo doctor",
     ("cli", "graph"): "verbos graph build/query/impact/federate",
+    ("cli", "lab"): "verbos lab (dispatch do Forge Lab via cmd_lab)",
     ("cli", "tokensave"): "verbos tokensave L0-L6",
     ("context", "paths"): "fatias confinadas",
     ("facts", "findings"): "facts alimentam o contrato Finding",

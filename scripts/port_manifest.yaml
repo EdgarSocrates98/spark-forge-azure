@@ -362,7 +362,11 @@ entries:
 - src: sparkforge/lab/__init__.py
   class: COPY_SAFE
 - src: sparkforge/lab/cli.py
-  class: COPY_SAFE
+  class: ADAPT
+  changes:
+  - 'run/plan: `--all` iterates the whole suite via `_plan_for` (scheduled CI calls `sparkforge-azure lab run --all`)'
+  - 'run/plan/describe: missing scenario id is refused explicitly instead of a cryptic by_id(None)'
+  - 'verify: `status` is computed at the cmd_lab boundary, not here (dispatch keeps the raw `valid` flag)'
 - src: sparkforge/lab/compatibility.py
   class: COPY_SAFE
 - src: sparkforge/lab/contract.py
@@ -378,7 +382,9 @@ entries:
 - src: sparkforge/lab/oracle.py
   class: COPY_SAFE
 - src: sparkforge/lab/runtime.py
-  class: COPY_SAFE
+  class: ADAPT
+  changes:
+  - 'guard_mutation: cloud target `aws` -> `azure` (the AWS execution tier name leaked through the COPY_SAFE port; Azure cloud runs are the separate explicit validation tier here)'
 - src: sparkforge/lab/scenario.py
   class: COPY_SAFE
 - src: sparkforge/lab/spec.py
@@ -555,10 +561,33 @@ entries:
   class: COPY_SAFE
 - src: lab/versions.yaml
   class: COPY_SAFE
+- src: lab/contracts/scenario-v1.schema.json
+  class: ADAPT
+  changes:
+  - '$id host: sparkforge_aws.local -> sparkforge_azure.local (schema identity follows the forge, not the provider)'
+- src: lab/contracts/run-v1.schema.json
+  class: ADAPT
+  changes:
+  - '$id host: sparkforge_aws.local -> sparkforge_azure.local (schema identity follows the forge, not the provider)'
+- src: lab/contracts/receipt-v1.schema.json
+  class: ADAPT
+  changes:
+  - '$id host: sparkforge_aws.local -> sparkforge_azure.local (schema identity follows the forge, not the provider)'
+- src: lab/probes/catalog.yaml
+  class: COPY_SAFE
 - src: lab/scenarios/golden.yaml
   class: ADAPT
   changes:
   - 'fidelity.does_not_prove: `aws_service_semantics` -> `cloud_service_semantics`, `aws_networking` -> `cloud_networking` (the lab never proves any cloud provider semantics, Azure included)'
+- src: labs/forge-lab/compose.yaml
+  class: ADAPT
+  changes:
+  - 'env defaults: sparkforge-aws -> sparkforge-azure (POSTGRES_USER, DEBEZIUM GROUP_ID)'
+  - 'kept `org.apache.iceberg.aws.s3.S3FileIO` and `s3://warehouse/`: literal Iceberg class name + MinIO S3 endpoint, not provider coupling (local object storage speaks the S3 protocol)'
+- src: labs/forge-lab/otel-collector.yaml
+  class: COPY_SAFE
+- src: labs/forge-lab/prometheus.yml
+  class: COPY_SAFE
 - src: labs/forge-lab/lab.yaml
   class: ADAPT
   changes:

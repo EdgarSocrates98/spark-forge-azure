@@ -213,6 +213,40 @@
    "source_sha256": "cfe6588c7b1bb29a4a0884e159469ef84b2508f51d81110064647b8eb3b2d3b9",
    "src": "knowledge/source_authority.yaml"
   },
+  "lab/contracts/receipt-v1.schema.json": {
+   "aws_markers": {},
+   "changes": [
+    "$id host: sparkforge_aws.local -> sparkforge_azure.local (schema identity follows the forge, not the provider)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "7892526c2f5e7073d47d4626e9766a1158068494b4cc0a2d570407a1e6e56d3d",
+   "src": "lab/contracts/receipt-v1.schema.json"
+  },
+  "lab/contracts/run-v1.schema.json": {
+   "aws_markers": {},
+   "changes": [
+    "$id host: sparkforge_aws.local -> sparkforge_azure.local (schema identity follows the forge, not the provider)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "daaaca023005dfaabb6d99ceb1f2f48a88dea08a050aab14b382633d4e112edc",
+   "src": "lab/contracts/run-v1.schema.json"
+  },
+  "lab/contracts/scenario-v1.schema.json": {
+   "aws_markers": {},
+   "changes": [
+    "$id host: sparkforge_aws.local -> sparkforge_azure.local (schema identity follows the forge, not the provider)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "a06f6e6c2f40cbe2b6ea5c33e2103bdc1455e027f2f53435b4f8174e56eef26a",
+   "src": "lab/contracts/scenario-v1.schema.json"
+  },
+  "lab/probes/catalog.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "d7e134ac889aa0b89e8012310371a8261269c26f68bcf88b9820005b05a96925",
+   "source_sha256": "d7e134ac889aa0b89e8012310371a8261269c26f68bcf88b9820005b05a96925",
+   "src": "lab/probes/catalog.yaml"
+  },
   "lab/scenarios/golden.yaml": {
    "aws_markers": {},
    "changes": [
@@ -240,6 +274,16 @@
    "source_sha256": "eee2f87a3526a92dbf018ec1b784f01a501a2a52cfb467882ecee579cebbb6a1",
    "src": "labs/forge-lab/README.md"
   },
+  "labs/forge-lab/compose.yaml": {
+   "aws_markers": {},
+   "changes": [
+    "env defaults: sparkforge-aws -> sparkforge-azure (POSTGRES_USER, DEBEZIUM GROUP_ID)",
+    "kept `org.apache.iceberg.aws.s3.S3FileIO` and `s3://warehouse/`: literal Iceberg class name + MinIO S3 endpoint, not provider coupling (local object storage speaks the S3 protocol)"
+   ],
+   "class": "ADAPT",
+   "source_sha256": "0e4062082379f5c8495d423d40e9ca27514de47808026f4024badcf9eeea6a26",
+   "src": "labs/forge-lab/compose.yaml"
+  },
   "labs/forge-lab/lab.yaml": {
    "aws_markers": {},
    "changes": [
@@ -248,6 +292,20 @@
    "class": "ADAPT",
    "source_sha256": "ecd6a16de7e1a0ac3d56a0ca1f984cc48836866fe073c4d23fd926f0eb1d28c8",
    "src": "labs/forge-lab/lab.yaml"
+  },
+  "labs/forge-lab/otel-collector.yaml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "ec8a6c551785ea8347ea470ef1f4089cea61d325ab79f5e4eff57fc7dd2681d9",
+   "source_sha256": "ec8a6c551785ea8347ea470ef1f4089cea61d325ab79f5e4eff57fc7dd2681d9",
+   "src": "labs/forge-lab/otel-collector.yaml"
+  },
+  "labs/forge-lab/prometheus.yml": {
+   "aws_markers": {},
+   "class": "COPY_SAFE",
+   "ported_sha256": "f57f0fdb1651c8ba3181e66ebcfe935c0269dfaffcfd920822dd45cfb2cacd4b",
+   "source_sha256": "f57f0fdb1651c8ba3181e66ebcfe935c0269dfaffcfd920822dd45cfb2cacd4b",
+   "src": "labs/forge-lab/prometheus.yml"
   },
   "rules/catalog/action_kinds.yaml": {
    "aws_markers": {
@@ -1503,8 +1561,12 @@
   },
   "sparkforge_azure/lab/cli.py": {
    "aws_markers": {},
-   "class": "COPY_SAFE",
-   "ported_sha256": "796506f3e6126f497bebf335b6ba02721d58b3cccff3dd8ce35f01755e388129",
+   "changes": [
+    "run/plan: `--all` iterates the whole suite via `_plan_for` (scheduled CI calls `sparkforge-azure lab run --all`)",
+    "run/plan/describe: missing scenario id is refused explicitly instead of a cryptic by_id(None)",
+    "verify: `status` is computed at the cmd_lab boundary, not here (dispatch keeps the raw `valid` flag)"
+   ],
+   "class": "ADAPT",
    "source_sha256": "796506f3e6126f497bebf335b6ba02721d58b3cccff3dd8ce35f01755e388129",
    "src": "sparkforge/lab/cli.py"
   },
@@ -1559,8 +1621,10 @@
   },
   "sparkforge_azure/lab/runtime.py": {
    "aws_markers": {},
-   "class": "COPY_SAFE",
-   "ported_sha256": "e66691afd670e09c1c82053237fb0aac2265c0a5602c046580e0d8e3cdf4b3d4",
+   "changes": [
+    "guard_mutation: cloud target `aws` -> `azure` (the AWS execution tier name leaked through the COPY_SAFE port; Azure cloud runs are the separate explicit validation tier here)"
+   ],
+   "class": "ADAPT",
    "source_sha256": "75cba0b5508d38d7dc60ff11f9fc61d914000f06306d6f8b1db413215d244667",
    "src": "sparkforge/lab/runtime.py"
   },

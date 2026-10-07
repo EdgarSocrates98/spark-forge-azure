@@ -30,8 +30,17 @@ Those seven scenarios describe the topology blueprint in `lab.yaml`. The
 versioned executable corpus is the Golden 20 in `lab/scenarios/golden.yaml`,
 which is compiled and checked by `sparkforge_azure.lab.contract`.
 
-The `sparkforge-azure` CLI does not expose lab commands yet; use the Python
-entry points above.
+The `sparkforge-azure lab` commands expose the same contract from the CLI:
+
+```bash
+sparkforge-azure lab verify            # registry + suite + contracts + probes
+sparkforge-azure lab scenarios         # the Golden 20 with fingerprints
+sparkforge-azure lab plan LAB-001      # compiled runtime plan (dry-run)
+sparkforge-azure lab run LAB-001       # plan + status; --all for the suite
+```
+
+`run`/`plan` emit `planned` unless the operator passes `--execute --confirm`
+on a host — the guard lives in the lab, not the CLI layer.
 
 ## Run locally
 
