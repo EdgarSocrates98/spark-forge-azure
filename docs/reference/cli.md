@@ -57,6 +57,32 @@ credenciais (só presença — nunca autentica), traces, Forge Lab.
 `--live` exige extra `azure` + auth; sem ele tudo é offline. Principais podem
 ser hasheados (`--hash-principals`).
 
+## `sparkforge-azure lab <op>` — Forge Lab (offline)
+
+Flag global do subcomando: `--repo` (raiz do repositório, default `.`).
+`run`/`plan` compilam o plano; execução real exige `--execute --confirm`
+num host do operador. Sem isso o resultado é `planned` (dry-run).
+
+| Op | Uso |
+|---|---|
+| `doctor` | pré-requisitos do lab no host (docker, memória, portas) |
+| `profiles` | perfis declarados e requisitos de recurso |
+| `verify` | valida `lab/versions.yaml`, suíte `golden.yaml` e contratos/schemas/probes; exit 1 se inválido |
+| `scenarios` | lista os cenários da suíte com fingerprints |
+| `describe <id>` | cenário compilado (`ScenarioSpec.to_dict()`) |
+| `plan <id>` | plano de runtime (`--backend compose\|testcontainers`, `--execute`, `--confirm`) |
+| `run <id>` | plano + status; `--all` itera a suíte inteira (CI `scheduled` usa isso) |
+| `inspect <path>` | `run.json` + receipt de um diretório de run |
+| `analyze <path>` | resultado de run → facts/findings (unresolved: sem analyzers embarcados ainda) |
+| `compare` | `--before`/`--after` — diff de dois runs |
+| `promote-fixture` | `--run`/`--destination`/`--reviewed` — promove run a fixture (exige `--reviewed`) |
+| `reproduce` | `--receipt` — re-emite plano a partir de um receipt |
+| `up`/`down`/`shell`/`gc` | lifecycle guardado: `--project`, `--profile`, `--service`, `--execute --confirm` |
+
+Contratos em `lab/contracts/*.schema.json`; probes primários em
+`lab/probes/catalog.yaml` (fonte de verdade machine-readable, screenshot de
+dashboard proibido como fonte primária).
+
 ## `sparkforge-azure offline-bundle <op>`
 
 | Op | Uso |
@@ -74,6 +100,6 @@ ser hasheados (`--hash-principals`).
 
 ## Verbos planejados (ainda não implementados)
 
-`analyze`, `judge`, `knowledge select|check`, `lab run|verify`, `agentops`,
+`analyze`, `judge`, `knowledge select|check`, `agentops`,
 `sdd check` aparecem como `tool_refs` em skills/agentes — são o contrato-alvo
 das skills, não comandos existentes hoje. A superfície atual é a listada acima.
