@@ -43,3 +43,4 @@ Expansao deterministica de consulta: `knowledge/query_expansion.yaml`.
 | `lakehouse.open-table-formats` | `lakehouse/open-table-formats.md` | open-table-formats | VERIFIED |
 | `migration.aws-to-azure-concepts` | `migration/aws-to-azure-concepts.md` | migration | VERIFIED |
 | `migration.synapse-to-fabric` | `migration/synapse-to-fabric.md` | migration | VERIFIED |
+| `spark.streaming.runtime-matrix` | `streaming/runtime-matrix.md` | spark-streaming | VERIFIED |

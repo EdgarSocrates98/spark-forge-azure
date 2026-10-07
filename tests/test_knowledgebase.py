@@ -64,6 +64,7 @@ EXPECTED_IDS = {
     "migration.aws-to-azure-concepts",
     "data-quality.contracts-and-expectations",
     "agentic.evidence-first",
+    "spark.streaming.runtime-matrix",
 }
 
 

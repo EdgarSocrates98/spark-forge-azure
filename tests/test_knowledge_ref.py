@@ -71,7 +71,7 @@ class TestContainment:
     `expr` a ter whitelist."""
 
     def test_resolves_a_file_inside_the_root(self):
-        target = safe_knowledge_file(ROOT / "knowledge", "glue/runtime-matrix.md")
+        target = safe_knowledge_file(ROOT / "knowledge", "streaming/runtime-matrix.md")
         assert target.is_file()
 
     def test_rejects_parent_traversal(self):
