@@ -83,3 +83,38 @@ def test_pipeline_end_to_end_offline(tmp_path: Path) -> None:
     assert "accesses" in rels
     assert "verdict_allow" in rels
     assert all(n["provenance"]["kind"] == "artifact" for n in g["nodes"])
+
+
+def test_evidence_path_from_graph() -> None:
+    """AC4: every finding carries a graph-derived evidence path.
+
+    finding node -> evidenced_by -> fact nodes -> provenance source artifact.
+    """
+    report = pipeline.run_case(FIXTURES / "s01_uc_privilege_denied")
+    assert report["status"] == "denied"
+    g = report["access_graph"]
+    nodes = {n["id"]: n for n in g["nodes"]}
+    assert any(n["kind"] == "finding" for n in nodes.values())
+    findings_paths = {
+        rule: p for rule, p in report["evidence_paths"].items()
+        if "graph_path" in p
+    }
+    assert findings_paths, "no graph-derived evidence path emitted"
+    for rule, paths in findings_paths.items():
+        gp = paths["graph_path"]
+        assert gp["facts"], f"{rule}: no fact nodes"
+        assert gp["artifacts"], f"{rule}: no source artifacts"
+        finding_nid = f"evidence:finding:{rule}"
+        evidenced = {
+            (e["source"], e["target"]) for e in g["edges"]
+            if e["relation"] == "evidenced_by" and e["source"] == finding_nid
+        }
+        assert evidenced, f"{rule}: no evidenced_by edge in graph"
+        for _src, fact_nid in evidenced:
+            fact_node = nodes.get(fact_nid)
+            assert fact_node is not None, f"{fact_nid} not a node"
+            assert fact_node["provenance"]["kind"] == "artifact"
+            assert fact_node["provenance"]["source"]
+        # the path ends at the bundle artifact files
+        assert gp["path"][0] == finding_nid
+        assert set(gp["artifacts"]).issubset(set(gp["path"]))

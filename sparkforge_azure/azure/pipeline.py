@@ -19,6 +19,8 @@ from sparkforge_azure.azure.governance.model import Verdict, parse_abfss
 from sparkforge_azure.facts import notebook_scan
 from sparkforge_azure.findings.models import Finding
 from sparkforge_azure.graph import Edge, Graph, Node, Provenance, node_id
+from sparkforge_azure.graph.access import build_access_graph
+from sparkforge_azure.graph.evidence import evidence_paths as graph_evidence_paths
 from sparkforge_azure.rules.engine import judge
 from sparkforge_azure.rules.loader import load_catalog
 
@@ -176,10 +178,33 @@ def _failure_layer(bundle: casefile.CaseBundle, diagnosis: Any,
     return None
 
 
+def _fact_lookup(facts: list[Any], diagnosis: Any) -> dict[str, Any]:
+    """Facts by id: pipeline extractors + the governance engine's own facts."""
+    by_id: dict[str, Any] = {f.id: f for f in facts}
+    for f in getattr(diagnosis, "facts", None) or []:
+        fid = f["id"] if isinstance(f, dict) else f.id
+        by_id.setdefault(fid, f)
+    return by_id
+
+
+def _fact_fields(f: Any) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    """(subject, attrs, provenance) from a Fact object or its dict form."""
+    if isinstance(f, dict):
+        return (dict(f.get("subject") or {}), dict(f.get("attrs") or {}),
+                dict(f.get("provenance") or {}))
+    return dict(f.subject), dict(f.attrs), dict(f.provenance)
+
+
 def _evidence_paths(bundle: casefile.CaseBundle, diagnosis: Any,
-                    facts: list[Any], extra: list[Finding]) -> dict[str, Any]:
-    """finding -> facts -> (layer, bundle file, notebook line)."""
-    fact_by_id = {f.id: f for f in facts}
+                    facts: list[Any], extra: list[Finding],
+                    graph: Graph | None = None) -> dict[str, Any]:
+    """finding -> facts -> (layer, bundle file, notebook line).
+
+    When the access graph is built (P0-C), the path is derived from it:
+    finding node -> ``evidenced_by`` fact nodes -> provenance sources.
+    """
+    fact_by_id = _fact_lookup(facts, diagnosis)
+    gpaths = graph_evidence_paths(graph) if graph is not None else {}
     paths: dict[str, Any] = {}
     for finding in [*diagnosis.findings, *extra]:
         layers = sorted({r.layer for r in diagnosis.chain})
@@ -187,48 +212,45 @@ def _evidence_paths(bundle: casefile.CaseBundle, diagnosis: Any,
                         for layer in layers
                         if _LAYER_SOURCE.get(layer) in bundle.sources})
         notebook_refs = sorted({
-            f"{f.subject.get('file')}:{f.subject.get('line')}"
+            f"{subject.get('file')}:{subject.get('line')}"
             for fid in finding.evidence
-            if (f := fact_by_id.get(fid)) is not None and "file" in f.subject
+            if (f := fact_by_id.get(fid)) is not None
+            for subject, _a, _p in [_fact_fields(f)]
+            if "file" in subject
         })
-        paths[finding.rule_id] = {
+        entry = {
             "facts": list(finding.evidence),
             "layers": layers,
             "files": files,
             "notebook_refs": notebook_refs,
         }
+        gpath = gpaths.get(node_id("evidence", "finding", finding.rule_id))
+        if gpath is not None:
+            entry["graph_path"] = gpath
+        paths[finding.rule_id] = entry
     return paths
 
 
 def _access_graph(bundle: casefile.CaseBundle, diagnosis: Any,
-                  facts: list[Any], findings: list[Finding]) -> dict[str, Any]:
-    """Minimal access graph: principal -> layers -> target, findings -> facts.
+                  facts: list[Any], findings: list[Finding]) -> Graph:
+    """Full access graph: facts chain + case principal + verdict overlay.
 
-    P0-C (GRAPHFY_ACCESS) expands this into the full federated access graph;
-    here the graph exists so every finding already carries a structural
-    evidence path instead of a bare list of ids.
+    P0-C: the governed-access chain (job->cluster->notebook->table->location
+    ->credential->identity->role) is built by ``graph.access``; this overlay
+    adds the diagnosis layer verdicts and finding->fact evidence edges, all
+    anchored to the same provenance (the bundle's source files).
     """
     prov = Provenance("artifact", ",".join(sorted(bundle.sources.values())))
-    graph = Graph()
+    graph = build_access_graph(facts, case=bundle.case)
     principal = str(bundle.case["principal"]["id"])
     p_node = node_id("azure", "identity", principal)
-    graph.add_node(Node(p_node, "identity", "azure",
-                        attrs={"principal_type": bundle.case["principal"].get("type")},
-                        provenance=prov))
     target = bundle.case["target"]
     if target.get("kind") == "table":
         t_node = node_id("data", "table", str(target["table"]))
-        graph.add_node(Node(t_node, "table", "data", provenance=prov))
     else:
         account, container, path = parse_abfss(str(target.get("url", "")))
         t_node = node_id("azure", "filesystem", f"{account}/{container}{path}")
-        graph.add_node(Node(t_node, "filesystem", "azure",
-                            attrs={"account": account, "container": container},
-                            provenance=prov))
-    graph.add_edge(Edge(p_node, "accesses", t_node,
-                        attrs={"operation": bundle.case["operation"]},
-                        provenance=prov))
-    fact_by_id = {f.id: f for f in facts}
+    fact_by_id = _fact_lookup(facts, diagnosis)
     for r in diagnosis.chain:
         fnode = node_id("evidence", "fact", f"{r.layer}:{r.identity or principal}")
         graph.add_node(Node(fnode, "fact", "evidence",
@@ -245,14 +267,23 @@ def _access_graph(bundle: casefile.CaseBundle, diagnosis: Any,
         for fid in finding.evidence:
             f = fact_by_id.get(fid)
             if f is None:
+                graph.add_unresolved({"reason": "finding_evidence_not_observed",
+                                      "finding": finding.rule_id,
+                                      "fact_id": fid})
                 continue
-            key = (f.subject.get("file") or f.subject.get("name")
-                   or f.subject.get("securable") or f.id)
-            src = node_id("evidence", "fact", f"{f.kind}:{key}")
+            subject, _attrs, fprov = _fact_fields(f)
+            kind = f.get("kind") if isinstance(f, dict) else f.kind
+            key = (subject.get("file") or subject.get("name")
+                   or subject.get("securable") or subject.get("layer") or fid)
+            src = node_id("evidence", "fact", f"{kind}:{key}")
             graph.add_node(Node(src, "fact", "evidence",
-                                attrs={"kind": f.kind}, provenance=prov))
+                                attrs={"kind": kind, "source": fprov.get("source")},
+                               provenance=Provenance(
+                                   "artifact",
+                                   str(fprov.get("source") or "bundle"),
+                                   fprov.get("observed_at"))))
             graph.add_edge(Edge(n, "evidenced_by", src, provenance=prov))
-    return graph.to_dict()
+    return graph
 
 
 def _trust_scan(facts: list[Any]) -> dict[str, Any]:
@@ -306,6 +337,7 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         # allowed-but-flagged still exits 1 (findings are blockers by contract)
         status = "findings"
 
+    graph = _access_graph(bundle, diagnosis, facts, findings)
     return {
         "status": status,
         "case": diagnosis.scenario,
@@ -315,8 +347,8 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         "rules_skipped": skipped,
         "unresolved": unresolved,
         "facts": [f.to_dict() for f in facts],
-        "access_graph": _access_graph(bundle, diagnosis, facts, findings),
-        "evidence_paths": _evidence_paths(bundle, diagnosis, facts, extra),
+        "access_graph": graph.to_dict(),
+        "evidence_paths": _evidence_paths(bundle, diagnosis, facts, extra, graph=graph),
         "trust": _trust_scan(facts),
         "receipt": receipt.build(
             case=diagnosis.scenario, profile=profile,

@@ -27,8 +27,12 @@ def extract_uc(payload: Mapping[str, Any], provenance: Prov) -> list[Fact]:
         facts.append(Fact(
             kind="unity_catalog.storage_credential",
             subject={"name": str(name)},
+            # _connector_attrs carries connector properties from exports that
+            # embed them (e.g. `databricks storage-credentials show --json`);
+            # they land on the connector's ARM node, never on the credential.
             attrs={k: v for k, v in cred.items()
-                   if isinstance(v, (str, int, float, bool))},
+                   if isinstance(v, (str, int, float, bool))
+                   or k == "_connector_attrs" and isinstance(v, Mapping)},
             provenance=dict(prov)))
     for loc in payload.get("external_locations") or []:
         if not isinstance(loc, Mapping) or not loc.get("name"):

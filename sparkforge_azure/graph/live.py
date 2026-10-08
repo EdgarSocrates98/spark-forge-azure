@@ -15,10 +15,20 @@ from __future__ import annotations
 from collections.abc import Iterable, Mapping
 from typing import Any
 
+from sparkforge_azure.graph.access import build_access_graph
 from sparkforge_azure.graph.arm import ARM_IN_TEXT_RE, is_arm_id, kind_for_type, parse_arm_id
 from sparkforge_azure.graph.model import Edge, Graph, Node, Provenance, azure_node_id, node_id
 
 _KEEP_ATTRS = ("name", "type", "location", "resource_group", "subscription_id", "tenant_id")
+
+# Fact kinds of the access vertical (P0-B) are emitted here through the same
+# builder used for offline bundles: the merge keeps ``mode=live`` provenance,
+# so collectors' facts federate with artifact graphs on identical ARM ids.
+_ACCESS_PREFIXES = (
+    "azure_rbac.", "adls.", "databricks.compute", "notebook.",
+    "unity_catalog.storage_credential", "unity_catalog.external_location",
+    "unity_catalog.binding", "unity_catalog.table", "unity_catalog.grant",
+)
 
 
 def _as_dict(fact: object) -> dict[str, Any]:
@@ -34,6 +44,7 @@ def live_graph_from_facts(
     facts: Iterable[object], *, source: str = "azure.resource_graph"
 ) -> Graph:
     graph = Graph()
+    access_facts: list[dict[str, Any]] = []
     for raw in facts:
         fact = _as_dict(raw)
         kind = fact.get("kind")
@@ -51,8 +62,14 @@ def live_graph_from_facts(
             _workspace_child(graph, fact, prov, "data", "cluster")
         elif kind == "unity_catalog.catalog":
             _workspace_child(graph, fact, prov, "azure", "unity_catalog")
+        elif isinstance(kind, str) and kind.startswith(_ACCESS_PREFIXES):
+            access_facts.append(fact)
         else:
             graph.add_unresolved({"reason": "unsupported_fact_kind", "kind": str(kind)})
+    if access_facts:
+        # The access builder needs all facts before edges (two passes), so it
+        # returns its own graph which we merge in.
+        graph = graph.merge(build_access_graph(access_facts))
     graph.meta = {"kind": "live", "source": source}
     return graph
 

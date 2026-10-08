@@ -38,6 +38,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any
 
+from sparkforge_azure.abfss import split_abfss
+
 OPERATIONS = frozenset({"read", "write", "list", "delete"})
 PRINCIPAL_TYPES = frozenset({"user", "group", "service_principal", "managed_identity"})
 
@@ -111,12 +113,7 @@ class Scenario:
 
 def parse_abfss(url: str) -> tuple[str, str, str]:
     """``abfss://container@account.dfs.core.windows.net/a/b`` -> (account, container, /a/b)."""
-    if not url.startswith("abfss://") or "@" not in url:
+    parts = split_abfss(url)
+    if parts is None:
         raise ScenarioError(f"not an abfss url: {url}")
-    rest = url[len("abfss://"):]
-    container, _, hostpath = rest.partition("@")
-    host, _, path = hostpath.partition("/")
-    account = host.split(".")[0]
-    if not container or not account:
-        raise ScenarioError(f"not an abfss url: {url}")
-    return account, container, "/" + path.strip("/") if path.strip("/") else "/"
+    return parts
