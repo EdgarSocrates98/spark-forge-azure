@@ -13,11 +13,12 @@ from typing import Any
 from sparkforge_azure.cli import CliError
 from sparkforge_azure.observability import agentops
 from sparkforge_azure.observability.store import SQLiteTraceStore
+from sparkforge_azure.paths import state_dir
 
 
 def _db(args: argparse.Namespace) -> Path:
     return Path(args.db).expanduser().resolve() if args.db else (
-        Path.cwd() / ".sparkforge-azure" / "traces.db")
+        state_dir() / "traces.db")
 
 
 def _run_id(args: argparse.Namespace) -> str:

@@ -17,7 +17,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | Doc | Cobre |
 |---|---|
 | `docs/reference/cli.md` | Toda a CLI `sparkforge-azure`: verbos, flags, saída JSON, exit codes |
-| `docs/reference/mcp-tools.md` | As 9 tools `sfa_*`: risco, parâmetros, envelope |
+| `docs/reference/mcp-tools.md` | As tools `sfa_*` (fonte canônica: `docs/surface.lock.json`): risco, parâmetros, envelope |
 
 ## Arquitetura
 

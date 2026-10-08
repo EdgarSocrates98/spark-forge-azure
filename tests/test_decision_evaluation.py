@@ -2,13 +2,16 @@ from __future__ import annotations
 
 from pathlib import Path
 
+from sparkforge_azure.economy.decision_receipts import DecisionReceiptStore
 from sparkforge_azure.evals.decision_plane import DecisionEvaluationRunner
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_seed_suite_matches_ground_truth() -> None:
-    report = DecisionEvaluationRunner(ROOT).run(
+def test_seed_suite_matches_ground_truth(tmp_path: Path) -> None:
+    report = DecisionEvaluationRunner(
+        ROOT, receipts=DecisionReceiptStore(tmp_path)
+    ).run(
         "evals/token_efficient/fixtures/decision_plane_cases.yaml"
     )
 

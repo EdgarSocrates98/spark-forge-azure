@@ -78,14 +78,17 @@ def _ledger_de_contexto_isolado_da_sessao_de_teste(tmp_path_factory):
     # CONHECIDOS (`shared_ledger()`), mas uma lista de nomes nunca e garantia
     # -- um terceiro ponto que um dia importe `ContextLedger` e a use por
     # conta propria escaparia dela, e nenhum teste acusaria. Este backstop
-    # nao depende de saber QUEM construiu o ledger: verifica o EFEITO --
-    # o `.sparkforge-azure/traces.db` do repositorio simplesmente nao pode existir
-    # ao fim da suite. Pega qualquer ponto novo, presente ou futuro.
-    traces_do_repo = _ROOT / ".sparkforge-azure" / "traces.db"
-    assert not traces_do_repo.exists(), (
-        f"{traces_do_repo} foi criado durante a suite -- algum ponto de "
-        "codigo construiu ContextLedger() por fora de shared_ledger() e de "
-        "qualquer db_path isolado de teste."
+    # nao depende de saber QUEM construiu estado: verifica o EFEITO --
+    # o `.sparkforge-azure/` do repositorio simplesmente nao pode existir
+    # ao fim da suite (traces.db, journal, decision-receipts, cache...).
+    # Pega qualquer ponto novo, presente ou futuro.
+    vazados = [a for a in [_ROOT / ".sparkforge-azure",
+                           *sorted((_ROOT / "tests").glob("**/.sparkforge-azure"))]
+               if a.exists()]
+    assert not vazados, (
+        f"state dirs criados na arvore versionada durante a suite: {vazados} "
+        "-- algum ponto de codigo escreveu estado derivado por fora de "
+        "shared_ledger()/state_dir() e de qualquer tmp isolado de teste."
     )
 
 

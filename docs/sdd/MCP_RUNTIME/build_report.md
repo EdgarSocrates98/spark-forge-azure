@@ -50,6 +50,9 @@ existe) e a matriz nova falha por citar evidência inexistente (exit 1).
 
 - Suite local: `pytest -q` → 2432 passed, 9 skipped.
 - Surface lock regenerado: `mcp catalog`, `mcp serve` e `outputSchema` nas 9 tools.
+  (Nota de closure Cycle 2: a superfície final tem **10 tools** — a 10ª,
+  `sfa_diagnose_access`, entrou na wave P0-B. Fonte canônica:
+  `docs/surface.lock.json`.)
 - Arestas novas declaradas na medição (`cli→mcp`, `mcp→agentic`, `mcp→observability`).
 - Fixture `graph_tools` em test_graph_query.py corrigida: snapshot antes do import esvaziava o registry.
 - `ping` não existe na era 2026-07-28 (removido do spec) — Method not found é a resposta correta; matriz declara isso.

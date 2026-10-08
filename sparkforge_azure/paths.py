@@ -51,6 +51,20 @@ DEFAULT_DENY_NAMES = frozenset(
 DEFAULT_DENY_SUFFIXES = frozenset({".pem", ".key", ".p12", ".pfx", ".crt"})
 DEFAULT_DENY_FILES = frozenset({".env", ".env.local", "credentials", "id_rsa"})
 
+STATE_DIR_ENV = "SPARKFORGE_AZURE_STATE_DIR"
+
+
+def state_dir() -> Path:
+    """Diretorio de estado local (traces.db, cache, journals).
+
+    Default: ``<cwd>/.sparkforge-azure``.  ``SPARKFORGE_AZURE_STATE_DIR``
+    redireciona tudo — proofs e scripts com ``cwd=repo`` nao sujam o
+    worktree, e leitura (agentops, doctor) enxerga o mesmo lugar que a
+    escrita (SQLiteTraceStore).
+    """
+    override = os.environ.get(STATE_DIR_ENV)
+    return Path(override) if override else Path.cwd() / ".sparkforge-azure"
+
 
 @dataclass(frozen=True, slots=True)
 class WorkspaceScanPolicy:

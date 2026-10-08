@@ -68,6 +68,26 @@ def test_doctor_access_vertical_check() -> None:
     assert data["redact_boundary"] == "available"
 
 
+def test_suite_green_pattern_rejects_failed_prefix() -> None:
+    """'1 failed, N passed' NAO satisfaz suite-green (regressao do PR #4).
+
+    O padrao e lido do claims.lock — fonte unica; o numero de testes pode
+    crescer sem quebrar este teste."""
+    import json
+    import re
+
+    lock = json.loads(
+        (Path(__file__).parents[1] / "docs" / "claims.lock.json")
+        .read_text(encoding="utf-8"))
+    pattern = next(c["proof"]["expect"]["pattern"] for c in lock["claims"]
+                   if c["id"] == "suite-green")
+    n = re.search(r"(\d+) passed", pattern).group(1)
+    assert re.search(pattern, f"\n{n} passed, 9 skipped in 10.00s\n")
+    assert not re.search(pattern, f"1 failed, {n} passed, 9 skipped\n")
+    assert not re.search(pattern, f"3 errors, {n} passed\n")
+    assert not re.search(pattern, f"{n} passed, 9 skipped, 1 error\n")
+
+
 def test_state_dir_env_override(tmp_path, monkeypatch) -> None:
     """SPARKFORGE_AZURE_STATE_DIR redireciona o traces.db -- proofs e scripts
     com cwd=repo nao sujam o worktree."""

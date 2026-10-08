@@ -59,9 +59,12 @@ Medido em 2026-10-07 sobre `feat/v0.1.0-foundation-delivery`:
   `knowledge`/`agentops`/`sdd` são tool_refs planejados da CLI (superfície
   atual: collect/graph/tokensave/governance/doctor/offline-bundle/lab).
 
-## Estado medido — cycle 2 (vertical de acesso UC/ADLS)
+## Estado medido — cycle 2 (vertical de acesso UC/ADLS) — **CLOSED**
 
-Medido sobre `feat/cycle2-evolution`:
+`CYCLE_2 = CLOSED` em 2026-10-08 — `docs/cycle2/CLOSURE.md` +
+`docs/cycle2/OUTCOME_BRIEF.md`. LOCAL_GATES=PASS; REMOTE_CI=NOT_OBSERVED.
+
+Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
 
 - Vertical de acesso executável: `sparkforge-azure diagnose --bundle|--suite`
   cobre 10 cenários determinísticos (UC→RBAC→ACL→rede→binding→location→
@@ -86,4 +89,5 @@ Medido sobre `feat/cycle2-evolution`:
 - Skills: 22 — as 7 do vertical têm evals `positive`/`negative`/`boundary`.
 - Doctor: área `live_collectors` (módulo + SDKs por collector, sem
   credenciais).
-- Suite: **2540 testes verdes** (9 skipped).
+- Suite: **2541 testes verdes** (9 skipped) — contagem derivada da execução
+  final do closure.
