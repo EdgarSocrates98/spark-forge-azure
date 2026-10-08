@@ -1,4 +1,22 @@
-# Knowledge packs do vertical de acesso
+# Knowledge packs dos verticais
+
+## Vertical Fabric (Cycle 3)
+
+| pack | domínios | failure_layers |
+|---|---|---|
+| `fabric-core` | `fabric-onelake` | `fabric_workspace`, `item_permission`, `lakehouse` |
+| `fabric-spark` | `fabric-data-engineering` | `spark_runtime`, `spark_job`, `delta_perf` |
+| `onelake-security` | `fabric-onelake`, `fabric-identity` | `onelake_security` |
+| `onelake-shortcuts` | `fabric-onelake`, `fabric-identity` | `shortcut`, `shortcut_auth`, `source_access` |
+| `fabric-capacity` | `azure-finops` | `capacity` |
+| `fabric-data-factory` | `fabric-data-factory` | `data_factory`, `cross_environment` |
+
+O mesmo compilador `compile_access_knowledge(failure_layer, terms)` seleciona
+os packs por `failure_layer` — é genérico aos dois verticais: um caso UC
+nunca puxa packs Fabric e vice-versa; `excluded_domains` documenta o que
+ficou fora. O report `diagnose fabric` carrega o bloco `knowledge` escopado.
+
+## Vertical de acesso (Cycle 2)
 
 `knowledge/packs.yaml` declara os packs mínimos do vertical
 Databricks/Unity Catalog/ADLS (prompt 151). O compilador escopado é

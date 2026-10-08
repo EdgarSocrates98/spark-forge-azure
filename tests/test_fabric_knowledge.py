@@ -19,15 +19,17 @@ def test_fabric_pack_scoping():
 
 
 def test_fabric_case_excludes_databricks_deep():
-    k = compile_access_knowledge("onelake_security", "shortcut onelake table")
+    k = compile_access_knowledge("onelake_security", "shortcut onelake table",
+                                 vertical="fabric")
     assert "onelake-security" in k["packs"]
     # A Fabric case never loads Databricks-UC or Synapse deep packs.
     assert "databricks-runtime" not in k["packs"]
     assert "unity-catalog-storage" not in k["packs"]
-    assert "fabric" not in " ".join(k["excluded_domains"]) or True  # noqa
+    assert "azure-databricks" in k["excluded_domains"]
 
 
 def test_fabric_entries_selected():
-    k = compile_access_knowledge("shortcut", "onelake shortcut passthrough")
+    k = compile_access_knowledge("shortcut", "onelake shortcut passthrough",
+                                 vertical="fabric")
     ids = list(k["entries"])
     assert any("onelake" in i for i in ids), ids

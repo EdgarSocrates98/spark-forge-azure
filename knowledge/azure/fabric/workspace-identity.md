@@ -5,12 +5,12 @@ domain: fabric-identity
 authority: microsoft_official
 sources:
   - url: https://learn.microsoft.com/en-us/fabric/security/workspace-identity
-    retrieved: 2026-10-08
+    retrieved: 2026-10-06
   - url: https://learn.microsoft.com/en-us/fabric/security/security-trusted-workspace-access
-    retrieved: 2026-10-08
+    retrieved: 2026-10-06
   - url: https://learn.microsoft.com/en-us/fabric/onelake/create-adls-shortcut
-    retrieved: 2026-10-08
-verified_at: 2026-10-08
+    retrieved: 2026-10-06
+verified_at: 2026-10-06
 versions: {}
 status: VERIFIED
 preview: false
@@ -70,3 +70,9 @@ O diagnóstico nunca colapsa caller e effective identity: autorização no lakeh
   via identidade do workspace.
 - `fabric.connection` com `last_test`/`authorized` é a evidência de alcance do
   target — ausência = `unresolved`, nunca allow implícito.
+
+## Fontes
+
+- https://learn.microsoft.com/en-us/fabric/security/workspace-identity (retrieved: 2026-10-06)
+- https://learn.microsoft.com/en-us/fabric/security/security-trusted-workspace-access (retrieved: 2026-10-06)
+- https://learn.microsoft.com/en-us/fabric/onelake/create-adls-shortcut (retrieved: 2026-10-06)

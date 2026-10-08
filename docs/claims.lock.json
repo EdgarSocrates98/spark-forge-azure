@@ -188,6 +188,61 @@
     }
    },
    "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+  },
+  {
+   "id": "fabric-suite-green",
+   "doc": "docs/labs/fabric.md",
+   "text": "16 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "diagnose",
+     "fabric",
+     "--suite",
+     "tests/fixtures/fabric"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "passed",
+     "op": "==",
+     "value": 16
+    }
+   },
+   "sha": ""
+  },
+  {
+   "id": "fabric-sdd-gate-green",
+   "doc": "docs/cycle3/OUTCOME_BRIEF.md",
+   "text": "11 features, 0 refused",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "import pathlib,sys;from sparkforge_azure.sdd.checks import check;sys.exit(0 if check(pathlib.Path('.'))['ok'] else 1)"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": ""
+  },
+  {
+   "id": "fabric-mcp-surface",
+   "doc": "docs/reference/mcp-tools.md",
+   "text": "sfa_diagnose_fabric",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.mcp.tools import full_catalog as c;assert 'sfa_diagnose_fabric' in c()"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": ""
   }
  ]
 }

@@ -18,7 +18,7 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 `security_impact`, `production_impact`. Annotations MCP derivadas: `readOnlyHint`,
 `destructiveHint` (cloud_write|production_impact), `idempotentHint`, `openWorldHint`.
 
-## Catálogo (10 tools)
+## Catálogo (11 tools)
 
 | Tool | Domínio | Risco | Params |
 |---|---|---|---|
@@ -32,13 +32,16 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 | `sfa_graph_impact` | graph | read_only | `graph*`, `changed*` (+ `max_depth`) |
 | `sfa_collect_workspace_graph` | graph | read_only + **cloud_read** | `manifest*` (+ `export`, `live`) |
 | `sfa_diagnose_access` | access | read_only | `bundle*` (+ `profile`) |
+| `sfa_diagnose_fabric` | fabric | read_only | `bundle*` (+ `profile`) |
 
 `*` = obrigatório. `sfa_collect_workspace_graph` é a única tool que toca nuvem
 (e só leitura): default-negada até `cloud_read_enabled`; com `live=false` usa
 export ARG offline. `sfa_diagnose_access` é 100% offline: roda o pipeline de
 diagnóstico de acesso (UC/RBAC/ACL/rede) sobre um case bundle local e devolve
 `status`, `failure_layer`, findings, grafo de acesso, knowledge escopado e
-receipt.
+receipt. `sfa_diagnose_fabric` faz o mesmo para o vertical Fabric (OneLake/
+shortcuts/Spark/capacity/pipeline) — também 100% offline, mesmo contrato,
+mesmo pipeline de fatos→regras→findings→grafo→receipt.
 
 ## Cobertura do vertical sem explosão (prompt 157-159)
 

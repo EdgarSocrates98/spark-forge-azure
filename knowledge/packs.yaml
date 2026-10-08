@@ -8,54 +8,66 @@ schema_version: 1
 crosscut_domains: [governance]
 packs:
   databricks-runtime:
+    vertical: access
     purpose: DBR/Spark runtime, compute policy, access mode (legacy vs UC)
     domains: [azure-databricks]
     failure_layers: [runtime]
   unity-catalog-storage:
+    vertical: access
     purpose: securable model, grants, storage credentials, external locations, bindings
     domains: [unity-catalog]
     failure_layers: [unity_catalog, storage_credential, external_location, workspace_binding]
   adls-access:
+    vertical: access
     purpose: data-plane RBAC + POSIX ACLs + hierarquia de filesystems ADLS Gen2
     domains: [azure-adls]
     failure_layers: [azure_rbac, adls_acl]
   azure-identity:
+    vertical: access
     purpose: managed identities, service principals, Key Vault, env mismatch
     domains: [azure-entra, azure-keyvault]
     failure_layers: [entra, cross_environment]
   azure-network:
+    vertical: access
     purpose: private link, DNS zones, firewall, managed vnet
     domains: [azure-networking]
     failure_layers: [network]
   delta-performance:
+    vertical: access
     purpose: Delta layout, MERGE, small files, Photon/AQE
     domains: [delta-lake, spark-performance]
     failure_layers: [delta_perf]
   # --- Cycle 3: Fabric deep vertical (prompt_evo_cycle3) -------------------
   fabric-core:
+    vertical: fabric
     purpose: Tenant→Capacity→Workspace→Item topology, REST item model, ids
     domains: [fabric-onelake]
     failure_layers: [fabric_workspace, item_permission, lakehouse]
   fabric-spark:
+    vertical: fabric
     purpose: Fabric runtime matrix (1.3 EOSA / 2.0 GA), environments, SJD,
       default lakehouse, retry
     domains: [fabric-data-engineering]
     failure_layers: [spark_runtime, spark_job, delta_perf]
   onelake-security:
+    vertical: fabric
     purpose: control-plane vs data-plane, grant-only roles, scopes, RLS/CLS
     domains: [fabric-onelake, fabric-identity]
     failure_layers: [onelake_security]
   onelake-shortcuts:
+    vertical: fabric
     purpose: passthrough vs delegated auth, connections, workspace identity,
       source access
     domains: [fabric-onelake, fabric-identity]
     failure_layers: [shortcut, shortcut_auth, source_access]
   fabric-capacity:
+    vertical: fabric
     purpose: capacity states, bursting/smoothing, throttling evidence
       (CapacityLimitExceeded, 429)
     domains: [azure-finops]
     failure_layers: [capacity]
   fabric-data-factory:
+    vertical: fabric
     purpose: pipelines, activities, notebook invocation seams
     domains: [fabric-data-factory]
     failure_layers: [data_factory, cross_environment]

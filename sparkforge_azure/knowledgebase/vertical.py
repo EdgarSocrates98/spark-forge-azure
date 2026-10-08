@@ -33,6 +33,7 @@ def load_packs(root: Path | None = None) -> dict[str, Any]:
         "crosscut_domains": list(data.get("crosscut_domains") or []),
         "packs": {
             name: {
+                "vertical": str(spec.get("vertical") or ""),
                 "purpose": str(spec.get("purpose") or ""),
                 "domains": list(spec.get("domains") or []),
                 "failure_layers": list(spec.get("failure_layers") or []),
@@ -52,15 +53,26 @@ def vertical_domains(root: Path | None = None) -> set[str]:
     return domains
 
 
-def packs_for_layer(failure_layer: str | None, root: Path | None = None) -> list[str]:
-    """Pack names covering ``failure_layer``; unresolved → all packs."""
+def packs_for_layer(
+    failure_layer: str | None,
+    root: Path | None = None,
+    *,
+    vertical: str | None = None,
+) -> list[str]:
+    """Pack names covering ``failure_layer``; unresolved → every pack of the
+    calling vertical (``vertical``) — never the other vertical's packs.
+
+    ``vertical=None`` keeps the historical behavior (all packs)."""
     manifest = load_packs(root)
     if not failure_layer or failure_layer == "unresolved":
-        return sorted(manifest["packs"])
+        return sorted(
+            name for name, spec in manifest["packs"].items()
+            if vertical is None or spec["vertical"] == vertical)
     matched = [
         name
         for name, spec in manifest["packs"].items()
         if failure_layer in spec["failure_layers"]
+        and (vertical is None or spec["vertical"] == vertical)
     ]
     return sorted(matched)
 
@@ -71,16 +83,20 @@ def compile_access_knowledge(
     *,
     root: Path | None = None,
     limit: int = 8,
+    vertical: str | None = None,
 ) -> dict[str, Any]:
     """Select knowledge entries scoped to the packs covering ``failure_layer``.
 
     Returns the selected entry ids (metadata only — bodies stay on disk),
     the pack/domain scope used, and ``excluded_domains`` as proof that
     unrelated domains (fabric, synapse, adf, ...) were not loaded.
+    ``vertical`` restricts the pack set — an unresolved Fabric case never
+    pulls access packs and vice-versa (same layer name in both verticals
+    resolves to the caller's vertical, e.g. ``delta_perf``).
     """
     kb = KnowledgeBase(root)
     manifest = load_packs(kb.root)
-    pack_names = packs_for_layer(failure_layer, kb.root)
+    pack_names = packs_for_layer(failure_layer, kb.root, vertical=vertical)
     scope = set(manifest["crosscut_domains"])
     for name in pack_names:
         scope.update(manifest["packs"][name]["domains"])
@@ -88,6 +104,7 @@ def compile_access_knowledge(
     all_domains = {entry.domain for entry in kb.load_index().values()}
     return {
         "failure_layer": failure_layer,
+        "vertical": vertical,
         "packs": pack_names,
         "domains": sorted(scope),
         "entries": entries,

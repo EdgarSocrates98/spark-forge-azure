@@ -5,14 +5,14 @@ domain: fabric-onelake
 authority: microsoft_official
 sources:
   - url: https://learn.microsoft.com/en-us/fabric/onelake/security/get-started-security
-    retrieved: 2026-10-08
+    retrieved: 2026-10-06
   - url: https://learn.microsoft.com/en-us/fabric/onelake/security/create-manage-roles
-    retrieved: 2026-10-08
+    retrieved: 2026-10-06
   - url: https://learn.microsoft.com/en-us/fabric/onelake/security/table-folder-security
-    retrieved: 2026-10-08
+    retrieved: 2026-10-06
   - url: https://learn.microsoft.com/en-us/fabric/onelake/security/data-access-control-model
-    retrieved: 2026-10-08
-verified_at: 2026-10-08
+    retrieved: 2026-10-06
+verified_at: 2026-10-06
 versions: {}
 status: VERIFIED
 preview: false
@@ -65,3 +65,10 @@ item somente. Avaliar roles OneLake antes de conferir workspace role erra a orde
 - Missing OneLake role artifact = `unresolved`, nunca allow.
 - Cross-tenant: role OneLake só vale no mesmo tenant — atalho cross-tenant usa
   delegated, não passthrough.
+
+## Fontes
+
+- https://learn.microsoft.com/en-us/fabric/onelake/security/get-started-security (retrieved: 2026-10-06)
+- https://learn.microsoft.com/en-us/fabric/onelake/security/create-manage-roles (retrieved: 2026-10-06)
+- https://learn.microsoft.com/en-us/fabric/onelake/security/table-folder-security (retrieved: 2026-10-06)
+- https://learn.microsoft.com/en-us/fabric/onelake/security/data-access-control-model (retrieved: 2026-10-06)
