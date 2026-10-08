@@ -417,13 +417,12 @@ def diagnose_stream(case: dict[str, Any], facts: list[Any]) -> StreamDiagnosis:
 
     denied = [s for s in chain if s.verdict is Verdict.DENY]
     unknown = [s for s in chain if s.verdict is Verdict.UNKNOWN]
-    failure_layer = denied[0].layer if denied else None
+    status = ("denied" if denied else
+              "unresolved" if unknown else "allowed")
+    failure_layer = (denied[0].layer if denied else
+                     "unresolved" if unknown else None)
     if env_conf:
         failure_layer = "cross_environment"
-    status = ("denied" if denied else
-              "unresolved" if unknown and not denied else "allowed")
-    if not denied and not unknown:
-        status = "allowed"
     return StreamDiagnosis(status=status, failure_layer=failure_layer,
                            chain=chain, findings=findings,
                            conflicts=conflicts, scenario=name,

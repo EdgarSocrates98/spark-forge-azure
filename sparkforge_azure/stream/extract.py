@@ -77,7 +77,11 @@ def extract_eventhubs(payload: Mapping[str, Any], prov: Prov) -> list[Fact]:
             facts.append(Fact(kind="eh.consumer_group",
                               subject={"hub_id": hid, "name": str(name)},
                               attrs={}, provenance=dict(prov)))
-    for az in payload.get("authorization") or []:
+    # `role_assignments` espelha ARM roleAssignments; a chave legada
+    # `authorization` é aceita mas o boundary de redação a trata como
+    # SAS authorizationRules (segredo) — bundles novos usam role_assignments.
+    grants = payload.get("role_assignments") or payload.get("authorization") or []
+    for az in grants:
         if not isinstance(az, Mapping):
             continue
         facts.append(Fact(

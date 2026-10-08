@@ -1,0 +1,23 @@
+{
+ "id": "es-01",
+ "workspace_id": "ws-01",
+ "name": "rti-es",
+ "publish_state": "published",
+ "sources": [
+  {
+   "id": "src-eh",
+   "type": "eventhubs",
+   "connection_id": "conn-01",
+   "status": "error",
+   "error": "unauthorized"
+  }
+ ],
+ "destinations": [
+  {
+   "id": "dst-eh",
+   "type": "eventhouse",
+   "target_id": "eh-01",
+   "status": "ok"
+  }
+ ]
+}

@@ -23,7 +23,7 @@
    ]
   }
  ],
- "authorization": [
+ "role_assignments": [
   {
    "principal": "spn-stream",
    "role": "receiver",

@@ -206,6 +206,23 @@ rules:
       Precedência: depois de AGENT-004 — um case com achados Fabric e de
       acesso UC resolve primeiro a cadeia de acesso que negou.
 
+  - id: AGENT-006
+    phase_in: [diagnosis, hypothesis, experiment]
+    title: Achado na vertical Streaming/RTI (Event Hubs/checkpoint/RTI)
+    when:
+      any:
+        - {findings_area: SF-STR, count_gt: 0}
+        - {findings_area: SF-RTI, count_gt: 0}
+    recommended_agent: streaming-specialist
+    reason: >
+      Achados SF-STR/SF-RTI são da cadeia de streaming (Event Hubs auth/
+      capacity, consumer group, progresso/lag, checkpoint, state store,
+      watermark, schema, sink) e do vertical Fabric RTI (Eventstream,
+      Eventhouse/KQL, Activator); o streaming-specialist coordena e faz
+      handoff para event-hubs/networking/delta conforme a camada.
+      Precedência: depois de AGENT-005 — um case com achados Fabric e de
+      streaming resolve primeiro a cadeia Fabric que negou.
+
 fallback:
   recommended_skill: azure-spark
   reason: >

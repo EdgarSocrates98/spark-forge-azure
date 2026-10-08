@@ -1,0 +1,8 @@
+{
+ "conn-01": {
+  "auth_kind": "sas",
+  "target": "ns-01/telemetry",
+  "status": "error",
+  "error": "key expired"
+ }
+}

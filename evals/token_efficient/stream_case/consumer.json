@@ -1,0 +1,232 @@
+{
+ "consumer_groups": [
+  {
+   "name": "spark-cg",
+   "eventhub_id": "ns-01/telemetry",
+   "owners": [
+    "app-a"
+   ],
+   "apps": [
+    "app-a"
+   ],
+   "checkpoints": {
+    "0": {
+     "offset": 1000,
+     "sequence": 1000,
+     "updated_at": "2026-10-08T10:05Z"
+    },
+    "1": {
+     "offset": 1000,
+     "sequence": 1000,
+     "updated_at": "2026-10-08T10:05Z"
+    },
+    "2": {
+     "offset": 1000,
+     "sequence": 1000,
+     "updated_at": "2026-10-08T10:05Z"
+    },
+    "3": {
+     "offset": 1000,
+     "sequence": 1000,
+     "updated_at": "2026-10-08T10:05Z"
+    }
+   }
+  },
+  {
+   "name": "cg-app2",
+   "eventhub_id": "ns-01/hub-02",
+   "owners": [
+    "app-2"
+   ],
+   "checkpoints": {
+    "0": {
+     "offset": 5002,
+     "sequence": 5002,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "1": {
+     "offset": 5002,
+     "sequence": 5002,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "2": {
+     "offset": 5002,
+     "sequence": 5002,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "3": {
+     "offset": 5002,
+     "sequence": 5002,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "4": {
+     "offset": 5002,
+     "sequence": 5002,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "5": {
+     "offset": 5002,
+     "sequence": 5002,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "6": {
+     "offset": 5002,
+     "sequence": 5002,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "7": {
+     "offset": 5002,
+     "sequence": 5002,
+     "updated_at": "2026-10-08T05:00:00Z"
+    }
+   }
+  },
+  {
+   "name": "cg-app3",
+   "eventhub_id": "ns-01/hub-03",
+   "owners": [
+    "app-3"
+   ],
+   "checkpoints": {
+    "0": {
+     "offset": 5003,
+     "sequence": 5003,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "1": {
+     "offset": 5003,
+     "sequence": 5003,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "2": {
+     "offset": 5003,
+     "sequence": 5003,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "3": {
+     "offset": 5003,
+     "sequence": 5003,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "4": {
+     "offset": 5003,
+     "sequence": 5003,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "5": {
+     "offset": 5003,
+     "sequence": 5003,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "6": {
+     "offset": 5003,
+     "sequence": 5003,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "7": {
+     "offset": 5003,
+     "sequence": 5003,
+     "updated_at": "2026-10-08T05:00:00Z"
+    }
+   }
+  },
+  {
+   "name": "cg-app4",
+   "eventhub_id": "ns-01/hub-04",
+   "owners": [
+    "app-4"
+   ],
+   "checkpoints": {
+    "0": {
+     "offset": 5004,
+     "sequence": 5004,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "1": {
+     "offset": 5004,
+     "sequence": 5004,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "2": {
+     "offset": 5004,
+     "sequence": 5004,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "3": {
+     "offset": 5004,
+     "sequence": 5004,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "4": {
+     "offset": 5004,
+     "sequence": 5004,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "5": {
+     "offset": 5004,
+     "sequence": 5004,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "6": {
+     "offset": 5004,
+     "sequence": 5004,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "7": {
+     "offset": 5004,
+     "sequence": 5004,
+     "updated_at": "2026-10-08T05:00:00Z"
+    }
+   }
+  },
+  {
+   "name": "cg-app5",
+   "eventhub_id": "ns-01/hub-05",
+   "owners": [
+    "app-5"
+   ],
+   "checkpoints": {
+    "0": {
+     "offset": 5005,
+     "sequence": 5005,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "1": {
+     "offset": 5005,
+     "sequence": 5005,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "2": {
+     "offset": 5005,
+     "sequence": 5005,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "3": {
+     "offset": 5005,
+     "sequence": 5005,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "4": {
+     "offset": 5005,
+     "sequence": 5005,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "5": {
+     "offset": 5005,
+     "sequence": 5005,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "6": {
+     "offset": 5005,
+     "sequence": 5005,
+     "updated_at": "2026-10-08T05:00:00Z"
+    },
+    "7": {
+     "offset": 5005,
+     "sequence": 5005,
+     "updated_at": "2026-10-08T05:00:00Z"
+    }
+   }
+  }
+ ]
+}
