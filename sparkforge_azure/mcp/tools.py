@@ -114,6 +114,7 @@ def tool(
     domain: str,
     compact: bool = False,
     output_schema: Mapping[str, Any] | None = None,
+    tags: tuple[str, ...] = (),
 ) -> Callable[[Handler], Handler]:
     if not name.startswith("sfa_"):
         raise ValueError(f"tool {name!r} must use the sfa_ prefix (multi-forge RFC)")
@@ -130,6 +131,7 @@ def tool(
             domain=domain,
             compact=compact,
             output_schema=output_schema,
+            tags=tuple(tags),
         )
         return fn
 

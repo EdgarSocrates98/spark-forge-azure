@@ -14,28 +14,29 @@ hypothesis:
 acceptance:
   - id: AC1
     statement: "servidor MCP real expõe initialize + tools/list + tools/call via stdio com Server identity (name/version/instructions)"
-    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_stdio_server_roundtrip}
+    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_real_stdio_subprocess_roundtrip}
   - id: AC2
     statement: "tools/list devolve name/description/inputSchema/outputSchema/annotations/risk _meta por tool"
-    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_list_tools_full_declaration}
+    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_stdio_server_roundtrip_initialize_list_call}
   - id: AC3
     statement: "tools/call valida arguments contra inputSchema e recusa inválido antes do handler"
-    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_invalid_arguments_refused}
+    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_invalid_arguments_refused_before_handler}
   - id: AC4
     statement: "tool desconhecida e cloud-read offline são negadas como resultado de erro (isError), nunca exceção crua"
-    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_denials_are_error_results}
+    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_unknown_tool_returns_error_result_not_crash}
   - id: AC5
     statement: "resultado carrega structuredContent + content[] texto e envelopa trust data_only com taint"
-    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_result_envelope_trust}
+    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_trust_envelope_present_on_success_result}
   - id: AC6
     statement: "cada chamada grava span com channel=mcp, tool, risk, status, duração e bytes no ledger"
-    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_call_records_observability_span}
+    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_observability_span_records_mcp_channel}
   - id: AC7
     statement: "output_schema declarado valida structuredContent; violação é erro interno reportado"
-    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_output_schema_violation_is_internal_error}
+    verified_by: {kind: test, ref: tests/test_mcp_server.py::test_output_schema_violation_is_named_error}
   - id: AC8
     statement: "matriz evals/mcp-conformance/matrix.yaml declara coberto somente o demonstrável"
-    verified_by: {kind: test, ref: tests/test_mcp_conformance_matrix.py::test_matrix_is_honest}
+    verified_by: {kind: test, ref: tests/test_mcp_conformance_matrix.py::test_covered_sempre_tem_evidencia}
+    guard: "a matriz e artefato de dados — a verificacao e o proprio gate da matriz; o red real foi test_toda_evidencia_aponta_teste_real falhando na base (evidencias ainda inexistentes)"
 success:
   - id: SC1
     metric: "tests/test_mcp_server.py verde e matriz MCP sem 'unresolved' para handshake/list/call/stdio/validation/trust"

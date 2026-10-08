@@ -30,6 +30,8 @@
    "lab shell",
    "lab up",
    "lab verify",
+   "mcp catalog",
+   "mcp serve",
    "offline-bundle build",
    "offline-bundle verify",
    "tokensave context",
@@ -54,7 +56,7 @@
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 3654,
+  "compact_bytes": 4793,
   "tool_count": 9,
   "tools": {
    "sfa_collect_workspace_graph": {
@@ -68,7 +70,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "1df3bb9ba67d7036a3795e3db6863f7c59072bf41556149c5121970a06e3c4c1"
+    "schema_sha256": "514a48b3d021367f04e551348793052305bfd5bebe977fead4aa01d6583335be"
    },
    "sfa_governance_diagnose": {
     "compact": true,
@@ -81,7 +83,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "340bd53de172d008361d2adea4f0b7a411db2409f8482be3968cf741239579f5"
+    "schema_sha256": "34241152b1ef6d957b9c1857eccde2d87ea164ea2504bdc0a773c767610036eb"
    },
    "sfa_graph_impact": {
     "compact": true,
@@ -94,7 +96,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "027884215804e62537a45781efb4626df6eb8bd3e0edd97bc5448d2720ea04c1"
+    "schema_sha256": "defb19773e601de7aadaa612532ea9bc4d8adb4ec09b58799e1e6e1a6b8627f6"
    },
    "sfa_graph_query": {
     "compact": false,
@@ -107,7 +109,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "89f52ca32a9ed2c12dcec6433e12d187e8d09317bef4e65ca19f54153af5c14d"
+    "schema_sha256": "0227f0e49202a920cda587312ff19ff5e2520fdf86ddfe46d3b7a437038efb40"
    },
    "sfa_tokensave_context": {
     "compact": true,
@@ -120,7 +122,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "21d0ec66f65642f1d4e2f50fec8a32a897d6d5b2c4cff47d0a1fc98490ad8718"
+    "schema_sha256": "a3fb10b6d36edefef27eb5535f77ddb623167b3826f78e11488010b369f6a3eb"
    },
    "sfa_tokensave_read": {
     "compact": false,
@@ -133,7 +135,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "14dc30b810272281a615defc22e87de96e16521180f477b72d91698aea69bc0e"
+    "schema_sha256": "aeff8014a1ce4bc2881f4c8ae750cebd74c43cffa9baefd7fd8341ddf4934ecd"
    },
    "sfa_tokensave_search": {
     "compact": true,
@@ -146,7 +148,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "323ae4a3f57aeb0d4e84889595d8a89a2a7501a1b10da421dff0406cd976273c"
+    "schema_sha256": "168e5a8c2e37161e9aa79a90161003e4c67c71c5d30fb30262716c3d41958bec"
    },
    "sfa_tokensave_symbols": {
     "compact": false,
@@ -159,7 +161,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "603b3aa698e6586202fc7b5ce0d52ef73ae08aa21e390dcc91e5e1cd7d7ca887"
+    "schema_sha256": "5ace96d4df591fad3981bfb29d0b9bca114b97584cf591b581fafdaa6f45fb68"
    },
    "sfa_version": {
     "compact": true,
@@ -172,10 +174,10 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "6bd987b0c6c8f2be05885730b77a5a71441572bd2ce3c4d3af3146a11ef5c04d"
+    "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
    }
   },
-  "total_bytes": 6727
+  "total_bytes": 8167
  },
  "schema_version": 2,
  "skills": {

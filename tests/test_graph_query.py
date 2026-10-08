@@ -138,8 +138,12 @@ def graph_tools():
 
     from sparkforge_azure.mcp.tools import TOOLS
 
-    before = dict(TOOLS)
+    # `before` DEVE ser capturado depois do import: `load_all()` registra por
+    # efeito colateral de import e nao re-registra num modulo ja em
+    # sys.modules — capturar antes apagaria as graph tools do registry ate o
+    # fim da sessao de teste.
     module = importlib.import_module("sparkforge_azure.mcp.graph_tools")
+    before = dict(TOOLS)
     for name in GRAPH_TOOLS:
         TOOLS.pop(name, None)
     module = importlib.reload(module)

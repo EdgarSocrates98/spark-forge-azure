@@ -12,64 +12,77 @@
 #
 # `evidence` lista `arquivo::teste` existentes sob tests/ — o gate
 # `tests/test_mcp_conformance_matrix.py` falha se uma evidencia apontar teste
-# inexistente ou se o status sair do vocabulario.
+# inexistente ou se o status sair do vocabulario. Em linhas `delegated_to_sdk`
+# a evidencia nao cobre o protocolo (e do SDK): cobre a FIACAO deste repo —
+# que o servidor montado responde de verdade naquele caminho.
 #
-# ESTADO DA SUPERFICIE (2026-10): o que existe nesta arvore e o registro
-# declarativo (`sparkforge_azure/mcp/tools.py`: ToolSpec, declaration(),
-# authorize() default-deny, compact_catalog()). O servidor de protocolo —
-# handshake, transporte stdio/HTTP, envelope CallToolResult — ainda nao foi
-# implementado, e os requisitos que dependem dele estao `unresolved`, nao
-# `covered`: apontar teste do projeto AWS aqui foi apagado na portagem, e a
-# lacuna e registrada, nao disfarcada.
+# ESTADO DA SUPERFICIE (cycle 2): o servidor de protocolo existe —
+# `sparkforge_azure/mcp/server.py` monta `mcp.server.Server` (SDK 2.x) sobre o
+# registry `sfa_*` e `dispatch.py` executa a cadeia autorizacao -> validacao de
+# input -> handler -> validacao de output -> trust -> span. O que e mecanica de
+# protocolo (handshake, discover, ping, framing) fica `delegated_to_sdk`; o que
+# e semantica deste repo (catalogo, schemas, deny, trust, spans) fica `covered`.
 schema_version: 1
 protocol_eras: ["legacy", "2026-07-28"]
 requirements:
   - id: initialize-handshake-legacy
     requirement: "servidor atende o handshake `initialize` da era legada"
-    status: unresolved
-    evidence: []
-    note: "o servidor de protocolo ainda nao existe; so o registro de tools"
+    status: delegated_to_sdk
+    evidence:
+      - tests/test_mcp_server.py::test_stdio_server_roundtrip_initialize_list_call
+      - tests/test_mcp_server.py::test_real_stdio_subprocess_roundtrip
+    note: "o runner do SDK possui o handshake; os testes provam que O NOSSO server negocia e serve tools depois dele"
   - id: discover-2026-07-28
     requirement: "servidor negocia a era 2026-07-28 via `server/discover`"
-    status: unresolved
-    evidence: []
-    note: "idem — depende do servidor de protocolo"
+    status: delegated_to_sdk
+    evidence:
+      - tests/test_mcp_server.py::test_discover_era_served_by_sdk
+    note: "discover() como primeira chamada negocia 2026-07-28; o teste prova que list/call funcionam nessa era"
   - id: server-identity
     requirement: "identidade (name/version/instructions) declarada nas duas eras"
-    status: unresolved
-    evidence: []
-    note: "idem — depende do servidor de protocolo"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_stdio_server_roundtrip_initialize_list_call
+    note: "SERVER_NAME/server_version()/SERVER_INSTRUCTIONS sao deste repo (server.py) e assertados no initialize"
   - id: tools-list-declaration
     requirement: "o catalogo declara name/inputSchema/annotations/risk por tool"
     status: covered
     evidence:
       - tests/test_mcp_surface.py::test_declarations_carry_schema_annotations_and_risk
-    note: "o que `tools/list` vai servir ja existe via declaration(); outputSchema ainda nao e declarado por nenhuma tool — ver tools-list-output-schema"
+      - tests/test_mcp_server.py::test_stdio_server_roundtrip_initialize_list_call
   - id: tools-list-output-schema
     requirement: "`tools/list` devolve outputSchema junto do inputSchema"
-    status: unresolved
-    evidence: []
-    note: "nenhuma tool declara output_schema hoje; lacuna registrada, nao disfarcada"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_stdio_server_roundtrip_initialize_list_call
+    note: "todas as 9 tools declaram output_schema; o roundtrip asserta que sai no fio"
   - id: tools-call-structured
     requirement: "`tools/call` devolve CallToolResult com structuredContent"
-    status: unresolved
-    evidence: []
-    note: "o envelope existe so no dispatch interno (handler -> dict); o CallToolResult do protocolo depende do servidor"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_stdio_server_roundtrip_initialize_list_call
+      - tests/test_mcp_server.py::test_trust_envelope_present_on_success_result
+    note: "dispatch monta CallToolResult com structuredContent + content[] text + _meta trust"
   - id: output-schema-validation
     requirement: "structuredContent valida contra o outputSchema declarado"
-    status: unresolved
-    evidence: []
-    note: "sem output_schema nao ha o que validar; chega com a surface de servidor"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_output_schema_violation_is_named_error
+    note: "violacao vira erro nomeado output_contract_violation, nunca passa em silencio"
   - id: input-schema-validation
     requirement: "argumentos invalidos sao recusados antes de a tool rodar"
-    status: unresolved
-    evidence: []
-    note: "input_schema e declarado por tool, mas nenhuma camada valida args contra ele antes do handler hoje"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_invalid_arguments_refused_before_handler
+      - tests/test_mcp_server.py::test_wrong_type_argument_refused
+    note: "jsonschema.validate roda depois de authorize e antes do handler"
   - id: unknown-tool-error
     requirement: "tool desconhecida e recusada, nunca excecao"
     status: covered
     evidence:
       - tests/test_mcp_surface.py::test_unknown_tool_is_denied_not_raised
+      - tests/test_mcp_server.py::test_unknown_tool_returns_error_result_not_crash
+    note: "no protocolo volta isError com error.code=denied, nao excecao nem crash"
   - id: risk-undeclared-deny
     requirement: "tool sem risco declarado e DENY por default"
     status: covered
@@ -81,57 +94,68 @@ requirements:
     status: covered
     evidence:
       - tests/test_mcp_surface.py::test_cloud_read_denied_offline
+      - tests/test_mcp_server.py::test_cloud_read_denied_offline_allowed_when_enabled
   - id: error-actionability
     requirement: "recusas carregam razao acionavel"
     status: covered
     evidence:
       - tests/test_mcp_surface.py::test_unknown_tool_is_denied_not_raised
-    note: "Authorization.reason e a razao; o exit_code do envelope chega com o servidor"
+      - tests/test_mcp_server.py::test_invalid_arguments_refused_before_handler
+    note: "error.code nomeia a classe da recusa; error.message diz o que falta"
   - id: content-text-channel
     requirement: "content[] carrega o JSON serializado (compatibilidade 1x)"
-    status: unresolved
-    evidence: []
-    note: "depende do envelope do servidor de protocolo"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_stdio_server_roundtrip_initialize_list_call
+    note: "content[0].text e o mesmo payload do structuredContent, serializado"
   - id: transport-stdio
     requirement: "transporte stdio serve o catalogo inteiro"
-    status: unresolved
-    evidence: []
-    note: "nenhum transporte implementado"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_real_stdio_subprocess_roundtrip
+    note: "subprocesso real `python -m sparkforge_azure.mcp`, JSON-RPC por pipes"
   - id: transport-http
     requirement: "transporte streamable HTTP atende /mcp"
-    status: unresolved
-    evidence: []
-    note: "nenhum transporte implementado"
+    status: delegated_to_sdk
+    evidence:
+      - tests/test_mcp_server.py::test_http_app_construction_exposes_mcp_route
+    note: "server.streamable_http_app() e do SDK; o teste prova a fiacao (rota /mcp existe no app montado)"
   - id: http-source-tools-disabled
     requirement: "sob http+offline-strict, tools que devolvem fonte sao desabilitadas"
-    status: unresolved
-    evidence: []
-    note: "depende do transporte HTTP; a politica offline-first ja e default no registry"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_source_tools_denied_under_http_policy
+    note: "tools taggeadas returns_source (as 4 sfa_tokensave_*) sao DENY sob --transport http sem --allow-source-tools"
   - id: compact-mode
     requirement: "modo compact publica so as operacoes declaradas `compact`"
     status: covered
     evidence:
       - tests/test_mcp_surface.py::test_compact_subset_of_full_and_only_flagged
+      - tests/test_mcp_server.py::test_compact_policy_exposes_only_read_only_catalog
   - id: observability-channel
     requirement: "a chamada via MCP grava o canal no span"
-    status: unresolved
-    evidence: []
-    note: "depende do servidor; o pipeline OTel existe em observability/otlp.py"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_observability_span_records_mcp_channel
+      - tests/test_mcp_server.py::test_denial_also_records_span
+    note: "dispatch grava channel=mcp + transport no ContextLedger; denegacao tambem gera span"
   - id: notifications-cancel
     requirement: "notifications/cancelled e requests/cancelled respeitam cancelamento"
-    status: unresolved
+    status: delegated_to_sdk
     evidence: []
-    note: "quando o servidor chegar, o ciclo vem do SDK (delegated_to_sdk por desenho); hoje nao ha o que medir"
+    note: "o dispatcher do SDK possui o ciclo de cancelamento; este repo nao adiciona handlers longos que precisem honrar cancelamento de forma especial"
   - id: ping
     requirement: "`ping` responde durante a sessao"
-    status: unresolved
-    evidence: []
-    note: "idem — vem do loop de sessao do SDK quando o servidor existir"
+    status: delegated_to_sdk
+    evidence:
+      - tests/test_mcp_server.py::test_ping_on_initialize_era
+    note: "handler default do SDK; existe ate 2025-11-25 — na era 2026-07-28 ping foi removido do spec e responde Method not found (correto)"
   - id: pagination
     requirement: "listagens paginadas por cursor"
-    status: unresolved
-    evidence: []
-    note: "o catalogo cabe numa pagina hoje (9 tools); se crescer alem do limite do cliente o comportamento e lacuna"
+    status: covered
+    evidence:
+      - tests/test_mcp_server.py::test_pagination_cursor_contract
+    note: "cursor de offset em tool_types(); o catalogo cabe numa pagina e nextCursor=None e o contrato"
   - id: resources-prompts
     requirement: "recursos `resources/*` e `prompts/*`"
     status: not_applicable

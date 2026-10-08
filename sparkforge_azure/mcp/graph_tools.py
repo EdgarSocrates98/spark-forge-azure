@@ -45,6 +45,16 @@ def _safe_path(value: Any) -> Path:
         "additionalProperties": False,
     },
     risk=READ_ONLY, domain="graph",
+    output_schema={
+        "type": "object",
+        "required": ["total"],
+        "properties": {
+            "total": {"type": "integer"},
+            "nodes": {"type": "array"},
+            "neighbors": {"type": "array"},
+            "node": {"type": "string"},
+        },
+    },
 )
 def graph_query(args: Mapping[str, Any]) -> dict[str, Any]:
     graph = load_graph(_safe_path(args["graph"]))
@@ -73,6 +83,7 @@ def graph_query(args: Mapping[str, Any]) -> dict[str, Any]:
         "additionalProperties": False,
     },
     risk=READ_ONLY, domain="graph", compact=True,
+    output_schema={"type": "object"},
 )
 def graph_impact(args: Mapping[str, Any]) -> dict[str, Any]:
     graph = load_graph(_safe_path(args["graph"]))
@@ -95,6 +106,7 @@ def graph_impact(args: Mapping[str, Any]) -> dict[str, Any]:
         "additionalProperties": False,
     },
     risk=CLOUD_READ, domain="graph",
+    output_schema={"type": "object"},
 )
 def collect_workspace_graph_tool(args: Mapping[str, Any]) -> dict[str, Any]:
     from sparkforge_azure.collectors.workspace_graph import collect_workspace_graph

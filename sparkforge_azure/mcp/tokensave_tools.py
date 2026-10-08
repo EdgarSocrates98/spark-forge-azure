@@ -25,6 +25,8 @@ def _ts(args: Mapping[str, Any]) -> TokenSave:
         "index": {"type": "string"}, "terms": {"type": "array", "items": {"type": "string"}}},
         "required": ["task"], "additionalProperties": False},
     risk=READ_ONLY, domain="tokensave", compact=True,
+    tags=("returns_source",),
+    output_schema={"type": "object"},
 )
 def context(args: Mapping[str, Any]) -> dict[str, Any]:
     return _ts(args).context(args["task"], required_terms=args.get("terms")).to_dict()
@@ -38,6 +40,12 @@ def context(args: Mapping[str, Any]) -> dict[str, Any]:
         "limit": {"type": "integer", "minimum": 1}},
         "required": ["query"], "additionalProperties": False},
     risk=READ_ONLY, domain="tokensave", compact=True,
+    tags=("returns_source",),
+    output_schema={
+        "type": "object",
+        "required": ["hits"],
+        "properties": {"hits": {"type": "array"}, "ledger": {"type": "object"}},
+    },
 )
 def search(args: Mapping[str, Any]) -> dict[str, Any]:
     ts = _ts(args)
@@ -53,6 +61,8 @@ def search(args: Mapping[str, Any]) -> dict[str, Any]:
         "end": {"type": "integer", "minimum": 1}, "root": _ROOT, "profile": _PROFILE},
         "required": ["path"], "additionalProperties": False},
     risk=READ_ONLY, domain="tokensave",
+    tags=("returns_source",),
+    output_schema={"type": "object"},
 )
 def read(args: Mapping[str, Any]) -> dict[str, Any]:
     return _ts(args).read(args["path"], args.get("start", 1), args.get("end"))
@@ -65,6 +75,8 @@ def read(args: Mapping[str, Any]) -> dict[str, Any]:
         "path": {"type": "string"}, "root": _ROOT},
         "required": ["path"], "additionalProperties": False},
     risk=READ_ONLY, domain="tokensave",
+    tags=("returns_source",),
+    output_schema={"type": "object"},
 )
 def symbols(args: Mapping[str, Any]) -> dict[str, Any]:
     out = _ts(args).symbols(args["path"])
