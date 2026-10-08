@@ -286,10 +286,21 @@ def _access_graph(bundle: casefile.CaseBundle, diagnosis: Any,
     return graph
 
 
-def _trust_scan(facts: list[Any]) -> dict[str, Any]:
-    """Wrap all extracted metadata as data; injection-shaped text -> suspicious."""
-    payload = json.dumps([f.attrs for f in facts], sort_keys=True, default=str)
-    env = TrustEnvelope.external(payload or "{}", origin="access.bundle")
+def _trust_scan(bundle: casefile.CaseBundle) -> dict[str, Any]:
+    """Scan every raw input at the trust boundary, not only extracted facts.
+
+    Injection-shaped text dropped by extraction is still untrusted input the
+    pipeline touched; the envelope covers case + artifacts + notebook bytes.
+    """
+    parts: list[str] = [json.dumps(bundle.case, sort_keys=True, default=str),
+                        json.dumps(bundle.artifacts, sort_keys=True, default=str)]
+    for nb in bundle.notebook_files:
+        try:
+            parts.append(nb.read_text(encoding="utf-8", errors="replace"))
+        except OSError:
+            continue
+    payload = "\n".join(parts) or "{}"
+    env = TrustEnvelope.external(payload, origin="access.bundle")
     d = env.to_dict()
     d.pop("content", None)
     return {"trust": d["trust"], "instruction_authority": d["instruction_authority"],
@@ -349,7 +360,7 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         "facts": [f.to_dict() for f in facts],
         "access_graph": graph.to_dict(),
         "evidence_paths": _evidence_paths(bundle, diagnosis, facts, extra, graph=graph),
-        "trust": _trust_scan(facts),
+        "trust": _trust_scan(bundle),
         "receipt": receipt.build(
             case=diagnosis.scenario, profile=profile,
             tools=["casefile", "extract", "notebook_scan", "governance.diagnose"],
