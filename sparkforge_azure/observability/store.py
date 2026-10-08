@@ -193,6 +193,20 @@ class SQLiteTraceStore:
                 )
             conn.commit()
 
+    def list_runs(self, *, limit: int = 20) -> list[dict[str, Any]]:
+        """Recent runs newest-first for CLI/doctor inspection surfaces."""
+        with sqlite3.connect(self.db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            cursor = conn.execute(
+                """SELECT t.run_id, t.task_description, t.profile, t.status,
+                          t.start_time, t.end_time, COUNT(s.span_id) AS spans
+                   FROM traces t LEFT JOIN spans s ON s.run_id = t.run_id
+                   GROUP BY t.run_id
+                   ORDER BY t.start_time DESC LIMIT ?""",
+                (int(limit),),
+            )
+            return [dict(row) for row in cursor.fetchall()]
+
     def get_trace(self, run_id: str) -> dict[str, Any] | None:
         with sqlite3.connect(self.db_path) as conn:
             conn.row_factory = sqlite3.Row

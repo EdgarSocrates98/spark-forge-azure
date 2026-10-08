@@ -57,14 +57,16 @@ def test_suite_empty_dir_refused(tmp_path: Path) -> None:
         suite.run_suite(tmp_path)
 
 
-def test_suite_via_cli() -> None:
+def test_suite_via_cli(tmp_path: Path) -> None:
     import subprocess
     import sys
 
+    # cwd isolado: o diagnose grava spans no `.sparkforge-azure/traces.db`
+    # do cwd -- rodar na raiz do repo criaria artefato de estado de teste.
     proc = subprocess.run(
         [sys.executable, "-m", "sparkforge_azure.cli.main",
          "diagnose", "--suite", str(FIXTURES)],
-        capture_output=True, text=True)
+        capture_output=True, text=True, cwd=tmp_path)
     assert proc.returncode == 0
     payload = json.loads(proc.stdout)
     assert payload["status"] == "pass"

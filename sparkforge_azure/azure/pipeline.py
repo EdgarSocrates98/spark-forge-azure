@@ -5,10 +5,15 @@
 
 The pipeline never calls Azure.  Live collection is a separate opt-in step
 (collectors) that writes the same artifact files a bundle carries.
+
+Every run records one AgentOps span per stage in the shared ledger
+(``diagnose.<stage>``), so a CLI or MCP diagnose is inspectable through
+``agentops inspect/timeline/critical-path`` like any other vertical.
 """
 from __future__ import annotations
 
 import json
+import time
 from pathlib import Path
 from typing import Any
 
@@ -21,6 +26,7 @@ from sparkforge_azure.findings.models import Finding
 from sparkforge_azure.graph import Edge, Graph, Node, Provenance, node_id
 from sparkforge_azure.graph.access import build_access_graph
 from sparkforge_azure.graph.evidence import evidence_paths as graph_evidence_paths
+from sparkforge_azure.observability.context_ledger import shared_ledger
 from sparkforge_azure.rules.engine import judge
 from sparkforge_azure.rules.loader import load_catalog
 
@@ -311,9 +317,57 @@ def _access_rules() -> list[dict[str, Any]]:
     return [r for r in load_catalog() if str(r.get("id", "")).startswith("SF-ACC")]
 
 
+def _record_stage(name: str, start: float, resultado: dict[str, Any]) -> None:
+    """One AgentOps span per pipeline stage; record() never touches disk."""
+    shared_ledger().record(
+        name=f"diagnose.{name}", resultado=resultado, detail_level="stage",
+        outcome="ok", start_time=start, channel="diagnose")
+
+
+def _context_quality(facts: list[Any], diagnosis: Any, findings: list[Finding],
+                     evidence_paths: dict[str, Any]) -> dict[str, Any]:
+    """selected/used/cited/consumed/required over the decision's evidence.
+
+    `required` is the explicitly required denominator (prompt #111): fact ids
+    named by the diagnosis chain verdicts and by finding evidence -- never the
+    "everything we happened to select" set. `required_recall` < 1.0 means the
+    decision cited evidence the pipeline never produced: an honest gap, not a
+    hidden one.
+    """
+    by_id = _fact_lookup(facts, diagnosis)
+    required: set[str] = set()
+    for r in getattr(diagnosis, "chain", ()):
+        required.update(getattr(r, "evidence", ()) or ())
+    for f in findings:
+        required.update(getattr(f, "evidence", ()) or ())
+    cited: set[str] = set()
+    for entry in evidence_paths.values():
+        if isinstance(entry, dict):
+            cited.update(entry.get("facts") or ())
+    required_present = required & set(by_id)
+    consumed = len(json.dumps(
+        [f.to_dict() if hasattr(f, "to_dict") else f for f in facts],
+        ensure_ascii=False, sort_keys=True, default=str).encode("utf-8"))
+    return {
+        "selected": len(facts),
+        "used": len(required_present),
+        "cited": len(cited & set(by_id)),
+        "consumed_bytes": consumed,
+        "required": len(required),
+        "required_present": len(required_present),
+        "required_recall": (
+            round(len(required_present) / len(required), 4) if required else None
+        ),
+        "required_basis": "diagnosis.chain.evidence + findings.evidence",
+    }
+
+
 def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
     """Run the full offline pipeline on a case bundle directory."""
+    t = time.time()
     bundle = casefile.load_bundle(root)
+    _record_stage("load_bundle", t, {"case": str(bundle.case.get("name", ""))})
+    t = time.time()
     facts = list(extract.extract_all(bundle.artifacts, bundle.sources))
     merged_compute = dict(bundle.case.get("compute") or {})
     merged_compute.update(bundle.artifacts.get("compute") or {})
@@ -321,14 +375,22 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         facts += extract.extract_compute(
             merged_compute, {"source": bundle.sources["case"], "mode": "bundle",
                              "observed_at": None})
+    _record_stage("extract", t, {"facts": len(facts)})
+    t = time.time()
     facts += notebook_scan.scan_paths(bundle.notebook_files, base=bundle.root)
     facts += notebook_scan.skipped_facts(bundle.skipped)
     facts = sorted({f.id: f for f in facts}.values(), key=lambda f: (f.kind, f.id))
+    _record_stage("notebook_scan", t, {"facts": len(facts),
+                                       "skipped": len(bundle.skipped)})
+    t = time.time()
     try:
         diagnosis = diagnose(bundle.to_scenario())
     except Exception as exc:
         raise casefile.CaseError(f"invalid scenario: {exc}") from exc
+    _record_stage("diagnose", t, {"status": diagnosis.status,
+                                  "layers": len(diagnosis.chain)})
 
+    t = time.time()
     extra = [f for f in (_runtime_finding(bundle, facts),
                          _delta_finding(bundle, facts, diagnosis.status),
                          _bypass_finding(bundle, facts, diagnosis.status))
@@ -336,6 +398,8 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
     rule_findings, skipped = judge(
         facts, _access_rules(), runtime={}, return_skipped=True)
     layer = _failure_layer(bundle, diagnosis, extra)
+    _record_stage("rules", t, {"findings": len(rule_findings),
+                               "skipped": len(skipped)})
 
     unresolved = [{"layer": r.layer, "reason": r.reason}
                   for r in diagnosis.chain if r.verdict is Verdict.UNKNOWN]
@@ -348,10 +412,23 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         # allowed-but-flagged still exits 1 (findings are blockers by contract)
         status = "findings"
 
+    t = time.time()
     graph = _access_graph(bundle, diagnosis, facts, findings)
+    _record_stage("graph", t, {"nodes": len(graph.nodes), "edges": len(graph.edges)})
+    t = time.time()
+    paths = _evidence_paths(bundle, diagnosis, facts, extra, graph=graph)
+    trust = _trust_scan(bundle)
+    _record_stage("evidence_trust", t, {"paths": len(paths), "taint": trust["taint"]})
     return {
         "status": status,
         "case": diagnosis.scenario,
+        "case_meta": {
+            "name": bundle.case.get("name", diagnosis.scenario),
+            "principal": dict(bundle.case.get("principal") or {}),
+            "operation": bundle.case.get("operation", ""),
+            "target": dict(bundle.case.get("target") or {}),
+            "compute": merged_compute,
+        },
         "failure_layer": layer,
         "diagnosis": diagnosis.to_dict(),
         "findings": [f.to_dict() for f in findings],
@@ -359,8 +436,9 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         "unresolved": unresolved,
         "facts": [f.to_dict() for f in facts],
         "access_graph": graph.to_dict(),
-        "evidence_paths": _evidence_paths(bundle, diagnosis, facts, extra, graph=graph),
-        "trust": _trust_scan(bundle),
+        "evidence_paths": paths,
+        "context_quality": _context_quality(facts, diagnosis, findings, paths),
+        "trust": trust,
         "receipt": receipt.build(
             case=diagnosis.scenario, profile=profile,
             tools=["casefile", "extract", "notebook_scan", "governance.diagnose"],

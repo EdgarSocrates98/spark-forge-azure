@@ -6,6 +6,10 @@
  },
  "cli": {
   "commands": [
+   "agentops critical-path",
+   "agentops inspect",
+   "agentops runs",
+   "agentops timeline",
    "collect adls-meta",
    "collect azure-rbac",
    "collect resource-graph",

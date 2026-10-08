@@ -15,6 +15,7 @@ from typing import Any
 from sparkforge_azure.cli.main import CliError
 from sparkforge_azure.collectors import adls_meta, azure_rbac, resource_graph, unity_catalog
 from sparkforge_azure.collectors.base import CollectorInputError, CollectorUnavailable
+from sparkforge_azure.collectors.recover import collect_with_recovery
 from sparkforge_azure.collectors.redact import RedactionError
 from sparkforge_azure.collectors.workspace_graph import collect_workspace_graph
 from sparkforge_azure.graph import Graph, WorkspaceError, save_graph
@@ -76,16 +77,31 @@ def _access_collector(module: Any, label: str) -> Any:
                 if missing:
                     flags = ", ".join("--" + m.replace("_", "-") for m in missing)
                     raise CliError(f"{label} --live needs: {flags}")
-                res = module.collect_live(**kwargs)
+                outcome = collect_with_recovery(
+                    module.collect_live, kwargs=kwargs,
+                    offline_export=args.fallback_export,
+                    from_export=module.from_export, source=label)
+                res = outcome["result"]
+                if res is None:
+                    raise CliError(
+                        f"{label}: live collection unresolved "
+                        f"({outcome['unresolved'][0]['failure_class']}); "
+                        "no offline export to fall back to")
+                extra = {"degraded": outcome["status"] == "degraded",
+                         "recovery": {"status": outcome["status"],
+                                      "decisions": outcome["decisions"],
+                                      "receipt": outcome["receipt"]}}
             else:
                 res = module.from_export(args.export)
+                extra = {}
         except (CollectorUnavailable, CollectorInputError, RedactionError,
                 OSError) as exc:
             raise CliError(str(exc)) from exc
         return {"status": "ok", "source": res.source, "mode": res.mode,
                 "records": res.records, "facts": len(res.facts),
                 "redaction": res.redaction.to_dict(), "unresolved": res.unresolved,
-                "fact_list": res.to_dict()["facts"] if args.facts else []}
+                "fact_list": res.to_dict()["facts"] if args.facts else [],
+                **extra}
     return _run
 
 
@@ -114,6 +130,8 @@ def register(sub: argparse._SubParsersAction) -> None:
                     help="read the workspace via databricks-sdk")
     uc.add_argument("--host", help="workspace URL (with --live)")
     uc.add_argument("--workspace-id", help="numeric workspace id (with --live)")
+    uc.add_argument("--fallback-export",
+                    help="offline export to use if --live fails (degraded mode)")
     uc.add_argument("--facts", action="store_true")
     uc.set_defaults(func=_access_collector(unity_catalog, "unity-catalog"))
 
@@ -123,6 +141,8 @@ def register(sub: argparse._SubParsersAction) -> None:
                     help="read assignments via azure-mgmt-authorization")
     rb.add_argument("--scope", help="ARM scope to list assignments for (--live)")
     rb.add_argument("--subscription-id", help="subscription for --live")
+    rb.add_argument("--fallback-export",
+                    help="offline export to use if --live fails (degraded mode)")
     rb.add_argument("--facts", action="store_true")
     rb.set_defaults(func=_access_collector(azure_rbac, "azure-rbac"))
 
@@ -133,5 +153,7 @@ def register(sub: argparse._SubParsersAction) -> None:
     ad.add_argument("--account-url", help="https://<acct>.dfs.core.windows.net")
     ad.add_argument("--container", help="filesystem/container name")
     ad.add_argument("--paths", nargs="*", help="paths whose ACLs to read")
+    ad.add_argument("--fallback-export",
+                    help="offline export to use if --live fails (degraded mode)")
     ad.add_argument("--facts", action="store_true")
     ad.set_defaults(func=_access_collector(adls_meta, "adls-meta"))

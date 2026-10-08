@@ -43,7 +43,7 @@ Streaming, Governance, Security, Observability, FinOps, Agentic OS, TokenSave, G
 
 Medido em 2026-10-07 sobre `feat/v0.1.0-foundation-delivery`:
 
-- Suite: **2499 testes verdes** (9 skipped), `ruff` limpo, `check_surface_lock`,
+- Suite: **2514 testes verdes** (9 skipped), `ruff` limpo, `check_surface_lock`,
   `check_claims`, `check_knowledge`, `check_skills_agents` verdes.
 - Skills: **22 catalogadas** — as 21 de domínio do §157 + `analyze-batch-loop`
   (skill de método; ancora a análise de lote no extrator PySpark e cita `SF-PY-004`).
