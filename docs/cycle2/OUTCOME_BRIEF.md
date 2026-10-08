@@ -5,7 +5,7 @@
 | BASE_SHA | `b1caf70280a95479f4dcd9bb98b119b46ce823e5` |
 | FINAL_SHA | `15ffb95` (último commit de código; docs deste brief em seguida) |
 | branch | `feat/cycle2-evolution` → PR #3 → merge `fe6b8a5` em `main` |
-| tests | **2523 passed, 9 skipped** (pytest ~3min, Python 3.12 venv) |
+| tests | **2533 passed, 9 skipped** (pytest ~3min, Python 3.12 venv) |
 | CI | `NOT_OBSERVED` — quota GitHub indisponível; gates locais verdes |
 
 ## Por capability
