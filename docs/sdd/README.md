@@ -36,6 +36,22 @@ No sibling AWS o mesmo gate é `sparkforge sdd check`; aqui o binário é
   dados): a tarefa prova por `proof` (`funcval`, `fact` ou `finding`) e o build
   registra `change_id` de `change sandbox`, com `evidence` no ship.
 
+## Grill gate — intake antes do `define`
+
+Antes de abrir `define.md`, interrogar a spec uma pergunta por vez — a mesma
+disciplina do *grill gate* do Loop Factory: **automatizar implementação e
+verificação, nunca decisão de produto**. As respostas caem nos campos do SDD;
+
+| Pergunta | Onde grava |
+|---|---|
+| Quem é o dono desta decisão (produto, contrato, runtime)? | `hypothesis` + `profile` (dev vs operator) |
+| O que fica explicitamente fora? | `out_of_scope` |
+| Qual a suposição mais arriscada? | `hypothesis.claim` + `experiment` que a testa |
+| Qual a menor versão aceitável? | `success` + o conjunto mínimo de `AC*` |
+
+Pergunta sem resposta vira entrada em `unknowns` — nunca suposição inventada:
+decisão de produto não nasce no loop.
+
 ## Features deste repo
 
 - `docs/sdd/SDD_EVAL/define.md` — os critérios da suite agentica sobre specs

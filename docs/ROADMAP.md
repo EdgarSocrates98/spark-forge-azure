@@ -198,3 +198,21 @@ o restante:
 - Suite agentic nova: **~52 testes** (inventory, contract v2, role_plans,
   spawn, test_eval, teams, spans, labs, security, closure); suite total
   **2791 passed / 9 skipped** (venv 3.12, ~298s).
+
+## Estado medido — skills audit + docs hardening — **DELIVERED**
+
+Auditoria minuciosa das 22 skills (contrato v1, triggers, handoffs, evals,
+comandos, vazamento AWS, números fabricados) + evolução documental, em duas
+entregas (PR #12 + `feat/docs-factory-evolution`).
+
+- `SKILL_HANDOFF_RESOLUTION`: `migration`→`migration-specialist` (2 skills);
+  validador resolve alvo de `## Handoff` contra `SKILL_NAMES ∪ ALL_AGENT_IDS`
+  (lazy — aresta `skills→agentmanifest` declarada na medição); recusa nomeada.
+- `SKILL_EVAL_KIND_COVERAGE`: as 8 skills não-verticais ganharam casos
+  `negative` (domínio adjacente real) + `boundary`; teste exige o par nas 22.
+- `SKILLS_REFERENCE_DOC`: `docs/reference/skills.md` **gerado** por
+  `gen_skills_doc.py` (scope, triggers, handoffs, evals pos/neg/bnd) com
+  teste de sync anti-drift; grill gate do Loop Factory documentado em
+  `docs/sdd/README.md` mapeado nos campos do SDD; `cli.md` corrigido
+  (`sdd check` era implementado, não planejado).
+- Suite total **2793 passed / 9 skipped** (venv 3.12).

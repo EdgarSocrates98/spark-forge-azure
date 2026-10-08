@@ -222,7 +222,7 @@ dashboard proibido como fonte primária).
 
 ## Verbos planejados (ainda não implementados)
 
-`analyze`, `judge`, `knowledge select|check`, `sdd check` aparecem como
-`tool_refs` em skills/agentes — são o contrato-alvo das skills, não
-comandos existentes hoje. A superfície atual é a listada acima
-(`agentops` e `mcp` já são implementados — ver as seções próprias).
+`analyze`, `judge` e `knowledge select|check` aparecem como `tool_refs` em
+skills/agentes — são o contrato-alvo das skills, não comandos existentes
+hoje. A superfície atual é a listada acima (`sdd`, `agents`, `agentops` e
+`mcp` já são implementados — ver as seções próprias).
