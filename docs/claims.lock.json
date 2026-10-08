@@ -1,193 +1,193 @@
 {
-  "version": 1,
-  "claims": [
-    {
-      "id": "cli-version-json",
-      "doc": "README.md",
-      "text": "uma saida JSON por comando",
-      "proof": {
-        "cmd": [
-          "python",
-          "-m",
-          "sparkforge_azure.cli.main",
-          "version"
-        ],
-        "expect": {
-          "kind": "regex",
-          "pattern": "\"provider\":\\s*\"azure\""
-        }
-      },
-      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
-    },
-    {
-      "id": "suite-green",
-      "doc": "docs/ROADMAP.md",
-      "text": "2540 testes verdes",
-      "proof": {
-        "cmd": [
-          "python",
-          "-m",
-          "pytest",
-          "-q"
-        ],
-        "timeout": 600,
-        "expect": {
-          "kind": "regex",
-          "pattern": "\n2540 passed"
-        }
-      },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
-    },
-    {
-      "id": "surface-lock",
-      "doc": "docs/ROADMAP.md",
-      "text": "`check_surface_lock`",
-      "proof": {
-        "cmd": [
-          "python",
-          "scripts/check_surface_lock.py"
-        ],
-        "expect": {
-          "kind": "exit0"
-        }
-      },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
-    },
-    {
-      "id": "skills-catalogue-22",
-      "doc": "docs/ROADMAP.md",
-      "text": "**22 catalogadas**",
-      "proof": {
-        "cmd": [
-          "python",
-          "scripts/check_skills_agents.py"
-        ],
-        "expect": {
-          "kind": "json",
-          "path": "skills",
-          "op": "==",
-          "value": 22
-        }
-      },
-      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
-    },
-    {
-      "id": "mcp-tools-10",
-      "doc": "docs/reference/mcp-tools.md",
-      "text": "Catálogo (10 tools)",
-      "proof": {
-        "cmd": [
-          "python",
-          "-c",
-          "from sparkforge_azure.mcp.tools import load_all; import json; print(json.dumps({'tools': len(load_all())}))"
-        ],
-        "expect": {
-          "kind": "json",
-          "path": "tools",
-          "op": "==",
-          "value": 10
-        }
-      },
-      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
-    },
-    {
-      "id": "knowledge-check",
-      "doc": "docs/ROADMAP.md",
-      "text": "`check_knowledge`",
-      "proof": {
-        "cmd": [
-          "python",
-          "scripts/check_knowledge.py"
-        ],
-        "expect": {
-          "kind": "exit0"
-        }
-      },
-      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
-    },
-    {
-      "id": "lab-verify",
-      "doc": "docs/reference/cli.md",
-      "text": "exit 1 se inválido",
-      "proof": {
-        "cmd": [
-          "python",
-          "-m",
-          "sparkforge_azure.cli.main",
-          "lab",
-          "verify"
-        ],
-        "expect": {
-          "kind": "regex",
-          "pattern": "\"valid\":\\s*true"
-        }
-      },
-      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
-    },
-    {
-      "id": "access-suite-10",
-      "doc": "docs/labs/access.md",
-      "text": "10 passed",
-      "proof": {
-        "cmd": [
-          "python",
-          "-m",
-          "sparkforge_azure.cli.main",
-          "diagnose",
-          "--suite",
-          "tests/fixtures/access"
-        ],
-        "expect": {
-          "kind": "json",
-          "path": "passed",
-          "op": "==",
-          "value": 10
-        }
-      },
-      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
-    },
-    {
-      "id": "tokensave-benchmark-honest",
-      "doc": "docs/tokensave/benchmark.md",
-      "text": "Tokens: `unresolved`",
-      "proof": {
-        "cmd": [
-          "python",
-          "-m",
-          "sparkforge_azure.cli.main",
-          "tokensave",
-          "benchmark",
-          "--case",
-          "evals/token_efficient/access_case"
-        ],
-        "expect": {
-          "kind": "json",
-          "path": "benchmark.tokens",
-          "op": "==",
-          "value": "unresolved"
-        }
-      },
-      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
-    },
-    {
-      "id": "security-vertical-green",
-      "doc": "docs/labs/access.md",
-      "text": "REDACTED:*",
-      "proof": {
-        "cmd": [
-          "python",
-          "-m",
-          "pytest",
-          "tests/test_security_taint.py",
-          "tests/test_cycle2_closing.py",
-          "-q"
-        ],
-        "expect": {
-          "kind": "regex",
-          "pattern": "[0-9]+ passed"
-        }
-      },
-      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
+ "version": 1,
+ "claims": [
+  {
+   "id": "cli-version-json",
+   "doc": "README.md",
+   "text": "uma saida JSON por comando",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "version"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"provider\":\\s*\"azure\""
     }
-  ]
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "suite-green",
+   "doc": "docs/ROADMAP.md",
+   "text": "2540 testes verdes",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "pytest",
+     "-q"
+    ],
+    "timeout": 600,
+    "expect": {
+     "kind": "regex",
+     "pattern": "\n2540 passed"
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "surface-lock",
+   "doc": "docs/ROADMAP.md",
+   "text": "`check_surface_lock`",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_surface_lock.py"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "skills-catalogue-22",
+   "doc": "docs/ROADMAP.md",
+   "text": "**22 catalogadas**",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_skills_agents.py"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "skills",
+     "op": "==",
+     "value": 22
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "mcp-tools-10",
+   "doc": "docs/reference/mcp-tools.md",
+   "text": "Catálogo (10 tools)",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.mcp.tools import load_all; import json; print(json.dumps({'tools': len(load_all())}))"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "tools",
+     "op": "==",
+     "value": 10
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "knowledge-check",
+   "doc": "docs/ROADMAP.md",
+   "text": "`check_knowledge`",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_knowledge.py"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "lab-verify",
+   "doc": "docs/reference/cli.md",
+   "text": "exit 1 se inválido",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "lab",
+     "verify"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"valid\":\\s*true"
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "access-suite-10",
+   "doc": "docs/labs/access.md",
+   "text": "10 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "diagnose",
+     "--suite",
+     "tests/fixtures/access"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "passed",
+     "op": "==",
+     "value": 10
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "tokensave-benchmark-honest",
+   "doc": "docs/tokensave/benchmark.md",
+   "text": "Tokens: `unresolved`",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "tokensave",
+     "benchmark",
+     "--case",
+     "evals/token_efficient/access_case"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "benchmark.tokens",
+     "op": "==",
+     "value": "unresolved"
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "security-vertical-green",
+   "doc": "docs/labs/access.md",
+   "text": "REDACTED:*",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "pytest",
+     "tests/test_security_taint.py",
+     "tests/test_cycle2_closing.py",
+     "-q"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "[0-9]+ passed"
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  }
+ ]
 }
