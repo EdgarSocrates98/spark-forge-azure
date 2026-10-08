@@ -11,8 +11,8 @@ Per-agent contract status, measured by `sparkforge_azure.agentic.inventory` — 
 | `broken` | 0 |
 | `manifest_only` | 0 |
 | `partial` | 0 |
-| `ready` | 0 |
-| `unevaluated` | 40 |
+| `ready` | 40 |
+| `unevaluated` | 0 |
 
 **Total:** 40 agents
 
@@ -20,46 +20,46 @@ Per-agent contract status, measured by `sparkforge_azure.agentic.inventory` — 
 
 | agent | kind | status |
 |---|---|---|
-| `coordinator` | role | `unevaluated` |
-| `inventory` | role | `unevaluated` |
-| `extractor` | role | `unevaluated` |
-| `analyzer` | role | `unevaluated` |
-| `judge` | role | `unevaluated` |
-| `verifier` | role | `unevaluated` |
-| `reviewer` | role | `unevaluated` |
-| `critic` | role | `unevaluated` |
-| `referee` | role | `unevaluated` |
-| `synthesizer` | role | `unevaluated` |
-| `security-reviewer` | role | `unevaluated` |
-| `cost-reviewer` | role | `unevaluated` |
-| `performance-reviewer` | role | `unevaluated` |
-| `migration-reviewer` | role | `unevaluated` |
-| `test-engineer` | role | `unevaluated` |
-| `evaluation-specialist` | role | `unevaluated` |
-| `fabric-specialist` | specialist | `unevaluated` |
-| `azure-databricks-specialist` | specialist | `unevaluated` |
-| `unity-catalog-specialist` | specialist | `unevaluated` |
-| `synapse-specialist` | specialist | `unevaluated` |
-| `adf-specialist` | specialist | `unevaluated` |
-| `adls-specialist` | specialist | `unevaluated` |
-| `onelake-specialist` | specialist | `unevaluated` |
-| `event-hubs-specialist` | specialist | `unevaluated` |
-| `streaming-specialist` | specialist | `unevaluated` |
-| `purview-specialist` | specialist | `unevaluated` |
-| `entra-specialist` | specialist | `unevaluated` |
-| `networking-specialist` | specialist | `unevaluated` |
-| `finops-specialist` | specialist | `unevaluated` |
-| `spark-performance-specialist` | specialist | `unevaluated` |
-| `delta-specialist` | specialist | `unevaluated` |
-| `iceberg-specialist` | specialist | `unevaluated` |
-| `terraform-specialist` | specialist | `unevaluated` |
-| `bicep-specialist` | specialist | `unevaluated` |
-| `migration-specialist` | specialist | `unevaluated` |
-| `observability-specialist` | specialist | `unevaluated` |
-| `databricks-runtime-reviewer` | subagent | `unevaluated` |
-| `databricks-uc-reviewer` | subagent | `unevaluated` |
-| `databricks-performance-reviewer` | subagent | `unevaluated` |
-| `databricks-cost-reviewer` | subagent | `unevaluated` |
+| `coordinator` | role | `ready` |
+| `inventory` | role | `ready` |
+| `extractor` | role | `ready` |
+| `analyzer` | role | `ready` |
+| `judge` | role | `ready` |
+| `verifier` | role | `ready` |
+| `reviewer` | role | `ready` |
+| `critic` | role | `ready` |
+| `referee` | role | `ready` |
+| `synthesizer` | role | `ready` |
+| `security-reviewer` | role | `ready` |
+| `cost-reviewer` | role | `ready` |
+| `performance-reviewer` | role | `ready` |
+| `migration-reviewer` | role | `ready` |
+| `test-engineer` | role | `ready` |
+| `evaluation-specialist` | role | `ready` |
+| `fabric-specialist` | specialist | `ready` |
+| `azure-databricks-specialist` | specialist | `ready` |
+| `unity-catalog-specialist` | specialist | `ready` |
+| `synapse-specialist` | specialist | `ready` |
+| `adf-specialist` | specialist | `ready` |
+| `adls-specialist` | specialist | `ready` |
+| `onelake-specialist` | specialist | `ready` |
+| `event-hubs-specialist` | specialist | `ready` |
+| `streaming-specialist` | specialist | `ready` |
+| `purview-specialist` | specialist | `ready` |
+| `entra-specialist` | specialist | `ready` |
+| `networking-specialist` | specialist | `ready` |
+| `finops-specialist` | specialist | `ready` |
+| `spark-performance-specialist` | specialist | `ready` |
+| `delta-specialist` | specialist | `ready` |
+| `iceberg-specialist` | specialist | `ready` |
+| `terraform-specialist` | specialist | `ready` |
+| `bicep-specialist` | specialist | `ready` |
+| `migration-specialist` | specialist | `ready` |
+| `observability-specialist` | specialist | `ready` |
+| `databricks-runtime-reviewer` | subagent | `ready` |
+| `databricks-uc-reviewer` | subagent | `ready` |
+| `databricks-performance-reviewer` | subagent | `ready` |
+| `databricks-cost-reviewer` | subagent | `ready` |
 
 ## Dimensions
 

@@ -1,0 +1,10 @@
+agent: adf-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: azure data factory copy activity self hosted integration runtime linked
+    service
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: structured streaming watermark checkpoint foreachbatch

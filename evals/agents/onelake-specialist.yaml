@@ -1,0 +1,9 @@
+agent: onelake-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: onelake shortcut no onelake catalog onelake security
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: event hubs kafka endpoint consumer group

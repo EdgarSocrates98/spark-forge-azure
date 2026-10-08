@@ -74,7 +74,7 @@ handoffs:
 review_policy:
   requires_verifier: true
   adversarial_check: on_conflict
-evals: []
+evals: [evals/agents/adf-specialist.yaml, tests/test_agent_eval_cases.py, tests/test_agent_contract_v2.py]
 agentops_emit_span: true
 risk: read_only
 parent: null

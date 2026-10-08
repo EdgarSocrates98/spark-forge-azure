@@ -1,0 +1,9 @@
+agent: unity-catalog-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: grant negado no unity catalog external location permission denied
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: event hubs consumer group throughput unit lag

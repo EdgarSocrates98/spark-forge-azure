@@ -1,0 +1,9 @@
+agent: event-hubs-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: event hubs consumer group throughput unit kafka endpoint
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: bicep arm template what if bicepparam

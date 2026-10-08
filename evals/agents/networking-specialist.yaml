@@ -1,0 +1,9 @@
+agent: networking-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: private endpoint private link private dns zone vnet injection
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: delta lake merge optimize vacuum z order

@@ -1,0 +1,9 @@
+agent: azure-databricks-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: databricks job com cluster policy e photon falhando
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: onelake shortcut no onelake catalog

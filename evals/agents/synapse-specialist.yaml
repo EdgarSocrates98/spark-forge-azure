@@ -1,0 +1,9 @@
+agent: synapse-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: synapse dedicated sql pool synapse workspace pipeline
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: unity catalog external location storage credential grant

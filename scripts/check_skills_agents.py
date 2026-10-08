@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from sparkforge_azure.agentmanifest.mirrors import check_agent_mirrors  # noqa: E402
 from sparkforge_azure.agentmanifest.model import (  # noqa: E402
     ROLE_IDS,
     SPECIALIST_IDS,
@@ -30,7 +31,12 @@ def run(root: Path, *, allow_pending_knowledge: bool = False) -> dict:
     skills = validate_skills_tree(root, allow_pending_knowledge=allow_pending_knowledge)
     agents = validate_agents_tree(root, allow_pending_knowledge=allow_pending_knowledge)
     drift = check_mirrors(root)
-    errors = skills.errors + agents.errors + [f"mirror {d.reason}: {d.path}" for d in drift]
+    agent_drift = check_agent_mirrors(root)
+    errors = (
+        skills.errors + agents.errors
+        + [f"mirror {d.reason}: {d.path}" for d in drift]
+        + [f"agent mirror {d.reason}: {d.path}" for d in agent_drift]
+    )
     return {
         "ok": not errors,
         "mode": "allow-pending-knowledge" if allow_pending_knowledge else "strict",
@@ -38,6 +44,7 @@ def run(root: Path, *, allow_pending_knowledge: bool = False) -> dict:
         "agents": {"roles": len(ROLE_IDS), "specialists": len(SPECIALIST_IDS),
                    "subagents": len(SUBAGENT_IDS)},
         "mirrors_in_sync": not drift,
+        "agent_mirrors_in_sync": not agent_drift,
         "pending_knowledge": sorted(set(skills.pending_knowledge + agents.pending_knowledge)),
         "errors": errors,
     }

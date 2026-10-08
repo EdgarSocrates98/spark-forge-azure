@@ -216,3 +216,29 @@ entregas (PR #12 + `feat/docs-factory-evolution`).
   `docs/sdd/README.md` mapeado nos campos do SDD; `cli.md` corrigido
   (`sdd check` era implementado, não planejado).
 - Suite total **2793 passed / 9 skipped** (venv 3.12).
+
+## Estado medido — cycle 7 (agentic maturity pass) — **DELIVERED**
+
+`prompt_evo_maturity1.md` ≡ `prompt_evo_agentic_enginner.md` (byte-idêntico) —
+maturity pass auditou cada bloco § contra artefatos reais
+(`docs/agentic/MATURITY_MAP.md`) e fechou as lacunas, em waves commitadas
+(`feat/cycle7-maturity`):
+
+- `AGENT_EVAL_SUITE` (W1): `evals/agents/<id>.yaml` ×20 specialists com casos
+  `route_positive`/`route_negative` executados contra `explain_route` real
+  (negative exige `no_match`, nunca `below_cap`); `_eval_coverage` agora
+  resolve cada entrada contra `tests/`/`evals/` (antes bastava lista
+  não-vazia — divergência docstring↔código fechada); 40 manifests declaram
+  evals reais → frota **40/40 `ready`** (era 40× `unevaluated`; suite 2812/9).
+- `AGENT_MIRRORS` (W2): mirrors de hosts para os 40 manifests —
+  `.claude/agents/custom/` + `.agents/agents/` file-per-agent, `name`/
+  `description` injetados, drift `missing|stale|orphan` + sync, campo
+  `agent_mirrors_in_sync` no strict check.
+- `BASE_AGENT_PIPELINE` (W3): `agentic/pipeline.py` declara a cadeia §30
+  (11 estágios, 7 required + 4 condicionais) e `plan_pipeline` poda por
+  contexto — fast path §32 (evidência completa + low risk) vai direto
+  `verifier → synthesizer`.
+- `MCP_AGENT_ADMIN` (W4): `sfa_agents_list` + `sfa_agents_explain_route`
+  read-only (mesma engine do CLI); superficie 13→15 tools, lock regen.
+- `AGENT_DOD_GATE` (W5): `test_agent_dod.py` por família + `agents/
+  CAPABILITY.json` gerado + gate de novo agent no CONTRIBUTING.

@@ -1,0 +1,9 @@
+agent: fabric-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: fabric lakehouse notebook no fabric capacity com dataflow gen2
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: synapse dedicated sql pool synapse pipeline

@@ -1,0 +1,9 @@
+agent: migration-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: migration de glue lake formation hadoop para azure
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: sensitivity label glossary purview classification

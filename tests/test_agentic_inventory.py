@@ -79,6 +79,36 @@ def test_get_agent_outside_taxonomy() -> None:
     assert get_agent(REPO, "coordinator") is not None
 
 
+def test_eval_refs_resolve_for_all_agents() -> None:
+    rep = inventory(REPO)
+    failures = [
+        (a.agent_id, d.note)
+        for a in rep.agents
+        for d in a.dimensions
+        if d.name == "evals" and d.satisfied is not True
+    ]
+    assert failures == []
+
+
+def test_eval_refs_must_exist(tmp_path) -> None:
+    agents_src = REPO / "agents"
+    shutil.copytree(agents_src, tmp_path / "agents")
+    manifest = tmp_path / "agents" / "coordinator.md"
+    text = manifest.read_text(encoding="utf-8")
+    marker = next(
+        line for line in text.splitlines() if line.lstrip().startswith("evals:")
+    )
+    manifest.write_text(
+        text.replace(marker, "evals: [tests/nao_existe_este_arquivo.py]", 1),
+        encoding="utf-8",
+    )
+    rep = inventory(tmp_path)
+    coordinator = next(a for a in rep.agents if a.agent_id == "coordinator")
+    dim = next(d for d in coordinator.dimensions if d.name == "evals")
+    assert dim.satisfied is False
+    assert "unresolvable" in dim.detail
+
+
 def test_internal_tools_resolve() -> None:
     """Every tool any manifest declares resolves to the tool registry."""
     from sparkforge_azure.agentmanifest.tools import known_tools
