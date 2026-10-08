@@ -39,6 +39,26 @@ explique no commit — e documente o verbo/tool em `docs/reference/`
 `docs/README.md` (`check_docs_index.py` falha sem isso). Mudou fonte de
 knowledge? `python scripts/refresh_knowledge.py --report`.
 
+## Novo agent: gate obrigatorio
+
+Adicionar um agent a frota nunca e so um `.md`. Checklist minimo — cada item
+tem enforcement automatizado:
+
+1. `agents/<id>.md` com manifest v2 (`schema_version: 2`), `evals` apontando
+   para artefatos que existem (`tests/` ou `evals/`) — `check_skills_agents`
+   e `test_eval_refs_must_exist` reprovam refs fantasmas.
+2. Registrar o id na taxonomia (`ALL_AGENT_IDS`, familia correta em
+   `agentmanifest/model.py`).
+3. Role plan resolvendo via `role_plan_for` (`tests/test_agentic_role_plans.py`).
+4. Specialist novo? Entra na `ROUTING_TABLE` + ganha
+   `evals/agents/<id>.yaml` com `route_positive`/`route_negative` executados
+   por `tests/test_agent_eval_cases.py`. Reviewer/subagent novo? Nunca entra
+   na `ROUTING_TABLE` — spawna via pai (`test_role_specific_dod`).
+5. Regenerar mirrors (`scripts/sync_agent_mirrors.py`) e
+   `agents/CAPABILITY.json` (`scripts/gen_agent_capability.py`) — os testes
+   de sync reprovam se esquecer.
+6. Status deve fechar `ready` ou `partial` em `sparkforge-azure agents list`.
+
 ## O que nao entra
 
 - Dado bruto de nuvem, segredo, connection string (`.gitignore` + redator).
