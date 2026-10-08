@@ -34,7 +34,8 @@ from sparkforge_azure.rules.loader import load_catalog
 PUBLIC_LAYERS = (
     "entra", "workspace_binding", "unity_catalog", "external_location",
     "storage_credential", "network", "azure_rbac", "adls_acl",
-    "runtime", "delta_perf", "governance_bypass", "unresolved",
+    "runtime", "delta_perf", "governance_bypass", "cross_environment",
+    "unresolved",
 )
 
 _LAYER_MAP = {
@@ -157,9 +158,51 @@ def _delta_finding(bundle: casefile.CaseBundle, facts: list[Any],
     return None
 
 
+def _env_mismatch_finding(facts: list[Any],
+                          case_name: str) -> Finding | None:
+    """SF-ACC-013: environment-scope disagreement across artifacts (193-195).
+
+    Cross-tenant/subscription/workspace evidence must never be merged into
+    one authority story — the mismatch is the finding.
+    """
+    by_key: dict[str, dict[str, set[str]]] = {}
+    for f in facts:
+        if f.kind != "environment.scope":
+            continue
+        key = str(f.attrs.get("key"))
+        value = str(f.attrs.get("value"))
+        src = str(f.subject.get("source", "?"))
+        by_key.setdefault(key, {}).setdefault(value, set()).add(src)
+    conflicts = {k: v for k, v in by_key.items() if len(v) > 1}
+    if not conflicts:
+        return None
+    evidence = [f.id for f in facts if f.kind == "environment.scope"
+                and str(f.attrs.get("key")) in conflicts]
+    detail = {k: sorted(v) for k, v in conflicts.items()}
+    return Finding(
+        rule_id="SF-ACC-013",
+        title="Environment mismatch across evidence sources",
+        severity="P0", confidence="high", status="confirmed",
+        subject={"case": case_name, "layer": "cross_environment"},
+        evidence=evidence,
+        measured={"conflicting_keys": detail},
+        explanation="Artifacts disagree on environment identity "
+                    f"{detail}; a metastore/catalog match across tenants or "
+                    "workspaces is not the same authority. The bundle cannot "
+                    "be trusted as one environment.",
+        proposed_change=["Re-collect every artifact against the same tenant, "
+                         "subscription and workspace, then re-diagnose."],
+        risks=["Findings below this one may mix evidence from different "
+               "environments."],
+    )
+
+
 def _failure_layer(bundle: casefile.CaseBundle, diagnosis: Any,
                    extra: list[Finding]) -> str | None:
     """Map the diagnosis to the public failure-layer vocabulary (AC4)."""
+    # A cross-environment bundle poisons every layer verdict: report it first.
+    if any(f.rule_id == "SF-ACC-013" for f in extra):
+        return "cross_environment"
     # A legacy access mode fails before UC evaluation: runtime wins over any
     # layer verdict or conflict the chain produced downstream.
     if any(f.rule_id == "SF-ACC-012" for f in extra):
@@ -318,11 +361,20 @@ def _access_rules() -> list[dict[str, Any]]:
     return [r for r in load_catalog() if str(r.get("id", "")).startswith("SF-ACC")]
 
 
-def _record_stage(name: str, start: float, resultado: dict[str, Any]) -> None:
-    """One AgentOps span per pipeline stage; record() never touches disk."""
+def _record_stage(name: str, start: float, resultado: dict[str, Any],
+                  stages: dict[str, dict[str, float]] | None = None) -> float:
+    """One AgentOps span per pipeline stage; record() never touches disk.
+
+    Also reports elapsed ms into ``stages`` when given, so the report can
+    expose per-stage cost without opening the trace store.
+    """
     shared_ledger().record(
         name=f"diagnose.{name}", resultado=resultado, detail_level="stage",
         outcome="ok", start_time=start, channel="diagnose")
+    elapsed = round((time.time() - start) * 1000, 3)
+    if stages is not None:
+        stages[name] = {"ms": elapsed}
+    return elapsed
 
 
 def _context_quality(facts: list[Any], diagnosis: Any, findings: list[Finding],
@@ -365,9 +417,11 @@ def _context_quality(facts: list[Any], diagnosis: Any, findings: list[Finding],
 
 def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
     """Run the full offline pipeline on a case bundle directory."""
+    stage_ms: dict[str, dict[str, float]] = {}
     t = time.time()
     bundle = casefile.load_bundle(root)
-    _record_stage("load_bundle", t, {"case": str(bundle.case.get("name", ""))})
+    _record_stage("load_bundle", t, {"case": str(bundle.case.get("name", ""))},
+                  stage_ms)
     t = time.time()
     facts = list(extract.extract_all(bundle.artifacts, bundle.sources))
     merged_compute = dict(bundle.case.get("compute") or {})
@@ -376,23 +430,24 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         facts += extract.extract_compute(
             merged_compute, {"source": bundle.sources["case"], "mode": "bundle",
                              "observed_at": None})
-    _record_stage("extract", t, {"facts": len(facts)})
+    _record_stage("extract", t, {"facts": len(facts)}, stage_ms)
     t = time.time()
     facts += notebook_scan.scan_paths(bundle.notebook_files, base=bundle.root)
     facts += notebook_scan.skipped_facts(bundle.skipped)
     facts = sorted({f.id: f for f in facts}.values(), key=lambda f: (f.kind, f.id))
     _record_stage("notebook_scan", t, {"facts": len(facts),
-                                       "skipped": len(bundle.skipped)})
+                                       "skipped": len(bundle.skipped)}, stage_ms)
     t = time.time()
     try:
         diagnosis = diagnose(bundle.to_scenario())
     except Exception as exc:
         raise casefile.CaseError(f"invalid scenario: {exc}") from exc
     _record_stage("diagnose", t, {"status": diagnosis.status,
-                                  "layers": len(diagnosis.chain)})
+                                  "layers": len(diagnosis.chain)}, stage_ms)
 
     t = time.time()
     extra = [f for f in (_runtime_finding(bundle, facts),
+                         _env_mismatch_finding(facts, bundle.case.get("name", "")),
                          _delta_finding(bundle, facts, diagnosis.status),
                          _bypass_finding(bundle, facts, diagnosis.status))
              if f is not None]
@@ -400,10 +455,18 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         facts, _access_rules(), runtime={}, return_skipped=True)
     layer = _failure_layer(bundle, diagnosis, extra)
     _record_stage("rules", t, {"findings": len(rule_findings),
-                               "skipped": len(skipped)})
+                               "skipped": len(skipped)}, stage_ms)
 
-    unresolved = [{"layer": r.layer, "reason": r.reason}
-                  for r in diagnosis.chain if r.verdict is Verdict.UNKNOWN]
+    unresolved = []
+    for r in diagnosis.chain:
+        if r.verdict is not Verdict.UNKNOWN:
+            continue
+        entry: dict[str, Any] = {"layer": r.layer, "reason": r.reason}
+        artifact = _LAYER_SOURCE.get(r.layer)
+        if artifact is not None:
+            entry["artifact"] = artifact
+            entry["artifact_present"] = artifact in bundle.sources
+        unresolved.append(entry)
     findings = [*diagnosis.findings, *extra, *rule_findings]
     status = {"allowed": "pass"}.get(diagnosis.status, diagnosis.status)
     if any(f.rule_id == "SF-ACC-012" for f in extra):
@@ -415,11 +478,16 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
 
     t = time.time()
     graph = _access_graph(bundle, diagnosis, facts, findings)
-    _record_stage("graph", t, {"nodes": len(graph.nodes), "edges": len(graph.edges)})
+    graph_build_ms = round((time.time() - t) * 1000, 3)
+    graph_bytes = len(json.dumps(graph.to_dict()))
+    _record_stage("graph", t, {"nodes": len(graph.nodes), "edges": len(graph.edges),
+                               "build_ms": graph_build_ms,
+                               "serialized_bytes": graph_bytes}, stage_ms)
     t = time.time()
     paths = _evidence_paths(bundle, diagnosis, facts, extra, graph=graph)
     trust = _trust_scan(bundle)
-    _record_stage("evidence_trust", t, {"paths": len(paths), "taint": trust["taint"]})
+    _record_stage("evidence_trust", t, {"paths": len(paths), "taint": trust["taint"]},
+                  stage_ms)
     return {
         "status": status,
         "case": diagnosis.scenario,
@@ -440,6 +508,10 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         "evidence_paths": paths,
         "knowledge": compile_access_knowledge(
             layer, f"{bundle.case.get('name', '')} {layer or 'access'}"),
+        "overhead": {"graph": {"nodes": len(graph.nodes), "edges": len(graph.edges),
+                               "build_ms": graph_build_ms,
+                               "serialized_bytes": graph_bytes},
+                     "stages": stage_ms},
         "context_quality": _context_quality(facts, diagnosis, findings, paths),
         "trust": trust,
         "receipt": receipt.build(

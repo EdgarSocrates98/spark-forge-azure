@@ -17,12 +17,12 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "7c09c1709082be71e6da56bbd2ce9781655d9ab0"
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
   },
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "2523 testes verdes",
+   "text": "2540 testes verdes",
    "proof": {
     "cmd": [
      "python",
@@ -33,10 +33,10 @@
     "timeout": 600,
     "expect": {
      "kind": "regex",
-     "pattern": "2523 passed"
+     "pattern": "\n2540 passed"
     }
    },
-   "sha": "7c09c1709082be71e6da56bbd2ce9781655d9ab0"
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
   },
   {
    "id": "surface-lock",
@@ -51,7 +51,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "7c09c1709082be71e6da56bbd2ce9781655d9ab0"
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
   },
   {
    "id": "skills-catalogue-22",
@@ -69,7 +69,7 @@
      "value": 22
     }
    },
-   "sha": "7c09c1709082be71e6da56bbd2ce9781655d9ab0"
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
   },
   {
    "id": "mcp-tools-10",
@@ -88,7 +88,7 @@
      "value": 10
     }
    },
-   "sha": "7c09c1709082be71e6da56bbd2ce9781655d9ab0"
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
   },
   {
    "id": "knowledge-check",
@@ -103,7 +103,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "7c09c1709082be71e6da56bbd2ce9781655d9ab0"
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
   },
   {
    "id": "lab-verify",
@@ -122,7 +122,72 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "7c09c1709082be71e6da56bbd2ce9781655d9ab0"
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "access-suite-10",
+   "doc": "docs/labs/access.md",
+   "text": "10 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "diagnose",
+     "--suite",
+     "tests/fixtures/access"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "passed",
+     "op": "==",
+     "value": 10
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "tokensave-benchmark-honest",
+   "doc": "docs/tokensave/benchmark.md",
+   "text": "Tokens: `unresolved`",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "tokensave",
+     "benchmark",
+     "--case",
+     "evals/token_efficient/access_case"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "benchmark.tokens",
+     "op": "==",
+     "value": "unresolved"
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
+  },
+  {
+   "id": "security-vertical-green",
+   "doc": "docs/labs/access.md",
+   "text": "REDACTED:*",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "pytest",
+     "tests/test_security_taint.py",
+     "tests/test_cycle2_closing.py",
+     "-q"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "[0-9]+ passed"
+    }
+   },
+   "sha": "84a776114eaad13bee1a7637a5c33250b2895d38"
   }
  ]
 }

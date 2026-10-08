@@ -41,10 +41,16 @@ def baseline_bytes(files: list[Path]) -> dict[str, Any]:
 
 def _profile_run(case_dir: Path, name: str, task: str,
                  terms: list[str], index_db: Path | None) -> dict[str, Any]:
+    import time
+
     ts = TokenSave(case_dir, profile_name=name, index_db=index_db)
+    t0 = time.perf_counter()
     result = ts.context(task, required_terms=terms)
+    latency_ms = round((time.perf_counter() - t0) * 1000, 3)
     led = ts.ledger.summary()
     calls = led["calls"] or 1
+    required = len(terms)
+    unresolved = len(result.unresolved)
     return {
         "status": result.status,
         "stop_reason": result.stop_reason,
@@ -53,12 +59,18 @@ def _profile_run(case_dir: Path, name: str, task: str,
         "payload_basis": led["payload_basis"],
         "level_distribution": led["bytes_by_level"],
         "calls": led["calls"],
+        "latency_ms": latency_ms,
+        "agent_calls": 0,  # benchmark é retrieval-only; zero agents é medido
         "full_read_rate": led["full_reads"] / calls,
         "cache_hit_rate": led["cache_hit_rate"],
         "context_reuse_rate": led["reuse_count"] / calls,
         "index_hit_rate": (
             led["expansion_count"] / calls if led["expansion_count"] else None
         ),
+        # Required-evidence recall: denominador = termos exigidos pela task.
+        "required_terms": required,
+        "required_recall": round((required - unresolved) / required, 4)
+        if required else None,
         "unresolved_terms": result.unresolved,
     }
 
@@ -88,6 +100,14 @@ def run_benchmark(case_dir: str | Path, *, task: str = DEFAULT_TASK,
         run = _profile_run(root, name, task, terms, idx)
         run["bytes_avoided"] = base["bytes"] - run["bytes_read"]
         out["profiles"][name] = run
+    # Quality frontier (prompt 186): eixos medidos lado a lado, sem score
+    # mágico e sem "best profile" global (187) — a escolha é por contexto.
+    out["frontier"] = {
+        "axes": ["required_recall", "bytes_read", "tokens", "calls",
+                 "agent_calls", "latency_ms", "unresolved_terms"],
+        "tokens": "unresolved",
+        "note": "sem score agregado — compare os eixos",
+    }
     return out
 
 

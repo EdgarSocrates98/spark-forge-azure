@@ -102,7 +102,7 @@ markers = [
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-exclude = ["fixtures", "tests/fixtures"]
+exclude = ["fixtures", "tests/fixtures", "evals/token_efficient"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "S"]

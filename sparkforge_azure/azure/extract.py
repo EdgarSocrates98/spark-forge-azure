@@ -6,6 +6,7 @@ governance engine and the rule catalog do the judging.
 """
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping
 from typing import Any
 
@@ -149,10 +150,60 @@ _EXTRACTORS = {
     "compute": extract_compute,
 }
 
+# Environment-identity keys a bundle artifact may declare (prompts 193-195).
+# Disagreement across sources is a cross-tenant/subscription/workspace
+# mismatch — surfaced by the pipeline as SF-ACC-013, never silently merged.
+_ENV_KEYS = ("tenant_id", "subscription_id", "workspace_id", "metastore_id")
+_ARM_SUB = re.compile(r"/subscriptions/([^/]+)", re.I)
+
+
+def _env_values(value: Any, key: str, out: set[str]) -> None:
+    if isinstance(value, Mapping):
+        for k, v in value.items():
+            if isinstance(k, str) and k.lower() == key and isinstance(v, str) and v:
+                out.add(v.lower())
+            _env_values(v, key, out)
+    elif isinstance(value, list):
+        for item in value:
+            _env_values(item, key, out)
+    elif key == "subscription_id" and isinstance(value, str):
+        # ARM ids carry the subscription: /subscriptions/<id>/...
+        for m in _ARM_SUB.finditer(value):
+            out.add(m.group(1).lower())
+
+
+def extract_env(artifacts: Mapping[str, Any],
+                sources: Mapping[str, str]) -> list[Fact]:
+    """One ``environment.scope`` fact per artifact per env key it declares."""
+    facts: list[Fact] = []
+    for name, payload in sorted(artifacts.items()):
+        if not isinstance(payload, Mapping):
+            continue
+        prov = {"source": sources.get(name, name), "mode": "bundle",
+                "observed_at": None, "extractor": "extract_env"}
+        for key in _ENV_KEYS:
+            found: set[str] = set()
+            _env_values(payload, key, found)
+            for value in sorted(found):
+                facts.append(Fact(
+                    kind="environment.scope",
+                    subject={"source": sources.get(name, name), "key": key,
+                             "value": value},
+                    attrs={"key": key, "value": value},
+                    provenance=dict(prov)))
+    return facts
+
 
 def extract_all(artifacts: Mapping[str, Any],
                 sources: Mapping[str, str]) -> list[Fact]:
-    """Run every extractor whose artifact is present in the bundle."""
+    """Run every extractor whose artifact is present in the bundle.
+
+    Artifacts are redacted at the extraction boundary: bundle files stay
+    byte-identical on disk, but Facts never carry secret material — the
+    same guarantee collectors enforce on live payloads (prompt 192).
+    """
+    from sparkforge_azure.collectors.redact import redact
+
     facts: list[Fact] = []
     for name, payload in artifacts.items():
         extractor = _EXTRACTORS.get(name)
@@ -160,11 +211,12 @@ def extract_all(artifacts: Mapping[str, Any],
             continue
         prov = {"source": sources.get(name, name), "mode": "bundle",
                 "observed_at": None}
-        facts.extend(extractor(payload, prov))
+        facts.extend(extractor(redact(payload), prov))
+    facts.extend(extract_env(artifacts, sources))
     return sort_facts(facts)
 
 
 __all__ = [
     "extract_adls", "extract_all", "extract_compute", "extract_entra",
-    "extract_network", "extract_rbac", "extract_uc",
+    "extract_env", "extract_network", "extract_rbac", "extract_uc",
 ]
