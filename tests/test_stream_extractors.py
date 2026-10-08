@@ -72,3 +72,39 @@ def test_consumer_checkpoints_scoped_by_group():
     ck = [f for f in facts if f.kind == "consumer.checkpoint"]
     assert ck
     assert all("consumer_group" in f.subject for f in ck)
+
+
+def test_eventhubs_artifacts_become_facts():
+    """SDD contract name — namespace/hub/partition/CG viram facts eh.*."""
+    facts = _facts("s04-eh-throttled")
+    kinds = {f.kind for f in facts}
+    assert {"eh.namespace", "eh.hub", "eh.partition",
+            "eh.consumer_group"} <= kinds
+
+
+def test_partition_positions_modeled():
+    """AC2 — posições por partição viram facts offset.position."""
+    facts = _facts("s03-partition-skew")
+    pos = [f for f in facts if f.kind == "offset.position"]
+    assert pos
+    assert all("partition" in f.subject for f in pos)
+
+
+def test_metrics_timeseries_not_point():
+    """AC3 — métricas são séries temporais (points[]), não escalar."""
+    facts = _facts("s04-eh-throttled")
+    metrics = [f for f in facts if f.kind == "eh.metric"]
+    assert metrics
+    for m in metrics:
+        assert isinstance(m.attrs.get("points"), list)
+        assert m.attrs.get("points_count") == len(m.attrs["points"])
+
+
+def test_sas_never_in_facts():
+    """AC4 — SAS tokens/connection strings nunca chegam a facts."""
+    import json
+    b = load_bundle(f"{FIXTURES}/s15-eventstream-source-auth")
+    blob = json.dumps(
+        [f.to_dict() for f in extract.extract_all(b.artifacts, b.sources)])
+    for needle in ("SharedAccessKey=", "sig=", "AccountKey="):
+        assert needle not in blob

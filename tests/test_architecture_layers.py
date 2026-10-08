@@ -75,7 +75,8 @@ ARESTAS = _arestas()
 KERNEL_FOLHA: frozenset[str] = frozenset({"paths", "durable", "protocols", "findings"})
 
 #: Quem pode importar `azure`/`collectors`: as superficies (L7) e o dominio (L5/L6).
-DOMINIO: frozenset[str] = frozenset({"azure", "fabric", "collectors"})
+DOMINIO: frozenset[str] = frozenset({"azure", "fabric", "stream",
+                                     "collectors"})
 SUPERFICIES: frozenset[str] = frozenset({"cli", "mcp", "bundle", "doctor"})
 
 #: Arestas medidas que sobem a camada ideal do ADR — cada uma com a razao.
@@ -141,6 +142,18 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("fabric", "collectors"): "extract reusa collectors.redact na fronteira do bundle (sem SDK)",
     ("cli", "fabric"): "superficie L7 alcanca o dominio",
     ("mcp", "fabric"): "superficie MCP alcanca o dominio",
+    ("stream", "azure"): "pipeline reusa Verdict/receipt/modelo do dominio azure",
+    ("stream", "findings"): "dominio emite o contrato Fact/Finding",
+    ("stream", "agentic"): "pipeline envolve metadados do bundle em TrustEnvelope",
+    ("stream", "facts"): "pipeline reusa a varredura e o scanner de facts",
+    ("stream", "graph"): "pipeline emite o grafo stream tipado",
+    ("stream", "rules"): "pipeline julga facts com o catalogo SF-STR/SF-RTI",
+    ("stream", "observability"): "pipeline emite spans AgentOps por estagio (stream.*)",
+    ("stream", "knowledgebase"): "pipeline anexa knowledge escopado por failure_layer",
+    ("stream", "collectors"): "extract reusa collectors.redact na fronteira do bundle (sem SDK)",
+    ("cli", "stream"): "superficie L7 alcanca o dominio",
+    ("mcp", "stream"): "superficie MCP alcanca o dominio",
+    ("doctor", "stream"): "doctor mede a integridade do vertical Streaming/RTI",
     ("collectors", "findings"): "coletor emite facts/finding do dominio",
     ("collectors", "azure"): "coletor live reusa os extratores do dominio",
     ("collectors", "fabric"): "coletor Fabric reusa os extratores do dominio",

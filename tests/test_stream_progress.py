@@ -42,3 +42,36 @@ def test_partition_skew_quantified():
     skew, measured = progress.partition_skew(_facts("s03-partition-skew"))
     assert skew is True
     assert measured  # carries the skew evidence, not just a bool
+
+
+def test_progress_events_become_facts():
+    """SDD contract name — query_progress vira série de progresso."""
+    series = progress.progress_series(_facts("s06-sustained-bottleneck"))
+    assert len(series) >= 2
+    for f in series:
+        assert f.kind == "stream.progress"
+
+
+def test_single_batch_dip_not_lag():
+    """AC2 — dip de batch único não é lag sustentado (contract name)."""
+    series = progress.progress_series(_facts("s05-single-batch-dip"))
+    deficit, _ = progress.sustained_processing_deficit(series)
+    assert progress.single_batch_dip(series) is True
+    assert deficit is False
+
+
+def test_checkpoint_deleted_latest_risk():
+    """AC3 — checkpoint ausente + start latest é camada checkpoint."""
+    from sparkforge_azure.stream.pipeline import run_stream_case
+    r = run_stream_case(f"{FIXTURES}/s08-checkpoint-deleted-latest")
+    assert r["failure_layer"] == "checkpoint"
+    kinds = {f["rule_id"] for f in r["findings"]}
+    assert "SF-STR-LOSS-RISK" in kinds
+
+
+def test_state_growth_needs_series():
+    """AC4 — crescimento de estado exige série de progresso."""
+    from sparkforge_azure.stream.pipeline import run_stream_case
+    r = run_stream_case(f"{FIXTURES}/s10-state-growth")
+    assert r["failure_layer"] in {"state_store", "spark_processing",
+                                  "consumer_progress"}

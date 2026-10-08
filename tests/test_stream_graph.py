@@ -51,3 +51,30 @@ def test_nodes_carry_provenance():
 def test_graph_serializes():
     d = _graph("s04-eh-throttled").to_dict()
     assert d["nodes"] and d["edges"]
+
+
+def test_stream_graph_nodes_edges():
+    """SDD contract name — grafo serializa nodes+edges com provenance."""
+    g = _graph("s04-eh-throttled")
+    d = g.to_dict()
+    assert d["nodes"] and d["edges"]
+    nodes = d["nodes"]
+    iterable = nodes.values() if isinstance(nodes, dict) else nodes
+    assert all(n.get("kind") for n in iterable)
+
+
+def test_finding_overlay_in_graph():
+    """AC2 — findings viram nós 'finding' com edges evidenced_by."""
+    from sparkforge_azure.stream.pipeline import run_stream_case
+    g = run_stream_case(f"{FIXTURES}/s04-eh-throttled")["stream_graph"]
+    nodes = g["nodes"] if isinstance(g["nodes"], list) else g["nodes"].values()
+    assert any(n.get("kind") == "finding" for n in nodes)
+    edges = g["edges"] if isinstance(g["edges"], list) else g["edges"].values()
+    assert any(e.get("relation") == "evidenced_by" for e in edges)
+
+
+def test_no_invented_causality():
+    """AC3 — caso saudável não ganha nós finding nem arestas causais."""
+    g = _graph("s01-caught-up-idle").to_dict()
+    nodes = g["nodes"] if isinstance(g["nodes"], list) else g["nodes"].values()
+    assert not any(n.get("kind") == "finding" for n in nodes)

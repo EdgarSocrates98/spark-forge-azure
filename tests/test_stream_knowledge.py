@@ -49,3 +49,9 @@ def test_cross_vertical_layer_names_resolve_to_caller():
         "eventhubs-core"]
     assert packs_for_layer("cross_environment", vertical="access") == [
         "azure-identity"]
+
+
+def test_stream_pack_scoping():
+    """AC3 (contract name) — packs stream registrados e escopados."""
+    test_stream_packs_registered()
+    test_stream_layer_scoping()

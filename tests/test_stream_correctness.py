@@ -61,3 +61,33 @@ def test_retention_loss_candidate_is_risk_not_fact():
 def test_delivery_in_pipeline_output():
     r = run_stream_case(f"{FIXTURES}/s01-caught-up-idle")
     assert r["delivery"]["classification"] in correctness.DELIVERY_ORDER
+
+
+def test_delivery_classification():
+    """SDD contract name — classificação é sempre uma de DELIVERY_ORDER."""
+    for case in ("s01-caught-up-idle", "s08-checkpoint-deleted-latest",
+                 "s22-insufficient-evidence"):
+        d = correctness.classify_delivery(_facts(case))
+        assert d["classification"] in correctness.DELIVERY_ORDER, case
+
+
+def test_schema_breaking_vs_additive():
+    """AC2 — additive nullable passa; type change quebra."""
+    assert correctness.schema_compatibility(
+        _facts("s12-schema-additive"))["verdict"] == "compatible"
+    assert correctness.schema_compatibility(
+        _facts("s13-schema-breaking"))["verdict"] == "breaking"
+
+
+def test_no_data_loss_needs_full_evidence():
+    """AC3 — 'sem perda' exige evidência completa; ausência = unresolved."""
+    r = run_stream_case(f"{FIXTURES}/s22-insufficient-evidence")
+    assert r["status"] == "unresolved"
+    assert r["delivery"]["classification"] == "unresolved"
+
+
+def test_payload_data_only():
+    """AC4 — payload hostil é DATA_ONLY: não vira finding nem verdict."""
+    r = run_stream_case(f"{FIXTURES}/s21-malicious-payload")
+    assert r["trust"]["instruction_authority"] == "data_only"
+    assert not any("malicious" in f["title"].lower() for f in r["findings"])

@@ -67,6 +67,10 @@ live collectors read-only opt-in, Tier 4)** ·
 **Microsoft Fabric deep vertical (deep_local — 16 cenários offline,
 OneLake security/shortcuts/Spark/capacity/Data-Factory seam, grafo Fabric
 no Graphfy, `sfa_diagnose_fabric`, collector export/live opt-in)** ·
+**Streaming/RTI deep vertical (deep_local — 22 cenários offline,
+Event Hubs/consumer groups/checkpoint/state/schema/sink + Eventstream/
+Eventhouse/KQL/Activator, delivery semantics unresolved-first,
+`sfa_diagnose_stream`, grafo stream)** ·
 Unity Catalog foundation · AgentOps · Forge Lab seed · security · supply chain.
 
 Primeiro vertical que prova a arquitetura (§255): **PySpark + Azure Databricks + ADLS + Unity

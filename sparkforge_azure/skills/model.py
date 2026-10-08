@@ -126,18 +126,20 @@ EVAL_CASE_KEYS: tuple[str, ...] = (
 )
 MIN_EVAL_CASES = 3
 EVAL_KINDS: frozenset[str] = frozenset({"positive", "negative", "boundary"})
-# Skills verticais (access UC/ADLS + Fabric, cycles 2–3): exigem evals com
-# trigger positivo, trigger negativo e caso de fronteira.
+# Skills verticais (access UC/ADLS + Fabric + Streaming/RTI, cycles 2–4):
+# exigem evals com trigger positivo, trigger negativo e caso de fronteira.
 VERTICAL_SKILLS: frozenset[str] = frozenset({
     "azure-adls",
     "azure-databricks",
     "azure-entra",
+    "azure-event-hubs",
     "azure-networking",
     "delta-lake",
     "fabric-data-engineering",
     "fabric-onelake",
     "fabric-realtime",
     "spark-performance",
+    "spark-streaming",
     "unity-catalog",
 })
 
