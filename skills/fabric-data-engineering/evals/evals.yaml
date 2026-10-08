@@ -30,3 +30,24 @@ cases:
   expected_tools:
   - sparkforge-azure analyze fabric-item
   - sparkforge-azure analyze pyspark
+- id: fabric-data-engineering-databricks-negative
+  kind: negative
+  prompt: Meu notebook no Azure Databricks falha com PERMISSION_DENIED no abfss
+  must_include:
+  - azure-databricks
+  - unity-catalog
+  must_not_include:
+  - fabric capacity
+  - workspace do fabric
+  expected_tools:
+  - sfa_analyze
+- id: fabric-data-engineering-classic-spark-boundary
+  kind: boundary
+  prompt: O job Fabric Spark roda mas está lento no F64
+  must_include:
+  - spark-performance
+  - capacity
+  must_not_include:
+  - é o mesmo tuning do synapse spark
+  expected_tools:
+  - sparkforge-azure analyze fabric-item

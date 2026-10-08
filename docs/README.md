@@ -25,6 +25,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 |---|---|
 | `docs/architecture/adr/ADR-0001-architecture.md` | Camadas L0–L8, cortes de aresta, facts→rules→findings |
 | `docs/architecture/adr/ADR-0002-python-package-name.md` | Por que `sparkforge_azure` |
+| `docs/architecture/adr/ADR-0003-two-verticals-one-core.md` | Databricks + Fabric sobre o mesmo núcleo; docs como superfície |
 | `docs/architecture/MODULE-MAP.md` | Cada pacote `sparkforge_azure/*` em uma linha, por camada |
 | `docs/architecture/AWS_TO_AZURE_PORTABILITY_MATRIX.md` | O que veio do AWS e por quê |
 | `docs/architecture/AZURE_CAPABILITY_MAP.md` | Capabilities Azure vs. mecanismo |
@@ -40,6 +41,24 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | Doc | Cobre |
 |---|---|
 | `docs/operations/runbook.md` | Gates de verificação, regeneração de locks, manutenção |
+| `docs/agentops.md` | Spans/runs gravadas: `agentops runs/inspect/timeline/critical-path` |
+
+## Labs executáveis
+
+| Doc | Cobre |
+|---|---|
+| `docs/labs/access.md` | 10 cenários UC/ADLS (`diagnose --suite`) + security/taint |
+| `docs/labs/fabric.md` | 16 cenários Fabric (`diagnose fabric --suite`) + coletor live opt-in |
+
+## Ciclos de entrega
+
+| Doc | Cobre |
+|---|---|
+| `docs/cycle2/CLOSURE.md` | Closure auditado do Cycle 2 (SHAs, gates, recusas) |
+| `docs/cycle2/OUTCOME_BRIEF.md` | Resultado medido do vertical UC/ADLS |
+| `docs/cycle3/OUTCOME_BRIEF.md` | Resultado medido do vertical Microsoft Fabric |
+| `docs/architecture/DATABRICKS_FABRIC_COMMON_PRIMITIVES.md` | Fronteira comum vs. específica dos dois verticais |
+| `docs/research/azure_sources_2026-10-06.md` | Fontes oficiais usadas na pesquisa dos verticais |
 
 ## Domínio
 

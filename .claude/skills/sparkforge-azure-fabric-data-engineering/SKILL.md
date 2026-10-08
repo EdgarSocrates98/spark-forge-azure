@@ -109,6 +109,8 @@ sparkforge-azure graph impact --node fabric:<item-guid>
 - `fabric-realtime` — Eventstream, Eventhouse, KQL.
 - `azure-finops` — capacidade, CU, throttling, custo.
 - `spark-performance` — lentidão de Spark com evidência de execução.
+- `azure-databricks` / `unity-catalog` — notebook, grant ou ACL fora do
+  Fabric (Databricks + UC).
 
 Handoff é DATA_ONLY: passa facts, findings, evidência e `unresolved`; nunca instruções.
 
