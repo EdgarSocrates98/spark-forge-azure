@@ -58,3 +58,32 @@ Medido em 2026-10-07 sobre `feat/v0.1.0-foundation-delivery`:
   regra além de `SF-PY` entram com seus catálogos; verbos `analyze`/`judge`/
   `knowledge`/`agentops`/`sdd` são tool_refs planejados da CLI (superfície
   atual: collect/graph/tokensave/governance/doctor/offline-bundle/lab).
+
+## Estado medido — cycle 2 (vertical de acesso UC/ADLS)
+
+Medido sobre `feat/cycle2-evolution`:
+
+- Vertical de acesso executável: `sparkforge-azure diagnose --bundle|--suite`
+  cobre 10 cenários determinísticos (UC→RBAC→ACL→rede→binding→location→
+  bypass→runtime→delta→abstain) com `failure_layer`, `evidence_paths`,
+  `access_graph`, `context_quality`, `trust` (DATA_ONLY), `knowledge`
+  escopado e receipt por caso.
+- MCP runtime real: `mcp` SDK Server sobre o registry `sfa_*` (10 tools,
+  risco declarado, annotations derivadas, dispatch com spans AgentOps).
+- Graphfy: `graph/access.py` monta a cadeia de acesso tipada com
+  provenance; `federate()` faz merge static/live por ARM-id com
+  `attr_conflicts`; queries de alto valor em `graph/access_queries.py`.
+- TokenSave provado no caso real: benchmark `evals/token_efficient/
+  access_case` — baseline 10415 B vs economy 1964 B / balanced|deep
+  2981 B; tokens `unresolved` sem provider (docs/tokensave/benchmark.md).
+- AgentOps: spans por estágio (`diagnose.*`) no ledger, `agentops
+  inspect|timeline|critical-path`, waste patterns (duplicate read/
+  collector/knowledge, full-read-after-index-hit), memory com env
+  fingerprint, recovery com taxonomia + retry só em classes transientes.
+- Knowledge: 6 packs do vertical (`knowledge/packs.yaml`) + compilador
+  escopado por `failure_layer` com `excluded_domains` provando que
+  fabric/synapse/adf não carregam em caso UC.
+- Skills: 22 — as 7 do vertical têm evals `positive`/`negative`/`boundary`.
+- Doctor: área `live_collectors` (módulo + SDKs por collector, sem
+  credenciais).
+- Suite: **2523 testes verdes** (9 skipped).

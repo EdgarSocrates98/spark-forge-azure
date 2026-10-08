@@ -37,7 +37,16 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 (e só leitura): default-negada até `cloud_read_enabled`; com `live=false` usa
 export ARG offline. `sfa_diagnose_access` é 100% offline: roda o pipeline de
 diagnóstico de acesso (UC/RBAC/ACL/rede) sobre um case bundle local e devolve
-`status`, `failure_layer`, findings, grafo de acesso e receipt.
+`status`, `failure_layer`, findings, grafo de acesso, knowledge escopado e
+receipt.
+
+## Cobertura do vertical sem explosão (prompt 157-159)
+
+O vertical UC/ADLS é servido por composição, não por tool-por-API:
+`sfa_collect_workspace_graph` (coleta live/export unificada) → `sfa_graph_query`
+(inspeção por kind/camada) → `sfa_diagnose_access` (cadeia inteira de uma vez).
+Inspectors por recurso (`*_uc_inspect`, `*_adls_inspect`) duplicariam o que o
+grafo já responde — recusados para manter a superfície em 10 tools.
 
 ## Compact mode
 
