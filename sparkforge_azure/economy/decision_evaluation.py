@@ -16,13 +16,20 @@ import yaml
 
 from sparkforge_azure.economy.decision_models import DecisionInput
 from sparkforge_azure.economy.decision_plane import DecisionPlaneService
+from sparkforge_azure.economy.decision_receipts import DecisionReceiptStore
 
 
 class DecisionEvaluationRunner:
     """Run versioned decision cases against one contract and ground truth."""
 
-    def __init__(self, repo: Path | str = ".") -> None:
+    def __init__(
+        self,
+        repo: Path | str = ".",
+        *,
+        receipts: DecisionReceiptStore | None = None,
+    ) -> None:
         self.repo = Path(repo).expanduser().resolve()
+        self.receipts = receipts
 
     def run(
         self,
@@ -38,7 +45,7 @@ class DecisionEvaluationRunner:
         cases = raw.get("cases")
         if not isinstance(cases, list) or not cases:
             raise ValueError("decision fixture requires cases")
-        service = DecisionPlaneService(self.repo)
+        service = DecisionPlaneService(self.repo, receipts=self.receipts)
         contract = service.validate("routing.data_domain")
         results: list[dict[str, Any]] = []
         for raw_case in cases:
