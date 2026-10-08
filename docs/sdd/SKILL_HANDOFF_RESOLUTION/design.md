@@ -24,6 +24,9 @@ files:
 - path: tests/test_skills.py
   action: modify
   reason: testes nomeados AC1-AC3
+- path: tests/test_architecture_layers.py
+  action: modify
+  reason: declara aresta skills->agentmanifest (lazy) na medicao
 decisions:
 - id: D1
   choice: A2 — alvo resolve em skills ∪ ALL_AGENT_IDS (mesmo namespace dos handoff_targets

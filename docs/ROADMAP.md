@@ -197,4 +197,4 @@ o restante:
   `sdd-gate-green` (todos com prova executável).
 - Suite agentic nova: **~52 testes** (inventory, contract v2, role_plans,
   spawn, test_eval, teams, spans, labs, security, closure); suite total
-  **2788 passed / 9 skipped** (venv 3.12, ~298s).
+  **2791 passed / 9 skipped** (venv 3.12, ~298s).

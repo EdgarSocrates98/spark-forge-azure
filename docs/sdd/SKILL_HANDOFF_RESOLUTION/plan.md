@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/SKILL_HANDOFF_RESOLUTION/design.md
-  sha256: a4a78ab4c635a1883f3c3b7292774aee588df47cf5814ea96f49934196cf7f55
+  sha256: 1bb645e12a5cbbc2071201e5ed09893a5e9ee1b388bd2d13233d30f375e84a49
 tasks:
 - id: T1
   files:
@@ -30,6 +30,7 @@ tasks:
 - id: T3
   files:
   - sparkforge_azure/skills/model.py
+    - tests/test_architecture_layers.py
   covers:
   - AC1
   - AC3
