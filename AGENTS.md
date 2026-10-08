@@ -52,6 +52,7 @@ inteiro. Leitura completa é fallback.
 .venv/Scripts/python -m ruff check sparkforge_azure tests scripts   # Windows
 python -m pytest -q
 python scripts/check_surface_lock.py
+python scripts/check_docs_surface.py
 python scripts/check_claims.py
 ```
 

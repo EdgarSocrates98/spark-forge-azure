@@ -25,6 +25,58 @@ Profiles: `economy` | `balanced` | `deep`. `--index` aponta o índice codeintel
 | `read <path>` | L5 | fatia limitada `--start`/`--end` |
 | `context <task>` | L0–L6 | caminha a escada até contexto suficiente; `--term` repetível |
 
+## `sparkforge-azure diagnose --bundle|--suite [--profile]` — vertical de acesso (Cycle 2)
+
+Diagnóstico offline do caso Databricks/UC/ADLS sobre um case bundle
+(`case.yaml` + artefatos UC/RBAC/ACL/rede/workspace). Saída: `status`,
+`failure_layer`, cadeia por camada, `findings`, `access_graph`,
+`evidence_paths`, `knowledge` escopado, `trust`, `overhead`, `receipt`.
+
+| Flag | Uso |
+|---|---|
+| `--bundle <dir>` | um caso (`case.yaml` + artefatos) |
+| `--suite <dir>` | diretório de casos; compara com o bloco `expect:` de cada `case.yaml` |
+| `--profile` | `economy\|balanced\|deep` (default `balanced`) — perfil de contexto TokenSave |
+
+Os 10 cenários do access lab estão em `tests/fixtures/access/`
+(`docs/labs/access.md`).
+
+## `sparkforge-azure diagnose fabric --bundle|--suite [--profile]` — vertical Fabric (Cycle 3)
+
+Mesma forma do `diagnose` de acesso, sobre o case bundle Fabric
+(`workspace`, `capacity`, `items`, `lakehouse`, `shortcuts`,
+`connections`, `identity`, `environment`, `pipelines`, `onelake_security`).
+Cadeia: env → workspace → item → OneLake → shortcut → source → lakehouse →
+runtime → spark job → capacity → data factory. Saída adiciona
+`fabric_graph` e `case_meta.environment_fingerprint`. Os 16 cenários do
+Fabric lab estão em `tests/fixtures/fabric/` (`docs/labs/fabric.md`).
+
+## `sparkforge-azure agentops <op>` — inspeção de runs gravadas
+
+| Op | Uso |
+|---|---|
+| `runs` | lista runs gravadas (`--limit`, default 20) |
+| `inspect` | detalhe de uma run (`--run <id>`, default: mais recente) |
+| `timeline` | spans em ordem temporal da run |
+| `critical-path` | caminho crítico da run |
+
+`--db` aponta o `traces.db` (default `./.sparkforge-azure/traces.db`,
+honrando `SPARKFORGE_AZURE_STATE_DIR`). Detalhes em `docs/agentops.md`.
+
+## `sparkforge-azure mcp <op>` — runtime MCP
+
+| Op | Uso |
+|---|---|
+| `catalog` | imprime o catálogo `sfa_*` como JSON, offline (`--compact` = só read-only) |
+| `serve` | sobe o servidor MCP (`--transport stdio\|http`, default stdio) |
+
+Guardas de `serve`: `--compact` (só catálogo read-only), `--no-local-write`
+(nega tools `local_write`), `--cloud-read` (permite `cloud_read` — default
+negado), `--cloud-write-grant <TOKEN>` (grant humano explícito para
+`cloud_write`; o valor nunca é logado), `--allow-source-tools` (sob HTTP,
+reabilita tools que devolvem fonte do workspace), `--host`/`--port`
+(default `127.0.0.1:8765`).
+
 ## `sparkforge-azure governance diagnose --scenario <file>`
 
 Diagnóstico offline de um cenário de acesso Azure (Entra, binding/privileges
@@ -53,6 +105,13 @@ credenciais (só presença — nunca autentica), traces, Forge Lab.
 |---|---|
 | `workspace-graph` | `--manifest` (+ `--export` offline ARG \| `--live`, `--out`, `--hash-principals`) |
 | `resource-graph` | `--export` (+ `--out`, `--facts`, `--hash-principals`) — ingere export do Azure Resource Graph |
+| `unity-catalog` | credenciais/locations/catálogos/grants UC — export ou SDK opt-in |
+| `azure-rbac` | role assignments num scope — export ou SDK opt-in |
+| `adls-meta` | postura da conta ADLS + ACLs — export ou SDK opt-in |
+
+Todo collector segue a boundary compartilhada (`collectors.base`): resposta
+bruta → redação → `assert_clean` → facts; falhas classificadas viram
+`unresolved` com `failure_class`, nunca erro silencioso.
 
 `--live` exige extra `azure` + auth; sem ele tudo é offline. Principais podem
 ser hasheados (`--hash-principals`).
@@ -100,6 +159,7 @@ dashboard proibido como fonte primária).
 
 ## Verbos planejados (ainda não implementados)
 
-`analyze`, `judge`, `knowledge select|check`, `agentops`,
-`sdd check` aparecem como `tool_refs` em skills/agentes — são o contrato-alvo
-das skills, não comandos existentes hoje. A superfície atual é a listada acima.
+`analyze`, `judge`, `knowledge select|check`, `sdd check` aparecem como
+`tool_refs` em skills/agentes — são o contrato-alvo das skills, não
+comandos existentes hoje. A superfície atual é a listada acima
+(`agentops` e `mcp` já são implementados — ver as seções próprias).

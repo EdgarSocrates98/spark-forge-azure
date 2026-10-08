@@ -5,13 +5,20 @@ verificação pré-entrega (`AGENTS.md`).
 
 ## Gates de verificação
 
+> **Interpretador**: rode os gates com o venv do projeto
+> (`.venv/Scripts/python` no Windows). `python` no PATH pode ser outro
+> interpretador sem os extras opcionais — `check_claims` roda as provas
+> com `sys.executable`, então um stamp feito fora do venv falha com
+> erros de coleta que não são do código.
+
 ```bash
 .venv/Scripts/python -m ruff check sparkforge_azure tests scripts   # lint
-python -m pytest -q                                                # suite
-python scripts/check_knowledge.py                                  # corpus knowledge
-python scripts/check_skills_agents.py                              # skills/agents/mirrors
-python scripts/check_surface_lock.py                               # superfície travada
-python scripts/check_claims.py                                     # claims com prova
+.venv/Scripts/python -m pytest -q                                  # suite
+.venv/Scripts/python scripts/check_knowledge.py                    # corpus knowledge
+.venv/Scripts/python scripts/check_skills_agents.py                # skills/agents/mirrors
+.venv/Scripts/python scripts/check_surface_lock.py                 # superfície travada
+.venv/Scripts/python scripts/check_docs_surface.py                 # docs cobrem toda a superfície travada
+.venv/Scripts/python scripts/check_claims.py                       # claims com prova
 ```
 
 | Guarda | O que mede | Falha típica |
@@ -20,9 +27,12 @@ python scripts/check_claims.py                                     # claims com 
 | `check_skills_agents.py` | contrato v1 de SKILL.md, manifests, mirrors em sync | `knowledge_refs` p/ dir inexistente (use `--allow-pending-knowledge` p/ diagnosticar) |
 | `check_surface_lock.py` | CLI commands, MCP tools, compact set, capabilities, counts de skills/knowledge | drift de superfície → `--update` + explicar no commit |
 | `check_claims.py` | cada claim em `docs/claims.lock.json`: texto verbatim no doc + prova executada + sha ancestral | doc driftou do lock; sha não-ancestral; prova falha |
+| `check_docs_surface.py` | todo comando CLI e tool MCP do surface.lock tem seção nos docs de referência | verbo/tool novo sem doc → documentar em `docs/reference/cli.md`/`mcp-tools.md` |
 | `check_otel_collector.py` | igualdade semântica traces/metrics vs goldens | decoração de pipeline não conta; atributos semânticos sim |
 | `check_skills_agents.py --root X` | valida árvore arbitrária | — |
-| `sparkforge-azure doctor` | áreas: `mcp`, `azure_extras`, `live_collectors` (módulo + SDKs por collector), `knowledge_freshness`, `tokensave`, `graphfy` | `live: unavailable` = extra SDK ausente (modo export offline segue válido); nunca lê credencial |
+| `sparkforge-azure doctor` | áreas: `mcp`, `azure_extras`, `live_collectors` (módulo + SDKs por collector), `knowledge_freshness`, `tokensave`, `graphfy`, `access_vertical`, `fabric_vertical` | `live: unavailable` = extra SDK ausente (modo export offline segue válido); nunca lê credencial |
+| `diagnose --suite tests/fixtures/access` | 10 cenários UC/ADLS contra o oráculo `expect:` | failure_layer divergente = regressão de diagnóstico |
+| `diagnose fabric --suite tests/fixtures/fabric` | 16 cenários Fabric contra o oráculo `expect:` | idem; `unresolved` nunca é `denied`/`allowed` inventado |
 
 ## Regeneração de locks (nunca editar à mão)
 
