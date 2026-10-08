@@ -112,3 +112,25 @@ Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
 - SDD: 5 sub-SDDs fechados com build_reports red→green reais
   (worktree base `068b922`); gate 11/11 features ok.
 - Suite Fabric: **16 passed / 0 failed**; suíte total **2599 passed / 9 skipped** (venv 3.12, ~215s).
+
+## Estado medido — cycle 4 (vertical Streaming/RTI) — **DELIVERED**
+
+`CYCLE_4 = DELIVERED` — `docs/cycle4/OUTCOME_BRIEF.md`. Branch
+`feat/cycle4-streaming`, base `86b1910` (main pós-PR #7).
+
+- Terceiro vertical executável: `sparkforge-azure diagnose stream
+  --bundle|--suite` cobre 22 cenários determinísticos (Event Hubs
+  auth/network/capacity → partitions → consumer group → progress/lag →
+  checkpoint → state store → schema → Spark → sink → Eventstream →
+  Eventhouse/KQL → Activator → cross_environment).
+- `delivery.classification` unresolved-first: nunca promove evidência
+  ausente a exactly-once; loss é candidato/risco, não fato.
+- Grafo: layer `stream` no Graphfy (topology + `finding`/`evidenced_by`
+  overlay); MCP `sfa_diagnose_stream` (12 tools); packs
+  `vertical: stream` (5); corpus TokenSave `stream_case`.
+- Regras `SF-STR-*`/`SF-RTI-*`; routing AGENT-006 →
+  `streaming-specialist` (`rule_areas` declarado).
+- SDD: 6 sub-SDDs com build_reports red→green reais (worktree
+  `.tmp-red-c4` @ `86b1910`, exit 2); gate 17/17 features, 0 refused.
+- Suite stream: **22 passed / 0 failed**; 79 testes focados; suíte
+  total **2682 passed / 9 skipped** (venv 3.12, ~243s).

@@ -1,0 +1,43 @@
+{
+ "progress": [
+  {
+   "id": "q-01",
+   "runId": "r-01",
+   "name": "telemetry-ingest",
+   "timestamp": "2026-10-08T10:00Z",
+   "batchId": 1,
+   "inputRowsPerSecond": 100,
+   "processedRowsPerSecond": 60,
+   "numInputRows": 500,
+   "durationMs": {
+    "addBatch": 800
+   }
+  },
+  {
+   "id": "q-01",
+   "runId": "r-01",
+   "name": "telemetry-ingest",
+   "timestamp": "2026-10-08T10:01Z",
+   "batchId": 2,
+   "inputRowsPerSecond": 110,
+   "processedRowsPerSecond": 60,
+   "numInputRows": 600,
+   "durationMs": {
+    "addBatch": 800
+   }
+  },
+  {
+   "id": "q-01",
+   "runId": "r-01",
+   "name": "telemetry-ingest",
+   "timestamp": "2026-10-08T10:02Z",
+   "batchId": 3,
+   "inputRowsPerSecond": 120,
+   "processedRowsPerSecond": 55,
+   "numInputRows": 700,
+   "durationMs": {
+    "addBatch": 800
+   }
+  }
+ ]
+}

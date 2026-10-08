@@ -28,3 +28,24 @@ cases:
   - conexão segura
   expected_tools:
   - sparkforge-azure analyze spark-kafka-options
+- id: azure-event-hubs-eventstream-negative
+  kind: negative
+  prompt: Meu Eventstream do Fabric não entrega eventos no Eventhouse
+  must_include:
+  - fabric-realtime
+  must_not_include:
+  - throttled_requests
+  - partições do namespace
+  expected_tools:
+  - sfa_analyze
+- id: azure-event-hubs-lag-boundary
+  kind: boundary
+  prompt: O lag cresce — é a capacidade do hub ou o checkpoint do consumidor Spark?
+  must_include:
+  - spark-streaming
+  - métrica
+  must_not_include:
+  - é certamente a partição
+  expected_tools:
+  - sparkforge-azure analyze eventhubs-namespace
+  - sfa_analyze

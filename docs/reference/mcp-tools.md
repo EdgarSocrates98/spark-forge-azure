@@ -18,7 +18,7 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 `security_impact`, `production_impact`. Annotations MCP derivadas: `readOnlyHint`,
 `destructiveHint` (cloud_write|production_impact), `idempotentHint`, `openWorldHint`.
 
-## Catálogo (11 tools)
+## Catálogo (12 tools)
 
 | Tool | Domínio | Risco | Params |
 |---|---|---|---|
@@ -33,6 +33,7 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 | `sfa_collect_workspace_graph` | graph | read_only + **cloud_read** | `manifest*` (+ `export`, `live`) |
 | `sfa_diagnose_access` | access | read_only | `bundle*` (+ `profile`) |
 | `sfa_diagnose_fabric` | fabric | read_only | `bundle*` (+ `profile`) |
+| `sfa_diagnose_stream` | stream | read_only | `bundle*` (+ `profile`) |
 
 `*` = obrigatório. `sfa_collect_workspace_graph` é a única tool que toca nuvem
 (e só leitura): default-negada até `cloud_read_enabled`; com `live=false` usa
@@ -42,6 +43,11 @@ diagnóstico de acesso (UC/RBAC/ACL/rede) sobre um case bundle local e devolve
 receipt. `sfa_diagnose_fabric` faz o mesmo para o vertical Fabric (OneLake/
 shortcuts/Spark/capacity/pipeline) — também 100% offline, mesmo contrato,
 mesmo pipeline de fatos→regras→findings→grafo→receipt.
+`sfa_diagnose_stream` cobre o vertical Streaming/RTI do Cycle 4 (Event
+Hubs/consumer groups/checkpoints/Structured Streaming + Eventstream/
+Eventhouse/Activator): devolve `delivery` (classificação unresolved-first
+de semântica de entrega) e `stream_graph`; nunca retorna payloads de
+eventos — só sumários e refs de evidência.
 
 ## Cobertura do vertical sem explosão (prompt 157-159)
 
@@ -49,8 +55,8 @@ O vertical UC/ADLS é servido por composição, não por tool-por-API:
 `sfa_collect_workspace_graph` (coleta live/export unificada) → `sfa_graph_query`
 (inspeção por kind/camada) → `sfa_diagnose_access` (cadeia inteira de uma vez).
 Inspectors por recurso (`*_uc_inspect`, `*_adls_inspect`) duplicariam o que o
-grafo já responde — recusados para manter a superfície enxuta (11 tools no
-Cycle 3: as 10 do Cycle 2 + `sfa_diagnose_fabric`).
+grafo já responde — recusados para manter a superfície enxuta (12 tools no
+Cycle 4: as 11 do Cycle 3 + `sfa_diagnose_stream`).
 
 ## Compact mode
 

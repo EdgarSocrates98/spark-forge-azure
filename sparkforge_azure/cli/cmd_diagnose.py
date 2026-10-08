@@ -1,9 +1,12 @@
 """``sparkforge-azure diagnose`` -- offline diagnosis on a case bundle.
 
-Two verticals share the verb:
+Three verticals share the verb:
   * ``diagnose --bundle|--suite``        — Databricks UC/ADLS access (default)
   * ``diagnose fabric --bundle|--suite`` — Microsoft Fabric (Lakehouse,
     OneLake security, shortcuts, Spark, capacity, Data Factory seam)
+  * ``diagnose stream --bundle|--suite`` — Streaming: Event Hubs,
+    Structured Streaming checkpoints/state, Fabric RTI (Eventstream,
+    Eventhouse/KQL, Activator)
 """
 
 from __future__ import annotations
@@ -18,6 +21,9 @@ from sparkforge_azure.cli import CliError
 from sparkforge_azure.fabric.casefile import CaseError as FabricCaseError
 from sparkforge_azure.fabric.pipeline import run_fabric_case
 from sparkforge_azure.fabric.suite import run_fabric_suite
+from sparkforge_azure.stream.casefile import StreamCaseError
+from sparkforge_azure.stream.pipeline import run_stream_case
+from sparkforge_azure.stream.suite import run_stream_suite
 
 
 def _diagnose(args: argparse.Namespace) -> dict[str, Any]:
@@ -43,6 +49,18 @@ def _diagnose_fabric(args: argparse.Namespace) -> dict[str, Any]:
         raise CliError(str(exc)) from exc
 
 
+def _diagnose_stream(args: argparse.Namespace) -> dict[str, Any]:
+    try:
+        if args.suite:
+            return run_stream_suite(args.suite, profile=args.profile)
+        if not args.bundle:
+            raise CliError(
+                "diagnose stream requires --bundle <dir> or --suite <dir>")
+        return run_stream_case(args.bundle, profile=args.profile)
+    except StreamCaseError as exc:
+        raise CliError(str(exc)) from exc
+
+
 def register(sub: argparse._SubParsersAction) -> None:
     p = sub.add_parser(
         "diagnose",
@@ -62,6 +80,20 @@ def register(sub: argparse._SubParsersAction) -> None:
     fp.add_argument("--profile", choices=("economy", "balanced", "deep"),
                     default="balanced")
     fp.set_defaults(func=_diagnose_fabric)
+    sp = inner.add_parser(
+        "stream",
+        help="Streaming vertical: Event Hubs/consumer groups/checkpoints/"
+             "Structured Streaming + Fabric RTI (Eventstream/Eventhouse/"
+             "Activator) diagnosis",
+    )
+    sg = sp.add_mutually_exclusive_group(required=True)
+    sg.add_argument("--bundle",
+                    help="streaming case bundle directory (case.yaml + artifacts)")
+    sg.add_argument("--suite",
+                    help="directory of streaming case bundles; checks expect:")
+    sp.add_argument("--profile", choices=("economy", "balanced", "deep"),
+                    default="balanced")
+    sp.set_defaults(func=_diagnose_stream)
 
     g = p.add_mutually_exclusive_group()
     g.add_argument("--bundle",

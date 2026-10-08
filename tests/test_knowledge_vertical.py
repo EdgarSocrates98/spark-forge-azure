@@ -38,6 +38,18 @@ FABRIC_PACKS = {
     "fabric-data-factory",
 }
 
+STREAM_PACKS = {
+    "eventhubs-core",
+    "spark-structured-streaming",
+    "stream-correctness",
+    "fabric-rti",
+    "stream-economy",
+}
+
+_VERTICAL_OF = {**{p: "access" for p in PACKS},
+                **{p: "fabric" for p in FABRIC_PACKS},
+                **{p: "stream" for p in STREAM_PACKS}}
+
 NON_VERTICAL_DOMAINS = {
     "azure-data-factory",
     "azure-synapse",
@@ -50,12 +62,12 @@ NON_VERTICAL_DOMAINS = {
 
 def test_packs_manifest_declares_the_six_packs():
     manifest = load_packs()
-    assert set(manifest["packs"]) == PACKS | FABRIC_PACKS
+    assert set(manifest["packs"]) == PACKS | FABRIC_PACKS | STREAM_PACKS
     for name, spec in manifest["packs"].items():
         assert spec["domains"], "pack sem dominio"
         assert spec["failure_layers"], "pack sem failure_layer"
-        expected = "fabric" if name in FABRIC_PACKS else "access"
-        assert spec["vertical"] == expected, f"{name} sem vertical correto"
+        assert spec["vertical"] == _VERTICAL_OF[name], (
+            f"{name} sem vertical correto")
 
 
 def test_every_pack_domain_exists_in_the_index():
@@ -73,6 +85,9 @@ def test_layer_to_pack_mapping_is_minimal():
     assert packs_for_layer("delta_perf", vertical="access") == ["delta-performance"]
     assert packs_for_layer("delta_perf", vertical="fabric") == ["fabric-spark"]
     assert packs_for_layer("unresolved", vertical="fabric") == sorted(FABRIC_PACKS)
+    assert packs_for_layer("unresolved", vertical="stream") == sorted(STREAM_PACKS)
+    assert packs_for_layer("checkpoint", vertical="stream") == [
+        "spark-structured-streaming"]
 
 
 def test_uc_failure_excludes_unrelated_domains():

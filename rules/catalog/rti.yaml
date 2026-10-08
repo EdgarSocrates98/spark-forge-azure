@@ -1,0 +1,84 @@
+# Catálogo de regras — Fabric Real-Time Intelligence (SF-RTI).
+# A cadeia RTI (stream/rti.py) produz os verdicts de camada; estas regras
+# cobrem achados transversais de higiene/semântica.
+
+catalog_version: 1
+schema_version: 1
+area: SF-RTI
+retrieved: 2026-10-08
+
+rules:
+
+  - id: SF-RTI-001
+    category: eventstream-publish
+    title: Eventstream em draft nunca entrega dados
+    requires_facts: [rti.eventstream]
+    when:
+      all:
+        - fact: rti.eventstream
+          where: {attrs.publish_state: "draft"}
+    status: structural
+    severity_default: P1
+    runtime_scope: {}
+    explanation: >
+      Eventstream com publish_state=draft não roteia eventos — qualquer
+      sintoma downstream (tabela vazia, activator quieto) é consequência do
+      estado de publicação, não da fonte.
+    proposed_change:
+      - Publicar o eventstream e re-verificar destinations.
+    validation:
+      - eventstream_publish é a camada de falha, não eventstream_source.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: fabric.rti.eventstream
+
+  - id: SF-RTI-002
+    category: eventstream-source
+    title: Fonte Eventstream com connection quebrada
+    requires_facts: [rti.es_source]
+    when:
+      all:
+        - fact: rti.es_source
+          where: {attrs.status: "error"}
+    status: structural
+    severity_default: P1
+    runtime_scope: {}
+    explanation: >
+      Source em estado error — tipicamente auth na connection (chave SAS
+      expirada, managed identity sem role no namespace Event Hubs). A
+      camada é eventstream_source, não o consumer.
+    proposed_change:
+      - Verificar a connection (auth_kind/target/status) e o RBAC no
+        namespace de origem.
+    validation:
+      - evidence_paths apontam para eventstream.json + connections.json.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: fabric.rti.eventstream
+
+  - id: SF-RTI-003
+    category: activator
+    title: Rule evaluated não é ação de negócio
+    requires_facts: [rti.activator_rule]
+    when:
+      all:
+        - fact: rti.activator_rule
+          where: {}
+    status: confirmed
+    severity_default: P3
+    runtime_scope: {}
+    explanation: >
+      Activator avalia condições e dispara ações; a evidência de
+      avaliação não prova que a ação (email, Power Automate, item Fabric)
+      ocorreu. Sem last_action observado, outcome é unresolved.
+    proposed_change:
+      - Coletar histórico de ações do Activator ou logs do destino da ação.
+    validation:
+      - activator_evaluation pass exige last_evaluated_at; sucesso de
+        ação exige action_status.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: fabric.rti.activator

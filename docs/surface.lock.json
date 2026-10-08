@@ -16,6 +16,7 @@
    "collect unity-catalog",
    "collect workspace-graph",
    "diagnose fabric",
+   "diagnose stream",
    "doctor",
    "governance diagnose",
    "graph build",
@@ -55,20 +56,21 @@
  },
  "knowledge": {
   "count": 38,
-  "total_bytes": 172160
+  "total_bytes": 173920
  },
  "mcp": {
   "compact": [
    "sfa_diagnose_access",
    "sfa_diagnose_fabric",
+   "sfa_diagnose_stream",
    "sfa_governance_diagnose",
    "sfa_graph_impact",
    "sfa_tokensave_context",
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 7729,
-  "tool_count": 11,
+  "compact_bytes": 9343,
+  "tool_count": 12,
   "tools": {
    "sfa_collect_workspace_graph": {
     "compact": false,
@@ -108,6 +110,19 @@
      "security_impact": false
     },
     "schema_sha256": "2abcc0703e57a6cf667538cb54d4908af84c4e73fdf9a2bf6087579f4b037dc8"
+   },
+   "sfa_diagnose_stream": {
+    "compact": true,
+    "domain": "stream",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "af6202ff3034e75385ce6b82e7799fdcdd1a72f698eab13579af92324de33323"
    },
    "sfa_governance_diagnose": {
     "compact": true,
@@ -214,11 +229,11 @@
     "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
    }
   },
-  "total_bytes": 11103
+  "total_bytes": 12717
  },
  "schema_version": 2,
  "skills": {
   "count": 22,
-  "total_bytes": 95001
+  "total_bytes": 95103
  }
 }

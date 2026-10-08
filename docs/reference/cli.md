@@ -51,6 +51,21 @@ runtime → spark job → capacity → data factory. Saída adiciona
 `fabric_graph` e `case_meta.environment_fingerprint`. Os 16 cenários do
 Fabric lab estão em `tests/fixtures/fabric/` (`docs/labs/fabric.md`).
 
+## `sparkforge-azure diagnose stream --bundle|--suite [--profile]` — vertical Streaming/RTI (Cycle 4)
+
+Mesma forma do `diagnose` de acesso, sobre o case bundle de streaming
+(`eventhubs` namespace/hubs/consumer groups + `spark` progress/
+checkpoint/state + `rti` eventstream/eventhouse/activator + `events` +
+`environment`). Cadeia: event_hubs_auth → event_hubs_network →
+event_hubs_capacity → partitioning → consumer_group → consumer_progress →
+checkpoint → state_store → schema → spark_processing → sink →
+eventstream_* → eventhouse_ingestion → kql → activator_* →
+cross_environment. Saída adiciona `delivery` (classificação
+unresolved-first: `at_most_once_possible`/`at_least_once`/
+`effectively_once`/`exactly_once_claim_supported` — nunca promove
+evidência ausente a exactly-once), `stream_graph` e o lab em
+`tests/fixtures/stream/` (22 cenários).
+
 ## `sparkforge-azure agentops <op>` — inspeção de runs gravadas
 
 | Op | Uso |

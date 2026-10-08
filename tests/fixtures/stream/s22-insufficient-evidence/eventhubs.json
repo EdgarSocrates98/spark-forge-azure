@@ -1,0 +1,16 @@
+{
+ "namespaces": [
+  {
+   "id": "ns-01",
+   "name": "evh-prod",
+   "tier": "standard"
+  }
+ ],
+ "eventhubs": [
+  {
+   "id": "ns-01/telemetry",
+   "namespace_id": "ns-01",
+   "name": "telemetry"
+  }
+ ]
+}

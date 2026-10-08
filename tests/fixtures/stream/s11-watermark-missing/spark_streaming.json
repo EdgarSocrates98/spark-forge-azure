@@ -1,0 +1,22 @@
+{
+ "query": {
+  "id": "q-01",
+  "run_id": "r-01",
+  "name": "telemetry-ingest",
+  "status": "running"
+ },
+ "config": {
+  "checkpointLocation": "abfss://ck@sa/telemetry",
+  "startingOffsets": "earliest",
+  "failOnDataLoss": true,
+  "outputMode": "append",
+  "trigger": "1 minute"
+ },
+ "sink": {
+  "type": "delta",
+  "id": "sink-01",
+  "idempotent": true,
+  "transactional": false,
+  "status": "ok"
+ }
+}

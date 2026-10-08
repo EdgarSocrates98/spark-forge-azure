@@ -1,0 +1,36 @@
+{
+ "consumer_groups": [
+  {
+   "name": "spark-cg",
+   "eventhub_id": "ns-01/telemetry",
+   "owners": [
+    "app-a"
+   ],
+   "apps": [
+    "app-a"
+   ],
+   "checkpoints": {
+    "0": {
+     "offset": 700,
+     "sequence": 700,
+     "updated_at": null
+    },
+    "1": {
+     "offset": 700,
+     "sequence": 700,
+     "updated_at": null
+    },
+    "2": {
+     "offset": 700,
+     "sequence": 700,
+     "updated_at": null
+    },
+    "3": {
+     "offset": 700,
+     "sequence": 700,
+     "updated_at": null
+    }
+   }
+  }
+ ]
+}

@@ -11,6 +11,7 @@ required_context: [artifact, fact, rule]
 allowed_context: [artifact, code, fact, rule, knowledge, finding, evidence, tool_output, unresolved]
 tools: [sfa_analyze, sfa_judge, sfa_knowledge_select, sfa_lab_run, sfa_lab_verify]
 skills: [spark-streaming, fabric-realtime]
+rule_areas: [SF-STR, SF-RTI]
 knowledge_refs: [knowledge/spark/, knowledge/azure/eventhubs/]
 budget: {max_context_tokens: 8000, max_tool_calls: 8, max_model_calls: 2, model_tier: balanced}
 handoff_targets: [event-hubs-specialist, delta-specialist, verifier]

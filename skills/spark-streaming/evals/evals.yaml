@@ -30,3 +30,24 @@ cases:
   expected_tools:
   - sparkforge-azure analyze streaming
   - sfa_analyze
+- id: spark-streaming-namespace-negative
+  kind: negative
+  prompt: Como configurar throughput units e Kafka endpoint do meu Event Hubs namespace?
+  must_include:
+  - azure-event-hubs
+  must_not_include:
+  - watermark
+  - state store
+  expected_tools:
+  - sfa_analyze
+- id: spark-streaming-slow-batch-boundary
+  kind: boundary
+  prompt: O micro-batch está lento — é o state store do streaming ou o job Spark em si?
+  must_include:
+  - spark-performance
+  - unresolved
+  must_not_include:
+  - é certamente o watermark
+  expected_tools:
+  - sparkforge-azure analyze streaming
+  - sfa_analyze

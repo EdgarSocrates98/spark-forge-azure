@@ -8,6 +8,7 @@ from typing import Any
 from sparkforge_azure.azure.pipeline import run_case
 from sparkforge_azure.fabric.pipeline import run_fabric_case
 from sparkforge_azure.mcp.tools import READ_ONLY, tool
+from sparkforge_azure.stream.pipeline import run_stream_case
 
 _BUNDLE_SCHEMA: dict[str, Any] = {
     "type": "object",
@@ -106,4 +107,51 @@ def _diagnose_fabric(arguments: Mapping[str, Any]) -> Mapping[str, Any]:
     if not Path(bundle).is_dir():
         raise ValueError(f"bundle not found: {bundle}")
     return run_fabric_case(
+        bundle, profile=str(arguments.get("profile") or "balanced"))
+
+
+_STREAM_OUTPUT_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "status": {"type": "string"},
+        "case": {"type": "string"},
+        "case_meta": {"type": "object"},
+        "failure_layer": {"type": ["string", "null"]},
+        "diagnosis": {"type": "object"},
+        "delivery": {"type": "object"},
+        "findings": {"type": "array"},
+        "rules_skipped": {"type": "array"},
+        "unresolved": {"type": "array"},
+        "facts": {"type": "array"},
+        "stream_graph": {"type": "object"},
+        "evidence_paths": {"type": "object"},
+        "knowledge": {"type": "object"},
+        "overhead": {"type": "object"},
+        "context_quality": {"type": "object"},
+        "trust": {"type": "object"},
+        "receipt": {"type": "object"},
+        "_trust": {"type": "object"},
+    },
+    "required": ["status", "failure_layer", "diagnosis", "receipt"],
+}
+
+
+@tool(
+    "sfa_diagnose_stream",
+    description="Offline streaming diagnosis on a case bundle (Event Hubs/"
+                "consumer groups/checkpoints/Structured Streaming + Fabric "
+                "RTI Eventstream/Eventhouse/Activator -> failure_layer -> "
+                "receipt). Summaries and evidence refs only — never raw "
+                "event payloads.",
+    input_schema=_BUNDLE_SCHEMA,
+    output_schema=_STREAM_OUTPUT_SCHEMA,
+    risk=READ_ONLY,
+    domain="stream",
+    compact=True,
+)
+def _diagnose_stream(arguments: Mapping[str, Any]) -> Mapping[str, Any]:
+    bundle = str(arguments["bundle"])
+    if not Path(bundle).is_dir():
+        raise ValueError(f"bundle not found: {bundle}")
+    return run_stream_case(
         bundle, profile=str(arguments.get("profile") or "balanced"))

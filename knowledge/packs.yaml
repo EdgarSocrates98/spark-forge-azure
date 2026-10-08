@@ -71,3 +71,37 @@ packs:
     purpose: pipelines, activities, notebook invocation seams
     domains: [fabric-data-factory]
     failure_layers: [data_factory, cross_environment]
+  # --- Cycle 4: Streaming / RTI deep vertical (prompt_evo_cycle4) ----------
+  eventhubs-core:
+    vertical: stream
+    purpose: Event Hubs namespace/hub/partitions/consumer groups, TU/PU/CU
+      capacity, AMQP+Kafka endpoint, auth, Capture, networking
+    domains: [azure-event-hubs, azure-networking, azure-entra]
+    failure_layers: [event_hubs_auth, event_hubs_network,
+      event_hubs_capacity, partitioning, consumer_group, cross_environment]
+  spark-structured-streaming:
+    vertical: stream
+    purpose: checkpoint ownership/recoverability, progress+lag, watermark,
+      state store, output modes, sink idempotency
+    domains: [spark-streaming]
+    failure_layers: [consumer_progress, checkpoint, state_store,
+      spark_processing, sink]
+  stream-correctness:
+    vertical: stream
+    purpose: delivery semantics (at-least/effectively-once), schema drift,
+      poison events — nunca claimar exactly-once sem evidencia
+    domains: [spark-streaming, data-quality]
+    failure_layers: [schema]
+  fabric-rti:
+    vertical: stream
+    purpose: Real-Time Hub, Eventstream source/transform/destination/publish,
+      Eventhouse/KQL ingestion+query, Activator mapping/evaluation
+    domains: [fabric-realtime, fabric-identity]
+    failure_layers: [eventstream_source, eventstream_transform,
+      eventstream_destination, eventstream_publish, eventhouse_ingestion,
+      kql, activator_mapping, activator_evaluation]
+  stream-economy:
+    vertical: stream
+    purpose: TU/PU/CU capacity economics, throughput evidence vs marketing
+    domains: [azure-finops]
+    failure_layers: [event_hubs_capacity]

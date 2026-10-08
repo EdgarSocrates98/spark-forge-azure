@@ -1,0 +1,42 @@
+{
+ "progress": [
+  {
+   "id": "q-01",
+   "runId": "r-01",
+   "name": "telemetry-ingest",
+   "timestamp": "2026-10-08T10:00Z",
+   "batchId": 1,
+   "inputRowsPerSecond": 50,
+   "processedRowsPerSecond": 60,
+   "numInputRows": 500,
+   "durationMs": {
+    "addBatch": 800
+   },
+   "stateOperators": [
+    {
+     "operatorName": "agg",
+     "numRowsTotal": 1200
+    }
+   ]
+  },
+  {
+   "id": "q-01",
+   "runId": "r-01",
+   "name": "telemetry-ingest",
+   "timestamp": "2026-10-08T10:01Z",
+   "batchId": 2,
+   "inputRowsPerSecond": 50,
+   "processedRowsPerSecond": 62,
+   "numInputRows": 500,
+   "durationMs": {
+    "addBatch": 800
+   },
+   "stateOperators": [
+    {
+     "operatorName": "agg",
+     "numRowsTotal": 1300
+    }
+   ]
+  }
+ ]
+}

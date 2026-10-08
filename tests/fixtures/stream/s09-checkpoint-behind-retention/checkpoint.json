@@ -1,0 +1,14 @@
+{
+ "location": "abfss://ck@sa/telemetry",
+ "exists": true,
+ "advancing": false,
+ "age_hours": 48,
+ "last_batch_id": 42,
+ "owner_query_id": "q-01",
+ "offsets": {
+  "0": 990,
+  "1": 991,
+  "2": 992,
+  "3": 993
+ }
+}
