@@ -2,7 +2,8 @@ skill: azure-spark
 version: 1
 cases:
 - id: azure-spark-collect-driver
-  prompt: Meu job PySpark faz df.collect() numa tabela grande e cai no driver. O que fazer?
+  prompt: Meu job PySpark faz df.collect() numa tabela grande e cai no driver. O que
+    fazer?
   must_include:
   - analyze pyspark
   - unresolved
@@ -30,3 +31,23 @@ cases:
   expected_tools:
   - sparkforge-azure analyze pyspark
   - sfa_analyze
+- id: azure-spark-cluster-config-negative
+  kind: negative
+  prompt: O cluster está com DBR antigo e cluster policy ausente — nem cheguei no
+    código
+  must_include:
+  - azure-databricks
+  must_not_include:
+  - o código pyspark é o problema
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+- id: azure-spark-small-collect-boundary
+  kind: boundary
+  prompt: Tem um collect() mas é num DataFrame de lookup com 12 linhas
+  must_include:
+  - collect
+  - evidência
+  must_not_include:
+  - vai estourar o driver
+  expected_tools:
+  - sparkforge-azure analyze pyspark

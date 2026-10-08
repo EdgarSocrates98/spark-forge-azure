@@ -27,3 +27,25 @@ cases:
   - está ok
   expected_tools:
   - sparkforge-azure graph impact
+- id: azure-terraform-bicep-negative
+  kind: negative
+  prompt: Revisa esse template .bicep do workspace antes do deploy
+  must_include:
+  - azure-bicep
+  must_not_include:
+  - tfstate corrompido
+  expected_tools:
+  - sparkforge-azure analyze terraform
+- id: azure-terraform-recreate-boundary
+  kind: boundary
+  prompt: O plan marca destroy+create do workspace — é o comportamento esperado do
+    provider?
+  must_include:
+  - plan
+  - drift
+  must_not_include:
+  - apply aprovado
+  - pode aplicar
+  expected_tools:
+  - sparkforge-azure analyze terraform
+  - sfa_graph_impact

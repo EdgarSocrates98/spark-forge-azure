@@ -28,3 +28,24 @@ cases:
   - vendas gasta exatamente
   expected_tools:
   - sparkforge-azure analyze cost-export
+- id: azure-finops-performance-negative
+  kind: negative
+  prompt: Quero o job mais rápido; custo não importa nesse caso
+  must_include:
+  - spark-performance
+  must_not_include:
+  - economia garantida
+  expected_tools:
+  - sparkforge-azure analyze billing-usage
+- id: azure-finops-no-baseline-boundary
+  kind: boundary
+  prompt: Quanto eu economizo desligando esse cluster à noite? Não tenho baseline
+    de uso
+  must_include:
+  - baseline
+  - unresolved
+  must_not_include:
+  - você vai economizar
+  expected_tools:
+  - sparkforge-azure analyze cost-export
+  - sfa_analyze

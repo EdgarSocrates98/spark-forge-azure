@@ -84,7 +84,7 @@ sparkforge-azure graph build --path synapse/
 
 ## Pontos de decisão
 
-- Synapse não é Fabric: pergunta de migração → `migration` specialist com o inventário produzido aqui.
+- Synapse não é Fabric: pergunta de migração → `migration-specialist` com o inventário produzido aqui.
 - Pipeline é ADF de verdade (factory separada) → `azure-data-factory`.
 - Spark lento com evidência → `spark-performance`.
 - Acesso a storage → `azure-adls`.
@@ -104,7 +104,7 @@ sparkforge-azure graph build --path synapse/
 
 ## Handoff
 
-- `migration` — decisão ou plano de migração.
+- `migration-specialist` — decisão ou plano de migração.
 - `azure-data-factory` — factory ADF separada.
 - `spark-performance` — lentidão de Spark com evidência.
 - `azure-adls` — acesso a storage.

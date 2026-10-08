@@ -2,7 +2,8 @@ skill: analyze-batch-loop
 version: 1
 cases:
 - id: batch-loop-write-per-iteration
-  prompt: Meu job escreve uma partição por lote dentro de um for, e cada lote demora mais
+  prompt: Meu job escreve uma partição por lote dentro de um for, e cada lote demora
+    mais
   must_include:
   - pyspark.loop
   - contains_write
@@ -14,7 +15,8 @@ cases:
   - sparkforge-azure analyze pyspark
   - sparkforge-azure judge
 - id: batch-loop-collect-keys
-  prompt: O driver estoura memória depois de horas, o job faz collect das chaves e filtra por isin em cada lote
+  prompt: O driver estoura memória depois de horas, o job faz collect das chaves e
+    filtra por isin em cada lote
   must_include:
   - pyspark.driver_collect
   - join distribuído
@@ -34,3 +36,22 @@ cases:
   expected_tools:
   - sparkforge-azure analyze pyspark
   - sfa_judge
+- id: batch-loop-single-stage-negative
+  kind: negative
+  prompt: Meu job Spark está lento num stage só, skew numa chave, sem loop nenhum
+  must_include:
+  - spark-performance
+  must_not_include:
+  - o loop está recomputando
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+- id: batch-loop-streaming-boundary
+  kind: boundary
+  prompt: O foreachBatch do meu writeStream roda um loop interno por micro-batch
+  must_include:
+  - spark-streaming
+  - unresolved
+  must_not_include:
+  - é o anti-padrão de batch loop clássico
+  expected_tools:
+  - sparkforge-azure analyze pyspark

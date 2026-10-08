@@ -101,6 +101,6 @@ padrão "reexecuta o DAG a montante a cada iteração" de `knowledge/spark/execu
 
 ## Handoff
 
-- Custo do padrão em termos de DBU/capacity → `azure-finops`.
-- Loop dentro de streaming (foreachBatch, micro-batch) → `spark-streaming`.
-- Skew/spill no stage que o loop produz → `spark-performance`.
+- `azure-finops` — custo do padrão em termos de DBU/capacity.
+- `spark-streaming` — loop dentro de streaming (foreachBatch, micro-batch).
+- `spark-performance` — skew/spill no stage que o loop produz.

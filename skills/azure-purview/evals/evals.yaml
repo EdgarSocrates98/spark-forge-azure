@@ -26,3 +26,23 @@ cases:
   - o label bloqueia o acesso
   expected_tools:
   - sparkforge-azure graph query
+- id: azure-purview-uc-grant-negative
+  kind: negative
+  prompt: Como dou SELECT na tabela do catálogo para o grupo data-science?
+  must_include:
+  - unity-catalog
+  must_not_include:
+  - o purview aplica o grant
+  expected_tools:
+  - sfa_analyze
+- id: azure-purview-no-pii-claim-boundary
+  kind: boundary
+  prompt: O scan do Purview não marcou classificação — posso afirmar que não tem PII?
+  must_include:
+  - pii
+  - unresolved
+  must_not_include:
+  - não tem pii
+  expected_tools:
+  - sparkforge-azure analyze purview-lineage
+  - sfa_graph_query

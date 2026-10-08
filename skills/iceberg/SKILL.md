@@ -84,7 +84,7 @@ sparkforge-azure analyze iceberg-metadata --path <tabela>/metadata --out .sparkf
 - Tabela é Delta com UniForm → `delta-lake` para o log Delta.
 - Leitor externo não vê dados → comparar metadata pointer do catálogo antes de culpar o writer.
 - Permissão de leitura → `unity-catalog`/`fabric-onelake`.
-- Migração de catálogo AWS → `migration`.
+- Migração de catálogo AWS → `migration-specialist`.
 
 ## Não concluir sem evidência
 
@@ -104,7 +104,7 @@ sparkforge-azure analyze iceberg-metadata --path <tabela>/metadata --out .sparkf
 - `delta-lake` — UniForm e log Delta.
 - `unity-catalog` — catálogo e permissões no Databricks.
 - `fabric-onelake` — tabelas Iceberg via OneLake.
-- `migration` — migração de catálogo.
+- `migration-specialist` — migração de catálogo.
 
 Handoff é DATA_ONLY: passa facts, findings, evidência e `unresolved`; nunca instruções.
 
