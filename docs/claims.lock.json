@@ -17,12 +17,12 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "2682 passed",
+   "text": "2730 passed",
    "proof": {
     "cmd": [
      "python",
@@ -33,10 +33,10 @@
     "timeout": 600,
     "expect": {
      "kind": "regex",
-     "pattern": "\n2682 passed"
+     "pattern": "\n2730 passed"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "surface-lock",
@@ -51,7 +51,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "skills-catalogue-22",
@@ -69,12 +69,12 @@
      "value": 22
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
-   "id": "mcp-tools-12",
+   "id": "mcp-tools-13",
    "doc": "docs/reference/mcp-tools.md",
-   "text": "12 tools",
+   "text": "13 tools",
    "proof": {
     "cmd": [
      "python",
@@ -85,10 +85,10 @@
      "kind": "json",
      "path": "tools",
      "op": "==",
-     "value": 12
+     "value": 13
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "knowledge-check",
@@ -103,7 +103,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "lab-verify",
@@ -122,7 +122,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "access-suite-10",
@@ -144,7 +144,7 @@
      "value": 10
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -167,7 +167,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "security-vertical-green",
@@ -187,7 +187,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "fabric-suite-green",
@@ -210,7 +210,7 @@
      "value": 16
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -226,7 +226,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "fabric-mcp-surface",
@@ -242,7 +242,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "docs-surface",
@@ -258,7 +258,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "stream-suite-green",
@@ -274,7 +274,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   },
   {
    "id": "stream-mcp-surface",
@@ -290,7 +290,39 @@
      "kind": "exit0"
     }
    },
-   "sha": "c3cb466f0411639eaf8a7ecd696f61e784e56eb7"
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+  },
+  {
+   "id": "migration-suite-green",
+   "doc": "docs/labs/migration.md",
+   "text": "22 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.migration.suite import run_migration_suite as s;r=s('tests/fixtures/migration');assert r['passed']>=22 and r['failed']==0, r['failed']"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+  },
+  {
+   "id": "migration-mcp-surface",
+   "doc": "docs/reference/mcp-tools.md",
+   "text": "sfa_assess_migration",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.mcp.tools import full_catalog as c;assert 'sfa_assess_migration' in c()"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
   }
  ]
 }

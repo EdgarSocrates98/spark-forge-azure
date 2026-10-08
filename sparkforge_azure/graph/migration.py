@@ -20,7 +20,14 @@ from __future__ import annotations
 from typing import Any
 
 from sparkforge_azure.graph.model import Edge, Graph, Node, Provenance, node_id
-from sparkforge_azure.migration.model import MIGRATION_STATUS
+
+# Mirror of migration.model.MIGRATION_STATUS — the graph layer stays free of
+# domain imports (same convention as graph/stream.py and graph/fabric.py);
+# the closed set's source of truth lives in the domain package.
+_MIGRATION_STATUS = frozenset({
+    "automatic", "assisted", "manual", "refactor", "not_supported",
+    "deferred",
+})
 
 #: fact kind -> (node kind, subject key holding the canonical id)
 _NODE_FOR = {
@@ -135,7 +142,7 @@ def build_migration_graph(
         src = str(rec.get("source") or rec.get("asset") or "")
         status = str(rec.get("migration_status")
                      or rec.get("status") or "manual")
-        if status not in MIGRATION_STATUS:
+        if status not in _MIGRATION_STATUS:
             status = "manual"
         ttype = str(rec.get("target_type") or "unknown")
         tgt_key = f"{ttype}:{src or i}"

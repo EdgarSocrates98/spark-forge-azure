@@ -38,6 +38,8 @@ sparkforge-azure migration assess --suite tests/fixtures/migration
 | m21-malicious-metadata | prompt injection em descrições | `pass`, taint DATA_ONLY |
 | m22-insufficient | tipo de atividade desconhecido, sem target | `unresolved` |
 
+Medido: a suite fecha com **22 passed / 0 failed**.
+
 ## Verdades do lab
 
 - Identidade é ARM id/GUID; display name é atributo.

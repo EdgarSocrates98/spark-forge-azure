@@ -50,6 +50,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/labs/access.md` | 10 cenários UC/ADLS (`diagnose --suite`) + security/taint |
 | `docs/labs/fabric.md` | 16 cenários Fabric (`diagnose fabric --suite`) + coletor live opt-in |
 | `docs/labs/stream.md` | 22 cenários Streaming/RTI (`diagnose stream --suite`) + correctness semantics |
+| `docs/labs/migration.md` | 22 cenários de migração ADF/Synapse→Fabric (`migration assess --suite`) |
 
 ## Ciclos de entrega
 
@@ -59,6 +60,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/cycle2/OUTCOME_BRIEF.md` | Resultado medido do vertical UC/ADLS |
 | `docs/cycle3/OUTCOME_BRIEF.md` | Resultado medido do vertical Microsoft Fabric |
 | `docs/cycle4/OUTCOME_BRIEF.md` | Resultado medido do vertical Streaming/RTI |
+| `docs/cycle5/OUTCOME_BRIEF.md` | Resultado medido do vertical de migração ADF/Synapse→Fabric |
 | `docs/architecture/DATABRICKS_FABRIC_COMMON_PRIMITIVES.md` | Fronteira comum vs. específica dos dois verticais |
 | `docs/research/azure_sources_2026-10-06.md` | Fontes oficiais usadas na pesquisa dos verticais |
 
