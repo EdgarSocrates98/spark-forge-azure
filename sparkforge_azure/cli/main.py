@@ -38,6 +38,7 @@ COMMAND_MODULES: tuple[str, ...] = (
     "sparkforge_azure.cli.cmd_diagnose",
     "sparkforge_azure.cli.cmd_migration",
     "sparkforge_azure.cli.cmd_sdd",
+    "sparkforge_azure.cli.cmd_agents",
     "sparkforge_azure.cli.cmd_agentops",
 )
 

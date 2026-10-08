@@ -10,6 +10,8 @@
    "agentops inspect",
    "agentops runs",
    "agentops timeline",
+   "agents inspect",
+   "agents list",
    "collect adls-meta",
    "collect azure-rbac",
    "collect resource-graph",

@@ -448,11 +448,38 @@ def _migration_vertical() -> Check:
                   "fixtures": cases, "vocabulary": voc_ok})
 
 
+def _agentic_fleet() -> Check:
+    """Per-agent contract status across the fleet (spec §135-136, §167-168).
+
+    Fails only on ``broken`` agents — ``unevaluated``/``partial``/
+    ``manifest_only`` are honest states reported, not hidden.
+    """
+    try:
+        from sparkforge_azure.agentic.inventory import inventory
+
+        rep = inventory(REPO)
+    except Exception as exc:  # noqa: BLE001 - doctor reports, never raises
+        return Check("agentic_fleet", "fail", f"inventory failed: {exc}"[:200])
+    counts = rep.counts
+    total = len(rep.agents)
+    broken = [a.agent_id for a in rep.agents if a.status == "broken"]
+    if broken:
+        return Check("agentic_fleet", "fail",
+                     f"broken agents: {broken}", {"counts": counts, "total": total})
+    detail = (
+        f"{total} agents — ready={counts.get('ready', 0)} "
+        f"unevaluated={counts.get('unevaluated', 0)} "
+        f"partial={counts.get('partial', 0)} "
+        f"manifest_only={counts.get('manifest_only', 0)}")
+    return Check("agentic_fleet", "ok", detail,
+                 {"counts": counts, "total": total})
+
+
 CHECKS: tuple[Callable[[], Check], ...] = (
-    _installation, _dependencies, _agentic_os, _tokensave, _graphfy, _code_intelligence,
-    _knowledge, _mcp, _skills_agents, _surface, _claims, _azure_extras, _credentials_state,
-    _traces, _lab, _live_collectors, _access_vertical, _fabric_vertical,
-    _streaming_vertical, _migration_vertical,
+    _installation, _dependencies, _agentic_os, _agentic_fleet, _tokensave, _graphfy,
+    _code_intelligence, _knowledge, _mcp, _skills_agents, _surface, _claims,
+    _azure_extras, _credentials_state, _traces, _lab, _live_collectors,
+    _access_vertical, _fabric_vertical, _streaming_vertical, _migration_vertical,
 )
 
 
