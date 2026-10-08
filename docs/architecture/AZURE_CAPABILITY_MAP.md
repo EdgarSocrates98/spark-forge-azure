@@ -35,7 +35,7 @@ Azure Data Engineering
 | FinOps | `azure/finops/` | Cost export CSV, `system.billing.usage` export, capacity metrics | Cost Management | `azure-finops` | FinOps |
 | IaC | `azure/iac/` | Terraform `azurerm`/`databricks`, Bicep | — | `azure-terraform`, `azure-bicep` | Terraform, Bicep |
 | Delta / Iceberg | `lakehouse/` | `_delta_log` JSON, Iceberg metadata JSON | — | `delta-lake`, `iceberg` | Delta, Iceberg |
-| Migration | `migration/` | (v0.2+) | — | — | Migration |
+| Migration | `migration/` | `case.yaml` + `estate.json`/`assessment.json`/`environment.json`/`validation.json` + `notebooks/` | — (exports ADF/Synapse/Fabric injetados; live é opt-in) | `azure-data-factory`, `azure-synapse` | Migration |
 
 Composição static+live somente por ID explícito (ARM resource ID, Databricks workspace ID, Fabric
 workspace/item GUID), nunca por nome parecido (§64).

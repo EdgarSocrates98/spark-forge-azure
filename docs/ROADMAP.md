@@ -157,4 +157,4 @@ Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
 - SDD: 7 sub-SDDs com build_reports red→green reais (worktree
   `.tmp-mig-red` @ `61367a5`, exit 2).
 - Suite migration: **22 passed / 0 failed**; 46 testes focados; suite
-  total **2730 passed / 9 skipped** (venv 3.12, ~264s).
+  total **2734 passed / 9 skipped** (venv 3.12, ~276s).

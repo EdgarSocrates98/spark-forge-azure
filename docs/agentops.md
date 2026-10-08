@@ -1,9 +1,11 @@
 # AgentOps — inspeção de runs (prompt #106-112)
 
 Todo run que passa pelo pipeline grava spans em `.sparkforge-azure/traces.db`
-(um por estágio: `diagnose.load_bundle`, `extract`, `notebook_scan`,
-`diagnose`, `rules`, `graph`, `evidence_trust`; tools MCP `sfa_*` e
-retrievals `tokensave.*` também viram spans). Inspeção:
+— um por estágio. Access emite `diagnose.load_bundle`, `extract`,
+`notebook_scan`, `diagnose`, `rules`, `graph`, `evidence_trust`; os verticais
+emitem os próprios prefixos (`fabric.*`, `stream.*`, `migration.load/
+inventory/assess/compatibility/graph/plan/validate/verify/report`; tools MCP
+`sfa_*` e retrievals `tokensave.*` também viram spans). Inspeção:
 
 ```bash
 sparkforge-azure agentops runs                      # runs recentes

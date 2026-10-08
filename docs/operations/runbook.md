@@ -18,6 +18,7 @@ verificação pré-entrega (`AGENTS.md`).
 .venv/Scripts/python scripts/check_skills_agents.py                # skills/agents/mirrors
 .venv/Scripts/python scripts/check_surface_lock.py                 # superfície travada
 .venv/Scripts/python scripts/check_docs_surface.py                 # docs cobrem toda a superfície travada
+.venv/Scripts/python scripts/check_docs_index.py                   # toda doc indexada no README
 .venv/Scripts/python scripts/check_claims.py                       # claims com prova
 ```
 
@@ -28,11 +29,14 @@ verificação pré-entrega (`AGENTS.md`).
 | `check_surface_lock.py` | CLI commands, MCP tools, compact set, capabilities, counts de skills/knowledge | drift de superfície → `--update` + explicar no commit |
 | `check_claims.py` | cada claim em `docs/claims.lock.json`: texto verbatim no doc + prova executada + sha ancestral | doc driftou do lock; sha não-ancestral; prova falha |
 | `check_docs_surface.py` | todo comando CLI e tool MCP do surface.lock tem seção nos docs de referência | verbo/tool novo sem doc → documentar em `docs/reference/cli.md`/`mcp-tools.md` |
+| `check_docs_index.py` | toda doc authored (`docs/**` fora de `sdd/`/`superpowers/`) é alcançável via `docs/README.md` | doc novo sem entrada no README → indexar na seção certa |
 | `check_otel_collector.py` | igualdade semântica traces/metrics vs goldens | decoração de pipeline não conta; atributos semânticos sim |
 | `check_skills_agents.py --root X` | valida árvore arbitrária | — |
-| `sparkforge-azure doctor` | áreas: `mcp`, `azure_extras`, `live_collectors` (módulo + SDKs por collector), `knowledge_freshness`, `tokensave`, `graphfy`, `access_vertical`, `fabric_vertical` | `live: unavailable` = extra SDK ausente (modo export offline segue válido); nunca lê credencial |
+| `sparkforge-azure doctor` | áreas: `mcp`, `azure_extras`, `live_collectors` (módulo + SDKs por collector), `knowledge_freshness`, `tokensave`, `graphfy`, `access_vertical`, `fabric_vertical`, `streaming_vertical`, `migration_vertical` | `live: unavailable` = extra SDK ausente (modo export offline segue válido); nunca lê credencial |
 | `diagnose --suite tests/fixtures/access` | 10 cenários UC/ADLS contra o oráculo `expect:` | failure_layer divergente = regressão de diagnóstico |
 | `diagnose fabric --suite tests/fixtures/fabric` | 16 cenários Fabric contra o oráculo `expect:` | idem; `unresolved` nunca é `denied`/`allowed` inventado |
+| `diagnose stream --suite tests/fixtures/stream` | 22 cenários Streaming/RTI contra o oráculo `expect:` | `unresolved` nunca é entitlement inventado; delivery semantics não promove sem evidência |
+| `migration assess --suite tests/fixtures/migration` | 22 cenários ADF/Synapse→Fabric contra o oráculo `expect:` | readiness ausente ≠ READY; ciclo → REVIEW; conflito oficial → REVIEW |
 
 ## Regeneração de locks (nunca editar à mão)
 

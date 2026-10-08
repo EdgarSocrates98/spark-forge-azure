@@ -17,12 +17,12 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "2730 passed",
+   "text": "2734 passed",
    "proof": {
     "cmd": [
      "python",
@@ -33,10 +33,10 @@
     "timeout": 600,
     "expect": {
      "kind": "regex",
-     "pattern": "\n2730 passed"
+     "pattern": "\n2734 passed"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "surface-lock",
@@ -51,7 +51,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "skills-catalogue-22",
@@ -69,7 +69,7 @@
      "value": 22
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "mcp-tools-13",
@@ -88,7 +88,7 @@
      "value": 13
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "knowledge-check",
@@ -103,7 +103,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "lab-verify",
@@ -122,7 +122,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "access-suite-10",
@@ -144,7 +144,7 @@
      "value": 10
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -167,7 +167,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "security-vertical-green",
@@ -187,7 +187,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "fabric-suite-green",
@@ -210,7 +210,7 @@
      "value": 16
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -226,7 +226,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "fabric-mcp-surface",
@@ -242,7 +242,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "docs-surface",
@@ -258,7 +258,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "stream-suite-green",
@@ -274,7 +274,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "stream-mcp-surface",
@@ -290,7 +290,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "migration-suite-green",
@@ -306,7 +306,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   },
   {
    "id": "migration-mcp-surface",
@@ -322,7 +322,23 @@
      "kind": "exit0"
     }
    },
-   "sha": "ab84215171e40325d3dfb107f8f0beea8663ddf8"
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
+  },
+  {
+   "id": "docs-index",
+   "doc": "docs/operations/runbook.md",
+   "text": "check_docs_index.py",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_docs_index.py"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"ok\":\\s*true"
+    }
+   },
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
   }
  ]
 }

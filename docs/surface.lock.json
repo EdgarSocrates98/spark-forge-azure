@@ -47,6 +47,8 @@
    "migration validate",
    "offline-bundle build",
    "offline-bundle verify",
+   "sdd check",
+   "sdd status",
    "tokensave benchmark",
    "tokensave context",
    "tokensave diff",

@@ -12,9 +12,32 @@
 | `fabric-data-factory` | `fabric-data-factory` | `data_factory`, `cross_environment` |
 
 O mesmo compilador `compile_access_knowledge(failure_layer, terms)` seleciona
-os packs por `failure_layer` — é genérico aos dois verticais: um caso UC
+os packs por `failure_layer` — é genérico aos quatro verticais: um caso UC
 nunca puxa packs Fabric e vice-versa; `excluded_domains` documenta o que
 ficou fora. O report `diagnose fabric` carrega o bloco `knowledge` escopado.
+
+## Vertical Streaming/RTI (Cycle 4)
+
+| pack | domínios | failure_layers |
+|---|---|---|
+| `eventhubs-core` | `azure-event-hubs`, `azure-networking`, `azure-entra` | `event_hubs_auth`, `event_hubs_network`, `event_hubs_capacity`, `partitioning`, `consumer_group`, `cross_environment` |
+| `spark-structured-streaming` | `spark-streaming` | `consumer_progress`, `checkpoint`, `state_store`, `spark_processing`, `sink` |
+| `stream-correctness` | `spark-streaming`, `data-quality` | `schema` |
+| `fabric-rti` | `fabric-realtime`, `fabric-identity` | `eventstream_*`, `eventhouse_ingestion`, `kql`, `activator_*` |
+| `stream-economy` | `azure-finops` | `event_hubs_capacity` |
+
+## Vertical Migration (Cycle 5)
+
+| pack | domínios | failure_layers |
+|---|---|---|
+| `migration-inventory` | `azure-data-factory`, `azure-synapse`, `migration` | `inventory` |
+| `migration-adf` | `azure-data-factory`, `fabric-data-factory` | `pipelines`, `compatibility` |
+| `migration-spark` | `azure-synapse`, `fabric-data-engineering` | `spark` |
+| `migration-data` | `fabric-onelake`, `migration` | `data` |
+| `migration-plan` | `migration` | `plan`, `validation` |
+
+O report `migration assess` passa `vertical="migration"` ao compilador —
+packs de migração nunca carregam access/fabric/stream e vice-versa.
 
 ## Vertical de acesso (Cycle 2)
 

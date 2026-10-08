@@ -30,6 +30,14 @@ read-only que alimenta o grafo live).
 | azure | tenant, subscription, resource_group, workspace, storage_account, filesystem, databricks_workspace, unity_catalog, adf, fabric_workspace, event_hub, purview, network, identity | fabric_capacity, key_vault, resource |
 | knowledge | knowledge, rule, skill, agent, eval, finding | domain, boundary |
 | evidence | fact, finding, evidence, decision, receipt, trace | — |
+| fabric | tenant, capacity, workspace, item, lakehouse, notebook, spark_job, environment, pipeline, pipeline_activity, shortcut, connection, workspace_identity, identity | onelake_table, onelake_path, onelake_role, external_target |
+| stream | namespace, eventhub, partition, consumer_group, app, stream_query, checkpoint, sink, eventstream, es_source, es_transform, es_destination, eventhouse, activator, activator_rule | connection, identity |
+| migration | adf_factory, synapse_workspace, pipeline, activity, dataset, linked_service, trigger, integration_runtime, global_parameter, synapse_notebook, spark_pool, spark_job, lake_database, table, library, spark_config, adls_path, storage_account | fabric_workspace, fabric_pipeline, fabric_connection, fabric_notebook, fabric_environment, fabric_lakehouse, fabric_shortcut, variable_library, fabric_item, assessment_result, recommendation, wave, identity |
+
+As três últimas camadas são os planos SaaS dos verticais: `fabric` separada
+do ARM `azure` (workspace Fabric não é recurso ARM), `stream` com semântica
+temporal (causalidade só quando um finding a sustenta), `migration` com
+arestas `migrates_to{status}` e auth source/target em nós separados.
 
 ## Fontes do grafo
 

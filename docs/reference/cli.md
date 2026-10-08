@@ -100,6 +100,17 @@ evidência insuficiente→UNRESOLVED).
 `--db` aponta o `traces.db` (default `./.sparkforge-azure/traces.db`,
 honrando `SPARKFORGE_AZURE_STATE_DIR`). Detalhes em `docs/agentops.md`.
 
+## `sparkforge-azure sdd <op>` — gate de spec-driven development
+
+| Op | Uso |
+|---|---|
+| `check` | valida a cadeia de artefatos SDD (`define→design→plan→build_report`) de todas as features em `docs/sdd/`; `--feature <DIR>` restringe a uma |
+| `status` | fase/status de cada feature (`phase`, `next_phase`, `refused`) |
+
+Exit codes: `0` quando a cadeia está íntegra, `1` quando há recusa nomeada
+(ex.: `acceptance_never_red`, `missing_upstream`). É o gate citado em
+`AGENTS.md`/`CONTRIBUTING.md`.
+
 ## `sparkforge-azure mcp <op>` — runtime MCP
 
 | Op | Uso |
