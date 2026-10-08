@@ -97,6 +97,17 @@ def test_real_tree_validates_strict_when_knowledge_present():
     assert rep.errors == []
 
 
+def test_skills_reference_doc_in_sync():
+    # SKILLS_REFERENCE_DOC AC1+AC2: docs/reference/skills.md e gerado e nunca stale.
+    script = _load_script("gen_skills_doc")
+    doc = ROOT / "docs" / "reference" / "skills.md"
+    assert doc.is_file(), "gere com: python scripts/gen_skills_doc.py"
+    rendered = script.render(ROOT)
+    assert doc.read_text(encoding="utf-8") == rendered, (
+        "doc stale — rode python scripts/gen_skills_doc.py"
+    )
+
+
 def test_every_skill_has_negative_and_boundary_evals():
     # SKILL_EVAL_KIND_COVERAGE AC1: toda skill testa trigger negativo e fronteira.
     missing = {}

@@ -19,6 +19,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/reference/knowledge-packs.md` | Packs de knowledge por vertical + escopo por failure_layer |
 | `docs/reference/cli.md` | Toda a CLI `sparkforge-azure`: verbos, flags, saída JSON, exit codes |
 | `docs/reference/mcp-tools.md` | As tools `sfa_*` (fonte canônica: `docs/surface.lock.json`): risco, parâmetros, envelope |
+| `docs/reference/skills.md` | Catálogo gerado das 22 skills (contrato v1): scope, triggers, handoffs, evals por kind — `gen_skills_doc.py` |
 
 ## Arquitetura
 

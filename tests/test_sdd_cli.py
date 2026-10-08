@@ -55,3 +55,11 @@ def test_sdd_status_lists_features() -> None:
     names = {f["feature"] for f in doc["features"]}
     assert "MIGRATION_INVENTORY" in names
     assert all(f["phase"] for f in doc["features"])
+
+
+def test_sdd_readme_documents_grill_gate() -> None:
+    # SKILLS_REFERENCE_DOC AC3: o intake tem grill gate mapeado nos campos SDD.
+    text = (ROOT / "docs" / "sdd" / "README.md").read_text(encoding="utf-8")
+    assert "## Grill gate" in text
+    for field in ("out_of_scope", "hypothesis", "success", "unknowns"):
+        assert field in text, f"grill gate deve mapear para {field}"
