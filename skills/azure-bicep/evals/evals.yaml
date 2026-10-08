@@ -27,3 +27,23 @@ cases:
   - deploy concluído
   expected_tools:
   - sparkforge-azure analyze bicep
+- id: azure-bicep-terraform-negative
+  kind: negative
+  prompt: Revisa esse tfplan do azurerm que destrói e recria o workspace
+  must_include:
+  - azure-terraform
+  must_not_include:
+  - bicep inválido
+  expected_tools:
+  - sparkforge-azure analyze bicep
+- id: azure-bicep-mixed-iac-boundary
+  kind: boundary
+  prompt: O PE está em Bicep mas o RBAC do storage está em Terraform
+  must_include:
+  - azure-terraform
+  - azure-networking
+  must_not_include:
+  - toda a infra está em bicep
+  expected_tools:
+  - sparkforge-azure analyze bicep
+  - sfa_analyze

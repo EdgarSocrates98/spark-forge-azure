@@ -240,6 +240,33 @@ def body_cli_refs(body: str) -> list[str]:
     return refs
 
 
+_HANDOFF_BULLET_RE = re.compile(r"^-\s+(.*)$", re.MULTILINE)
+_HANDOFF_TICK_RE = re.compile(r"`([a-z][a-z0-9-]*)`")
+
+
+def body_handoff_refs(body: str) -> list[str]:
+    """Backticked targets listed as bullets under the ``## Handoff`` section."""
+    _, sep, tail = body.partition("## Handoff")
+    if not sep:
+        return []
+    tail = re.split(r"\n## ", tail, maxsplit=1)[0]
+    refs: list[str] = []
+    for line in _HANDOFF_BULLET_RE.findall(tail):
+        refs.extend(_HANDOFF_TICK_RE.findall(line))
+    return refs
+
+
+def _handoff_targets() -> frozenset[str]:
+    """Closed set of valid handoff targets: skills ∪ taxonomy agents.
+
+    Lazy import: ``agentmanifest.model`` already imports this module, so a
+    top-level import would be circular.
+    """
+    from sparkforge_azure.agentmanifest.model import ALL_AGENT_IDS
+
+    return frozenset(SKILL_NAMES) | frozenset(ALL_AGENT_IDS)
+
+
 @dataclass(frozen=True)
 class Skill:
     name: str
@@ -393,6 +420,12 @@ def validate_skill_file(
             rep.errors.append(f"{where}: body uses {ref!r} but it is not declared in tool_refs")
     if re.search(r"(?<![\w-])sparkforge (?!-)", body):
         rep.errors.append(f"{where}: body references the AWS CLI 'sparkforge'; use '{CLI_NAME}'")
+    valid_targets = _handoff_targets()
+    for target in body_handoff_refs(body):
+        if target not in valid_targets:
+            rep.errors.append(
+                f"{where}: handoff target {target!r} is not a skill or a taxonomy agent"
+            )
     return rep
 
 

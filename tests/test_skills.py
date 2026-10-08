@@ -14,6 +14,7 @@ from sparkforge_azure.skills.model import (
     EVAL_KINDS,
     SKILL_NAMES,
     body_cli_refs,
+    body_handoff_refs,
     parse_skill,
     validate_knowledge_ref,
     validate_skill_file,
@@ -94,6 +95,19 @@ def test_real_tree_validates_strict_when_knowledge_present():
         pytest.skip("knowledge/azure not written yet")
     rep = validate_skills_tree(ROOT)
     assert rep.errors == []
+
+
+def test_every_skill_has_negative_and_boundary_evals():
+    # SKILL_EVAL_KIND_COVERAGE AC1: toda skill testa trigger negativo e fronteira.
+    missing = {}
+    for name in SKILL_NAMES:
+        eval_path = ROOT / "skills" / name / "evals" / "evals.yaml"
+        cases = yaml.safe_load(eval_path.read_text(encoding="utf-8"))["cases"]
+        kinds = {c.get("kind", "positive") for c in cases}
+        lack = {"negative", "boundary"} - kinds
+        if lack:
+            missing[name] = sorted(lack)
+    assert missing == {}
 
 
 def test_every_skill_has_statically_checkable_evals():
@@ -251,6 +265,30 @@ def test_body_cli_ref_must_be_declared(tree):
 def test_body_aws_cli_rejected(tree):
     _edit_body(tree, "unity-catalog", lambda b: b + "\nRode sparkforge analyze pyspark.\n")
     assert any("AWS CLI" in e for e in _errors(tree))
+
+
+def test_handoff_targets_resolve():
+    # AC1+AC2: todo alvo de `## Handoff` é uma skill ou um agent da taxonomia.
+    from sparkforge_azure.agentmanifest.model import ALL_AGENT_IDS
+
+    valid = set(SKILL_NAMES) | set(ALL_AGENT_IDS)
+    bad = sorted(
+        (name, target)
+        for name in SKILL_NAMES
+        for target in body_handoff_refs(parse_skill(ROOT / "skills" / name / "SKILL.md").body)
+        if target not in valid
+    )
+    assert bad == []
+
+
+def test_handoff_target_unknown_refused(tree):
+    # AC3: alvo que não é skill nem agent é recusa nomeada do validador.
+    _edit_body(
+        tree,
+        "unity-catalog",
+        lambda b: b.replace("## Handoff\n", "## Handoff\n\n- `bogus-target` — inventado.\n"),
+    )
+    assert any("handoff target" in e and "bogus-target" in e for e in _errors(tree))
 
 
 # ------------------------------------------------------------------ evals negatives

@@ -28,3 +28,23 @@ cases:
   - o alerta funciona
   expected_tools:
   - sparkforge-azure analyze diagnostic-settings
+- id: azure-observability-cost-negative
+  kind: negative
+  prompt: Por que a fatura do Log Analytics dobrou esse mês?
+  must_include:
+  - azure-finops
+  must_not_include:
+  - o cluster está saudável
+  expected_tools:
+  - sparkforge-azure analyze log-analytics-export
+- id: azure-observability-no-evidence-boundary
+  kind: boundary
+  prompt: Parece tudo saudável, mas não tenho diagnostic settings nem logs — posso
+    afirmar?
+  must_include:
+  - unresolved
+  - evidência
+  must_not_include:
+  - está saudável
+  expected_tools:
+  - sparkforge-azure analyze diagnostic-settings

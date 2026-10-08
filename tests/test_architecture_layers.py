@@ -199,6 +199,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("knowledge_engine", "codeintel"): "compiler offline usa o indice",
     ("knowledge_drift", "knowledge_freshness"): "drift consome o estado de frescor",
     ("agentmanifest", "skills"): "manifest declara skills do specialist",
+    ("skills", "agentmanifest"): "validador resolve alvo de handoff na taxonomia (lazy; agentmanifest ja depende de skills)",
     ("workspace", "codeintel"): "manifest usa o indice do workspace",
     ("paths", "__never__"): "sentinela — paths nao importa nada",
     ("simulate", "findings"): "simulacao emite findings declarados",
