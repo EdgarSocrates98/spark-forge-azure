@@ -23,6 +23,7 @@ from pathlib import Path
 from typing import Any
 
 from sparkforge_azure import __version__
+from sparkforge_azure.paths import state_dir
 
 PKG = Path(__file__).resolve().parent
 REPO = PKG.parent
@@ -215,7 +216,7 @@ def _claims() -> Check:
 
 
 def _traces() -> Check:
-    state = Path.cwd() / ".sparkforge-azure"
+    state = state_dir()
     dbs = sorted(str(p.name) for p in state.glob("*.db")) if state.is_dir() else []
     return Check("traces", "ok" if dbs else "unresolved",
                  "local trace stores found" if dbs else "no local traces yet (nothing recorded)",

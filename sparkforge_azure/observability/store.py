@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import json
-import os
 import sqlite3
 from pathlib import Path
 from typing import Any
 
 from sparkforge_azure.observability.tracer import ExecutionTrace
+from sparkforge_azure.paths import state_dir
 
 
 class SQLiteTraceStore:
@@ -25,11 +25,8 @@ class SQLiteTraceStore:
         # `SPARKFORGE_AZURE_STATE_DIR` redireciona o state dir inteiro (sob
         # ele fica o traces.db). Sem o override, o default continua
         # `<cwd>/.sparkforge-azure` -- e um proof/script rodando com cwd=repo
-        # nao suja o worktree.
-        state_dir = os.environ.get("SPARKFORGE_AZURE_STATE_DIR")
-        default = (Path(state_dir) if state_dir
-                   else Path.cwd() / ".sparkforge-azure") / "traces.db"
-        self.db_path = Path(db_path) if db_path else default
+        # nao suja o worktree. Uma fonte so: `paths.state_dir()`.
+        self.db_path = Path(db_path) if db_path else state_dir() / "traces.db"
         self._init_db()
 
     # Colunas que a Task 1 acrescentou a `spans`, com o tipo de cada uma. Usado
