@@ -1,20 +1,70 @@
 ---
+schema_version: 2
 id: databricks-cost-reviewer
 kind: subagent
-role: Revisa fatos de configuração com impacto de custo (all-purpose vs job cluster, autoterminação).
-does: ['revisa fatos de configuração com impacto de custo (all-purpose vs job cluster, autoterminação)',
-  emitir findings limitados ao recorte delegado]
-does_not: [não sai do recorte delegado pelo parent, não faz handoff para outros specialists diretamente]
-required_context: [fact, rule]
-allowed_context: [fact, rule, artifact, knowledge, finding, evidence, unresolved]
-tools: [sfa_analyze, sfa_judge]
-skills: [azure-databricks, azure-finops]
-knowledge_refs: [knowledge/azure/databricks/, knowledge/azure/finops/]
-budget: {max_context_tokens: 4000, max_tool_calls: 4, max_model_calls: 1, model_tier: economy}
-handoff_targets: [azure-databricks-specialist, verifier]
-handoff_mode: DATA_ONLY
-risk: read_only
+family: review
+domain: databricks
+role: databricks-cost-reviewer
+mission: Revisa fatos de configuração com impacto de custo (all-purpose vs job cluster, autoterminação).
+does:
+- revisa fatos de configuração com impacto de custo (all-purpose vs job cluster, autoterminação)
+- emitir findings limitados ao recorte delegado
+does_not:
+- não sai do recorte delegado pelo parent
+- não faz handoff para outros specialists diretamente
+inputs:
+- handoff
+- finding
+outputs:
+- review
+- recommendations
+allowed_tools:
+- sfa_analyze
+- sfa_judge
+denied_tools: []
+required_context_kinds:
+- fact
+- rule
+allowed_context_kinds:
+- fact
+- rule
+- artifact
+- knowledge
+- finding
+- evidence
+- unresolved
+knowledge_packs:
+- knowledge/azure/databricks/
+- knowledge/azure/finops/
+skills:
+- azure-databricks
+- azure-finops
 trust_floor: VERIFIED_FACT
+budget:
+  context: 4000
+  tools: 4
+  model_calls: 1
+  model_tier: economy
+  time: 90
+  handoffs: 1
+spawn:
+  conditions:
+  - on_parent_spawn
+  information_gain_threshold: 0.3
+stop:
+  conditions:
+  - on_findings_reviewed
+handoffs:
+  allowed_targets:
+  - azure-databricks-specialist
+  - verifier
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: azure-databricks-specialist
 ---
 

@@ -1,19 +1,69 @@
 ---
+schema_version: 2
 id: migration-reviewer
 kind: role
-role: Revisa planos de migração quanto a paridade, inventário e riscos de corte.
-does: [checar inventário completo origem/destino, apontar recursos sem equivalente]
-does_not: [não aprova paridade sem inventário, não trata conceitos de outra nuvem como aliases]
-required_context: [finding, evidence]
-allowed_context: [finding, evidence, fact, risk, unresolved]
-tools: [sfa_graph_query, sfa_judge]
-skills: [azure-synapse, azure-databricks, fabric-data-engineering]
-knowledge_refs: [knowledge/migration/]
-budget: {max_context_tokens: 6000, max_tool_calls: 6, max_model_calls: 2, model_tier: balanced}
-handoff_targets: [verifier, migration-specialist]
-handoff_mode: DATA_ONLY
-risk: read_only
+family: review
+domain: review
+role: migration-reviewer
+mission: Revisa planos de migração quanto a paridade, inventário e riscos de corte.
+does:
+- checar inventário completo origem/destino
+- apontar recursos sem equivalente
+does_not:
+- não aprova paridade sem inventário
+- não trata conceitos de outra nuvem como aliases
+inputs:
+- finding
+- evidence
+outputs:
+- review
+- recommendations
+allowed_tools:
+- sfa_graph_query
+- sfa_judge
+denied_tools: []
+required_context_kinds:
+- finding
+- evidence
+allowed_context_kinds:
+- finding
+- evidence
+- fact
+- risk
+- unresolved
+knowledge_packs:
+- knowledge/migration/
+skills:
+- azure-synapse
+- azure-databricks
+- fabric-data-engineering
 trust_floor: VERIFIED_FACT
+budget:
+  context: 6000
+  tools: 6
+  model_calls: 2
+  model_tier: balanced
+  time: 90
+  handoffs: 2
+spawn:
+  conditions:
+  - on_finding_review
+  information_gain_threshold: 0.1
+stop:
+  conditions:
+  - on_findings_reviewed
+  - on_no_disagreement
+handoffs:
+  allowed_targets:
+  - verifier
+  - migration-specialist
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

@@ -44,8 +44,8 @@ reais entre pacotes são medidas por `tests/test_architecture_layers.py`.
 
 | Pacote | Papel |
 |---|---|
-| `agentic` | runtime agentic: governor, budget, stop, recovery, memory, checkpoint, router |
-| `agentmanifest` | manifests de agent/specialist + roteamento determinístico |
+| `agentic` | runtime agentic: governor, budget, stop, recovery, memory, checkpoint, router, inventory (status por agent), role_plans (derivados do manifest), spawn gate (SPAWN/SKIP/DEFER + information gain), teams (elegibilidade `agent-teams/`), spans (AgentSpan + ExecutionReceipt + waste + value vector), fingerprint (identidade do contrato), impact (grafo de invalidação) |
+| `agentmanifest` | manifests v2 de agent/specialist/subagent (40) + roteamento determinístico com explainability + registry interno de tools |
 | `agents` | despacho/autonomia de especialistas |
 | `registry` | registro canônico (agents, skills, manifests) |
 | `case` | o case: fases, store durável, playbook, router, resume |

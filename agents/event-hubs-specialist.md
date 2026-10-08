@@ -1,22 +1,81 @@
 ---
+schema_version: 2
 id: event-hubs-specialist
 kind: specialist
-role: 'Specialist em Event Hubs (namespace, partições, consumer groups, Kafka): produz findings do domínio
-  com evidência e unresolved explícito.'
-does: [aplicar as skills azure-event-hubs sobre artefatos do domínio, extrair facts e julgar regras do
-    domínio, declarar unresolved com o artefato que resolveria]
-does_not: [não decide fora do próprio domínio (faz handoff), não escreve na nuvem, configuração do Event
-    Hubs não prova exactly-once]
-required_context: [artifact, fact, rule]
-allowed_context: [artifact, code, fact, rule, knowledge, finding, evidence, tool_output, unresolved]
-tools: [sfa_analyze, sfa_judge, sfa_knowledge_select]
-skills: [azure-event-hubs]
-knowledge_refs: [knowledge/azure/eventhubs/]
-budget: {max_context_tokens: 8000, max_tool_calls: 8, max_model_calls: 2, model_tier: balanced}
-handoff_targets: [streaming-specialist, networking-specialist, verifier]
-handoff_mode: DATA_ONLY
-risk: read_only
+family: domain
+domain: event-hubs
+role: event-hubs-specialist
+mission: 'Specialist em Event Hubs (namespace, partições, consumer groups, Kafka): produz findings do
+  domínio com evidência e unresolved explícito.'
+does:
+- aplicar as skills azure-event-hubs sobre artefatos do domínio
+- extrair facts e julgar regras do domínio
+- declarar unresolved com o artefato que resolveria
+does_not:
+- não decide fora do próprio domínio (faz handoff)
+- não escreve na nuvem
+- configuração do Event Hubs não prova exactly-once
+inputs:
+- handoff
+- fact
+- evidence
+- knowledge
+- unresolved
+outputs:
+- finding
+- recommendations
+- unresolved
+allowed_tools:
+- sfa_analyze
+- sfa_judge
+- sfa_knowledge_select
+denied_tools: []
+required_context_kinds:
+- artifact
+- fact
+- rule
+allowed_context_kinds:
+- artifact
+- code
+- fact
+- rule
+- knowledge
+- finding
+- evidence
+- tool_output
+- unresolved
+knowledge_packs:
+- knowledge/azure/eventhubs/
+skills:
+- azure-event-hubs
 trust_floor: VERIFIED_FACT
+budget:
+  context: 8000
+  tools: 8
+  model_calls: 2
+  model_tier: balanced
+  time: 180
+  handoffs: 3
+spawn:
+  conditions:
+  - on_domain_match
+  information_gain_threshold: 0.2
+stop:
+  conditions:
+  - on_unknowns_resolved
+  - on_budget_exhausted
+handoffs:
+  allowed_targets:
+  - streaming-specialist
+  - networking-specialist
+  - verifier
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: true
+  adversarial_check: on_conflict
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

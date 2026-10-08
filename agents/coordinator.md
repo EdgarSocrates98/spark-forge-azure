@@ -1,26 +1,96 @@
 ---
+schema_version: 2
 id: coordinator
 kind: role
-role: Roteia a tarefa, planeja, controla budget, decide handoff, parada e recuperação; nunca substitui
+family: control
+domain: control
+role: coordinator
+mission: Roteia a tarefa, planeja, controla budget, decide handoff, parada e recuperação; nunca substitui
   um specialist.
-does: [classificar a tarefa por domínio e escolher o mínimo de specialists, alocar budget por agente e
-    parar ao esgotar, ordenar handoffs e recuperar de falha com replanejamento]
-does_not: [não analisa artefatos nem emite findings, 'não acorda todos os specialists (cap padrão 3, teto
-    5)', não repassa instruções entre agentes]
-required_context: [risk, unresolved]
-allowed_context: [fact, finding, risk, unresolved, evidence]
-tools: [sfa_agentops_inspect, sfa_knowledge_select]
+does:
+- classificar a tarefa por domínio e escolher o mínimo de specialists
+- alocar budget por agente e parar ao esgotar
+- ordenar handoffs e recuperar de falha com replanejamento
+does_not:
+- não analisa artefatos nem emite findings
+- não acorda todos os specialists (cap padrão 3, teto 5)
+- não repassa instruções entre agentes
+inputs:
+- task
+- finding
+- evidence
+- unresolved
+- handoff
+outputs:
+- route
+- handoff
+allowed_tools:
+- sfa_agentops_inspect
+- sfa_knowledge_select
+denied_tools: []
+required_context_kinds:
+- risk
+- unresolved
+allowed_context_kinds:
+- fact
+- finding
+- risk
+- unresolved
+- evidence
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 4000, max_tool_calls: 6, max_model_calls: 2, model_tier: economy}
-handoff_targets: [inventory, extractor, analyzer, judge, verifier, referee, synthesizer, fabric-specialist,
-  azure-databricks-specialist, unity-catalog-specialist, synapse-specialist, adf-specialist, adls-specialist,
-  onelake-specialist, event-hubs-specialist, streaming-specialist, purview-specialist, entra-specialist,
-  networking-specialist, finops-specialist, spark-performance-specialist, delta-specialist, iceberg-specialist,
-  terraform-specialist, bicep-specialist, migration-specialist, observability-specialist]
-handoff_mode: DATA_ONLY
-risk: read_only
 trust_floor: VERIFIED_FACT
+budget:
+  context: 4000
+  tools: 6
+  model_calls: 2
+  model_tier: economy
+  time: 60
+  handoffs: 8
+spawn:
+  conditions:
+  - always
+  information_gain_threshold: 0.0
+stop:
+  conditions:
+  - on_budget_exhausted
+handoffs:
+  allowed_targets:
+  - inventory
+  - extractor
+  - analyzer
+  - judge
+  - verifier
+  - referee
+  - synthesizer
+  - fabric-specialist
+  - azure-databricks-specialist
+  - unity-catalog-specialist
+  - synapse-specialist
+  - adf-specialist
+  - adls-specialist
+  - onelake-specialist
+  - event-hubs-specialist
+  - streaming-specialist
+  - purview-specialist
+  - entra-specialist
+  - networking-specialist
+  - finops-specialist
+  - spark-performance-specialist
+  - delta-specialist
+  - iceberg-specialist
+  - terraform-specialist
+  - bicep-specialist
+  - migration-specialist
+  - observability-specialist
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

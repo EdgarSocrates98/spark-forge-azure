@@ -1,20 +1,64 @@
 ---
+schema_version: 2
 id: inventory
 kind: role
-role: Inventaria artefatos disponíveis (repo, exports, coleta opt-in) e declara o que falta.
-does: ['listar artefatos com caminho, tipo e hash', construir o grafo do workspace, declarar artefatos
-    ausentes como unresolved]
-does_not: [não extrai facts, não interpreta conteúdo]
-required_context: [artifact]
-allowed_context: [artifact, tool_output, unresolved]
-tools: [sfa_graph_build, sfa_collect_workspace_graph]
+family: evidence
+domain: evidence
+role: inventory
+mission: Inventaria artefatos disponíveis (repo, exports, coleta opt-in) e declara o que falta.
+does:
+- listar artefatos com caminho, tipo e hash
+- construir o grafo do workspace
+- declarar artefatos ausentes como unresolved
+does_not:
+- não extrai facts
+- não interpreta conteúdo
+inputs:
+- artifact
+- code
+- knowledge
+outputs:
+- fact
+allowed_tools:
+- sfa_graph_build
+- sfa_collect_workspace_graph
+denied_tools: []
+required_context_kinds:
+- artifact
+allowed_context_kinds:
+- artifact
+- tool_output
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 3000, max_tool_calls: 6, max_model_calls: 1, model_tier: economy}
-handoff_targets: [extractor, coordinator]
-handoff_mode: DATA_ONLY
-risk: cloud_read
 trust_floor: TOOL_OUTPUT
+budget:
+  context: 3000
+  tools: 6
+  model_calls: 1
+  model_tier: economy
+  time: 120
+  handoffs: 2
+spawn:
+  conditions:
+  - always
+  information_gain_threshold: 0.0
+stop:
+  conditions:
+  - on_artifacts_exhausted
+  - on_budget_exhausted
+handoffs:
+  allowed_targets:
+  - extractor
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: cloud_read
 parent: null
 ---
 

@@ -1,0 +1,19 @@
+# Agent team — Microsoft Fabric domain.
+#
+# Eligibility only — see databricks.yaml for the contract.
+team: fabric
+domain: fabric
+mission: Diagnose Fabric workspace problems — Lakehouse/Warehouse, OneLake
+  shortcuts, capacities, workspace identity and Fabric pipelines.
+eligible:
+- fabric-specialist
+- onelake-specialist
+- purview-specialist
+- entra-specialist
+- networking-specialist
+- finops-specialist
+- spark-performance-specialist
+rules:
+  max_specialists: 3
+  subagents_require_parent: true
+  reviewers_conditional: true

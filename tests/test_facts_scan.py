@@ -40,6 +40,10 @@ def _criar(raiz: pathlib.Path, caminho: str, conteudo: str = "x = 1\n") -> pathl
 # seria excecao para um problema que ele nao tem -- e se um dia ele passar a
 # usar `glob`, o gate deve obrigar a decisao, nao aprova-la de antemao.
 VARREDURA_CRUA_PERMITIDA: dict[str, str] = {
+    "agentic/teams.py": (
+        "varre agent-teams/*.yaml do proprio repositorio -- elegibilidade "
+        "curada e versionada, nunca arvore de cliente"
+    ),
     "agentmanifest/model.py": "varre os manifests de agents embarcados no wheel",
     "bundle.py": (
         "varre o catalogo de regras e as matrizes de knowledge do proprio "

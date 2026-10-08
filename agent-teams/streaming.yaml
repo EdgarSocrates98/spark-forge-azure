@@ -1,0 +1,17 @@
+# Agent team — Streaming / Real-Time Intelligence domain.
+#
+# Eligibility only — see databricks.yaml for the contract.
+team: streaming
+domain: streaming
+mission: Diagnose streaming problems — Event Hubs, Structured Streaming,
+  checkpoints, lag, schema evolution and delivery semantics.
+eligible:
+- streaming-specialist
+- event-hubs-specialist
+- delta-specialist
+- spark-performance-specialist
+- observability-specialist
+rules:
+  max_specialists: 3
+  subagents_require_parent: true
+  reviewers_conditional: true

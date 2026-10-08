@@ -1,20 +1,80 @@
 ---
+schema_version: 2
 id: bicep-specialist
 kind: specialist
-role: 'Specialist em Bicep / ARM: produz findings do domínio com evidência e unresolved explícito.'
-does: [aplicar as skills azure-bicep sobre artefatos do domínio, extrair facts e julgar regras do domínio,
-  declarar unresolved com o artefato que resolveria]
-does_not: [não decide fora do próprio domínio (faz handoff), não escreve na nuvem, nunca executar deployment]
-required_context: [artifact, fact, rule]
-allowed_context: [artifact, code, fact, rule, knowledge, finding, evidence, tool_output, unresolved]
-tools: [sfa_analyze, sfa_judge, sfa_knowledge_select, sfa_graph_impact]
-skills: [azure-bicep]
-knowledge_refs: [knowledge/azure/iac/]
-budget: {max_context_tokens: 8000, max_tool_calls: 8, max_model_calls: 2, model_tier: balanced}
-handoff_targets: [security-reviewer, verifier]
-handoff_mode: DATA_ONLY
-risk: read_only
+family: domain
+domain: bicep
+role: bicep-specialist
+mission: 'Specialist em Bicep / ARM: produz findings do domínio com evidência e unresolved explícito.'
+does:
+- aplicar as skills azure-bicep sobre artefatos do domínio
+- extrair facts e julgar regras do domínio
+- declarar unresolved com o artefato que resolveria
+does_not:
+- não decide fora do próprio domínio (faz handoff)
+- não escreve na nuvem
+- nunca executar deployment
+inputs:
+- handoff
+- fact
+- evidence
+- knowledge
+- unresolved
+outputs:
+- finding
+- recommendations
+- unresolved
+allowed_tools:
+- sfa_analyze
+- sfa_judge
+- sfa_knowledge_select
+- sfa_graph_impact
+denied_tools: []
+required_context_kinds:
+- artifact
+- fact
+- rule
+allowed_context_kinds:
+- artifact
+- code
+- fact
+- rule
+- knowledge
+- finding
+- evidence
+- tool_output
+- unresolved
+knowledge_packs:
+- knowledge/azure/iac/
+skills:
+- azure-bicep
 trust_floor: VERIFIED_FACT
+budget:
+  context: 8000
+  tools: 8
+  model_calls: 2
+  model_tier: balanced
+  time: 180
+  handoffs: 2
+spawn:
+  conditions:
+  - on_domain_match
+  information_gain_threshold: 0.2
+stop:
+  conditions:
+  - on_unknowns_resolved
+  - on_budget_exhausted
+handoffs:
+  allowed_targets:
+  - security-reviewer
+  - verifier
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: true
+  adversarial_check: on_conflict
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

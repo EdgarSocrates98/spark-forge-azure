@@ -1,19 +1,63 @@
 ---
+schema_version: 2
 id: critic
 kind: role
-role: Questiona premissas, lacunas e conclusões fortes demais antes da síntese.
-does: [listar premissas não provadas, apontar afirmações absolutas sem evidência]
-does_not: [não emite findings, não decide divergências]
-required_context: [finding]
-allowed_context: [finding, evidence, fact, risk, unresolved]
-tools: [sfa_knowledge_check]
+family: adversarial
+domain: adversarial
+role: critic
+mission: Questiona premissas, lacunas e conclusões fortes demais antes da síntese.
+does:
+- listar premissas não provadas
+- apontar afirmações absolutas sem evidência
+does_not:
+- não emite findings
+- não decide divergências
+inputs:
+- finding
+- evidence
+outputs:
+- objections
+allowed_tools:
+- sfa_knowledge_check
+denied_tools: []
+required_context_kinds:
+- finding
+allowed_context_kinds:
+- finding
+- evidence
+- fact
+- risk
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 4000, max_tool_calls: 4, max_model_calls: 2, model_tier: balanced}
-handoff_targets: [referee, verifier, coordinator]
-handoff_mode: DATA_ONLY
-risk: read_only
 trust_floor: VERIFIED_FACT
+budget:
+  context: 4000
+  tools: 4
+  model_calls: 2
+  model_tier: balanced
+  time: 90
+  handoffs: 3
+spawn:
+  conditions:
+  - on_disagreement
+  information_gain_threshold: 0.2
+stop:
+  conditions:
+  - on_no_disagreement
+handoffs:
+  allowed_targets:
+  - referee
+  - verifier
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

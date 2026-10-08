@@ -44,10 +44,10 @@ def _errs(agent_id: str, mutate=None, body_mutate=None) -> list[str]:
 
 
 def test_taxonomy_counts():
-    assert len(ROLE_IDS) == 14
+    assert len(ROLE_IDS) == 16
     assert len(SPECIALIST_IDS) == 20
     assert len(SUBAGENT_IDS) == 4
-    assert len(set(ALL_AGENT_IDS)) == 38
+    assert len(set(ALL_AGENT_IDS)) == 40
     found = sorted(p.stem for p in (ROOT / "agents").glob("*.md"))
     assert found == sorted(ALL_AGENT_IDS)
 
@@ -64,15 +64,15 @@ def test_real_tree_validates_strict_when_knowledge_present():
 
 def test_manifest_semantics():
     by_id = {m.id: m for m in load_manifests(ROOT)}
-    assert all(m.data["handoff_mode"] == "DATA_ONLY" for m in by_id.values())
+    assert all(m.data["handoffs"]["mode"] == "DATA_ONLY" for m in by_id.values())
     assert all(m.data["risk"] != "cloud_write" for m in by_id.values())
     for sid in SUBAGENT_IDS:
         assert by_id[sid].data["parent"] == "azure-databricks-specialist"
-    assert set(by_id["synthesizer"].data["allowed_context"]) <= {"finding", "evidence",
+    assert set(by_id["synthesizer"].data["allowed_context_kinds"]) <= {"finding", "evidence",
                                                                   "unresolved"}
     assert by_id["coordinator"].data["skills"] == []
-    assert by_id["extractor"].data["required_context"] == ["artifact"]
-    assert set(by_id["judge"].data["required_context"]) == {"fact", "rule"}
+    assert by_id["extractor"].data["required_context_kinds"] == ["artifact"]
+    assert set(by_id["judge"].data["required_context_kinds"]) == {"fact", "rule"}
 
 
 # ------------------------------------------------------------------ negative rules
@@ -89,27 +89,28 @@ def test_unknown_risk():
 
 @pytest.mark.parametrize("value", [0, -1, True, "8"])
 def test_budget_must_be_positive_int(value):
-    errs = _errs("judge", lambda d: d["budget"].update(max_tool_calls=value))
-    assert any("budget.max_tool_calls" in e for e in errs)
+    errs = _errs("judge", lambda d: d["budget"].update(tools=value))
+    assert any("budget.tools" in e for e in errs)
 
 
 def test_budget_tier_keys_and_ceiling():
     assert any("model_tier" in e
                for e in _errs("judge", lambda d: d["budget"].update(model_tier="ultra")))
-    assert any("exactly" in e for e in _errs("judge", lambda d: d["budget"].pop("max_model_calls")))
+    assert any("exactly" in e for e in _errs("judge", lambda d: d["budget"].pop("model_calls")))
     assert any("exceeds" in e
-               for e in _errs("judge", lambda d: d["budget"].update(max_context_tokens=10**6)))
+               for e in _errs("judge", lambda d: d["budget"].update(context=10**6)))
 
 
 def test_handoff_targets_must_resolve():
-    errs = _errs("judge", lambda d: d["handoff_targets"].append("lake-formation-specialist"))
+    errs = _errs("judge", lambda d: d["handoffs"]["allowed_targets"].append(
+        "lake-formation-specialist"))
     assert any("does not resolve" in e for e in errs)
-    errs = _errs("judge", lambda d: d["handoff_targets"].append("judge"))
+    errs = _errs("judge", lambda d: d["handoffs"]["allowed_targets"].append("judge"))
     assert any("itself" in e for e in errs)
 
 
 def test_handoff_mode_data_only():
-    errs = _errs("judge", lambda d: d.update(handoff_mode="INSTRUCTIONS"))
+    errs = _errs("judge", lambda d: d["handoffs"].update(mode="INSTRUCTIONS"))
     assert any("DATA_ONLY" in e for e in errs)
 
 
@@ -127,14 +128,14 @@ def test_only_subagents_have_parent():
 
 
 def test_allowed_context_superset_of_required():
-    errs = _errs("judge", lambda d: d.update(allowed_context=["fact"]))
-    assert any("must include required_context" in e for e in errs)
-    errs = _errs("judge", lambda d: d["allowed_context"].append("vibes"))
+    errs = _errs("judge", lambda d: d.update(allowed_context_kinds=["fact"]))
+    assert any("must include required_context_kinds" in e for e in errs)
+    errs = _errs("judge", lambda d: d["allowed_context_kinds"].append("vibes"))
     assert any("unknown context kinds" in e for e in errs)
 
 
 def test_synthesizer_only_verified_inputs():
-    errs = _errs("synthesizer", lambda d: d["allowed_context"].append("code"))
+    errs = _errs("synthesizer", lambda d: d["allowed_context_kinds"].append("code"))
     assert any("synthesizer may only use" in e for e in errs)
 
 
@@ -149,7 +150,8 @@ def test_unknown_skill_and_tool_names():
     assert any("unknown skill" in e
                for e in _errs("delta-specialist", lambda d: d["skills"].append("hudi")))
     assert any("'sfa_*'" in e
-               for e in _errs("delta-specialist", lambda d: d["tools"].append("sparkforge_judge")))
+               for e in _errs("delta-specialist",
+                              lambda d: d["allowed_tools"].append("sparkforge_judge")))
 
 
 def test_specialist_needs_skill():
