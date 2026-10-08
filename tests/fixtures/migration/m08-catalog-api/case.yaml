@@ -1,0 +1,6 @@
+name: m08-catalog-api
+principal: {kind: service_principal}
+operation: migrate
+target: {fabric_workspace_id: "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"}
+expect:
+  status: blocked

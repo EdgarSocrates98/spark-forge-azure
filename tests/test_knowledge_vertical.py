@@ -46,9 +46,18 @@ STREAM_PACKS = {
     "stream-economy",
 }
 
+MIGRATION_PACKS = {
+    "migration-inventory",
+    "migration-adf",
+    "migration-spark",
+    "migration-data",
+    "migration-plan",
+}
+
 _VERTICAL_OF = {**{p: "access" for p in PACKS},
                 **{p: "fabric" for p in FABRIC_PACKS},
-                **{p: "stream" for p in STREAM_PACKS}}
+                **{p: "stream" for p in STREAM_PACKS},
+                **{p: "migration" for p in MIGRATION_PACKS}}
 
 NON_VERTICAL_DOMAINS = {
     "azure-data-factory",
@@ -62,7 +71,8 @@ NON_VERTICAL_DOMAINS = {
 
 def test_packs_manifest_declares_the_six_packs():
     manifest = load_packs()
-    assert set(manifest["packs"]) == PACKS | FABRIC_PACKS | STREAM_PACKS
+    assert set(manifest["packs"]) == (PACKS | FABRIC_PACKS | STREAM_PACKS
+                                     | MIGRATION_PACKS)
     for name, spec in manifest["packs"].items():
         assert spec["domains"], "pack sem dominio"
         assert spec["failure_layers"], "pack sem failure_layer"
@@ -86,6 +96,8 @@ def test_layer_to_pack_mapping_is_minimal():
     assert packs_for_layer("delta_perf", vertical="fabric") == ["fabric-spark"]
     assert packs_for_layer("unresolved", vertical="fabric") == sorted(FABRIC_PACKS)
     assert packs_for_layer("unresolved", vertical="stream") == sorted(STREAM_PACKS)
+    assert packs_for_layer("unresolved", vertical="migration") == sorted(
+        MIGRATION_PACKS)
     assert packs_for_layer("checkpoint", vertical="stream") == [
         "spark-structured-streaming"]
 

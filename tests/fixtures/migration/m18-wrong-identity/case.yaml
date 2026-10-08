@@ -1,0 +1,7 @@
+name: m18-wrong-identity
+principal: {kind: service_principal}
+operation: migrate
+target: {fabric_workspace_id: "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb"}
+expect:
+  status: pass
+  verdict: fail

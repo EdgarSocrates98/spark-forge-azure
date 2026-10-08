@@ -1,0 +1,158 @@
+# Catálogo de regras — vertical Migration ADF/Synapse -> Fabric (SF-MIG).
+# Os verdicts dimensionais saem de migration/{pipelines,spark,data,compat};
+# estas regras produzem findings estruturais complementares sobre facts
+# mig.* — nunca claims sem evidência.
+
+catalog_version: 1
+schema_version: 1
+area: SF-MIG
+retrieved: 2026-10-08
+
+rules:
+
+  - id: SF-MIG-001
+    category: integration-runtime
+    title: Self-hosted IR exige review manual de rede/gateway
+    requires_facts: [mig.integration_runtime]
+    when:
+      all:
+        - fact: mig.integration_runtime
+          where: {attrs.kind: "SelfHosted"}
+    status: structural
+    severity_default: P1
+    runtime_scope: {}
+    explanation: >
+      SHIR nao migra para o Fabric: o caminho e on-premises data gateway
+      ou VNet data gateway, com revisao de conectividade e secrets. Nunca
+      e mapeamento automatico (prompt §48-50).
+    proposed_change:
+      - Planejar gateway Fabric equivalente; revisar regras de rede e
+        secrets em Key Vault antes do cutover.
+    validation:
+      - pipelines.assess marca integration_runtime como manual_refactor.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.datafactory
+
+  - id: SF-MIG-002
+    category: pipeline-activity
+    title: ExecuteSSISPackage nao tem equivalente no runtime Fabric
+    requires_facts: [mig.activity]
+    when:
+      all:
+        - fact: mig.activity
+          where: {attrs.type: "ExecuteSSISPackage"}
+    status: structural
+    severity_default: P1
+    runtime_scope: {}
+    explanation: >
+      SSIS esta fora do escopo do runtime de pipelines do Fabric; a
+      activity precisa de substituicao funcional (notebook, dataflow, ou
+      manter ADF), nunca lift-and-shift.
+    proposed_change:
+      - Avaliar substituicao por Dataflow Gen2/notebook ou manter a
+        workload em ADF ate haver equivalente.
+    validation:
+      - pipeline_activity dimension = unsupported; readiness BLOCKED.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.datafactory
+
+  - id: SF-MIG-003
+    category: pipeline-activity
+    title: Custom .NET activity nao migra para Fabric
+    requires_facts: [mig.activity]
+    when:
+      all:
+        - fact: mig.activity
+          where: {attrs.type: "Custom"}
+    status: structural
+    severity_default: P1
+    runtime_scope: {}
+    explanation: >
+      Atividades custom (.NET/HDInsight-style) nao tem equivalente no
+      Fabric Data Factory; exigem re-implementacao como notebook/job.
+    proposed_change:
+      - Re-implementar como Fabric notebook/Spark job definition.
+    validation:
+      - pipeline_activity dimension = unsupported; readiness BLOCKED.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.datafactory
+
+  - id: SF-MIG-004
+    category: parameter
+    title: Global parameters viram variable library — nao sao equivalentes
+    requires_facts: [mig.global_parameter]
+    when:
+      all:
+        - fact: mig.global_parameter
+          where: {}
+    status: structural
+    severity_default: P3
+    runtime_scope: {}
+    explanation: >
+      Global parameters do ADF nao existem no Fabric; o candidato e
+      variable library com @pipeline().libraryVariables. Mapeamento de
+      candidato, nunca equivalencia semantica (prompt §53).
+    proposed_change:
+      - Criar variable library no workspace Fabric e re-escrever
+        referencias @globalParameters.
+    validation:
+      - parameter dimension = compatible_with_change com recomendacao
+        variable_library_candidate.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.datafactory
+
+  - id: SF-MIG-005
+    category: storage
+    title: Storage account marcado para retirement — preferir copy
+    requires_facts: [mig.storage_account]
+    when:
+      all:
+        - fact: mig.storage_account
+          where: {attrs.retirement: true}
+    status: structural
+    severity_default: P2
+    runtime_scope: {}
+    explanation: >
+      Retirement declarado da fonte torna shortcut inviavel a longo prazo:
+      a estrategia recomendada e copy para OneLake (prompt §113/§202).
+    proposed_change:
+      - Migrar dados para lakehouse gerenciado antes do retirement.
+    validation:
+      - recommend_data_strategy retorna copy para paths da conta.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.onelake
+
+  - id: SF-MIG-006
+    category: authentication
+    title: Linked service com auth legado exige re-mapeamento manual
+    requires_facts: [mig.linked_service]
+    when:
+      all:
+        - fact: mig.linked_service
+          where: {attrs.auth_kind: "windows_auth"}
+    status: structural
+    severity_default: P2
+    runtime_scope: {}
+    explanation: >
+      windows_auth nao mapeia para conexao Fabric diretamente; exige
+      identidade gerenciada/service principal equivalente — e conexoes
+      compartilhadas nao podem consolidar cegamente (prompt §78).
+    proposed_change:
+      - Planejar identidade Entra ID equivalente; manter conexoes
+        separadas onde o auth diverge.
+    validation:
+      - authentication dimension = manual_refactor.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.datafactory

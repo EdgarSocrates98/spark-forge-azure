@@ -71,6 +71,10 @@ no Graphfy, `sfa_diagnose_fabric`, collector export/live opt-in)** ·
 Event Hubs/consumer groups/checkpoint/state/schema/sink + Eventstream/
 Eventhouse/KQL/Activator, delivery semantics unresolved-first,
 `sfa_diagnose_stream`, grafo stream)** ·
+**Migration vertical ADF/Synapse→Fabric (deep_local — 22 cenários
+offline, estate inventory → compatibilidade → waves → validação
+pós-migração, readiness unresolved-first, assessment oficial como
+evidência, `sfa_assess_migration`, grafo migration)** ·
 Unity Catalog foundation · AgentOps · Forge Lab seed · security · supply chain.
 
 Primeiro vertical que prova a arquitetura (§255): **PySpark + Azure Databricks + ADLS + Unity

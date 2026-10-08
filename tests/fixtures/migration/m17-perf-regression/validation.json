@@ -1,0 +1,18 @@
+{
+ "results": [
+  {
+   "asset_id": "nb1",
+   "dimension": "functional",
+   "metric": "exit_code",
+   "source_value": 0,
+   "target_value": 0
+  },
+  {
+   "asset_id": "nb1",
+   "dimension": "performance",
+   "metric": "duration_s",
+   "source_value": 100,
+   "target_value": 400
+  }
+ ]
+}

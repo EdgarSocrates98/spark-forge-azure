@@ -1,0 +1,33 @@
+{
+ "synapse_workspaces": [
+  {
+   "id": "syn-1",
+   "name": "syn-prod",
+   "pipelines": [
+    {
+     "id": "syn-1/pl/pl_c",
+     "name": "pl_c",
+     "activities": [
+      {
+       "name": "cust",
+       "type": "Custom"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "fabric_workspaces": [
+  {
+   "id": "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb",
+   "name": "ws-analytics",
+   "items": [
+    {
+     "id": "lh-1",
+     "type": "Lakehouse",
+     "name": "lh"
+    }
+   ]
+  }
+ ]
+}

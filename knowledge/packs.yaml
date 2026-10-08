@@ -105,3 +105,35 @@ packs:
     purpose: TU/PU/CU capacity economics, throughput evidence vs marketing
     domains: [azure-finops]
     failure_layers: [event_hubs_capacity]
+  # --- Cycle 5: ADF/Synapse -> Fabric migration vertical -----------------
+  migration-inventory:
+    vertical: migration
+    purpose: estate discovery, canonical ids, dependency edges,
+      official assessment como evidencia (nunca autoridade)
+    domains: [azure-data-factory, azure-synapse, migration]
+    failure_layers: [inventory]
+  migration-adf:
+    vertical: migration
+    purpose: "ADF/Synapse pipelines -> Fabric Data Factory: activities,
+      linked services->connections, SHIR->gateway, global parameters->
+      variable library, triggers"
+    domains: [azure-data-factory, fabric-data-factory]
+    failure_layers: [pipelines, compatibility]
+  migration-spark:
+    vertical: migration
+    purpose: "Synapse Spark -> Fabric: mssparkutils->notebookutils,
+      synapsesql->Delta, catalog APIs, pools->environments, libs/configs"
+    domains: [azure-synapse, fabric-data-engineering]
+    failure_layers: [spark]
+  migration-data:
+    vertical: migration
+    purpose: "ADLS/HMS -> OneLake/Lakehouse: retain/shortcut/copy/hybrid,
+      managed vs external tables"
+    domains: [fabric-onelake, migration]
+    failure_layers: [data]
+  migration-plan:
+    vertical: migration
+    purpose: "waves topologicas, ciclo->REVIEW, rollback, freeze,
+      post-migration validation dims"
+    domains: [migration]
+    failure_layers: [plan, validation]

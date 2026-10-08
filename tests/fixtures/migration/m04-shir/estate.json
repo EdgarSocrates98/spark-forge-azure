@@ -1,0 +1,42 @@
+{
+ "adf_factories": [
+  {
+   "id": "adf-1",
+   "name": "adf-prod",
+   "pipelines": [
+    {
+     "id": "adf-1/pl/pl_onprem",
+     "name": "pl_onprem",
+     "activities": [
+      {
+       "name": "cp",
+       "type": "Copy",
+       "integration_runtime": "shir1"
+      }
+     ]
+    }
+   ],
+   "integration_runtimes": [
+    {
+     "id": "adf-1/ir/shir1",
+     "name": "shir1",
+     "kind": "SelfHosted",
+     "nodes": 2
+    }
+   ]
+  }
+ ],
+ "fabric_workspaces": [
+  {
+   "id": "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb",
+   "name": "ws-analytics",
+   "items": [
+    {
+     "id": "lh-1",
+     "type": "Lakehouse",
+     "name": "lh"
+    }
+   ]
+  }
+ ]
+}

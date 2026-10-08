@@ -8,6 +8,7 @@ from typing import Any
 from sparkforge_azure.azure.pipeline import run_case
 from sparkforge_azure.fabric.pipeline import run_fabric_case
 from sparkforge_azure.mcp.tools import READ_ONLY, tool
+from sparkforge_azure.migration.pipeline import run_migration_case
 from sparkforge_azure.stream.pipeline import run_stream_case
 
 _BUNDLE_SCHEMA: dict[str, Any] = {
@@ -155,3 +156,68 @@ def _diagnose_stream(arguments: Mapping[str, Any]) -> Mapping[str, Any]:
         raise ValueError(f"bundle not found: {bundle}")
     return run_stream_case(
         bundle, profile=str(arguments.get("profile") or "balanced"))
+
+
+_MIGRATION_OUTPUT_SCHEMA: dict[str, Any] = {
+    "type": "object",
+    "properties": {
+        "status": {"type": "string"},
+        "case": {"type": "string"},
+        "case_meta": {"type": "object"},
+        "estate": {"type": "object"},
+        "readiness": {"type": "object"},
+        "recommendations": {"type": "array"},
+        "conflicts": {"type": "array"},
+        "plan": {"type": "object"},
+        "upstream_blockers": {"type": "array"},
+        "validation": {"type": ["object", "null"]},
+        "findings": {"type": "array"},
+        "unresolved": {"type": "array"},
+        "facts": {"type": "array"},
+        "migration_graph": {"type": "object"},
+        "overhead": {"type": "object"},
+        "trust": {"type": "object"},
+        "receipt": {"type": "object"},
+    },
+    "required": ["status", "estate", "receipt"],
+}
+
+
+@tool(
+    "sfa_assess_migration",
+    description="Offline ADF/Synapse -> Fabric migration assessment on a "
+                "case bundle (estate inventory -> compatibility -> waves "
+                "-> validation). Returns summary/blockers/wave refs/"
+                "evidence refs/unresolved — never a raw estate dump.",
+    input_schema=_BUNDLE_SCHEMA,
+    output_schema=_MIGRATION_OUTPUT_SCHEMA,
+    risk=READ_ONLY,
+    domain="migration",
+    compact=True,
+)
+def _assess_migration(arguments: Mapping[str, Any]) -> Mapping[str, Any]:
+    bundle = str(arguments["bundle"])
+    if not Path(bundle).is_dir():
+        raise ValueError(f"bundle not found: {bundle}")
+    report = run_migration_case(
+        bundle, profile=str(arguments.get("profile") or "balanced"))
+    # MCP output contract (prompt §239): summary + blockers + wave refs +
+    # evidence refs + unresolved.  Facts stay in the bundle report on
+    # disk; the tool returns the compact projection.
+    compact = {k: report[k] for k in (
+        "status", "case", "case_meta", "estate", "readiness",
+        "recommendations", "conflicts", "plan", "upstream_blockers",
+        "validation", "findings", "unresolved", "facts",
+        "migration_graph", "overhead", "trust", "receipt")}
+    compact["summary"] = {
+        "assets": report["estate"]["asset_count"],
+        "ready": report["estate"]["ready"],
+        "review": report["estate"]["needs_review"],
+        "blocked": report["estate"]["unsupported_count"],
+        "unresolved": report["estate"]["unknown"],
+        "waves": report["plan"].get("wave_count", 0),
+        "blockers": [d for r in report["pipelines"]
+                     for d in r["dimensions"]
+                     if d["status"] == "unsupported"],
+    }
+    return compact

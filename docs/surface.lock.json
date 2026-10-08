@@ -41,6 +41,10 @@
    "lab verify",
    "mcp catalog",
    "mcp serve",
+   "migration assess",
+   "migration inventory",
+   "migration plan",
+   "migration validate",
    "offline-bundle build",
    "offline-bundle verify",
    "tokensave benchmark",
@@ -60,6 +64,7 @@
  },
  "mcp": {
   "compact": [
+   "sfa_assess_migration",
    "sfa_diagnose_access",
    "sfa_diagnose_fabric",
    "sfa_diagnose_stream",
@@ -69,9 +74,22 @@
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 9343,
-  "tool_count": 12,
+  "compact_bytes": 10873,
+  "tool_count": 13,
   "tools": {
+   "sfa_assess_migration": {
+    "compact": true,
+    "domain": "migration",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "8cf1e0d5eca4e7fe3bc73199b83687aa6da505dee4004530d9d68e8f68c5a95c"
+   },
    "sfa_collect_workspace_graph": {
     "compact": false,
     "domain": "graph",
@@ -229,7 +247,7 @@
     "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
    }
   },
-  "total_bytes": 12717
+  "total_bytes": 14247
  },
  "schema_version": 2,
  "skills": {

@@ -134,3 +134,27 @@ Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
   `.tmp-red-c4` @ `86b1910`, exit 2); gate 17/17 features, 0 refused.
 - Suite stream: **22 passed / 0 failed**; 79 testes focados; suíte
   total **2682 passed / 9 skipped** (venv 3.12, ~243s).
+
+## Estado medido — cycle 5 (vertical de migração ADF/Synapse → Fabric) — **DELIVERED**
+
+`CYCLE_5 = DELIVERED` — `docs/cycle5/OUTCOME_BRIEF.md`. Branch
+`feat/cycle5-migration`, base `61367a5` (main pós-PR #8).
+
+- Quarto vertical executável: `sparkforge-azure migration
+  inventory|assess|plan|validate --bundle` cobre 22 cenários
+  determinísticos (estate inventory → compatibilidade → pipelines
+  ADF/Synapse → Spark refactor → dados/OneLake → waves → validação).
+- Readiness unresolved-first: ausência de assessment nunca é READY;
+  divergência oficial-vs-Forge → REVIEW + conflito explícito; ciclo de
+  dependência → `plan.status=REVIEW` (ordem nunca fabricada).
+- Grafo: layer `migration` no Graphfy (asset nodes + dep edges tipados +
+  `migrates_to` com status fechado); MCP `sfa_assess_migration`
+  (13 tools — projeção compacta: summary/blockers/waves/unresolved);
+  packs `vertical: migration` (5); spans `migration.*` no ledger.
+- Regras `SF-MIG-*` (6); routing AGENT-007 → `migration-specialist`.
+- Skills `azure-data-factory`/`azure-synapse` promovidas ao regime
+  vertical (evals positive+negative+boundary).
+- SDD: 7 sub-SDDs com build_reports red→green reais (worktree
+  `.tmp-mig-red` @ `61367a5`, exit 2).
+- Suite migration: **22 passed / 0 failed**; 46 testes focados; suite
+  total **2730 passed / 9 skipped** (venv 3.12, ~264s).

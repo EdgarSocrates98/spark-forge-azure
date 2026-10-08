@@ -76,7 +76,7 @@ KERNEL_FOLHA: frozenset[str] = frozenset({"paths", "durable", "protocols", "find
 
 #: Quem pode importar `azure`/`collectors`: as superficies (L7) e o dominio (L5/L6).
 DOMINIO: frozenset[str] = frozenset({"azure", "fabric", "stream",
-                                     "collectors"})
+                                     "migration", "collectors"})
 SUPERFICIES: frozenset[str] = frozenset({"cli", "mcp", "bundle", "doctor"})
 
 #: Arestas medidas que sobem a camada ideal do ADR — cada uma com a razao.
@@ -154,6 +154,18 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("cli", "stream"): "superficie L7 alcanca o dominio",
     ("mcp", "stream"): "superficie MCP alcanca o dominio",
     ("doctor", "stream"): "doctor mede a integridade do vertical Streaming/RTI",
+    ("migration", "azure"): "pipeline reusa Verdict/receipt/modelo do dominio azure",
+    ("migration", "findings"): "dominio emite o contrato Fact/Finding",
+    ("migration", "agentic"): "pipeline envolve metadados do bundle em TrustEnvelope",
+    ("migration", "facts"): "pipeline reusa a varredura e o scanner de facts",
+    ("migration", "graph"): "pipeline emite o grafo migration tipado",
+    ("migration", "rules"): "pipeline julga facts com o catalogo SF-MIG",
+    ("migration", "observability"): "pipeline emite spans AgentOps por estagio (migration.*)",
+    ("migration", "knowledgebase"): "pipeline anexa knowledge escopado por failure_layer",
+    ("migration", "collectors"): "extract reusa collectors.redact na fronteira do bundle (sem SDK)",
+    ("cli", "migration"): "superficie L7 alcanca o dominio",
+    ("mcp", "migration"): "superficie MCP alcanca o dominio",
+    ("doctor", "migration"): "doctor mede a integridade do vertical de migracao",
     ("collectors", "findings"): "coletor emite facts/finding do dominio",
     ("collectors", "azure"): "coletor live reusa os extratores do dominio",
     ("collectors", "fabric"): "coletor Fabric reusa os extratores do dominio",

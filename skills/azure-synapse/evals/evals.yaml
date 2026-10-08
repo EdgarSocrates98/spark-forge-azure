@@ -28,3 +28,24 @@ cases:
   - economizamos 30%
   expected_tools:
   - sparkforge-azure graph build
+- id: azure-synapse-fabric-negative
+  kind: negative
+  prompt: O lakehouse do workspace Fabric está com a tabela lenta
+  must_include:
+  - fabric-data-engineering
+  must_not_include:
+  - spark pool do synapse
+  expected_tools:
+  - sfa_analyze
+- id: azure-synapse-migration-boundary
+  kind: boundary
+  prompt: Migro meus notebooks Synapse com mssparkutils direto pro Fabric sem mudar nada?
+  must_include:
+  - migration
+  - Synapse não é Fabric
+  must_not_include:
+  - funciona igual
+  - sem mudança
+  expected_tools:
+  - sparkforge-azure analyze synapse-spark-pool
+  - sfa_graph_query

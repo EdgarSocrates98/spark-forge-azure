@@ -28,3 +28,24 @@ cases:
   - mesmas regras do adf
   expected_tools:
   - sparkforge-azure analyze adf-pipeline
+- id: azure-data-factory-fabric-negative
+  kind: negative
+  prompt: O item de pipeline do workspace Fabric falhou no run de ontem
+  must_include:
+  - fabric-data-engineering
+  must_not_include:
+  - linked service do adf
+  expected_tools:
+  - sfa_analyze
+- id: azure-data-factory-migration-boundary
+  kind: boundary
+  prompt: Esse pipeline ADF com SHIR migra direto para o Fabric Data Factory?
+  must_include:
+  - azure-networking
+  - unresolved
+  must_not_include:
+  - migra automaticamente
+  - equivalente direto
+  expected_tools:
+  - sparkforge-azure analyze adf-pipeline
+  - sfa_graph_impact
