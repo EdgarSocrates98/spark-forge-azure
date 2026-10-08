@@ -191,6 +191,21 @@ rules:
       conforme a camada que negou. Precedência: depois de AGENT-003, porque um
       case com achados de código E de acesso resolve primeiro a forma do código.
 
+  - id: AGENT-005
+    phase_in: [diagnosis, hypothesis, experiment]
+    title: Achado na vertical Microsoft Fabric (OneLake/shortcuts/Spark/capacity)
+    when:
+      all:
+        - {findings_area: SF-FAB, count_gt: 0}
+    recommended_agent: fabric-specialist
+    reason: >
+      Achados SF-FAB são da cadeia Fabric (workspace role, item permission,
+      OneLake security, shortcut auth, source access, lakehouse, runtime,
+      SparkJobDefinition, capacity, data_factory); o fabric-specialist coordena
+      e faz handoff para onelake/finops/streaming conforme a camada.
+      Precedência: depois de AGENT-004 — um case com achados Fabric e de
+      acesso UC resolve primeiro a cadeia de acesso que negou.
+
 fallback:
   recommended_skill: azure-spark
   reason: >

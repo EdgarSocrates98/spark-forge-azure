@@ -1,0 +1,13 @@
+name: f15_insufficient
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: read
+target:
+  kind: table
+  workspace_id: ws-1111
+  lakehouse_id: lh-aaaa
+  table: Orders
+expect:
+  status: unresolved
+  failure_layer: unresolved

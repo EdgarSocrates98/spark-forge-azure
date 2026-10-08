@@ -46,6 +46,8 @@ EXPECTED_IDS = {
     "azure.fabric.capacity-and-throttling",
     "azure.fabric.realtime-intelligence",
     "azure.fabric.data-factory",
+    "azure.fabric.onelake-security",
+    "azure.fabric.workspace-identity",
     "azure.synapse.spark-runtimes",
     "azure.synapse.pipelines-and-linked-services",
     "azure.adf.pipelines-ir-managed-vnet",

@@ -1,0 +1,12 @@
+{
+  "id": "lh-aaaa",
+  "workspace_id": "ws-1111",
+  "tenant_id": "tenant-bbbb",
+  "name": "lake_sales",
+  "tables": [
+    {
+      "name": "Orders"
+    }
+  ],
+  "files": []
+}

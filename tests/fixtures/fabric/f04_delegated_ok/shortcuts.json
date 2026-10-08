@@ -1,0 +1,17 @@
+{
+  "shortcuts": [
+    {
+      "id": "sc-0001",
+      "lakehouse_id": "lh-aaaa",
+      "path": "Files/adls",
+      "auth": {
+        "mode": "delegated",
+        "connection_id": "conn-0001"
+      },
+      "target": {
+        "kind": "adls_gen2",
+        "url": "abfss://c@sa.dfs.core.windows.net/raw"
+      }
+    }
+  ]
+}

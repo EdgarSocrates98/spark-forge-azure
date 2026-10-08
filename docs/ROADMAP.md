@@ -71,8 +71,9 @@ Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
   bypass→runtime→delta→abstain) com `failure_layer`, `evidence_paths`,
   `access_graph`, `context_quality`, `trust` (DATA_ONLY), `knowledge`
   escopado e receipt por caso.
-- MCP runtime real: `mcp` SDK Server sobre o registry `sfa_*` (10 tools,
-  risco declarado, annotations derivadas, dispatch com spans AgentOps).
+- MCP runtime real: `mcp` SDK Server sobre o registry `sfa_*` (10 tools no
+  Cycle 2; 11 no Cycle 3 com `sfa_diagnose_fabric`), risco declarado,
+  annotations derivadas, dispatch com spans AgentOps.
 - Graphfy: `graph/access.py` monta a cadeia de acesso tipada com
   provenance; `federate()` faz merge static/live por ARM-id com
   `attr_conflicts`; queries de alto valor em `graph/access_queries.py`.
@@ -91,3 +92,23 @@ Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
   credenciais).
 - Suite: **2541 testes verdes** (9 skipped) — contagem derivada da execução
   final do closure.
+
+`CYCLE_3 = DELIVERED` — `docs/cycle3/OUTCOME_BRIEF.md`. Branch
+`feat/cycle3-fabric-deep`, base `068b922`.
+
+- Segundo vertical executável: `sparkforge-azure diagnose fabric
+  --bundle|--suite` cobre 16 cenários determinísticos do Microsoft
+  Fabric (workspace→item→OneLake→shortcut→source→lakehouse→runtime→
+  sjd→capacity→data_factory) com `failure_layer`, `evidence_paths`,
+  `fabric_graph`, `knowledge` escopado, `trust`, receipt e fingerprint
+  de ambiente por caso.
+- Grafo: layer `fabric` no Graphfy (17 kinds SaaS — nunca ARM).
+- Regras: `SF-FAB-*` em `rules/catalog/fabric.yaml` + reuso `SF-PY`.
+- MCP: `sfa_diagnose_fabric` (read_only) — catálogo 11 tools.
+- Collector: `collectors/fabric.py` export+live (fetch injetado, GETs
+  read-only, falhas→unresolved), doctor `fabric_vertical`.
+- Knowledge: 6 packs Fabric escopados por layer; isolamento entre
+  verticais provado por `excluded_domains`.
+- SDD: 5 sub-SDDs fechados com build_reports red→green reais
+  (worktree base `068b922`); gate 11/11 features ok.
+- Suite Fabric: **16 passed / 0 failed**; suíte total **2599 passed / 9 skipped** (venv 3.12, ~215s).

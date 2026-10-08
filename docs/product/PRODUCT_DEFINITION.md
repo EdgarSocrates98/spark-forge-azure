@@ -64,7 +64,10 @@ Agentic OS · SDD · TokenSave · Graphfy · Code Intelligence · Workspace · M
 `sparkforge-azure` · Spark genérico · ADLS · Entra foundation · **Databricks UC/ADLS
 access vertical (deep_local — 10 cenários offline, evidence, grafo, agentops;
 live collectors read-only opt-in, Tier 4)** ·
-Unity Catalog foundation · Fabric foundation · AgentOps · Forge Lab seed · security · supply chain.
+**Microsoft Fabric deep vertical (deep_local — 16 cenários offline,
+OneLake security/shortcuts/Spark/capacity/Data-Factory seam, grafo Fabric
+no Graphfy, `sfa_diagnose_fabric`, collector export/live opt-in)** ·
+Unity Catalog foundation · AgentOps · Forge Lab seed · security · supply chain.
 
 Primeiro vertical que prova a arquitetura (§255): **PySpark + Azure Databricks + ADLS + Unity
 Catalog + diagnóstico agentic + TokenSave + Code Intelligence + Graphfy + MCP**.

@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "id": "pipe-0001",
+      "type": "DataPipeline",
+      "workspace_id": "ws-1111",
+      "display_name": "pl-main"
+    }
+  ]
+}

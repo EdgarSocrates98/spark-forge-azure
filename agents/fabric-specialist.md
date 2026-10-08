@@ -12,6 +12,7 @@ allowed_context: [artifact, code, fact, rule, knowledge, finding, evidence, tool
 tools: [sfa_analyze, sfa_judge, sfa_knowledge_select]
 skills: [fabric-data-engineering, fabric-onelake, fabric-realtime]
 knowledge_refs: [knowledge/azure/fabric/]
+rule_areas: [SF-FAB]
 budget: {max_context_tokens: 8000, max_tool_calls: 8, max_model_calls: 2, model_tier: balanced}
 handoff_targets: [onelake-specialist, streaming-specialist, finops-specialist, verifier]
 handoff_mode: DATA_ONLY

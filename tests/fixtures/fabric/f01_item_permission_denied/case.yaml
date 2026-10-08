@@ -1,0 +1,13 @@
+name: f01_workspace_role_absent
+principal:
+  id: spn-stranger
+  type: service_principal
+operation: read
+target:
+  kind: table
+  workspace_id: ws-1111
+  lakehouse_id: lh-aaaa
+  table: Orders
+expect:
+  status: denied
+  failure_layer: fabric_workspace

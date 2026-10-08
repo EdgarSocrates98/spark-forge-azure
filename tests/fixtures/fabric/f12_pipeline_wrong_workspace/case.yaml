@@ -1,0 +1,15 @@
+name: f12_pipeline_wrong_workspace
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: execute
+target:
+  kind: item
+  workspace_id: ws-1111
+  item_id: pipe-0001
+job:
+  id: pipe-0001
+  kind: DataPipeline
+expect:
+  status: denied
+  failure_layer: data_factory

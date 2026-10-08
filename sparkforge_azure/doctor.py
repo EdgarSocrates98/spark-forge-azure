@@ -320,10 +320,52 @@ def _access_vertical() -> Check:
                   "fixtures": cases, "redact_boundary": "available"})
 
 
+def _fabric_vertical() -> Check:
+    """Structural integrity of the Fabric vertical (offline, no secrets)."""
+    problems: list[str] = []
+    try:
+        from sparkforge_azure.rules.loader import load_catalog
+        rules = [r for r in load_catalog()
+                 if str(r.get("id", "")).startswith("SF-FAB")]
+    except Exception as exc:  # noqa: BLE001 - doctor reports, never raises
+        return Check("fabric_vertical", "fail",
+                     f"fabric rules catalog failed to load: {exc}"[:200])
+    ids = [str(r.get("id")) for r in rules]
+    dup = sorted({i for i in ids if ids.count(i) > 1})
+    if not rules:
+        problems.append("no SF-FAB rules in catalog")
+    if dup:
+        problems.append(f"duplicate rule ids: {dup}")
+    try:
+        from sparkforge_azure.fabric.diagnose import RUNTIME_MATRIX
+        matrix_ok = "2.0" in RUNTIME_MATRIX and "1.3" in RUNTIME_MATRIX
+    except Exception:  # noqa: BLE001
+        matrix_ok = False
+    if not matrix_ok:
+        problems.append("runtime matrix incomplete")
+    fixtures = data_root("tests") / "fixtures" / "fabric"
+    cases = (sum(1 for p in fixtures.iterdir()
+                 if p.is_dir() and (p / "case.yaml").is_file())
+             if fixtures.is_dir() else 0)
+    if problems:
+        return Check("fabric_vertical", "fail", "; ".join(problems),
+                     {"rules": len(rules), "duplicate_rule_ids": dup,
+                      "fixtures": cases,
+                      "runtime_matrix": matrix_ok})
+    status = "ok" if cases else "unresolved"
+    detail = (f"{len(rules)} SF-FAB rules, {cases} fabric fixtures, "
+              f"runtime matrix {sorted(RUNTIME_MATRIX)}")
+    if not cases:
+        detail += "; no source-tree fixtures (packaged install?)"
+    return Check("fabric_vertical", status, detail,
+                 {"rules": len(rules), "duplicate_rule_ids": dup,
+                  "fixtures": cases, "runtime_matrix": matrix_ok})
+
+
 CHECKS: tuple[Callable[[], Check], ...] = (
     _installation, _dependencies, _agentic_os, _tokensave, _graphfy, _code_intelligence,
     _knowledge, _mcp, _skills_agents, _surface, _claims, _azure_extras, _credentials_state,
-    _traces, _lab, _live_collectors, _access_vertical,
+    _traces, _lab, _live_collectors, _access_vertical, _fabric_vertical,
 )
 
 

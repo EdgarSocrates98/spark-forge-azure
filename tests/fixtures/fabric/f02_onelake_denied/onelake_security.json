@@ -1,0 +1,21 @@
+{
+  "lh-aaaa": {
+    "roles": [
+      {
+        "name": "Analysts",
+        "permissions": [
+          "Read"
+        ],
+        "members": [
+          "spn-other"
+        ],
+        "scopes": [
+          {
+            "type": "table",
+            "table": "Orders"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -507,7 +507,8 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         "access_graph": graph.to_dict(),
         "evidence_paths": paths,
         "knowledge": compile_access_knowledge(
-            layer, f"{bundle.case.get('name', '')} {layer or 'access'}"),
+            layer, f"{bundle.case.get('name', '')} {layer or 'access'}",
+            vertical="access"),
         "overhead": {"graph": {"nodes": len(graph.nodes), "edges": len(graph.edges),
                                "build_ms": graph_build_ms,
                                "serialized_bytes": graph_bytes},

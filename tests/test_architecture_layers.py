@@ -75,7 +75,7 @@ ARESTAS = _arestas()
 KERNEL_FOLHA: frozenset[str] = frozenset({"paths", "durable", "protocols", "findings"})
 
 #: Quem pode importar `azure`/`collectors`: as superficies (L7) e o dominio (L5/L6).
-DOMINIO: frozenset[str] = frozenset({"azure", "collectors"})
+DOMINIO: frozenset[str] = frozenset({"azure", "fabric", "collectors"})
 SUPERFICIES: frozenset[str] = frozenset({"cli", "mcp", "bundle", "doctor"})
 
 #: Arestas medidas que sobem a camada ideal do ADR — cada uma com a razao.
@@ -130,8 +130,20 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("azure", "observability"): "pipeline emite spans AgentOps por estagio (diagnose.*)",
     ("azure", "knowledgebase"): "pipeline anexa knowledge escopado por failure_layer",
     ("azure", "collectors"): "extract reusa collectors.redact na fronteira do bundle (sem SDK)",
+    ("fabric", "azure"): "pipeline reusa Verdict/receipt do dominio azure",
+    ("fabric", "findings"): "dominio emite o contrato Fact/Finding",
+    ("fabric", "agentic"): "pipeline envolve metadados do bundle em TrustEnvelope",
+    ("fabric", "facts"): "pipeline reusa a varredura e o scanner de facts",
+    ("fabric", "graph"): "pipeline emite o grafo Fabric tipado",
+    ("fabric", "rules"): "pipeline julga facts com o catalogo SF-FAB",
+    ("fabric", "observability"): "pipeline emite spans AgentOps por estagio (fabric.*)",
+    ("fabric", "knowledgebase"): "pipeline anexa knowledge escopado por failure_layer",
+    ("fabric", "collectors"): "extract reusa collectors.redact na fronteira do bundle (sem SDK)",
+    ("cli", "fabric"): "superficie L7 alcanca o dominio",
+    ("mcp", "fabric"): "superficie MCP alcanca o dominio",
     ("collectors", "findings"): "coletor emite facts/finding do dominio",
     ("collectors", "azure"): "coletor live reusa os extratores do dominio",
+    ("collectors", "fabric"): "coletor Fabric reusa os extratores do dominio",
     ("collectors", "graph"): "coletor escreve o grafo live do workspace",
     ("collectors", "agentic"): "recover aplica a RecoveryPolicy do executor aos coletores",
     ("graph", "workspace"): "grafo federado compoe o manifest do workspace",
@@ -144,6 +156,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("doctor", "tokensave"): "doctor mede a escada L0-L6",
     ("doctor", "rules"): "doctor mede a integridade do catalogo SF-ACC",
     ("doctor", "collectors"): "doctor mede a fronteira de redacao",
+    ("doctor", "fabric"): "doctor mede a integridade do vertical Fabric",
     ("doctor", "paths"): "doctor mede o state dir",
     ("observability", "paths"): "traces.db vive sob state_dir()",
     ("decision", "paths"): "cache de decisao vive sob state_dir()",

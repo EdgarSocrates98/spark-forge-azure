@@ -1,0 +1,19 @@
+name: f08_runtime_mismatch
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: execute
+target:
+  kind: item
+  workspace_id: ws-1111
+  item_id: sjd-0001
+job:
+  id: sjd-0001
+  kind: SparkJobDefinition
+  main_file: main.py
+  default_lakehouse_id: lh-aaaa
+  environment_id: env-0001
+  runtime: '2.0'
+expect:
+  status: denied
+  failure_layer: spark_runtime

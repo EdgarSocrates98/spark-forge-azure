@@ -29,6 +29,15 @@ PACKS = {
     "delta-performance",
 }
 
+FABRIC_PACKS = {
+    "fabric-core",
+    "fabric-spark",
+    "onelake-security",
+    "onelake-shortcuts",
+    "fabric-capacity",
+    "fabric-data-factory",
+}
+
 NON_VERTICAL_DOMAINS = {
     "azure-data-factory",
     "azure-synapse",
@@ -41,10 +50,12 @@ NON_VERTICAL_DOMAINS = {
 
 def test_packs_manifest_declares_the_six_packs():
     manifest = load_packs()
-    assert set(manifest["packs"]) == PACKS
-    for spec in manifest["packs"].values():
+    assert set(manifest["packs"]) == PACKS | FABRIC_PACKS
+    for name, spec in manifest["packs"].items():
         assert spec["domains"], "pack sem dominio"
         assert spec["failure_layers"], "pack sem failure_layer"
+        expected = "fabric" if name in FABRIC_PACKS else "access"
+        assert spec["vertical"] == expected, f"{name} sem vertical correto"
 
 
 def test_every_pack_domain_exists_in_the_index():
@@ -57,7 +68,11 @@ def test_layer_to_pack_mapping_is_minimal():
     assert packs_for_layer("unity_catalog") == ["unity-catalog-storage"]
     assert packs_for_layer("adls_acl") == ["adls-access"]
     assert packs_for_layer("network") == ["azure-network"]
-    assert packs_for_layer("unresolved") == sorted(PACKS)
+    assert packs_for_layer("unresolved", vertical="access") == sorted(PACKS)
+    # vertical resolve layers com mesmo nome nos dois verticais
+    assert packs_for_layer("delta_perf", vertical="access") == ["delta-performance"]
+    assert packs_for_layer("delta_perf", vertical="fabric") == ["fabric-spark"]
+    assert packs_for_layer("unresolved", vertical="fabric") == sorted(FABRIC_PACKS)
 
 
 def test_uc_failure_excludes_unrelated_domains():
