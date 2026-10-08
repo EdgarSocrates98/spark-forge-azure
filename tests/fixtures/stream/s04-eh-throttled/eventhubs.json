@@ -1,0 +1,54 @@
+{
+ "namespaces": [
+  {
+   "id": "ns-01",
+   "name": "evh-prod",
+   "tier": "standard",
+   "throughput_units": 4,
+   "public_network": true,
+   "kafka_enabled": true
+  }
+ ],
+ "eventhubs": [
+  {
+   "id": "ns-01/telemetry",
+   "namespace_id": "ns-01",
+   "name": "telemetry",
+   "partition_count": 4,
+   "retention_hours": 24,
+   "consumer_groups": [
+    {
+     "name": "spark-cg"
+    }
+   ]
+  }
+ ],
+ "authorization": [
+  {
+   "principal": "spn-stream",
+   "role": "receiver",
+   "scope": "ns-01/telemetry",
+   "auth_mode": "rbac"
+  }
+ ],
+ "metrics": {
+  "ns-01": {
+   "throttled_requests": [
+    {
+     "t": "2026-10-08T10:00Z",
+     "v": 12
+    },
+    {
+     "t": "2026-10-08T10:05Z",
+     "v": 30
+    }
+   ],
+   "incoming_events": [
+    {
+     "t": "2026-10-08T10:00Z",
+     "v": 900
+    }
+   ]
+  }
+ }
+}

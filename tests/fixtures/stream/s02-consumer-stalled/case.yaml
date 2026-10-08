@@ -1,0 +1,10 @@
+name: consumer-stalled
+principal:
+  id: spn-stream
+  type: servicePrincipal
+operation: consume
+target:
+  eventhub_id: ns-01/telemetry
+expect:
+  status: denied
+  failure_layer: consumer_progress

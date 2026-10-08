@@ -1,0 +1,14 @@
+{
+ "id": "act-01",
+ "name": "temp-alert",
+ "rules": [
+  {
+   "id": "r-01",
+   "source_type": "eventstream",
+   "source_ref": "es-01",
+   "mapping_valid": false,
+   "condition": "temp > 80",
+   "last_evaluated_at": "2026-10-08T10:05Z"
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+ "producer": {
+  "version": "v2",
+  "fields": [
+   {
+    "name": "id",
+    "type": "string",
+    "nullable": false
+   },
+   {
+    "name": "amount",
+    "type": "string",
+    "nullable": false
+   }
+  ]
+ },
+ "consumer": {
+  "version": "v1",
+  "fields": [
+   {
+    "name": "id",
+    "type": "string",
+    "nullable": false
+   },
+   {
+    "name": "amount",
+    "type": "double",
+    "nullable": false
+   }
+  ]
+ }
+}

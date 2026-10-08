@@ -362,10 +362,53 @@ def _fabric_vertical() -> Check:
                   "fixtures": cases, "runtime_matrix": matrix_ok})
 
 
+def _streaming_vertical() -> Check:
+    """Structural integrity of the Streaming/RTI vertical (offline)."""
+    problems: list[str] = []
+    try:
+        from sparkforge_azure.rules.loader import load_catalog
+        rules = [r for r in load_catalog()
+                 if str(r.get("id", "")).startswith(("SF-STR", "SF-RTI"))]
+    except Exception as exc:  # noqa: BLE001 - doctor reports, never raises
+        return Check("streaming_vertical", "fail",
+                     f"streaming rules catalog failed to load: {exc}"[:200])
+    ids = [str(r.get("id")) for r in rules]
+    dup = sorted({i for i in ids if ids.count(i) > 1})
+    if not rules:
+        problems.append("no SF-STR/SF-RTI rules in catalog")
+    if dup:
+        problems.append(f"duplicate rule ids: {dup}")
+    try:
+        from sparkforge_azure.stream.correctness import DELIVERY_ORDER
+        sem_ok = ("unresolved" in DELIVERY_ORDER
+                  and "exactly_once_claim_supported" in DELIVERY_ORDER)
+    except Exception:  # noqa: BLE001
+        sem_ok = False
+    if not sem_ok:
+        problems.append("delivery-semantics classifier incomplete")
+    fixtures = data_root("tests") / "fixtures" / "stream"
+    cases = (sum(1 for p in fixtures.iterdir()
+                 if p.is_dir() and (p / "case.yaml").is_file())
+             if fixtures.is_dir() else 0)
+    if problems:
+        return Check("streaming_vertical", "fail", "; ".join(problems),
+                     {"rules": len(rules), "duplicate_rule_ids": dup,
+                      "fixtures": cases, "semantics": sem_ok})
+    status = "ok" if cases else "unresolved"
+    detail = (f"{len(rules)} SF-STR/SF-RTI rules, {cases} stream fixtures, "
+              "delivery semantics unresolved-first")
+    if not cases:
+        detail += "; no source-tree fixtures (packaged install?)"
+    return Check("streaming_vertical", status, detail,
+                 {"rules": len(rules), "duplicate_rule_ids": dup,
+                  "fixtures": cases, "semantics": sem_ok})
+
+
 CHECKS: tuple[Callable[[], Check], ...] = (
     _installation, _dependencies, _agentic_os, _tokensave, _graphfy, _code_intelligence,
     _knowledge, _mcp, _skills_agents, _surface, _claims, _azure_extras, _credentials_state,
     _traces, _lab, _live_collectors, _access_vertical, _fabric_vertical,
+    _streaming_vertical,
 )
 
 

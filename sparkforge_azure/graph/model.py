@@ -21,7 +21,7 @@ from typing import Any
 SCHEMA_VERSION = 1
 
 LAYERS: tuple[str, ...] = ("code", "data", "azure", "knowledge", "evidence",
-                           "fabric")
+                           "fabric", "stream")
 
 # Kinds per layer.  The first block of each set is the contract of section 55;
 # the trailing names are documented extensions (see docs/architecture/GRAPHFY.md).
@@ -57,6 +57,17 @@ NODE_KINDS: dict[str, frozenset[str]] = {
             "pipeline_activity", "shortcut", "connection",
             "workspace_identity", "identity", "onelake_table",
             "onelake_path", "onelake_role", "external_target",
+        }
+    ),
+    # Streaming plane (Cycle 4): Event Hubs + Structured Streaming + Fabric
+    # RTI.  Temporal/stateful semantics — flow, state and ownership edges;
+    # causality only when a finding sustains it.
+    "stream": frozenset(
+        {
+            "namespace", "eventhub", "partition", "consumer_group",
+            "app", "stream_query", "checkpoint", "sink", "eventstream",
+            "es_source", "es_transform", "es_destination", "eventhouse",
+            "activator", "activator_rule", "connection", "identity",
         }
     ),
 }
