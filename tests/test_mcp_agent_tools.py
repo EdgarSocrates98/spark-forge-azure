@@ -5,9 +5,9 @@
 """
 from __future__ import annotations
 
+from sparkforge_azure.agentmanifest.model import ALL_AGENT_IDS
 from sparkforge_azure.mcp.dispatch import call_tool
 from sparkforge_azure.mcp.tools import TOOLS, load_all
-from sparkforge_azure.agentmanifest.model import ALL_AGENT_IDS
 
 
 def test_sfa_agents_list() -> None:
