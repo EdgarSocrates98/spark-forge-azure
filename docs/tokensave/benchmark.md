@@ -14,12 +14,14 @@ Corpus: `evals/token_efficient/access_case` — bundle de diagnóstico UC/ADLS
 
 ## Medição atual (commit desta doc)
 
+Medido no commit de closure (corpus normalizado LF):
+
 | profile  | bytes lidos | bytes evitados | níveis | status     |
 |----------|-------------|----------------|--------|------------|
-| baseline | 10415       | 0              | —      | (leitura integral) |
-| economy  | 1964        | 8451           | L1     | sufficient |
-| balanced | 2981        | 7434           | L1     | sufficient |
-| deep     | 2981        | 7434           | L1     | sufficient |
+| baseline | 9920        | 0              | —      | (leitura integral) |
+| economy  | 1964        | 7956           | L1     | sufficient |
+| balanced | 2981        | 6939           | L1     | sufficient |
+| deep     | 2981        | 6939           | L1     | sufficient |
 
 `bytes` = payload entregue ao contexto, medido como
 `len(json.dumps(payload, ensure_ascii=False, sort_keys=True))`.
