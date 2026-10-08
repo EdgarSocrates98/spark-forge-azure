@@ -130,6 +130,7 @@ EVAL_KINDS: frozenset[str] = frozenset({"positive", "negative", "boundary"})
 # exigem evals com trigger positivo, trigger negativo e caso de fronteira.
 VERTICAL_SKILLS: frozenset[str] = frozenset({
     "azure-adls",
+    "azure-data-factory",
     "azure-databricks",
     "azure-entra",
     "azure-event-hubs",
@@ -138,6 +139,7 @@ VERTICAL_SKILLS: frozenset[str] = frozenset({
     "fabric-data-engineering",
     "fabric-onelake",
     "fabric-realtime",
+    "azure-synapse",
     "spark-performance",
     "spark-streaming",
     "unity-catalog",

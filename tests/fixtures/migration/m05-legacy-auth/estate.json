@@ -1,0 +1,42 @@
+{
+ "adf_factories": [
+  {
+   "id": "adf-1",
+   "name": "adf-prod",
+   "pipelines": [
+    {
+     "id": "adf-1/pl/pl_win",
+     "name": "pl_win",
+     "activities": [
+      {
+       "name": "cp",
+       "type": "Copy",
+       "linked_service": "ls_win"
+      }
+     ]
+    }
+   ],
+   "linked_services": [
+    {
+     "id": "adf-1/ls/ls_win",
+     "name": "ls_win",
+     "type": "SqlServer",
+     "auth_kind": "windows_auth"
+    }
+   ]
+  }
+ ],
+ "fabric_workspaces": [
+  {
+   "id": "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb",
+   "name": "ws-analytics",
+   "items": [
+    {
+     "id": "lh-1",
+     "type": "Lakehouse",
+     "name": "lh"
+    }
+   ]
+  }
+ ]
+}

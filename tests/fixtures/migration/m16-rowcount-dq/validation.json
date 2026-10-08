@@ -1,0 +1,18 @@
+{
+ "results": [
+  {
+   "asset_id": "tbl1",
+   "dimension": "data",
+   "metric": "row_count",
+   "source_value": 5000,
+   "target_value": 5000
+  },
+  {
+   "asset_id": "tbl1",
+   "dimension": "dq",
+   "metric": "null_rate",
+   "source_value": 0.01,
+   "target_value": 0.4
+  }
+ ]
+}

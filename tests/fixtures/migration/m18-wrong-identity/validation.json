@@ -1,0 +1,11 @@
+{
+ "results": [
+  {
+   "asset_id": "pl1",
+   "dimension": "security",
+   "metric": "caller_principal",
+   "source_value": "sp-source",
+   "target_value": "sp-wrong"
+  }
+ ]
+}

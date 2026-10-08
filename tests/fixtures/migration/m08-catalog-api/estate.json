@@ -1,0 +1,28 @@
+{
+ "synapse_workspaces": [
+  {
+   "id": "syn-1",
+   "name": "syn-prod",
+   "notebooks": [
+    {
+     "id": "syn-1/nb/nb_cat",
+     "name": "nb_cat",
+     "path": "notebooks/nb_cat.py"
+    }
+   ]
+  }
+ ],
+ "fabric_workspaces": [
+  {
+   "id": "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb",
+   "name": "ws-analytics",
+   "items": [
+    {
+     "id": "lh-1",
+     "type": "Lakehouse",
+     "name": "lh"
+    }
+   ]
+  }
+ ]
+}

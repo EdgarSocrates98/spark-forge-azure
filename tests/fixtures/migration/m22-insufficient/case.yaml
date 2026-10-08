@@ -1,0 +1,6 @@
+name: m22-insufficient
+principal: {kind: service_principal}
+operation: migrate
+target: {}
+expect:
+  status: unresolved

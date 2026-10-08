@@ -18,7 +18,7 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 `security_impact`, `production_impact`. Annotations MCP derivadas: `readOnlyHint`,
 `destructiveHint` (cloud_write|production_impact), `idempotentHint`, `openWorldHint`.
 
-## Catálogo (12 tools)
+## Catálogo (13 tools)
 
 | Tool | Domínio | Risco | Params |
 |---|---|---|---|
@@ -34,6 +34,7 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 | `sfa_diagnose_access` | access | read_only | `bundle*` (+ `profile`) |
 | `sfa_diagnose_fabric` | fabric | read_only | `bundle*` (+ `profile`) |
 | `sfa_diagnose_stream` | stream | read_only | `bundle*` (+ `profile`) |
+| `sfa_assess_migration` | migration | read_only | `bundle*` (+ `profile`) |
 
 `*` = obrigatório. `sfa_collect_workspace_graph` é a única tool que toca nuvem
 (e só leitura): default-negada até `cloud_read_enabled`; com `live=false` usa
@@ -48,6 +49,12 @@ Hubs/consumer groups/checkpoints/Structured Streaming + Eventstream/
 Eventhouse/Activator): devolve `delivery` (classificação unresolved-first
 de semântica de entrega) e `stream_graph`; nunca retorna payloads de
 eventos — só sumários e refs de evidência.
+`sfa_assess_migration` cobre o vertical de migração do Cycle 5 (ADF/
+Synapse → Fabric): devolve `summary` (assets/ready/review/blocked/
+unresolved/waves + blockers), `readiness`, `recommendations`,
+`conflicts` (oficial-vs-Forge), `plan` (waves + rollback) e
+`validation` — projeção compacta do relatório, nunca dump do estate
+(prompt §239).
 
 ## Cobertura do vertical sem explosão (prompt 157-159)
 
@@ -55,8 +62,8 @@ O vertical UC/ADLS é servido por composição, não por tool-por-API:
 `sfa_collect_workspace_graph` (coleta live/export unificada) → `sfa_graph_query`
 (inspeção por kind/camada) → `sfa_diagnose_access` (cadeia inteira de uma vez).
 Inspectors por recurso (`*_uc_inspect`, `*_adls_inspect`) duplicariam o que o
-grafo já responde — recusados para manter a superfície enxuta (12 tools no
-Cycle 4: as 11 do Cycle 3 + `sfa_diagnose_stream`).
+grafo já responde — recusados para manter a superfície enxuta (13 tools no
+Cycle 5: as 12 do Cycle 4 + `sfa_assess_migration`).
 
 ## Compact mode
 

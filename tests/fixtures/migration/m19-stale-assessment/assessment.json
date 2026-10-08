@@ -1,0 +1,10 @@
+{
+ "tool": "fabric-migration-assistant",
+ "assessed_at": "2020-01-01T00:00:00Z",
+ "results": [
+  {
+   "asset_id": "adf-1/pl/pl_ok",
+   "official_status": "ready"
+  }
+ ]
+}

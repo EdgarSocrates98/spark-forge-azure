@@ -223,6 +223,22 @@ rules:
       Precedência: depois de AGENT-005 — um case com achados Fabric e de
       streaming resolve primeiro a cadeia Fabric que negou.
 
+  - id: AGENT-007
+    phase_in: [diagnosis, hypothesis, experiment]
+    title: Achado na vertical de migração ADF/Synapse -> Fabric
+    when:
+      any:
+        - {findings_area: SF-MIG, count_gt: 0}
+    recommended_agent: migration-specialist
+    reason: >
+      Achados SF-MIG são da avaliação de migração ADF/Synapse -> Fabric
+      (readiness por dimensão, linked service->connection, SHIR->gateway,
+      refactor de notebook, estratégia de dados, waves/rollback); o
+      migration-specialist coordena e faz handoff para
+      adf/synapse/fabric conforme o asset bloqueante.
+      Precedência: depois de AGENT-006 — o vertical de migração só roda
+      sobre bundles de migração, que já carregam seus próprios achados.
+
 fallback:
   recommended_skill: azure-spark
   reason: >

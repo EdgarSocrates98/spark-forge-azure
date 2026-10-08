@@ -1,0 +1,37 @@
+{
+ "adf_factories": [
+  {
+   "id": "adf-1",
+   "name": "adf-prod",
+   "pipelines": [
+    {
+     "id": "adf-1/pl/pl_ssis",
+     "name": "pl_ssis",
+     "activities": [
+      {
+       "name": "ssis",
+       "type": "ExecuteSSISPackage"
+      },
+      {
+       "name": "c",
+       "type": "Copy"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "fabric_workspaces": [
+  {
+   "id": "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb",
+   "name": "ws-analytics",
+   "items": [
+    {
+     "id": "lh-1",
+     "type": "Lakehouse",
+     "name": "lh"
+    }
+   ]
+  }
+ ]
+}

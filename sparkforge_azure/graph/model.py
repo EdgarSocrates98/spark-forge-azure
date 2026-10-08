@@ -21,7 +21,7 @@ from typing import Any
 SCHEMA_VERSION = 1
 
 LAYERS: tuple[str, ...] = ("code", "data", "azure", "knowledge", "evidence",
-                           "fabric", "stream")
+                           "fabric", "stream", "migration")
 
 # Kinds per layer.  The first block of each set is the contract of section 55;
 # the trailing names are documented extensions (see docs/architecture/GRAPHFY.md).
@@ -68,6 +68,22 @@ NODE_KINDS: dict[str, frozenset[str]] = {
             "app", "stream_query", "checkpoint", "sink", "eventstream",
             "es_source", "es_transform", "es_destination", "eventhouse",
             "activator", "activator_rule", "connection", "identity",
+        }
+    ),
+    # Migration plane (Cycle 5): ADF/Synapse source assets, Fabric target
+    # assets, and migrates_to edges with explicit status.  Source and
+    # target auth are separate nodes (prompt §224).
+    "migration": frozenset(
+        {
+            "adf_factory", "synapse_workspace", "pipeline", "activity",
+            "dataset", "linked_service", "trigger", "integration_runtime",
+            "global_parameter", "synapse_notebook", "spark_pool",
+            "spark_job", "lake_database", "table", "library",
+            "spark_config", "adls_path", "storage_account",
+            "fabric_workspace", "fabric_pipeline", "fabric_connection",
+            "fabric_notebook", "fabric_environment", "fabric_lakehouse",
+            "fabric_shortcut", "variable_library", "fabric_item",
+            "assessment_result", "recommendation", "wave", "identity",
         }
     ),
 }

@@ -12,6 +12,7 @@ allowed_context: [artifact, code, fact, rule, knowledge, finding, evidence, tool
 tools: [sfa_analyze, sfa_judge, sfa_knowledge_select, sfa_graph_query]
 skills: [azure-synapse, azure-databricks, fabric-data-engineering]
 knowledge_refs: [knowledge/migration/]
+rule_areas: [SF-MIG]
 budget: {max_context_tokens: 8000, max_tool_calls: 8, max_model_calls: 2, model_tier: balanced}
 handoff_targets: [migration-reviewer, synapse-specialist, verifier]
 handoff_mode: DATA_ONLY

@@ -404,11 +404,55 @@ def _streaming_vertical() -> Check:
                   "fixtures": cases, "semantics": sem_ok})
 
 
+def _migration_vertical() -> Check:
+    """Structural integrity of the Migration vertical (offline, prompt §244)."""
+    problems: list[str] = []
+    try:
+        from sparkforge_azure.rules.loader import load_catalog
+        rules = [r for r in load_catalog()
+                 if str(r.get("id", "")).startswith("SF-MIG")]
+    except Exception as exc:  # noqa: BLE001 - doctor reports, never raises
+        return Check("migration_vertical", "fail",
+                     f"migration rules catalog failed to load: {exc}"[:200])
+    ids = [str(r.get("id")) for r in rules]
+    dup = sorted({i for i in ids if ids.count(i) > 1})
+    if not rules:
+        problems.append("no SF-MIG rules in catalog")
+    if dup:
+        problems.append(f"duplicate rule ids: {dup}")
+    try:
+        from sparkforge_azure.migration.model import COMPAT_STATUS, DATA_STRATEGIES, READINESS
+        voc_ok = (
+            "UNRESOLVED" in READINESS
+            and "unknown" in COMPAT_STATUS
+            and DATA_STRATEGIES == {"retain", "shortcut", "copy", "hybrid"})
+    except Exception:  # noqa: BLE001
+        voc_ok = False
+    if not voc_ok:
+        problems.append("migration vocabulary incomplete")
+    fixtures = data_root("tests") / "fixtures" / "migration"
+    cases = (sum(1 for p in fixtures.iterdir()
+                 if p.is_dir() and (p / "case.yaml").is_file())
+             if fixtures.is_dir() else 0)
+    if problems:
+        return Check("migration_vertical", "fail", "; ".join(problems),
+                     {"rules": len(rules), "duplicate_rule_ids": dup,
+                      "fixtures": cases, "vocabulary": voc_ok})
+    status = "ok" if cases else "unresolved"
+    detail = (f"{len(rules)} SF-MIG rules, {cases} migration fixtures, "
+              "readiness unresolved-first")
+    if not cases:
+        detail += "; no source-tree fixtures (packaged install?)"
+    return Check("migration_vertical", status, detail,
+                 {"rules": len(rules), "duplicate_rule_ids": dup,
+                  "fixtures": cases, "vocabulary": voc_ok})
+
+
 CHECKS: tuple[Callable[[], Check], ...] = (
     _installation, _dependencies, _agentic_os, _tokensave, _graphfy, _code_intelligence,
     _knowledge, _mcp, _skills_agents, _surface, _claims, _azure_extras, _credentials_state,
     _traces, _lab, _live_collectors, _access_vertical, _fabric_vertical,
-    _streaming_vertical,
+    _streaming_vertical, _migration_vertical,
 )
 
 

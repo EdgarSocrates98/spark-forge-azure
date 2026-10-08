@@ -66,6 +66,28 @@ unresolved-first: `at_most_once_possible`/`at_least_once`/
 evidência ausente a exactly-once), `stream_graph` e o lab em
 `tests/fixtures/stream/` (22 cenários).
 
+## `sparkforge-azure migration <op>` — avaliação ADF/Synapse → Fabric (Cycle 5)
+
+| Op | Uso |
+|---|---|
+| `inventory --bundle` | estate summary + censo de readiness |
+| `assess --bundle\|--suite` | relatório completo (readiness + recomendações + waves + validação) |
+| `plan --bundle` | readiness + waves topológicas + rollback por wave |
+| `validate --bundle` | dimensões de validação pós-migração |
+
+Sobre o case bundle de migração (`estate` ADF/Synapse/Fabric/storage +
+`assessment` oficial opcional + `validation` + `notebooks/`). Offline,
+determinístico: identidade = ARM id/GUID (nunca display name); ausência de
+assessment nunca vira READY; divergência oficial-vs-Forge vira REVIEW +
+conflito explícito; ciclo de dependência vira `plan.status=REVIEW` (nunca
+ordem fabricada); segredos de linked service são removidos no boundary de
+extração. O lab em `tests/fixtures/migration/` cobre os 22 cenários do
+prompt (SSIS bloqueado, SHIR manual, global parameters→variable library,
+delta shortcut candidato, retirement→copy, shared-LS não consolidar,
+row-count≠equivalência, regressão nunca é vitória, identidade errada falha,
+assessment stale, conflito oficial, metadata maliciosa DATA_ONLY,
+evidência insuficiente→UNRESOLVED).
+
 ## `sparkforge-azure agentops <op>` — inspeção de runs gravadas
 
 | Op | Uso |
