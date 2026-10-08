@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/MCP_AGENT_ADMIN/design.md
-  sha256: 958e234b627518150d3e0abb1b133f2080dd07eec14ff6e8eed813ce1fb6d774
+  sha256: 7e9577a7f6af897aa99edeae4a134b608837c7ab796dadbea3f96950912969cb
 tasks:
 - id: T1
   files:

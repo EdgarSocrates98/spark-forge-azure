@@ -16,13 +16,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from sparkforge_azure.agentmanifest.mirrors import check_agent_mirrors  # noqa: E402
 from sparkforge_azure.agentmanifest.model import (  # noqa: E402
     ROLE_IDS,
     SPECIALIST_IDS,
     SUBAGENT_IDS,
     validate_agents_tree,
 )
-from sparkforge_azure.agentmanifest.mirrors import check_agent_mirrors  # noqa: E402
 from sparkforge_azure.skills.mirrors import check_mirrors  # noqa: E402
 from sparkforge_azure.skills.model import discover_skill_files, validate_skills_tree  # noqa: E402
 

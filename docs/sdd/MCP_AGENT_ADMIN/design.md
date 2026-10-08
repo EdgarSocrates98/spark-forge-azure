@@ -23,6 +23,9 @@ files:
 - path: docs/reference/mcp-tools.md
   action: modify
   reason: doc das tools
+- path: tests/test_architecture_layers.py
+  action: modify
+  reason: aresta mcp->agentmanifest declarada
 decisions:
 - id: D1
   choice: modulo novo agent_tools.py em TOOL_MODULES; handlers chamam inventory()/explain_route()

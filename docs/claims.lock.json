@@ -17,12 +17,12 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "2793 passed",
+   "text": "2812 passed",
    "proof": {
     "cmd": [
      "python",
@@ -33,10 +33,10 @@
     "timeout": 600,
     "expect": {
      "kind": "regex",
-     "pattern": "\n2793 passed"
+     "pattern": "\n2812 passed"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "surface-lock",
@@ -51,7 +51,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "skills-catalogue-22",
@@ -69,12 +69,12 @@
      "value": 22
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
-   "id": "mcp-tools-13",
+   "id": "mcp-tools-15",
    "doc": "docs/reference/mcp-tools.md",
-   "text": "13 tools",
+   "text": "15 tools",
    "proof": {
     "cmd": [
      "python",
@@ -85,10 +85,10 @@
      "kind": "json",
      "path": "tools",
      "op": "==",
-     "value": 13
+     "value": 15
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "knowledge-check",
@@ -103,7 +103,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "lab-verify",
@@ -122,7 +122,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "access-suite-10",
@@ -144,7 +144,7 @@
      "value": 10
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -167,7 +167,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "security-vertical-green",
@@ -187,7 +187,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "fabric-suite-green",
@@ -210,7 +210,7 @@
      "value": 16
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -226,7 +226,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "fabric-mcp-surface",
@@ -242,7 +242,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "docs-surface",
@@ -258,7 +258,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "stream-suite-green",
@@ -274,7 +274,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "stream-mcp-surface",
@@ -290,7 +290,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "migration-suite-green",
@@ -306,7 +306,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "migration-mcp-surface",
@@ -322,7 +322,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "docs-index",
@@ -338,12 +338,12 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "agentic-fleet-40",
-   "doc": "docs/cycle6/OUTCOME_BRIEF.md",
-   "text": "40 `unevaluated`",
+   "doc": "docs/ROADMAP.md",
+   "text": "40/40 `ready`",
    "proof": {
     "cmd": [
      "python",
@@ -354,11 +354,11 @@
     ],
     "expect": {
      "kind": "json",
-     "path": "counts.unevaluated",
+     "path": "counts.ready",
      "value": 40
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "agentic-fingerprint",
@@ -377,7 +377,7 @@
      "pattern": "\"fingerprint\":\\s*\"sha256:[0-9a-f]{64}\""
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   },
   {
    "id": "sdd-gate-green",
@@ -397,7 +397,7 @@
      "value": true
     }
    },
-   "sha": "18505a9acb177ed30e09a62a2ad10e446df795bd"
+   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
   }
  ]
 }

@@ -160,6 +160,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("stream", "collectors"): "extract reusa collectors.redact na fronteira do bundle (sem SDK)",
     ("cli", "stream"): "superficie L7 alcanca o dominio",
     ("mcp", "stream"): "superficie MCP alcanca o dominio",
+    ("mcp", "agentmanifest"): "agent_tools expoem explain_route + taxonomia",
     ("doctor", "stream"): "doctor mede a integridade do vertical Streaming/RTI",
     ("migration", "azure"): "pipeline reusa Verdict/receipt/modelo do dominio azure",
     ("migration", "findings"): "dominio emite o contrato Fact/Finding",
