@@ -64,7 +64,7 @@ handoffs:
 review_policy:
   requires_verifier: false
   adversarial_check: never
-evals: []
+evals: [tests/test_agentic_security_lab.py, tests/test_agent_contract_v2.py]
 agentops_emit_span: true
 risk: read_only
 parent: null

@@ -1,0 +1,9 @@
+agent: delta-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: delta lake merge optimize vacuum z order liquid clustering
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: kafka endpoint consumer group event hubs

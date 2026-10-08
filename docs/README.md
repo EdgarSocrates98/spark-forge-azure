@@ -46,6 +46,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/operations/runbook.md` | Gates de verificação, regeneração de locks, manutenção |
 | `docs/agentops.md` | Spans/runs gravadas: `agentops runs/inspect/timeline/critical-path` |
 | `docs/agentic/AGENT_INVENTORY.md` | Status por agent da frota (gerado, `scripts/gen_agent_inventory.py`) |
+| `docs/agentic/MATURITY_MAP.md` | Auditoria seção→artefato do prompt de maturidade (autoral) |
 | `docs/tokensave/benchmark.md` | Benchmark reproduzível TokenSave (bytes evitados por profile) |
 
 ## Labs executáveis

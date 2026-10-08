@@ -173,19 +173,32 @@ def _routed(agent_id: str, known_ids: set[str]) -> bool | None:
     return agent_id in known_ids
 
 
-def _eval_coverage(agent_id: str, data: dict[str, Any]) -> bool | None:
+def _eval_coverage(
+    agent_id: str, data: dict[str, Any], root: Path,
+) -> list[str] | None:
     """Eval coverage declared and resolving.
 
     v1 manifests carry no ``evals`` key -> ``None`` (unresolved). v2
     manifests declare ``evals: [...]``; each entry must name a resolvable
-    artifact (``tests/`` file, ``evals/`` entry, or ``lab`` scenario).
+    artifact — a file under ``tests/`` or ``evals/`` inside ``root``.
+    Returns the list of unresolvable entries (``[]`` = covered).
     """
     evals = data.get("evals")
     if evals is None:
         return None
-    if not isinstance(evals, list) or not evals:
-        return False
-    return True
+    if not isinstance(evals, list):
+        return ["<evals is not a list>"]
+    if not evals:
+        return ["<evals is empty>"]
+    bad = [
+        e for e in evals
+        if not isinstance(e, str)
+        or Path(e).is_absolute()
+        or ".." in Path(e).parts
+        or Path(e).parts[0] not in {"tests", "evals"}
+        or not (root / e).is_file()
+    ]
+    return bad
 
 
 def _agentops_coverage(agent_id: str, data: dict[str, Any]) -> bool | None:
@@ -244,7 +257,12 @@ def _dim_reports(
         f"unresolved targets: {bad}" if bad else "DATA_ONLY, targets resolve"))
 
     dims.append(DimensionReport("routing", _routed(agent_id, known_ids)))
-    dims.append(DimensionReport("evals", _eval_coverage(agent_id, data)))
+    unresolvable = _eval_coverage(agent_id, data, root)
+    dims.append(DimensionReport(
+        "evals",
+        None if unresolvable is None else not unresolvable,
+        f"unresolvable: {unresolvable}" if unresolvable else None,
+    ))
     dims.append(DimensionReport("agentops", _agentops_coverage(agent_id, data)))
     return tuple(dims)
 

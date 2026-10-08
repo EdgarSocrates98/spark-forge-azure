@@ -1,0 +1,9 @@
+agent: streaming-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: structured streaming watermark checkpoint foreachbatch readstream
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: purview lineage classification sensitivity label

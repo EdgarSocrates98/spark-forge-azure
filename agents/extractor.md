@@ -58,7 +58,7 @@ handoffs:
 review_policy:
   requires_verifier: true
   adversarial_check: on_conflict
-evals: []
+evals: [tests/test_agentic_debate_evidence.py, tests/test_agent_contract_v2.py]
 agentops_emit_span: true
 risk: local_write
 parent: null

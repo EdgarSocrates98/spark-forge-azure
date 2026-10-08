@@ -1,0 +1,9 @@
+agent: entra-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: managed identity service principal rbac role assignment entra id
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: onelake shortcut onelake catalog

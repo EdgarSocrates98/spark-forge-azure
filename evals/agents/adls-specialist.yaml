@@ -1,0 +1,9 @@
+agent: adls-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: acl no adls gen2 storage account hierarchical namespace abfss
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: fabric lakehouse notebook dataflow gen2
