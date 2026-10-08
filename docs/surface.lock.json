@@ -71,6 +71,8 @@
  },
  "mcp": {
   "compact": [
+   "sfa_agents_explain_route",
+   "sfa_agents_list",
    "sfa_assess_migration",
    "sfa_diagnose_access",
    "sfa_diagnose_fabric",
@@ -81,9 +83,35 @@
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 10873,
-  "tool_count": 13,
+  "compact_bytes": 12712,
+  "tool_count": 15,
   "tools": {
+   "sfa_agents_explain_route": {
+    "compact": true,
+    "domain": "agentic",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "03a72671a41abc4f2c935363cd5d2c175d6eab556fce0c25f0d5d08e16ff0b15"
+   },
+   "sfa_agents_list": {
+    "compact": true,
+    "domain": "agentic",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "1dc3cac86bb1544a9b8ccfd797a4570a975b6228f7c0cc39bc848d41c02ba073"
+   },
    "sfa_assess_migration": {
     "compact": true,
     "domain": "migration",
@@ -254,11 +282,11 @@
     "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
    }
   },
-  "total_bytes": 14247
+  "total_bytes": 16086
  },
  "schema_version": 2,
  "skills": {
   "count": 22,
-  "total_bytes": 95103
+  "total_bytes": 95136
  }
 }
