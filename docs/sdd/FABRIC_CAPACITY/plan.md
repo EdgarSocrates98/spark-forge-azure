@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/FABRIC_CAPACITY/design.md
-  sha256: "e1ae1ae9dc3adc265196a50b98c5a2a2d822b698152f760c25093d304656fd79"
+  sha256: "aaeab5c4c39e083d58a40c1ac1349ea0d33296c19fb17a15a2a7db3c3929e319"
 tasks:
 - id: T1
   files:

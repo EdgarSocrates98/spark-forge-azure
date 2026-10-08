@@ -31,20 +31,21 @@ decisions:
   choice: IDs oficiais (GUIDs REST) como identidade; displayName vira attr, nunca chave
   rejected:
   - name-based identity
+  rollback: "reverter para chave por displayName nos extratores; ids sao triviais de trocar"
 - id: D2
   choice: fabric/suite.py próprio reutilizando casefile.load_bundle
   rejected:
   - parametrizar azure/suite — acopla domínios
+  rollback: "chamar a suite azure com mapping fabric->azure; dominios desacoplam"
 - id: D3
   choice: sfa_diagnose_fabric como tool composicional única (não 1-por-API)
   rejected:
   - estender sfa_diagnose_access com flag — contracts divergentes
+  rollback: "expander em tools granulares por endpoint; contrato unico removido"
 covers:
-- AC1
-- AC2
-- AC3
-- AC4
-- AC5
+  - {part: model+casefile+extract, acceptance: [AC1, AC2]}
+  - {part: pipeline+diagnose, acceptance: [AC3, AC4]}
+  - {part: cli-mcp, acceptance: [AC5]}
 ---
 
 # Design — FABRIC_CORE

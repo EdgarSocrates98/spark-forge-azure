@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/FABRIC_GRAPH_TOKENSAVE/design.md
-  sha256: "9c7b1459258e208befc2b60ad09647cbda6e55c5e75e2c6586aa06f09096ad46"
+  sha256: "9a0479d81fc15ecf645732ae87757ec1852a074e5f1e0420f202d71c294b7578"
 tasks:
 - id: T1
   files:

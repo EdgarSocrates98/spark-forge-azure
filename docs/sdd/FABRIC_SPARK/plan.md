@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/FABRIC_SPARK/design.md
-  sha256: "6ff7b9f820f4a865e4bf10833928f8ce753b84749d83aeec73acb6b92acd7622"
+  sha256: "8c40c385a8f843bee8edf53fb2e8bcc7c90f449095d04b66bc8e44a4e0ed65da"
 tasks:
 - id: T1
   files:

@@ -19,16 +19,15 @@ decisions:
   choice: estados explícitos documentados; unresolved como default sem evidence
   rejected:
   - score de saúde — inventa precisão
+  rollback: "colapsar estados em throttled/ok; remove unresolved sem evidencia"
 - id: D2
   choice: 429 errorCodes (RequestBlocked vs CapacityLimitExceeded) como facts de rejection evidence
   rejected:
   - 429 genérico — confunde rate limit com capacity
+  rollback: "inferir throttle de utilization; reintroduz overload=throttle"
 covers:
-- AC1
-- AC2
-- AC3
-- AC4
-- AC5
+  - {part: capacity-state+throttling, acceptance: [AC1, AC2, AC3, AC4]}
+  - {part: attribution, acceptance: [AC5]}
 ---
 
 # Design — FABRIC_CAPACITY

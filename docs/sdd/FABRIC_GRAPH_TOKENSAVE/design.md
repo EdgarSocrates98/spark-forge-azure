@@ -25,18 +25,17 @@ decisions:
   choice: graph/fabric.py dentro do Graphfy existente
   rejected:
   - segundo graph — proibido
+  rollback: "criar grafo fabric fora do Graphfy; duplica o motor"
 - id: D2
   choice: failure layers fabric_* namespaced — não colidem com Cycle 2
   rejected:
   - reusar SF-ACC — domínio diferente
+  rollback: "reusar layers SF-ACC sem namespace; colide com Cycle 2"
 covers:
-- AC1
-- AC2
-- AC3
-- AC4
-- AC5
-- AC6
-- AC7
+  - {part: graph, acceptance: [AC1, AC2, AC3, AC4]}
+  - {part: tokensave, acceptance: [AC5]}
+  - {part: knowledge, acceptance: [AC6]}
+  - {part: agentops, acceptance: [AC7]}
 ---
 
 # Design — FABRIC_GRAPH_TOKENSAVE

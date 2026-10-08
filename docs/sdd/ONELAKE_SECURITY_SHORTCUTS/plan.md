@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/ONELAKE_SECURITY_SHORTCUTS/design.md
-  sha256: "a78ab9e56ef72ecf3cb025a7ef809d7224e74487d23582a41fc83dc5cfd14306"
+  sha256: "22ca2ae5bd8f115c6bb6e0d33b9d999579c34baa4a931bccac90171a20ec8d6e"
 tasks:
 - id: T1
   files:

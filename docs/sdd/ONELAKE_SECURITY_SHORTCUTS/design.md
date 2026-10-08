@@ -25,20 +25,20 @@ decisions:
   choice: 'grant-only: ausência de grant = denied por omissão, nunca ''deny rule'' inventada'
   rejected:
   - modelar deny roles — docs dizem que não existem
+  rollback: "avaliar data plane junto do workspace; perde a separacao de camadas"
 - id: D2
   choice: effective_identity fact separado de caller fact — nunca merge
   rejected:
   - single identity field — perde confused-deputy
+  rollback: "colapsar caller/effective em identidade unica; reintroduz confused deputy"
 - id: D3
   choice: workspace_identity como fact kind próprio ligado a workspace + conexões
   rejected:
   - tratar como user genérico
+  rollback: "tratar shortcut ausente como deny; remove a distincao unresolved vs denied"
 covers:
-- AC1
-- AC2
-- AC3
-- AC4
-- AC5
+  - {part: onelake-security, acceptance: [AC1, AC2]}
+  - {part: shortcuts+delegation, acceptance: [AC3, AC4, AC5]}
 ---
 
 # Design — ONELAKE_SECURITY_SHORTCUTS

@@ -25,16 +25,15 @@ decisions:
   choice: runtime matrix em YAML versionado com source+verified_at por linha
   rejected:
   - hardcode em código — perde freshness gate
+  rollback: "mover a matrix para codigo; perde freshness por fonte"
 - id: D2
   choice: default lakehouse = aresta notebook/job→lakehouse no grafo
   rejected:
   - attr solto — perde impact queries
+  rollback: "voltar a default_lakehouse como attr; perde impact queries no grafo"
 covers:
-- AC1
-- AC2
-- AC3
-- AC4
-- AC5
+  - {part: runtime+lakehouse, acceptance: [AC1, AC2, AC3]}
+  - {part: jobdef+scanner, acceptance: [AC4, AC5]}
 ---
 
 # Design — FABRIC_SPARK
