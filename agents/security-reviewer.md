@@ -1,19 +1,72 @@
 ---
+schema_version: 2
 id: security-reviewer
 kind: role
-role: Revisa findings e mudanças pelo ângulo de identidade, segredos, exposição e privilégio.
-does: ['avaliar privilégio, exposição de rede e segredos', rodar cenários de ameaça declarados]
-does_not: [não declara o ambiente seguro, não lê valores de segredo]
-required_context: [finding, risk]
-allowed_context: [finding, risk, evidence, rule, fact, unresolved]
-tools: [sfa_governance_diagnose, sfa_judge]
-skills: [azure-entra, azure-networking, unity-catalog]
-knowledge_refs: [knowledge/azure/identity/, knowledge/governance/]
-budget: {max_context_tokens: 6000, max_tool_calls: 6, max_model_calls: 2, model_tier: balanced}
-handoff_targets: [verifier, entra-specialist, networking-specialist]
-handoff_mode: DATA_ONLY
-risk: read_only
+family: review
+domain: review
+role: security-reviewer
+mission: Revisa findings e mudanças pelo ângulo de identidade, segredos, exposição e privilégio.
+does:
+- avaliar privilégio, exposição de rede e segredos
+- rodar cenários de ameaça declarados
+does_not:
+- não declara o ambiente seguro
+- não lê valores de segredo
+inputs:
+- finding
+- evidence
+outputs:
+- review
+- recommendations
+allowed_tools:
+- sfa_governance_diagnose
+- sfa_judge
+denied_tools: []
+required_context_kinds:
+- finding
+- risk
+allowed_context_kinds:
+- finding
+- risk
+- evidence
+- rule
+- fact
+- unresolved
+knowledge_packs:
+- knowledge/azure/identity/
+- knowledge/governance/
+skills:
+- azure-entra
+- azure-networking
+- unity-catalog
 trust_floor: VERIFIED_FACT
+budget:
+  context: 6000
+  tools: 6
+  model_calls: 2
+  model_tier: balanced
+  time: 90
+  handoffs: 3
+spawn:
+  conditions:
+  - on_finding_review
+  information_gain_threshold: 0.1
+stop:
+  conditions:
+  - on_findings_reviewed
+  - on_no_disagreement
+handoffs:
+  allowed_targets:
+  - verifier
+  - entra-specialist
+  - networking-specialist
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

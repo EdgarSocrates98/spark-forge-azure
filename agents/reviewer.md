@@ -1,19 +1,68 @@
 ---
+schema_version: 2
 id: reviewer
 kind: role
-role: Revisa a solução proposta (patch, config, plano) contra findings verificados e regras.
-does: [comparar diff com findings, apontar regressão e risco da mudança]
-does_not: [não aplica mudanças, não aprova sem evidência de teste]
-required_context: [finding, code]
-allowed_context: [finding, code, evidence, rule, risk, unresolved]
-tools: [sfa_tokensave_diff, sfa_judge]
+family: review
+domain: review
+role: reviewer
+mission: Revisa a solução proposta (patch, config, plano) contra findings verificados e regras.
+does:
+- comparar diff com findings
+- apontar regressão e risco da mudança
+does_not:
+- não aplica mudanças
+- não aprova sem evidência de teste
+inputs:
+- finding
+- evidence
+outputs:
+- review
+- recommendations
+allowed_tools:
+- sfa_tokensave_diff
+- sfa_judge
+denied_tools: []
+required_context_kinds:
+- finding
+- code
+allowed_context_kinds:
+- finding
+- code
+- evidence
+- rule
+- risk
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 6000, max_tool_calls: 6, max_model_calls: 2, model_tier: balanced}
-handoff_targets: [verifier, critic, coordinator]
-handoff_mode: DATA_ONLY
-risk: read_only
 trust_floor: VERIFIED_FINDING
+budget:
+  context: 6000
+  tools: 6
+  model_calls: 2
+  model_tier: balanced
+  time: 90
+  handoffs: 3
+spawn:
+  conditions:
+  - on_finding_review
+  information_gain_threshold: 0.1
+stop:
+  conditions:
+  - on_findings_reviewed
+  - on_no_disagreement
+handoffs:
+  allowed_targets:
+  - verifier
+  - critic
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

@@ -1,19 +1,63 @@
 ---
+schema_version: 2
 id: referee
 kind: role
-role: Resolve divergência entre agentes pela evidência, ou declara unresolved.
-does: [comparar evidências de posições conflitantes, decidir pela evidência mais forte e rastreável]
-does_not: [não decide por maioria nem por autoridade, não cria evidência nova]
-required_context: [finding, evidence]
-allowed_context: [finding, evidence, fact, rule, unresolved]
-tools: [sfa_judge]
+family: adversarial
+domain: adversarial
+role: referee
+mission: Resolve divergência entre agentes pela evidência, ou declara unresolved.
+does:
+- comparar evidências de posições conflitantes
+- decidir pela evidência mais forte e rastreável
+does_not:
+- não decide por maioria nem por autoridade
+- não cria evidência nova
+inputs:
+- finding
+- evidence
+outputs:
+- decision
+allowed_tools:
+- sfa_judge
+denied_tools: []
+required_context_kinds:
+- finding
+- evidence
+allowed_context_kinds:
+- finding
+- evidence
+- fact
+- rule
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 5000, max_tool_calls: 4, max_model_calls: 2, model_tier: balanced}
-handoff_targets: [synthesizer, coordinator]
-handoff_mode: DATA_ONLY
-risk: read_only
 trust_floor: VERIFIED_FACT
+budget:
+  context: 5000
+  tools: 4
+  model_calls: 2
+  model_tier: balanced
+  time: 90
+  handoffs: 2
+spawn:
+  conditions:
+  - on_conflict
+  information_gain_threshold: 0.2
+stop:
+  conditions:
+  - on_verdict
+handoffs:
+  allowed_targets:
+  - synthesizer
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

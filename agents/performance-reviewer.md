@@ -1,19 +1,67 @@
 ---
+schema_version: 2
 id: performance-reviewer
 kind: role
-role: Revisa propostas de performance contra medição antes/depois.
-does: [exigir event log ou lab para cada ganho, checar regressões em outras stages]
-does_not: [não declara job otimizado, não roda no cluster do usuário]
-required_context: [finding, evidence]
-allowed_context: [finding, evidence, fact, tool_output, unresolved]
-tools: [sfa_lab_run, sfa_judge]
-skills: [spark-performance]
-knowledge_refs: [knowledge/spark/]
-budget: {max_context_tokens: 6000, max_tool_calls: 6, max_model_calls: 1, model_tier: economy}
-handoff_targets: [verifier, spark-performance-specialist]
-handoff_mode: DATA_ONLY
-risk: read_only
+family: review
+domain: review
+role: performance-reviewer
+mission: Revisa propostas de performance contra medição antes/depois.
+does:
+- exigir event log ou lab para cada ganho
+- checar regressões em outras stages
+does_not:
+- não declara job otimizado
+- não roda no cluster do usuário
+inputs:
+- finding
+- evidence
+outputs:
+- review
+- recommendations
+allowed_tools:
+- sfa_lab_run
+- sfa_judge
+denied_tools: []
+required_context_kinds:
+- finding
+- evidence
+allowed_context_kinds:
+- finding
+- evidence
+- fact
+- tool_output
+- unresolved
+knowledge_packs:
+- knowledge/spark/
+skills:
+- spark-performance
 trust_floor: VERIFIED_FACT
+budget:
+  context: 6000
+  tools: 6
+  model_calls: 1
+  model_tier: economy
+  time: 90
+  handoffs: 2
+spawn:
+  conditions:
+  - on_finding_review
+  information_gain_threshold: 0.1
+stop:
+  conditions:
+  - on_findings_reviewed
+  - on_no_disagreement
+handoffs:
+  allowed_targets:
+  - verifier
+  - spark-performance-specialist
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

@@ -12,9 +12,9 @@ Per-agent contract status, measured by `sparkforge_azure.agentic.inventory` — 
 | `manifest_only` | 0 |
 | `partial` | 0 |
 | `ready` | 0 |
-| `unevaluated` | 38 |
+| `unevaluated` | 40 |
 
-**Total:** 38 agents
+**Total:** 40 agents
 
 ## Fleet
 
@@ -34,6 +34,8 @@ Per-agent contract status, measured by `sparkforge_azure.agentic.inventory` — 
 | `cost-reviewer` | role | `unevaluated` |
 | `performance-reviewer` | role | `unevaluated` |
 | `migration-reviewer` | role | `unevaluated` |
+| `test-engineer` | role | `unevaluated` |
+| `evaluation-specialist` | role | `unevaluated` |
 | `fabric-specialist` | specialist | `unevaluated` |
 | `azure-databricks-specialist` | specialist | `unevaluated` |
 | `unity-catalog-specialist` | specialist | `unevaluated` |

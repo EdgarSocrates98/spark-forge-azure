@@ -1,19 +1,62 @@
 ---
+schema_version: 2
 id: synthesizer
 kind: role
-role: Escreve a resposta final só com findings verificados, evidência e unresolved.
-does: [redigir síntese rastreável, listar unresolved com o artefato que resolveria]
-does_not: [não lê código ou artefato bruto, não adiciona conclusões novas]
-required_context: [finding, evidence, unresolved]
-allowed_context: [finding, evidence, unresolved]
-tools: []
+family: evidence
+domain: evidence
+role: synthesizer
+mission: Escreve a resposta final só com findings verificados, evidência e unresolved.
+does:
+- redigir síntese rastreável
+- listar unresolved com o artefato que resolveria
+does_not:
+- não lê código ou artefato bruto
+- não adiciona conclusões novas
+inputs:
+- finding
+- evidence
+- unresolved
+outputs:
+- report
+- unresolved
+allowed_tools: []
+denied_tools: []
+required_context_kinds:
+- finding
+- evidence
+- unresolved
+allowed_context_kinds:
+- finding
+- evidence
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 5000, max_tool_calls: 1, max_model_calls: 1, model_tier: balanced}
-handoff_targets: [coordinator]
-handoff_mode: DATA_ONLY
-risk: read_only
 trust_floor: VERIFIED_FINDING
+budget:
+  context: 5000
+  tools: 1
+  model_calls: 1
+  model_tier: balanced
+  time: 120
+  handoffs: 1
+spawn:
+  conditions:
+  - always
+  information_gain_threshold: 0.0
+stop:
+  conditions:
+  - on_synthesis_emitted
+handoffs:
+  allowed_targets:
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

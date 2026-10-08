@@ -212,7 +212,7 @@ def _dim_reports(
 
     dims.append(DimensionReport("role_plan", _has_role_plan(agent_id, manifest_ok)))
 
-    tools = [str(t) for t in (data.get("tools") or [])]
+    tools = [str(t) for t in (data.get("allowed_tools") or [])]
     if not tools:
         dims.append(DimensionReport("tool_policy", True, "no tools declared"))
     else:
@@ -221,7 +221,7 @@ def _dim_reports(
             "tool_policy", not missing,
             f"unresolved tools: {missing}" if missing else f"{len(tools)} tools resolve"))
 
-    refs = [str(r) for r in (data.get("knowledge_refs") or [])]
+    refs = [str(r) for r in (data.get("knowledge_packs") or [])]
     missing_refs = sorted(r for r in refs if not (root / r).is_dir())
     dims.append(DimensionReport(
         "knowledge", not missing_refs,
@@ -230,13 +230,14 @@ def _dim_reports(
     budget = data.get("budget") or {}
     ok = isinstance(budget, dict) and all(
         isinstance(budget.get(k), int) and budget[k] > 0
-        for k in ("max_context_tokens", "max_tool_calls", "max_model_calls")
+        for k in ("context", "tools", "model_calls")
     )
     dims.append(DimensionReport("budget", ok))
 
-    targets = [str(t) for t in (data.get("handoff_targets") or [])]
+    handoffs = data.get("handoffs") or {}
+    targets = [str(t) for t in (handoffs.get("allowed_targets") or [])]
     bad = sorted(t for t in targets if t not in known_ids and t not in ROLE_IDS)
-    mode = data.get("handoff_mode")
+    mode = handoffs.get("mode")
     dims.append(DimensionReport(
         "handoff",
         not bad and mode == "DATA_ONLY",

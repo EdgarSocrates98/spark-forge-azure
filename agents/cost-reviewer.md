@@ -1,19 +1,67 @@
 ---
+schema_version: 2
 id: cost-reviewer
 kind: role
-role: Revisa propostas de redução de custo contra baseline medido.
-does: [exigir baseline e período, separar custo medido de estimativa]
-does_not: [não promete economia, não altera recursos]
-required_context: [finding, evidence]
-allowed_context: [finding, evidence, fact, risk, unresolved]
-tools: [sfa_analyze, sfa_judge]
-skills: [azure-finops]
-knowledge_refs: [knowledge/azure/finops/]
-budget: {max_context_tokens: 5000, max_tool_calls: 6, max_model_calls: 1, model_tier: economy}
-handoff_targets: [verifier, finops-specialist]
-handoff_mode: DATA_ONLY
-risk: read_only
+family: review
+domain: review
+role: cost-reviewer
+mission: Revisa propostas de redução de custo contra baseline medido.
+does:
+- exigir baseline e período
+- separar custo medido de estimativa
+does_not:
+- não promete economia
+- não altera recursos
+inputs:
+- finding
+- evidence
+outputs:
+- review
+- recommendations
+allowed_tools:
+- sfa_analyze
+- sfa_judge
+denied_tools: []
+required_context_kinds:
+- finding
+- evidence
+allowed_context_kinds:
+- finding
+- evidence
+- fact
+- risk
+- unresolved
+knowledge_packs:
+- knowledge/azure/finops/
+skills:
+- azure-finops
 trust_floor: VERIFIED_FACT
+budget:
+  context: 5000
+  tools: 6
+  model_calls: 1
+  model_tier: economy
+  time: 90
+  handoffs: 2
+spawn:
+  conditions:
+  - on_finding_review
+  information_gain_threshold: 0.1
+stop:
+  conditions:
+  - on_findings_reviewed
+  - on_no_disagreement
+handoffs:
+  allowed_targets:
+  - verifier
+  - finops-specialist
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

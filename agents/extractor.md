@@ -1,20 +1,66 @@
 ---
+schema_version: 2
 id: extractor
 kind: role
-role: Converte artefato em fact tipado, sem interpretar nem executar o código analisado.
-does: ['rodar analisadores offline (AST, JSON, logs)', 'emitir facts com origem (arquivo, linha, caminho
-    JSON)']
-does_not: [não julga regras, não executa código do usuário]
-required_context: [artifact]
-allowed_context: [artifact, code, tool_output, fact, unresolved]
-tools: [sfa_analyze, sfa_tokensave_read, sfa_tokensave_symbols]
+family: evidence
+domain: evidence
+role: extractor
+mission: Converte artefato em fact tipado, sem interpretar nem executar o código analisado.
+does:
+- rodar analisadores offline (AST, JSON, logs)
+- emitir facts com origem (arquivo, linha, caminho JSON)
+does_not:
+- não julga regras
+- não executa código do usuário
+inputs:
+- artifact
+- tool_output
+outputs:
+- fact
+allowed_tools:
+- sfa_analyze
+- sfa_tokensave_read
+- sfa_tokensave_symbols
+denied_tools: []
+required_context_kinds:
+- artifact
+allowed_context_kinds:
+- artifact
+- code
+- tool_output
+- fact
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 6000, max_tool_calls: 10, max_model_calls: 1, model_tier: economy}
-handoff_targets: [judge, analyzer, coordinator]
-handoff_mode: DATA_ONLY
-risk: local_write
 trust_floor: TOOL_OUTPUT
+budget:
+  context: 6000
+  tools: 10
+  model_calls: 1
+  model_tier: economy
+  time: 120
+  handoffs: 3
+spawn:
+  conditions:
+  - always
+  information_gain_threshold: 0.0
+stop:
+  conditions:
+  - on_artifacts_exhausted
+  - on_budget_exhausted
+handoffs:
+  allowed_targets:
+  - judge
+  - analyzer
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: true
+  adversarial_check: on_conflict
+evals: []
+agentops_emit_span: true
+risk: local_write
 parent: null
 ---
 

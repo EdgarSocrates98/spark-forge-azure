@@ -1,19 +1,65 @@
 ---
+schema_version: 2
 id: judge
 kind: role
-role: Aplica regras versionadas a facts e produz findings com evidência.
-does: [avaliar regras do catálogo sobre facts, 'emitir finding com rule_id, evidência e confiança']
-does_not: [não cria regra ad hoc, não verifica a si mesmo]
-required_context: [fact, rule]
-allowed_context: [fact, rule, knowledge, finding, unresolved]
-tools: [sfa_judge, sfa_knowledge_select]
+family: evidence
+domain: evidence
+role: judge
+mission: Aplica regras versionadas a facts e produz findings com evidência.
+does:
+- avaliar regras do catálogo sobre facts
+- emitir finding com rule_id, evidência e confiança
+does_not:
+- não cria regra ad hoc
+- não verifica a si mesmo
+inputs:
+- fact
+- rule
+outputs:
+- verdict
+allowed_tools:
+- sfa_judge
+- sfa_knowledge_select
+denied_tools: []
+required_context_kinds:
+- fact
+- rule
+allowed_context_kinds:
+- fact
+- rule
+- knowledge
+- finding
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 6000, max_tool_calls: 6, max_model_calls: 1, model_tier: economy}
-handoff_targets: [verifier, coordinator]
-handoff_mode: DATA_ONLY
-risk: read_only
 trust_floor: VERIFIED_FACT
+budget:
+  context: 6000
+  tools: 6
+  model_calls: 1
+  model_tier: economy
+  time: 120
+  handoffs: 2
+spawn:
+  conditions:
+  - always
+  information_gain_threshold: 0.0
+stop:
+  conditions:
+  - on_verdict
+  - on_budget_exhausted
+handoffs:
+  allowed_targets:
+  - verifier
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: true
+  adversarial_check: on_conflict
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

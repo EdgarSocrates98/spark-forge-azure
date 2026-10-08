@@ -117,17 +117,16 @@ def role_plan_for(agent_id: str, root: Path | str = ".") -> RoleContextPlan | No
     )
     if rep.errors:
         return None
-    data = manifest.data
     try:
-        floor = TrustLabel(str(data["trust_floor"]))
+        floor = TrustLabel(str(manifest.data["trust_floor"]))
     except (KeyError, ValueError):
         floor = TrustLabel.UNKNOWN
     return RoleContextPlan(
         role=agent_id,
-        allowed_context=tuple(str(k) for k in data["allowed_context"]),
-        required_context=tuple(str(k) for k in data["required_context"]),
+        allowed_context=tuple(manifest.allowed_context_kinds),
+        required_context=tuple(manifest.required_context_kinds),
         context_share=1.0,
-        tool_access=tuple(str(t) for t in (data.get("tools") or [])),
+        tool_access=tuple(manifest.allowed_tools),
         trust_floor=floor,
     )
 

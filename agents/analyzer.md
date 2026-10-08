@@ -1,19 +1,67 @@
 ---
+schema_version: 2
 id: analyzer
 kind: role
-role: Correlaciona facts (grafo, referências, impacto) para produzir facts derivados com origem.
-does: [consultar grafo e referências de código, derivar relações entre facts com cadeia de origem]
-does_not: [não emite findings, não usa conhecimento sem data/fonte]
-required_context: [fact]
-allowed_context: [fact, code, knowledge, tool_output, unresolved]
-tools: [sfa_graph_query, sfa_graph_impact, sfa_tokensave_refs]
+family: evidence
+domain: evidence
+role: analyzer
+mission: Correlaciona facts (grafo, referências, impacto) para produzir facts derivados com origem.
+does:
+- consultar grafo e referências de código
+- derivar relações entre facts com cadeia de origem
+does_not:
+- não emite findings
+- não usa conhecimento sem data/fonte
+inputs:
+- fact
+- evidence
+- knowledge
+outputs:
+- evidence
+- hypothesis
+allowed_tools:
+- sfa_graph_query
+- sfa_graph_impact
+- sfa_tokensave_refs
+denied_tools: []
+required_context_kinds:
+- fact
+allowed_context_kinds:
+- fact
+- code
+- knowledge
+- tool_output
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 6000, max_tool_calls: 8, max_model_calls: 1, model_tier: economy}
-handoff_targets: [judge, coordinator]
-handoff_mode: DATA_ONLY
-risk: read_only
 trust_floor: VERIFIED_FACT
+budget:
+  context: 6000
+  tools: 8
+  model_calls: 1
+  model_tier: economy
+  time: 120
+  handoffs: 2
+spawn:
+  conditions:
+  - always
+  information_gain_threshold: 0.0
+stop:
+  conditions:
+  - on_unknowns_resolved
+  - on_budget_exhausted
+handoffs:
+  allowed_targets:
+  - judge
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: true
+  adversarial_check: on_conflict
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 

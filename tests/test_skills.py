@@ -389,5 +389,5 @@ def test_check_script_summary(tmp_path):
     summary = script.run(ROOT, allow_pending_knowledge=True)
     assert summary["ok"], summary["errors"]
     assert summary["skills"] == 22
-    assert summary["agents"] == {"roles": 14, "specialists": 20, "subagents": 4}
+    assert summary["agents"] == {"roles": 16, "specialists": 20, "subagents": 4}
     assert script.main(["--root", str(tmp_path)]) == 1

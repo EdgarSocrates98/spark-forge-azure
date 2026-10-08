@@ -1,20 +1,71 @@
 ---
+schema_version: 2
 id: verifier
 kind: role
-role: Tenta refutar cada finding com evidência independente antes de qualquer síntese.
-does: [reabrir a evidência citada, reproduzir no Forge Lab quando aplicável, 'marcar finding como verificado,
-    refutado ou unresolved']
-does_not: [não cria findings novos, não aceita finding por autoridade de quem emitiu]
-required_context: [finding, evidence]
-allowed_context: [finding, evidence, fact, rule, tool_output, unresolved]
-tools: [sfa_lab_verify, sfa_tokensave_read, sfa_judge]
+family: evidence
+domain: evidence
+role: verifier
+mission: Tenta refutar cada finding com evidência independente antes de qualquer síntese.
+does:
+- reabrir a evidência citada
+- reproduzir no Forge Lab quando aplicável
+- marcar finding como verificado, refutado ou unresolved
+does_not:
+- não cria findings novos
+- não aceita finding por autoridade de quem emitiu
+inputs:
+- fact
+- evidence
+- tool_output
+outputs:
+- evidence
+- verdict
+allowed_tools:
+- sfa_lab_verify
+- sfa_tokensave_read
+- sfa_judge
+denied_tools: []
+required_context_kinds:
+- finding
+- evidence
+allowed_context_kinds:
+- finding
+- evidence
+- fact
+- rule
+- tool_output
+- unresolved
+knowledge_packs:
+- knowledge/agentic/
 skills: []
-knowledge_refs: [knowledge/agentic/]
-budget: {max_context_tokens: 6000, max_tool_calls: 8, max_model_calls: 1, model_tier: balanced}
-handoff_targets: [referee, synthesizer, coordinator]
-handoff_mode: DATA_ONLY
-risk: read_only
 trust_floor: VERIFIED_FACT
+budget:
+  context: 6000
+  tools: 8
+  model_calls: 1
+  model_tier: balanced
+  time: 120
+  handoffs: 3
+spawn:
+  conditions:
+  - always
+  information_gain_threshold: 0.0
+stop:
+  conditions:
+  - on_verdict
+  - on_budget_exhausted
+handoffs:
+  allowed_targets:
+  - referee
+  - synthesizer
+  - coordinator
+  mode: DATA_ONLY
+review_policy:
+  requires_verifier: false
+  adversarial_check: never
+evals: []
+agentops_emit_span: true
+risk: read_only
 parent: null
 ---
 
