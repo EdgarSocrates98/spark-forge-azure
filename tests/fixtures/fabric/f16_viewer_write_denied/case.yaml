@@ -1,0 +1,13 @@
+name: f16_viewer_write_denied
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: write
+target:
+  kind: table
+  workspace_id: ws-1111
+  lakehouse_id: lh-aaaa
+  table: Orders
+expect:
+  status: denied
+  failure_layer: item_permission

@@ -1,0 +1,17 @@
+{
+  "id": "cap-0001",
+  "sku": "F4",
+  "state": "Active",
+  "workspaces": [
+    "ws-1111"
+  ],
+  "metrics": {
+    "utilization_percent": 135
+  },
+  "events": [
+    {
+      "type": "CapacityLimitExceeded",
+      "at": "2026-10-01T12:00Z"
+    }
+  ]
+}

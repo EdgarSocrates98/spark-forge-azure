@@ -20,7 +20,8 @@ from typing import Any
 
 SCHEMA_VERSION = 1
 
-LAYERS: tuple[str, ...] = ("code", "data", "azure", "knowledge", "evidence")
+LAYERS: tuple[str, ...] = ("code", "data", "azure", "knowledge", "evidence",
+                           "fabric")
 
 # Kinds per layer.  The first block of each set is the contract of section 55;
 # the trailing names are documented extensions (see docs/architecture/GRAPHFY.md).
@@ -46,6 +47,18 @@ NODE_KINDS: dict[str, frozenset[str]] = {
         {"knowledge", "rule", "skill", "agent", "eval", "finding", "domain", "boundary"}
     ),
     "evidence": frozenset({"fact", "finding", "evidence", "decision", "receipt", "trace"}),
+    # Microsoft Fabric SaaS plane (Cycle 3): tenant → capacity → workspace →
+    # item.  Deliberately separate from the ARM `azure` layer — a Fabric
+    # workspace is not an ARM resource and they must never merge.
+    "fabric": frozenset(
+        {
+            "tenant", "capacity", "workspace", "item", "lakehouse",
+            "notebook", "spark_job", "environment", "pipeline",
+            "pipeline_activity", "shortcut", "connection",
+            "workspace_identity", "identity", "onelake_table",
+            "onelake_path", "onelake_role", "external_target",
+        }
+    ),
 }
 
 PROVENANCE_KINDS: tuple[str, ...] = ("static", "live", "artifact", "knowledge")

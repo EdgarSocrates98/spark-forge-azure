@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "id": "nb-0001",
+      "type": "Notebook",
+      "workspace_id": "ws-1111",
+      "display_name": "nb-etl"
+    }
+  ]
+}

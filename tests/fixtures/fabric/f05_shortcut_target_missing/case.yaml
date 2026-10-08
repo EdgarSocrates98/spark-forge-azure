@@ -1,0 +1,13 @@
+name: f05_shortcut_target_missing
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: read
+target:
+  kind: path
+  workspace_id: ws-1111
+  lakehouse_id: lh-aaaa
+  path: Files/ghost/x
+expect:
+  status: unresolved
+  failure_layer: unresolved

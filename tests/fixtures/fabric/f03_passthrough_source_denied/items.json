@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "id": "lh-aaaa",
+      "type": "Lakehouse",
+      "workspace_id": "ws-1111",
+      "display_name": "lake_sales"
+    },
+    {
+      "id": "lh-bbbb",
+      "type": "Lakehouse",
+      "workspace_id": "ws-2222",
+      "display_name": "lake_ext"
+    }
+  ]
+}

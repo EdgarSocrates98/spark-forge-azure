@@ -1,0 +1,16 @@
+{
+  "lh-aaaa": {
+    "roles": [
+      {
+        "name": "ReadAll",
+        "permissions": [
+          "Read"
+        ],
+        "members": [
+          "spn-viewer"
+        ],
+        "scopes": []
+      }
+    ]
+  }
+}

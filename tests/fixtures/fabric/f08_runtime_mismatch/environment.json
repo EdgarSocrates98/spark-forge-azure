@@ -1,0 +1,10 @@
+{
+  "id": "env-0001",
+  "workspace_id": "ws-1111",
+  "name": "env-std",
+  "runtime": {
+    "version": "1.3",
+    "spark": "3.5",
+    "python": "3.11"
+  }
+}
