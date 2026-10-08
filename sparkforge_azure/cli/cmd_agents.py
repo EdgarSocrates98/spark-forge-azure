@@ -5,9 +5,11 @@
   * ``agents inspect <id>`` — full contract report for one agent
   * ``agents route <query>`` — deterministic route explanation + the spawn
     gate (SPAWN | SKIP | DEFER) per specialist
+  * ``agents fingerprint`` — deterministic hash over the fleet's contract
+  * ``agents impact --path X`` — agents/evals/tests a changed path invalidates
 
-The engines are `sparkforge_azure.agentic.inventory` and
-`sparkforge_azure.agentmanifest.routing.explain_route` — pure functions.
+The engines are `sparkforge_azure.agentic.{inventory,fingerprint,impact}`
+and `agentmanifest.routing.explain_route` — pure functions.
 Nothing here executes an agent.
 """
 from __future__ import annotations
@@ -15,6 +17,8 @@ from __future__ import annotations
 import argparse
 from typing import Any
 
+from sparkforge_azure.agentic.fingerprint import fleet_fingerprint
+from sparkforge_azure.agentic.impact import impact_for
 from sparkforge_azure.agentic.inventory import get_agent, inventory
 from sparkforge_azure.agentic.spawn import SpawnContext, decide_spawn
 from sparkforge_azure.agentmanifest.routing import explain_route
@@ -62,6 +66,16 @@ def _route(args: argparse.Namespace) -> dict[str, Any]:
     }
 
 
+def _fingerprint(args: argparse.Namespace) -> dict[str, Any]:
+    return {"status": "ok", **fleet_fingerprint(".")}
+
+
+def _impact(args: argparse.Namespace) -> dict[str, Any]:
+    report = impact_for(args.path)
+    status = "unresolved" if report["unresolved"] else "ok"
+    return {"status": status, **report}
+
+
 def register(sub: argparse._SubParsersAction) -> None:
     p = sub.add_parser(
         "agents",
@@ -84,3 +98,15 @@ def register(sub: argparse._SubParsersAction) -> None:
     rp.add_argument("--unresolved-domain", action="append",
                     help="domain with an open unresolved item (repeatable)")
     rp.set_defaults(func=_route)
+
+    fp = inner.add_parser(
+        "fingerprint",
+        help="deterministic hash over the fleet's contract surface")
+    fp.set_defaults(func=_fingerprint)
+
+    xp = inner.add_parser(
+        "impact",
+        help="agents + test surfaces a changed path invalidates")
+    xp.add_argument("--path", action="append", required=True,
+                    help="repo-relative path changed (repeatable)")
+    xp.set_defaults(func=_impact)

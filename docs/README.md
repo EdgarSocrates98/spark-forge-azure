@@ -66,6 +66,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/cycle3/OUTCOME_BRIEF.md` | Resultado medido do vertical Microsoft Fabric |
 | `docs/cycle4/OUTCOME_BRIEF.md` | Resultado medido do vertical Streaming/RTI |
 | `docs/cycle5/OUTCOME_BRIEF.md` | Resultado medido do vertical de migração ADF/Synapse→Fabric |
+| `docs/cycle6/OUTCOME_BRIEF.md` | Resultado do hardening do runtime agêntico (contrato v2, spawn gate, teams, spans, labs) |
 | `docs/architecture/DATABRICKS_FABRIC_COMMON_PRIMITIVES.md` | Fronteira comum vs. específica dos dois verticais |
 | `docs/research/azure_sources_2026-10-06.md` | Fontes oficiais usadas na pesquisa dos verticais |
 

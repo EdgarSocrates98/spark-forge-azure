@@ -10,6 +10,8 @@
    "agentops inspect",
    "agentops runs",
    "agentops timeline",
+   "agents fingerprint",
+   "agents impact",
    "agents inspect",
    "agents list",
    "agents route",

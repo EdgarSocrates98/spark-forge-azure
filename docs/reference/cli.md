@@ -118,6 +118,8 @@ Exit codes: `0` quando a cadeia está íntegra, `1` quando há recusa nomeada
 | `list` | status de cada agent da taxonomia (`ready` \| `partial` \| `manifest_only` \| `broken` \| `unevaluated`) + contagens |
 | `inspect` | relatório de contrato completo de um agent (`<id>`) — dimensões `manifest`…`agentops` |
 | `route` | explicação determinística da rota por candidato (`selected`/`below_cap`/`no_match` + termos) + spawn gate (`SPAWN`/`SKIP`/`DEFER`); `--max-agents`, `--unresolved-domain` |
+| `fingerprint` | hash determinístico (`sha256:`) sobre a superfície de contrato da frota — manifests (campos de contrato), routing table, teams, vocabulários fechados. Drift de contrato muda o hash |
+| `impact` | grafo de impacto: `--path X` (repetível) → agents + superfícies de teste invalidados pelo path; path fora do grafo → `status: unresolved` + `impact_unknown:<path>` (nunca resposta vazia confiante) |
 
 O engine é `agentic.inventory` — função pura da árvore do repo. Inspeção
 apenas; nada aqui executa agent. `docs/agentic/AGENT_INVENTORY.md` é gerada

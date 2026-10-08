@@ -158,3 +158,43 @@ Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
   `.tmp-mig-red` @ `61367a5`, exit 2).
 - Suite migration: **22 passed / 0 failed**; 46 testes focados; suite
   total **2734 passed / 9 skipped** (venv 3.12, ~276s).
+
+## Estado medido — cycle 6 (agentic runtime hardening) — **DELIVERED**
+
+`prompt_evo_agentic_enginner.md` (3555 linhas, tese "NO AGENT WITHOUT
+CONTRACT") implementado em 8 waves na branch `feat/cycle6-agentic-runtime`.
+Auditoria inicial: substrato forte já existia (manifests v1, routing
+determinístico, governor, handoff DATA_ONLY, budgets). O ciclo formalizou
+o restante:
+
+- **AGENT_INVENTORY**: `agentic/inventory.py` + `agents list|inspect` +
+  doctor `agentic_fleet`; status fechado
+  `ready|partial|manifest_only|broken|unevaluated`; resultado honesto
+  40/40 `unevaluated` (contrato completo, evals ainda `[]`).
+- **AGENT_CONTRACT_V2**: schema v2 nos 40 manifests
+  (`family/domain/mission/inputs/outputs/allowed_tools/denied_tools/
+  spawn/stop/handoffs/review_policy/evals`); resolve bug latente de
+  `CallPolicy.from_manifest` ler campos inexistentes no v1; +`test-engineer`
+  +`evaluation-specialist` (taxonomia 38→40).
+- **ROLE_PLANS + SPAWN GATE**: `role_plan_for` derivado do manifest (sem
+  segunda tabela); `spawn.py` SPAWN/SKIP/DEFER com information-gain por
+  trigger; `explain_route` + `agents route` com decisão por candidato.
+- **AGENT_TEAMS**: `agent-teams/*.yaml` (4) = elegibilidade apenas, nunca
+  spawn list; audit anti-amplificação (team file não declara privilégio).
+- **AGENTOPS_AGENT**: `spans.py` — AgentSpan (lane `agent`), contadores de
+  saída, tokens `None`+`unresolved` sem fonte; `AgentExecutionReceipt`;
+  waste `empty_agent_spawn`/`duplicate_agent_spawn` (observed); value
+  vector sem score mágico.
+- **AGENT_LABS_SECURITY**: routing lab (canônico→esperado; multi-domínio),
+  negative routing, budget lab; security lab (policy deny, confused
+  deputy, impersonation, taint poisoned/suspicious, memória envenenada→
+  quarantine).
+- **CLOSURE**: `fingerprint.py` (sha256 do contrato da frota) +
+  `impact.py` (grafo de invalidação, desconhecido→`unresolved`) +
+  `agents fingerprint|impact` (surface lock regerado).
+- SDD: 7 sub-SDDs sha-encadeados, gate `test_not_written`→verde real.
+- Claims novos: `agentic-fleet-40`, `agentic-fingerprint`,
+  `sdd-gate-green` (todos com prova executável).
+- Suite agentic nova: **~52 testes** (inventory, contract v2, role_plans,
+  spawn, test_eval, teams, spans, labs, security, closure); suite total
+  **2788 passed / 9 skipped** (venv 3.12, ~298s).

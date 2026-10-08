@@ -22,7 +22,7 @@
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "2734 passed",
+   "text": "2788 passed",
    "proof": {
     "cmd": [
      "python",
@@ -33,7 +33,7 @@
     "timeout": 600,
     "expect": {
      "kind": "regex",
-     "pattern": "\n2734 passed"
+     "pattern": "\n2788 passed"
     }
    },
    "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
@@ -336,6 +336,65 @@
     "expect": {
      "kind": "regex",
      "pattern": "\"ok\":\\s*true"
+    }
+   },
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
+  },
+  {
+   "id": "agentic-fleet-40",
+   "doc": "docs/cycle6/OUTCOME_BRIEF.md",
+   "text": "40 `unevaluated`",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "agents",
+     "list"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "counts.unevaluated",
+     "value": 40
+    }
+   },
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
+  },
+  {
+   "id": "agentic-fingerprint",
+   "doc": "docs/cycle6/OUTCOME_BRIEF.md",
+   "text": "sha256:d3901db1",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "agents",
+     "fingerprint"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"fingerprint\":\\s*\"sha256:[0-9a-f]{64}\""
+    }
+   },
+   "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
+  },
+  {
+   "id": "sdd-gate-green",
+   "doc": "docs/cycle6/OUTCOME_BRIEF.md",
+   "text": "0 refused",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "sdd",
+     "check"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "ok",
+     "value": true
     }
    },
    "sha": "c1139c8bd386a783f13821b78db85462dd73312f"
