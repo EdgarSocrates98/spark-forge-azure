@@ -38,6 +38,7 @@
    "mcp serve",
    "offline-bundle build",
    "offline-bundle verify",
+   "tokensave benchmark",
    "tokensave context",
    "tokensave diff",
    "tokensave expand",

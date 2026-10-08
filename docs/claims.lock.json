@@ -1,128 +1,128 @@
 {
- "version": 1,
- "claims": [
-  {
-   "id": "cli-version-json",
-   "doc": "README.md",
-   "text": "uma saida JSON por comando",
-   "proof": {
-    "cmd": [
-     "python",
-     "-m",
-     "sparkforge_azure.cli.main",
-     "version"
-    ],
-    "expect": {
-     "kind": "regex",
-     "pattern": "\"provider\":\\s*\"azure\""
+  "version": 1,
+  "claims": [
+    {
+      "id": "cli-version-json",
+      "doc": "README.md",
+      "text": "uma saida JSON por comando",
+      "proof": {
+        "cmd": [
+          "python",
+          "-m",
+          "sparkforge_azure.cli.main",
+          "version"
+        ],
+        "expect": {
+          "kind": "regex",
+          "pattern": "\"provider\":\\s*\"azure\""
+        }
+      },
+      "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
+    },
+    {
+      "id": "suite-green",
+      "doc": "docs/ROADMAP.md",
+      "text": "2478 testes verdes",
+      "proof": {
+        "cmd": [
+          "python",
+          "-m",
+          "pytest",
+          "-q"
+        ],
+        "timeout": 600,
+        "expect": {
+          "kind": "regex",
+          "pattern": "2478 passed"
+        }
+      },
+      "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
+    },
+    {
+      "id": "surface-lock",
+      "doc": "docs/ROADMAP.md",
+      "text": "`check_surface_lock`",
+      "proof": {
+        "cmd": [
+          "python",
+          "scripts/check_surface_lock.py"
+        ],
+        "expect": {
+          "kind": "exit0"
+        }
+      },
+      "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
+    },
+    {
+      "id": "skills-catalogue-22",
+      "doc": "docs/ROADMAP.md",
+      "text": "**22 catalogadas**",
+      "proof": {
+        "cmd": [
+          "python",
+          "scripts/check_skills_agents.py"
+        ],
+        "expect": {
+          "kind": "json",
+          "path": "skills",
+          "op": "==",
+          "value": 22
+        }
+      },
+      "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
+    },
+    {
+      "id": "mcp-tools-10",
+      "doc": "docs/reference/mcp-tools.md",
+      "text": "Catálogo (10 tools)",
+      "proof": {
+        "cmd": [
+          "python",
+          "-c",
+          "from sparkforge_azure.mcp.tools import load_all; import json; print(json.dumps({'tools': len(load_all())}))"
+        ],
+        "expect": {
+          "kind": "json",
+          "path": "tools",
+          "op": "==",
+          "value": 10
+        }
+      },
+      "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
+    },
+    {
+      "id": "knowledge-check",
+      "doc": "docs/ROADMAP.md",
+      "text": "`check_knowledge`",
+      "proof": {
+        "cmd": [
+          "python",
+          "scripts/check_knowledge.py"
+        ],
+        "expect": {
+          "kind": "exit0"
+        }
+      },
+      "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
+    },
+    {
+      "id": "lab-verify",
+      "doc": "docs/reference/cli.md",
+      "text": "exit 1 se inválido",
+      "proof": {
+        "cmd": [
+          "python",
+          "-m",
+          "sparkforge_azure.cli.main",
+          "lab",
+          "verify"
+        ],
+        "expect": {
+          "kind": "regex",
+          "pattern": "\"valid\":\\s*true"
+        }
+      },
+      "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
     }
-   },
-   "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
-  },
-  {
-   "id": "suite-green",
-   "doc": "docs/ROADMAP.md",
-   "text": "2461 testes verdes",
-   "proof": {
-    "cmd": [
-     "python",
-     "-m",
-     "pytest",
-     "-q"
-    ],
-    "timeout": 600,
-    "expect": {
-     "kind": "regex",
-     "pattern": "2461 passed"
-    }
-   },
-   "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
-  },
-  {
-   "id": "surface-lock",
-   "doc": "docs/ROADMAP.md",
-   "text": "`check_surface_lock`",
-   "proof": {
-    "cmd": [
-     "python",
-     "scripts/check_surface_lock.py"
-    ],
-    "expect": {
-     "kind": "exit0"
-    }
-   },
-   "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
-  },
-  {
-   "id": "skills-catalogue-22",
-   "doc": "docs/ROADMAP.md",
-   "text": "**22 catalogadas**",
-   "proof": {
-    "cmd": [
-     "python",
-     "scripts/check_skills_agents.py"
-    ],
-    "expect": {
-     "kind": "json",
-     "path": "skills",
-     "op": "==",
-     "value": 22
-    }
-   },
-   "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
-  },
-  {
-   "id": "mcp-tools-10",
-   "doc": "docs/reference/mcp-tools.md",
-   "text": "Catálogo (10 tools)",
-   "proof": {
-    "cmd": [
-     "python",
-     "-c",
-     "from sparkforge_azure.mcp.tools import load_all; import json; print(json.dumps({'tools': len(load_all())}))"
-    ],
-    "expect": {
-     "kind": "json",
-     "path": "tools",
-     "op": "==",
-     "value": 10
-    }
-   },
-   "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
-  },
-  {
-   "id": "knowledge-check",
-   "doc": "docs/ROADMAP.md",
-   "text": "`check_knowledge`",
-   "proof": {
-    "cmd": [
-     "python",
-     "scripts/check_knowledge.py"
-    ],
-    "expect": {
-     "kind": "exit0"
-    }
-   },
-   "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
-  },
-  {
-   "id": "lab-verify",
-   "doc": "docs/reference/cli.md",
-   "text": "exit 1 se inválido",
-   "proof": {
-    "cmd": [
-     "python",
-     "-m",
-     "sparkforge_azure.cli.main",
-     "lab",
-     "verify"
-    ],
-    "expect": {
-     "kind": "regex",
-     "pattern": "\"valid\":\\s*true"
-    }
-   },
-   "sha": "74ef9016bc21dc274476c100e521c83bba8d3ee4"
-  }
- ]
+  ]
 }
