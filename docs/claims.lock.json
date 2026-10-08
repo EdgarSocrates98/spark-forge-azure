@@ -17,12 +17,12 @@
           "pattern": "\"provider\":\\s*\"azure\""
         }
       },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
+      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
     },
     {
       "id": "suite-green",
       "doc": "docs/ROADMAP.md",
-      "text": "2538 testes verdes",
+      "text": "2540 testes verdes",
       "proof": {
         "cmd": [
           "python",
@@ -33,7 +33,7 @@
         "timeout": 600,
         "expect": {
           "kind": "regex",
-          "pattern": "\n2538 passed"
+          "pattern": "\n2540 passed"
         }
       },
       "sha": "90c3c39185652a7160567b462c535687f54baef1"
@@ -69,7 +69,7 @@
           "value": 22
         }
       },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
+      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
     },
     {
       "id": "mcp-tools-10",
@@ -88,7 +88,7 @@
           "value": 10
         }
       },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
+      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
     },
     {
       "id": "knowledge-check",
@@ -103,7 +103,7 @@
           "kind": "exit0"
         }
       },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
+      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
     },
     {
       "id": "lab-verify",
@@ -122,7 +122,7 @@
           "pattern": "\"valid\":\\s*true"
         }
       },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
+      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
     },
     {
       "id": "access-suite-10",
@@ -144,7 +144,7 @@
           "value": 10
         }
       },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
+      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
     },
     {
       "id": "tokensave-benchmark-honest",
@@ -167,7 +167,7 @@
           "value": "unresolved"
         }
       },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
+      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
     },
     {
       "id": "security-vertical-green",
@@ -187,7 +187,7 @@
           "pattern": "[0-9]+ passed"
         }
       },
-      "sha": "90c3c39185652a7160567b462c535687f54baef1"
+      "sha": "31a80eda1c72c876fa63c93637feaafaeb7c9236"
     }
   ]
 }

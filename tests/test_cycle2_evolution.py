@@ -68,6 +68,16 @@ def test_doctor_access_vertical_check() -> None:
     assert data["redact_boundary"] == "available"
 
 
+def test_state_dir_env_override(tmp_path, monkeypatch) -> None:
+    """SPARKFORGE_AZURE_STATE_DIR redireciona o traces.db -- proofs e scripts
+    com cwd=repo nao sujam o worktree."""
+    from sparkforge_azure.observability.store import SQLiteTraceStore
+
+    monkeypatch.setenv("SPARKFORGE_AZURE_STATE_DIR", str(tmp_path / "state"))
+    store = SQLiteTraceStore()
+    assert store.db_path == tmp_path / "state" / "traces.db"
+
+
 def test_doctor_access_vertical_detects_duplicate_ids(monkeypatch) -> None:
     """Id duplicado no catalogo e defeito estrutural -- o check reprova."""
     from sparkforge_azure import doctor

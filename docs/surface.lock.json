@@ -66,7 +66,7 @@
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 6040,
+  "compact_bytes": 6249,
   "tool_count": 10,
   "tools": {
    "sfa_collect_workspace_graph": {
@@ -93,7 +93,7 @@
      "read_only": true,
      "security_impact": false
     },
-    "schema_sha256": "b15bcac2d2db94157ff0c2ef46d8c8cb4c031cec5931042be3a34ad8493e83d6"
+    "schema_sha256": "ad78b12b65b5d94f2c0c5b356dca2d0dd705ebff9e2cc7665e87aa06078a6d66"
    },
    "sfa_governance_diagnose": {
     "compact": true,
@@ -200,7 +200,7 @@
     "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
    }
   },
-  "total_bytes": 9414
+  "total_bytes": 9623
  },
  "schema_version": 2,
  "skills": {

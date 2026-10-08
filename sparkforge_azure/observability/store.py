@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sqlite3
 from pathlib import Path
 from typing import Any
@@ -21,7 +22,13 @@ class SQLiteTraceStore:
         # `AttributeError` escapava para dentro do `except Exception` de quem
         # chama, e como o buffer ja tinha sido esvaziado ANTES do `try`
         # naquele ponto, todos os spans do processo sumiam de uma vez.
-        default = Path.cwd() / ".sparkforge-azure" / "traces.db"
+        # `SPARKFORGE_AZURE_STATE_DIR` redireciona o state dir inteiro (sob
+        # ele fica o traces.db). Sem o override, o default continua
+        # `<cwd>/.sparkforge-azure` -- e um proof/script rodando com cwd=repo
+        # nao suja o worktree.
+        state_dir = os.environ.get("SPARKFORGE_AZURE_STATE_DIR")
+        default = (Path(state_dir) if state_dir
+                   else Path.cwd() / ".sparkforge-azure") / "traces.db"
         self.db_path = Path(db_path) if db_path else default
         self._init_db()
 

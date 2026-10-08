@@ -19,9 +19,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -85,9 +87,7 @@ def verify(static: bool = False) -> list[dict[str, Any]]:
         if not sha or _git("merge-base", "--is-ancestor", sha, "HEAD").returncode != 0:
             problems.append(f"sha {sha[:12] or '<none>'} is not an ancestor of HEAD")
         if not static:
-            proc = subprocess.run([sys.executable if a == "python" else a
-                                   for a in c["proof"]["cmd"]], cwd=ROOT, capture_output=True,
-                                  text=True, timeout=c["proof"].get("timeout", 600), check=False)
+            proc = _proof(c)
             err = _expect(c["proof"]["expect"], proc)
             if err:
                 problems.append(f"proof failed: {err}")
@@ -95,14 +95,27 @@ def verify(static: bool = False) -> list[dict[str, Any]]:
     return results
 
 
+def _proof(claim: dict[str, Any]) -> subprocess.CompletedProcess[str]:
+    """Runs one proof with the state dir redirected to a throwaway tmpdir.
+
+    Proofs run with cwd=ROOT (they need the repo), and diagnose/agentops
+    proofs would otherwise leave `.sparkforge-azure/traces.db` behind --
+    which trips the conftest backstop and pollutes the worktree.
+    """
+    env = dict(os.environ)
+    env["SPARKFORGE_AZURE_STATE_DIR"] = tempfile.mkdtemp(prefix="sfa-proof-")
+    return subprocess.run(
+        [sys.executable if a == "python" else a for a in claim["proof"]["cmd"]],
+        cwd=ROOT, capture_output=True, text=True, env=env,
+        timeout=claim["proof"].get("timeout", 600), check=False)
+
+
 def stamp() -> int:
     data = json.loads(LOCK.read_text(encoding="utf-8"))
     head = _git("rev-parse", "HEAD").stdout.strip()
     failed = []
     for c in data["claims"]:
-        proc = subprocess.run([sys.executable if a == "python" else a for a in c["proof"]["cmd"]],
-                              cwd=ROOT, capture_output=True, text=True,
-                              timeout=c["proof"].get("timeout", 600), check=False)
+        proc = _proof(c)
         err = _expect(c["proof"]["expect"], proc)
         if err:
             failed.append({"id": c["id"], "error": err})
