@@ -361,11 +361,20 @@ def _access_rules() -> list[dict[str, Any]]:
     return [r for r in load_catalog() if str(r.get("id", "")).startswith("SF-ACC")]
 
 
-def _record_stage(name: str, start: float, resultado: dict[str, Any]) -> None:
-    """One AgentOps span per pipeline stage; record() never touches disk."""
+def _record_stage(name: str, start: float, resultado: dict[str, Any],
+                  stages: dict[str, dict[str, float]] | None = None) -> float:
+    """One AgentOps span per pipeline stage; record() never touches disk.
+
+    Also reports elapsed ms into ``stages`` when given, so the report can
+    expose per-stage cost without opening the trace store.
+    """
     shared_ledger().record(
         name=f"diagnose.{name}", resultado=resultado, detail_level="stage",
         outcome="ok", start_time=start, channel="diagnose")
+    elapsed = round((time.time() - start) * 1000, 3)
+    if stages is not None:
+        stages[name] = {"ms": elapsed}
+    return elapsed
 
 
 def _context_quality(facts: list[Any], diagnosis: Any, findings: list[Finding],
@@ -408,9 +417,11 @@ def _context_quality(facts: list[Any], diagnosis: Any, findings: list[Finding],
 
 def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
     """Run the full offline pipeline on a case bundle directory."""
+    stage_ms: dict[str, dict[str, float]] = {}
     t = time.time()
     bundle = casefile.load_bundle(root)
-    _record_stage("load_bundle", t, {"case": str(bundle.case.get("name", ""))})
+    _record_stage("load_bundle", t, {"case": str(bundle.case.get("name", ""))},
+                  stage_ms)
     t = time.time()
     facts = list(extract.extract_all(bundle.artifacts, bundle.sources))
     merged_compute = dict(bundle.case.get("compute") or {})
@@ -419,20 +430,20 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         facts += extract.extract_compute(
             merged_compute, {"source": bundle.sources["case"], "mode": "bundle",
                              "observed_at": None})
-    _record_stage("extract", t, {"facts": len(facts)})
+    _record_stage("extract", t, {"facts": len(facts)}, stage_ms)
     t = time.time()
     facts += notebook_scan.scan_paths(bundle.notebook_files, base=bundle.root)
     facts += notebook_scan.skipped_facts(bundle.skipped)
     facts = sorted({f.id: f for f in facts}.values(), key=lambda f: (f.kind, f.id))
     _record_stage("notebook_scan", t, {"facts": len(facts),
-                                       "skipped": len(bundle.skipped)})
+                                       "skipped": len(bundle.skipped)}, stage_ms)
     t = time.time()
     try:
         diagnosis = diagnose(bundle.to_scenario())
     except Exception as exc:
         raise casefile.CaseError(f"invalid scenario: {exc}") from exc
     _record_stage("diagnose", t, {"status": diagnosis.status,
-                                  "layers": len(diagnosis.chain)})
+                                  "layers": len(diagnosis.chain)}, stage_ms)
 
     t = time.time()
     extra = [f for f in (_runtime_finding(bundle, facts),
@@ -444,10 +455,18 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         facts, _access_rules(), runtime={}, return_skipped=True)
     layer = _failure_layer(bundle, diagnosis, extra)
     _record_stage("rules", t, {"findings": len(rule_findings),
-                               "skipped": len(skipped)})
+                               "skipped": len(skipped)}, stage_ms)
 
-    unresolved = [{"layer": r.layer, "reason": r.reason}
-                  for r in diagnosis.chain if r.verdict is Verdict.UNKNOWN]
+    unresolved = []
+    for r in diagnosis.chain:
+        if r.verdict is not Verdict.UNKNOWN:
+            continue
+        entry: dict[str, Any] = {"layer": r.layer, "reason": r.reason}
+        artifact = _LAYER_SOURCE.get(r.layer)
+        if artifact is not None:
+            entry["artifact"] = artifact
+            entry["artifact_present"] = artifact in bundle.sources
+        unresolved.append(entry)
     findings = [*diagnosis.findings, *extra, *rule_findings]
     status = {"allowed": "pass"}.get(diagnosis.status, diagnosis.status)
     if any(f.rule_id == "SF-ACC-012" for f in extra):
@@ -463,11 +482,12 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
     graph_bytes = len(json.dumps(graph.to_dict()))
     _record_stage("graph", t, {"nodes": len(graph.nodes), "edges": len(graph.edges),
                                "build_ms": graph_build_ms,
-                               "serialized_bytes": graph_bytes})
+                               "serialized_bytes": graph_bytes}, stage_ms)
     t = time.time()
     paths = _evidence_paths(bundle, diagnosis, facts, extra, graph=graph)
     trust = _trust_scan(bundle)
-    _record_stage("evidence_trust", t, {"paths": len(paths), "taint": trust["taint"]})
+    _record_stage("evidence_trust", t, {"paths": len(paths), "taint": trust["taint"]},
+                  stage_ms)
     return {
         "status": status,
         "case": diagnosis.scenario,
@@ -490,7 +510,8 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
             layer, f"{bundle.case.get('name', '')} {layer or 'access'}"),
         "overhead": {"graph": {"nodes": len(graph.nodes), "edges": len(graph.edges),
                                "build_ms": graph_build_ms,
-                               "serialized_bytes": graph_bytes}},
+                               "serialized_bytes": graph_bytes},
+                     "stages": stage_ms},
         "context_quality": _context_quality(facts, diagnosis, findings, paths),
         "trust": trust,
         "receipt": receipt.build(

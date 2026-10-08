@@ -23,7 +23,7 @@ def test_cache_fresh_hit_skips_fetch() -> None:
     clock = iter([1000.0, 1001.0])
     cache = LiveCache(ttl_seconds=60, clock=lambda: next(clock))
     calls = []
-    cache.put("res1", "q", ["r1"])
+    cache.store("res1", "q", ["r1"])
     calls.append(1)  # put consumed one tick
     v, origin = cache.get_or_call("res1", "q", lambda: calls.append(1) or ["r2"])
     assert (v, origin) == (["r1"], "fresh")
@@ -33,7 +33,7 @@ def test_cache_fresh_hit_skips_fetch() -> None:
 def test_cache_stale_past_ttl_refetches_by_default() -> None:
     t = [0.0]
     cache = LiveCache(ttl_seconds=10, clock=lambda: t[0])
-    cache.put("res", "q", "old")
+    cache.store("res", "q", "old")
     t[0] = 999.0
     v, origin = cache.get_or_call("res", "q", lambda: "new")
     assert (v, origin) == ("new", "live")
@@ -42,7 +42,7 @@ def test_cache_stale_past_ttl_refetches_by_default() -> None:
 def test_cache_stale_visible_only_when_allowed() -> None:
     t = [0.0]
     cache = LiveCache(ttl_seconds=10, clock=lambda: t[0])
-    cache.put("res", "q", "old")
+    cache.store("res", "q", "old")
     t[0] = 999.0
     v, origin = cache.get_or_call("res", "q", lambda: "new", allow_stale=True)
     assert (v, origin) == ("old", "stale")

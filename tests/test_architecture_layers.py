@@ -142,6 +142,8 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("doctor", "knowledgebase"): "doctor mede o corpus knowledge",
     ("doctor", "mcp"): "doctor mede o registro de tools",
     ("doctor", "tokensave"): "doctor mede a escada L0-L6",
+    ("doctor", "rules"): "doctor mede a integridade do catalogo SF-ACC",
+    ("doctor", "collectors"): "doctor mede a fronteira de redacao",
     ("tokensave", "codeintel"): "a escada L0-L6 usa o indice",
     ("codeintel", "facts"): "indice reusa o scanner de facts",
     ("knowledgebase", "knowledge_ref"): "localizacao dos arquivos knowledge/",

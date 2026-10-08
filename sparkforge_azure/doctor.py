@@ -267,10 +267,62 @@ def _live_collectors() -> Check:
                  {"collectors": per, "errors": broken} if broken else {"collectors": per})
 
 
+def load_access_rules() -> list[dict[str, Any]]:
+    """SF-ACC rules from the catalog (seam for tests)."""
+    from sparkforge_azure.rules.loader import load_catalog
+    return [r for r in load_catalog()
+            if str(r.get("id", "")).startswith("SF-ACC")]
+
+
+def _access_vertical() -> Check:
+    """Structural integrity of the access vertical (offline, no secrets).
+
+    Fails on a broken catalog (unparseable / duplicate rule ids) or a missing
+    redaction boundary.  Missing source-tree fixtures are ``unresolved`` --
+    a packaged install legitimately has no ``tests/`` tree.
+    """
+    problems: list[str] = []
+    try:
+        rules = load_access_rules()
+    except Exception as exc:  # noqa: BLE001 - doctor reports, never raises
+        return Check("access_vertical", "fail",
+                     f"rules catalog failed to load: {type(exc).__name__}: {exc}"[:200])
+    ids = [str(r.get("id")) for r in rules]
+    dup = sorted({i for i in ids if ids.count(i) > 1})
+    if not rules:
+        problems.append("no SF-ACC rules in catalog")
+    if dup:
+        problems.append(f"duplicate rule ids: {dup}")
+    try:
+        from sparkforge_azure.collectors.redact import redact
+        redact_ok = callable(redact)
+    except Exception:  # noqa: BLE001
+        redact_ok = False
+    if not redact_ok:
+        problems.append("redact boundary unavailable")
+    fixtures = data_root("tests") / "fixtures" / "access"
+    cases = (sum(1 for p in fixtures.iterdir()
+                 if p.is_dir() and (p / "case.yaml").is_file())
+             if fixtures.is_dir() else 0)
+    if problems:
+        return Check("access_vertical", "fail", "; ".join(problems),
+                     {"rules": len(rules), "duplicate_rule_ids": dup,
+                      "fixtures": cases,
+                      "redact_boundary": "available" if redact_ok else "unavailable"})
+    status = "ok" if cases else "unresolved"
+    detail = (f"{len(rules)} SF-ACC rules, {cases} access fixtures; "
+              "redaction boundary present")
+    if not cases:
+        detail += "; no source-tree fixtures (packaged install?)"
+    return Check("access_vertical", status, detail,
+                 {"rules": len(rules), "duplicate_rule_ids": dup,
+                  "fixtures": cases, "redact_boundary": "available"})
+
+
 CHECKS: tuple[Callable[[], Check], ...] = (
     _installation, _dependencies, _agentic_os, _tokensave, _graphfy, _code_intelligence,
     _knowledge, _mcp, _skills_agents, _surface, _claims, _azure_extras, _credentials_state,
-    _traces, _lab, _live_collectors,
+    _traces, _lab, _live_collectors, _access_vertical,
 )
 
 

@@ -56,7 +56,7 @@ class LiveCache:
             entry.observed_at,
         )
 
-    def put(self, resource_id: str, query: str, value: Any) -> None:
+    def store(self, resource_id: str, query: str, value: Any) -> None:
         self._entries[self.key(resource_id, query)] = _Entry(value, self._clock())
 
     def get_or_call(
@@ -80,7 +80,7 @@ class LiveCache:
             if allow_stale:
                 return hit.value, "stale"
         value = fetch()
-        self.put(resource_id, query, value)
+        self.store(resource_id, query, value)
         return value, "live"
 
     def stats(self) -> dict[str, int]:
