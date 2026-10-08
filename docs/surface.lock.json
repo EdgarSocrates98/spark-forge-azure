@@ -12,6 +12,7 @@
    "agentops timeline",
    "agents inspect",
    "agents list",
+   "agents route",
    "collect adls-meta",
    "collect azure-rbac",
    "collect resource-graph",

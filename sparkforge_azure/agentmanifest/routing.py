@@ -107,8 +107,8 @@ def _phrase_index() -> list[tuple[str, int]]:
     return uniq
 
 
-def match_scores(text: str) -> dict[str, int]:
-    """Number of distinct phrases matched per specialist after longest-first masking."""
+def match_terms(text: str) -> dict[str, tuple[str, ...]]:
+    """The matched phrases per specialist after longest-first masking."""
     hay = normalize(text)
     scores: dict[str, set[str]] = {}
     for phrase, idx in _phrase_index():
@@ -116,7 +116,12 @@ def match_scores(text: str) -> dict[str, int]:
         if needle in hay:
             hay = hay.replace(needle, " | ")
             scores.setdefault(ROUTING_TABLE[idx].specialist, set()).add(phrase)
-    return {k: len(v) for k, v in scores.items()}
+    return {k: tuple(sorted(v)) for k, v in scores.items()}
+
+
+def match_scores(text: str) -> dict[str, int]:
+    """Number of distinct phrases matched per specialist after longest-first masking."""
+    return {k: len(v) for k, v in match_terms(text).items()}
 
 
 def route(
@@ -130,6 +135,43 @@ def route(
     canon = {s: i for i, s in enumerate(SPECIALIST_IDS)}
     ranked = sorted(scores, key=lambda s: (-scores[s], canon[s]))
     return ranked[:max_agents]
+
+
+def explain_route(
+    query: str | Iterable[str], *, max_agents: int = DEFAULT_MAX_AGENTS
+) -> list[dict[str, object]]:
+    """The route with a per-candidate explanation (spec: route explainability).
+
+    Every specialist appears exactly once: ``selected`` when it made the cut,
+    ``below_cap`` when it matched but ranked past ``max_agents``, ``no_match``
+    when no phrase survived masking. Deterministic — same query, same report.
+    """
+    if max_agents < 1 or max_agents > MAX_AGENTS_CEILING:
+        raise ValueError(f"max_agents must be within 1..{MAX_AGENTS_CEILING}")
+    text = query if isinstance(query, str) else " ; ".join(sorted(query))
+    terms = match_terms(text)
+    scores = {k: len(v) for k, v in terms.items()}
+    canon = {s: i for i, s in enumerate(SPECIALIST_IDS)}
+    ranked = sorted(scores, key=lambda s: (-scores[s], canon[s]))
+    selected = set(ranked[:max_agents])
+    out: list[dict[str, object]] = []
+    for specialist in SPECIALIST_IDS:
+        matched = list(terms.get(specialist, ()))
+        if specialist in selected:
+            decision, reason = "selected", f"matched {len(matched)} phrase(s) within cap"
+        elif matched:
+            decision, reason = "below_cap", f"matched {len(matched)} phrase(s), ranked past cap"
+        else:
+            decision, reason = "no_match", "no phrase matched"
+        out.append({
+            "specialist": specialist,
+            "matched_terms": matched,
+            "score": len(matched),
+            "decision": decision,
+            "reason": reason,
+        })
+    out.sort(key=lambda r: (-int(r["score"]), canon[str(r["specialist"])]))
+    return out
 
 
 def render_routing_table() -> str:
