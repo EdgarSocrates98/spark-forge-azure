@@ -39,6 +39,7 @@ DOMAINS: frozenset[str] = frozenset(
         "azure-databricks",
         "unity-catalog",
         "fabric-data-engineering",
+        "fabric-identity",
         "fabric-onelake",
         "fabric-realtime",
         "fabric-data-factory",

@@ -31,3 +31,31 @@ packs:
     purpose: Delta layout, MERGE, small files, Photon/AQE
     domains: [delta-lake, spark-performance]
     failure_layers: [delta_perf]
+  # --- Cycle 3: Fabric deep vertical (prompt_evo_cycle3) -------------------
+  fabric-core:
+    purpose: Tenant→Capacity→Workspace→Item topology, REST item model, ids
+    domains: [fabric-onelake]
+    failure_layers: [fabric_workspace, item_permission, lakehouse]
+  fabric-spark:
+    purpose: Fabric runtime matrix (1.3 EOSA / 2.0 GA), environments, SJD,
+      default lakehouse, retry
+    domains: [fabric-data-engineering]
+    failure_layers: [spark_runtime, spark_job, delta_perf]
+  onelake-security:
+    purpose: control-plane vs data-plane, grant-only roles, scopes, RLS/CLS
+    domains: [fabric-onelake, fabric-identity]
+    failure_layers: [onelake_security]
+  onelake-shortcuts:
+    purpose: passthrough vs delegated auth, connections, workspace identity,
+      source access
+    domains: [fabric-onelake, fabric-identity]
+    failure_layers: [shortcut, shortcut_auth, source_access]
+  fabric-capacity:
+    purpose: capacity states, bursting/smoothing, throttling evidence
+      (CapacityLimitExceeded, 429)
+    domains: [azure-finops]
+    failure_layers: [capacity]
+  fabric-data-factory:
+    purpose: pipelines, activities, notebook invocation seams
+    domains: [fabric-data-factory]
+    failure_layers: [data_factory, cross_environment]
