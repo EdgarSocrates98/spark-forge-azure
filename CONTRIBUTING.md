@@ -28,11 +28,16 @@ python -m pytest -q
 python scripts/check_knowledge.py
 python scripts/check_skills_agents.py
 python scripts/check_surface_lock.py
+python scripts/check_docs_surface.py
+python scripts/check_docs_index.py
 python scripts/check_claims.py
 ```
 
 Mudou superficie de CLI/MCP? `python scripts/check_surface_lock.py --update` e
-explique no commit. Mudou fonte de knowledge? `python scripts/refresh_knowledge.py --report`.
+explique no commit — e documente o verbo/tool em `docs/reference/`
+(`check_docs_surface.py` falha sem isso). Criou doc? Indexe em
+`docs/README.md` (`check_docs_index.py` falha sem isso). Mudou fonte de
+knowledge? `python scripts/refresh_knowledge.py --report`.
 
 ## O que nao entra
 

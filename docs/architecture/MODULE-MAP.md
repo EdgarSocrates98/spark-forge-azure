@@ -61,6 +61,9 @@ reais entre pacotes são medidas por `tests/test_architecture_layers.py`.
 | Pacote | Papel |
 |---|---|
 | `azure` | camada de domínio Azure (L5) — camadas baixas nunca a importam |
+| `fabric` | vertical Fabric (L5) — diagnose OneLake/Spark/capacity/RTI-seam |
+| `stream` | vertical Streaming/RTI (L5) — Event Hubs, progress, correctness, RTI |
+| `migration` | vertical migração ADF/Synapse→Fabric (L5) — assessment evidence-bound |
 | `collectors` | coletores Azure read-only com redaction obrigatória (L6) |
 
 ## L7 surfaces

@@ -119,6 +119,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("cli", "azure"): "superficie L7 alcanca o dominio",
     ("cli", "collectors"): "superficie L7 dispara coletores read-only",
     ("cli", "observability"): "cmd_agentops le spans/runs do store de observabilidade",
+    ("cli", "sdd"): "cmd_sdd e a superficie L7 do gate de specs (check/status)",
     ("mcp", "azure"): "superficie MCP alcanca o dominio",
     ("mcp", "collectors"): "tool sfa_collect_* dispara o coletor",
     ("bundle", "collectors"): "offline-bundle embute coleta redigida",

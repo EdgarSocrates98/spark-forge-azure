@@ -53,7 +53,9 @@ inteiro. Leitura completa é fallback.
 python -m pytest -q
 python scripts/check_surface_lock.py
 python scripts/check_docs_surface.py
+python scripts/check_docs_index.py
 python scripts/check_claims.py
 ```
 
 Mudou CLI/MCP? Regenere o surface lock (`--update`) e explique no commit.
+Criou doc? Indexe em `docs/README.md` (`check_docs_index.py` falha sem isso).

@@ -1,6 +1,8 @@
 # ADR-0003 — Dois verticais, um núcleo (Databricks + Fabric)
 
-- Status: **Accepted** (2026-10-08)
+- Status: **Accepted** (2026-10-08) — estendido pelos Cycles 4–5
+  (Streaming/RTI, Migration); o contrato resultante está codificado em
+  `docs/architecture/VERTICAL_CONTRACT.md`
 - Ciclos: 2 (UC/ADLS) e 3 (Microsoft Fabric)
 
 ## Contexto
