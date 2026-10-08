@@ -129,6 +129,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("azure", "rules"): "pipeline julga facts com o catalogo SF-ACC",
     ("azure", "observability"): "pipeline emite spans AgentOps por estagio (diagnose.*)",
     ("azure", "knowledgebase"): "pipeline anexa knowledge escopado por failure_layer",
+    ("azure", "collectors"): "extract reusa collectors.redact na fronteira do bundle (sem SDK)",
     ("collectors", "findings"): "coletor emite facts/finding do dominio",
     ("collectors", "azure"): "coletor live reusa os extratores do dominio",
     ("collectors", "graph"): "coletor escreve o grafo live do workspace",

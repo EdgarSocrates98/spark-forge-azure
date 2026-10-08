@@ -34,7 +34,8 @@ from sparkforge_azure.rules.loader import load_catalog
 PUBLIC_LAYERS = (
     "entra", "workspace_binding", "unity_catalog", "external_location",
     "storage_credential", "network", "azure_rbac", "adls_acl",
-    "runtime", "delta_perf", "governance_bypass", "unresolved",
+    "runtime", "delta_perf", "governance_bypass", "cross_environment",
+    "unresolved",
 )
 
 _LAYER_MAP = {
@@ -157,9 +158,51 @@ def _delta_finding(bundle: casefile.CaseBundle, facts: list[Any],
     return None
 
 
+def _env_mismatch_finding(facts: list[Any],
+                          case_name: str) -> Finding | None:
+    """SF-ACC-013: environment-scope disagreement across artifacts (193-195).
+
+    Cross-tenant/subscription/workspace evidence must never be merged into
+    one authority story — the mismatch is the finding.
+    """
+    by_key: dict[str, dict[str, set[str]]] = {}
+    for f in facts:
+        if f.kind != "environment.scope":
+            continue
+        key = str(f.attrs.get("key"))
+        value = str(f.attrs.get("value"))
+        src = str(f.subject.get("source", "?"))
+        by_key.setdefault(key, {}).setdefault(value, set()).add(src)
+    conflicts = {k: v for k, v in by_key.items() if len(v) > 1}
+    if not conflicts:
+        return None
+    evidence = [f.id for f in facts if f.kind == "environment.scope"
+                and str(f.attrs.get("key")) in conflicts]
+    detail = {k: sorted(v) for k, v in conflicts.items()}
+    return Finding(
+        rule_id="SF-ACC-013",
+        title="Environment mismatch across evidence sources",
+        severity="P0", confidence="high", status="confirmed",
+        subject={"case": case_name, "layer": "cross_environment"},
+        evidence=evidence,
+        measured={"conflicting_keys": detail},
+        explanation="Artifacts disagree on environment identity "
+                    f"{detail}; a metastore/catalog match across tenants or "
+                    "workspaces is not the same authority. The bundle cannot "
+                    "be trusted as one environment.",
+        proposed_change=["Re-collect every artifact against the same tenant, "
+                         "subscription and workspace, then re-diagnose."],
+        risks=["Findings below this one may mix evidence from different "
+               "environments."],
+    )
+
+
 def _failure_layer(bundle: casefile.CaseBundle, diagnosis: Any,
                    extra: list[Finding]) -> str | None:
     """Map the diagnosis to the public failure-layer vocabulary (AC4)."""
+    # A cross-environment bundle poisons every layer verdict: report it first.
+    if any(f.rule_id == "SF-ACC-013" for f in extra):
+        return "cross_environment"
     # A legacy access mode fails before UC evaluation: runtime wins over any
     # layer verdict or conflict the chain produced downstream.
     if any(f.rule_id == "SF-ACC-012" for f in extra):
@@ -393,6 +436,7 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
 
     t = time.time()
     extra = [f for f in (_runtime_finding(bundle, facts),
+                         _env_mismatch_finding(facts, bundle.case.get("name", "")),
                          _delta_finding(bundle, facts, diagnosis.status),
                          _bypass_finding(bundle, facts, diagnosis.status))
              if f is not None]
@@ -415,7 +459,11 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
 
     t = time.time()
     graph = _access_graph(bundle, diagnosis, facts, findings)
-    _record_stage("graph", t, {"nodes": len(graph.nodes), "edges": len(graph.edges)})
+    graph_build_ms = round((time.time() - t) * 1000, 3)
+    graph_bytes = len(json.dumps(graph.to_dict()))
+    _record_stage("graph", t, {"nodes": len(graph.nodes), "edges": len(graph.edges),
+                               "build_ms": graph_build_ms,
+                               "serialized_bytes": graph_bytes})
     t = time.time()
     paths = _evidence_paths(bundle, diagnosis, facts, extra, graph=graph)
     trust = _trust_scan(bundle)
@@ -440,6 +488,9 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         "evidence_paths": paths,
         "knowledge": compile_access_knowledge(
             layer, f"{bundle.case.get('name', '')} {layer or 'access'}"),
+        "overhead": {"graph": {"nodes": len(graph.nodes), "edges": len(graph.edges),
+                               "build_ms": graph_build_ms,
+                               "serialized_bytes": graph_bytes}},
         "context_quality": _context_quality(facts, diagnosis, findings, paths),
         "trust": trust,
         "receipt": receipt.build(

@@ -20,9 +20,9 @@ packs:
     domains: [azure-adls]
     failure_layers: [azure_rbac, adls_acl]
   azure-identity:
-    purpose: managed identities, service principals, Key Vault
+    purpose: managed identities, service principals, Key Vault, env mismatch
     domains: [azure-entra, azure-keyvault]
-    failure_layers: [entra]
+    failure_layers: [entra, cross_environment]
   azure-network:
     purpose: private link, DNS zones, firewall, managed vnet
     domains: [azure-networking]

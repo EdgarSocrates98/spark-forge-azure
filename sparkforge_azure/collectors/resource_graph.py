@@ -142,6 +142,8 @@ class ResourceGraphCollector:
         request_builder: Callable[[Sequence[str], str, str | None, int], Any] | None = None,
         page_size: int = 1000,
         query: str = ARG_QUERY,
+        cache: Any | None = None,
+        allow_stale: bool = False,
     ) -> None:
         self._subscriptions = tuple(sorted({s.lower() for s in subscriptions}))
         self._credential = credential
@@ -149,6 +151,8 @@ class ResourceGraphCollector:
         self._request_builder = request_builder or _default_request_builder
         self._page_size = page_size
         self._query = query
+        self._cache = cache
+        self._allow_stale = allow_stale
 
     def _resolve_client(self) -> Any:
         if self._client is not None:
@@ -186,9 +190,22 @@ class ResourceGraphCollector:
     ) -> CollectorResult:
         if not self._subscriptions:
             raise CollectorInputError("at least one subscription scope is required")
-        records: list[dict[str, Any]] = []
-        for page in self._pages():
-            records.extend(page)
+        origin = "live"
+        cache_age: float | None = None
+        if self._cache is not None:
+            # key = (scope, query); freshness decides whether a hit counts
+            scope = ",".join(self._subscriptions)
+
+            def _fetch() -> list[dict[str, Any]]:
+                return [r for page in self._pages() for r in page]
+
+            records, origin = self._cache.get_or_call(
+                scope, self._query, _fetch, allow_stale=self._allow_stale)
+            if origin != "live":
+                hit = self._cache.get(scope, self._query)
+                cache_age = hit.age_seconds if hit else None
+        else:
+            records = [r for page in self._pages() for r in page]
         if observed_at is None:
             from datetime import datetime, timezone
 
@@ -202,6 +219,13 @@ class ResourceGraphCollector:
             hash_principals=hash_principals,
             raw_dir=raw_dir,
         )
+        if origin == "stale":
+            # Fallback visível: stale cache nunca passa por dado current.
+            result.unresolved.append({
+                "reason": "cache_stale",
+                "detail": "cached records served past TTL; treat as degraded",
+                "cache_age_seconds": cache_age,
+            })
         return _with_invalid(records, result)
 
 
