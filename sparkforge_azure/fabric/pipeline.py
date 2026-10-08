@@ -19,6 +19,7 @@ from sparkforge_azure.azure import receipt
 from sparkforge_azure.azure.governance.model import Verdict
 from sparkforge_azure.fabric import casefile, diagnose, extract
 from sparkforge_azure.fabric.casefile import LAYER_SOURCE
+from sparkforge_azure.fabric.fingerprint import fabric_fingerprint
 from sparkforge_azure.facts import notebook_scan, pyspark_ast
 from sparkforge_azure.findings.models import Finding
 from sparkforge_azure.graph import Edge, Graph, Node, Provenance, node_id
@@ -327,6 +328,9 @@ def run_fabric_case(root: str | Path, *, profile: str = "balanced") -> dict[str,
             "principal": dict(bundle.case.get("principal") or {}),
             "operation": bundle.case.get("operation", ""),
             "target": dict(bundle.case.get("target") or {}),
+            # environment fingerprint anchors memory reuse to THIS
+            # tenant/capacity/workspace — never silently reused elsewhere.
+            "environment_fingerprint": fabric_fingerprint(bundle.case, facts),
         },
         "failure_layer": layer,
         "diagnosis": diagnosis.to_dict(),
