@@ -30,3 +30,21 @@ cases:
   - sim, aumente a memória
   expected_tools:
   - sparkforge-azure analyze spark-eventlog
+- id: spark-performance-delta-layout-negative
+  kind: negative
+  prompt: A tabela Delta acumulou 500 mil arquivos pequenos
+  must_include:
+  - delta-lake
+  must_not_include:
+  - e skew de particao
+  expected_tools:
+  - sfa_analyze
+- id: spark-performance-streaming-boundary
+  kind: boundary
+  prompt: Job streaming gerando small files a cada micro-batch
+  must_include:
+  - spark-streaming
+  must_not_include:
+  - aumente o paralelismo e pronto
+  expected_tools:
+  - sparkforge-azure analyze spark-eventlog

@@ -29,3 +29,23 @@ cases:
   expected_tools:
   - sparkforge-azure analyze network-topology
   - sfa_analyze
+- id: azure-networking-rbac-negative
+  kind: negative
+  prompt: Falta a role Storage Blob Data Reader para a managed identity — onde arrumo?
+  must_include:
+  - azure-entra
+  - evidência
+  must_not_include:
+  - o problema e a rede
+  expected_tools:
+  - sfa_analyze
+- id: azure-networking-zone-boundary
+  kind: boundary
+  prompt: Private endpoint aprovado e firewall aberto, mas o DNS ainda resolve IP publico
+  must_include:
+  - zona
+  - unresolved
+  must_not_include:
+  - a rede esta descartada como causa
+  expected_tools:
+  - sparkforge-azure analyze network-topology

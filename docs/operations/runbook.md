@@ -22,6 +22,7 @@ python scripts/check_claims.py                                     # claims com 
 | `check_claims.py` | cada claim em `docs/claims.lock.json`: texto verbatim no doc + prova executada + sha ancestral | doc driftou do lock; sha não-ancestral; prova falha |
 | `check_otel_collector.py` | igualdade semântica traces/metrics vs goldens | decoração de pipeline não conta; atributos semânticos sim |
 | `check_skills_agents.py --root X` | valida árvore arbitrária | — |
+| `sparkforge-azure doctor` | áreas: `mcp`, `azure_extras`, `live_collectors` (módulo + SDKs por collector), `knowledge_freshness`, `tokensave`, `graphfy` | `live: unavailable` = extra SDK ausente (modo export offline segue válido); nunca lê credencial |
 
 ## Regeneração de locks (nunca editar à mão)
 

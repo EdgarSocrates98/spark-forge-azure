@@ -27,3 +27,24 @@ cases:
   - o valor do segredo é
   expected_tools:
   - sparkforge-azure analyze role-assignments
+- id: azure-entra-acl-mutation-negative
+  kind: negative
+  prompt: Configure uma ACL rwx no container do ADLS para mim
+  must_include:
+  - azure-adls
+  must_not_include:
+  - acl criada
+  - assignment criado
+  expected_tools:
+  - sparkforge-azure analyze role-assignments
+- id: azure-entra-identity-ok-acl-boundary
+  kind: boundary
+  prompt: A managed identity tem a role certa mas o path ainda nega acesso
+  must_include:
+  - azure-adls
+  - object ID
+  must_not_include:
+  - a identidade esta errada
+  expected_tools:
+  - sparkforge-azure analyze role-assignments
+  - sparkforge-azure governance diagnose

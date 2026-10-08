@@ -1,0 +1,33 @@
+# Knowledge packs do vertical de acesso Databricks/UC/ADLS (secao 151).
+# Escopo deterministico: um caso so carrega os packs cujo failure_layer
+# corresponde ao do caso — um caso UC nunca carrega fabric/synapse/adf.
+# `domains` sao os dominios do indice (knowledge/INDEX.md); a uniao dos
+# packs e o escopo maximo do vertical. `governance` e crosscut: entra em
+# qualquer selecao porque conflitos multicamada atravessam camadas.
+schema_version: 1
+crosscut_domains: [governance]
+packs:
+  databricks-runtime:
+    purpose: DBR/Spark runtime, compute policy, access mode (legacy vs UC)
+    domains: [azure-databricks]
+    failure_layers: [runtime]
+  unity-catalog-storage:
+    purpose: securable model, grants, storage credentials, external locations, bindings
+    domains: [unity-catalog]
+    failure_layers: [unity_catalog, storage_credential, external_location, workspace_binding]
+  adls-access:
+    purpose: data-plane RBAC + POSIX ACLs + hierarquia de filesystems ADLS Gen2
+    domains: [azure-adls]
+    failure_layers: [azure_rbac, adls_acl]
+  azure-identity:
+    purpose: managed identities, service principals, Key Vault
+    domains: [azure-entra, azure-keyvault]
+    failure_layers: [entra]
+  azure-network:
+    purpose: private link, DNS zones, firewall, managed vnet
+    domains: [azure-networking]
+    failure_layers: [network]
+  delta-performance:
+    purpose: Delta layout, MERGE, small files, Photon/AQE
+    domains: [delta-lake, spark-performance]
+    failure_layers: [delta_perf]

@@ -59,3 +59,9 @@ sparkforge-azure tokensave benchmark --case evals/token_efficient/access_case
 
 Baseline (leitura integral: 10415 B) vs `economy` (1964 B) / `balanced` /
 `deep` (2981 B). Medido: `docs/tokensave/benchmark.md`.
+
+## Knowledge escopado (#151-153)
+
+Cada relatório traz `knowledge`: os packs de `knowledge/packs.yaml`
+mapeados pelo `failure_layer` + `excluded_domains` (prova de que
+fabric/synapse/adf ficaram fora). Ver `docs/reference/knowledge-packs.md`.

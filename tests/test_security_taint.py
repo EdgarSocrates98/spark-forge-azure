@@ -92,7 +92,11 @@ def test_injection_never_reaches_findings_text(tmp_path: Path) -> None:
     assert INJECTION not in findings_blob
 
 
-@pytest.mark.parametrize("slug", sorted(p.name for p in FIXTURES.iterdir() if p.is_dir()))
+@pytest.mark.parametrize(
+    "slug",
+    sorted(p.name for p in FIXTURES.iterdir()
+           if p.is_dir() and not p.name.startswith(".")),
+)
 def test_every_fixture_is_data_only(slug: str) -> None:
     """Nenhum fixture — mesmo os hostis — pode produzir autoridade de instrução."""
     report = _run(FIXTURES / slug)

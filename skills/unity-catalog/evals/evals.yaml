@@ -28,3 +28,23 @@ cases:
   - a external location está correta
   expected_tools:
   - sparkforge-azure governance diagnose
+- id: unity-catalog-network-negative
+  kind: negative
+  prompt: Como criar um private endpoint para o storage account?
+  must_include:
+  - azure-networking
+  must_not_include:
+  - e um problema de grant no unity catalog
+  expected_tools:
+  - sfa_governance_diagnose
+- id: unity-catalog-grants-ok-storage-boundary
+  kind: boundary
+  prompt: Tenho todos os grants UC mas o abfss ainda devolve PERMISSION_DENIED
+  must_include:
+  - azure-adls
+  - storage credential
+  must_not_include:
+  - o unity catalog esta bloqueando
+  expected_tools:
+  - sparkforge-azure governance diagnose
+  - sfa_graph_query

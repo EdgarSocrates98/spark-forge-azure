@@ -11,6 +11,7 @@ import yaml
 
 from sparkforge_azure.skills import mirrors
 from sparkforge_azure.skills.model import (
+    EVAL_KINDS,
     SKILL_NAMES,
     body_cli_refs,
     parse_skill,
@@ -101,8 +102,11 @@ def test_every_skill_has_statically_checkable_evals():
         assert data["skill"] == name
         assert len(data["cases"]) >= 3
         for case in data["cases"]:
-            assert set(case) == {"id", "prompt", "must_include", "must_not_include",
-                                 "expected_tools"}
+            assert {"id", "prompt", "must_include", "must_not_include",
+                    "expected_tools"} <= set(case)
+            assert set(case) <= {"id", "prompt", "must_include", "must_not_include",
+                                 "expected_tools", "kind"}
+            assert case.get("kind", "positive") in EVAL_KINDS
 
 
 def test_skill_boundaries_are_explicit():

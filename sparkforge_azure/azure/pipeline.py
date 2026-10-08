@@ -26,6 +26,7 @@ from sparkforge_azure.findings.models import Finding
 from sparkforge_azure.graph import Edge, Graph, Node, Provenance, node_id
 from sparkforge_azure.graph.access import build_access_graph
 from sparkforge_azure.graph.evidence import evidence_paths as graph_evidence_paths
+from sparkforge_azure.knowledgebase.vertical import compile_access_knowledge
 from sparkforge_azure.observability.context_ledger import shared_ledger
 from sparkforge_azure.rules.engine import judge
 from sparkforge_azure.rules.loader import load_catalog
@@ -437,6 +438,8 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
         "facts": [f.to_dict() for f in facts],
         "access_graph": graph.to_dict(),
         "evidence_paths": paths,
+        "knowledge": compile_access_knowledge(
+            layer, f"{bundle.case.get('name', '')} {layer or 'access'}"),
         "context_quality": _context_quality(facts, diagnosis, findings, paths),
         "trust": trust,
         "receipt": receipt.build(
