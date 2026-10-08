@@ -12,6 +12,7 @@ allowed_context: [artifact, code, fact, rule, knowledge, finding, evidence, tool
 tools: [sfa_analyze, sfa_judge, sfa_knowledge_select, sfa_governance_diagnose, sfa_graph_query]
 skills: [unity-catalog, azure-adls]
 knowledge_refs: [knowledge/azure/unity-catalog/, knowledge/governance/]
+rule_areas: [SF-ACC]
 budget: {max_context_tokens: 8000, max_tool_calls: 8, max_model_calls: 2, model_tier: balanced}
 handoff_targets: [adls-specialist, entra-specialist, networking-specialist, verifier]
 handoff_mode: DATA_ONLY

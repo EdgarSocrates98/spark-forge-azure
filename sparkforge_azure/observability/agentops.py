@@ -51,18 +51,31 @@ class WasteAttribution:
 def _waste(spans: list[dict[str, Any]]) -> list[WasteAttribution]:
     findings: list[WasteAttribution] = []
     seen: dict[str, list[str]] = {}
+    hit_levels: list[str] = []
+    l6_spans: list[tuple[str, float]] = []
     for span in spans:
-        if span.get("component_type") == "tool":
-            key = f"{span.get('name')}:{span.get('metadata_json', '')}"
-            seen.setdefault(key, []).append(str(span.get("span_id")))
+        key = f"{span.get('name')}:{span.get('metadata_json', '')}"
+        seen.setdefault(key, []).append(str(span.get("span_id")))
+        name = str(span.get("name") or "")
+        level = str(span.get("detail_level") or "")
+        if name.startswith("tokensave.") and span.get("outcome") == "ok":
+            if level in {"L1", "L2", "L3", "L5"}:
+                hit_levels.append(level)
+            elif level == "L6":
+                l6_spans.append((str(span.get("span_id")),
+                                 float(span.get("start_time") or 0.0)))
     for key, ids in seen.items():
         if len(ids) > 1:
+            component = key.split(".", 1)[0].split(":", 1)[0]
+            pattern = ("duplicate_tool_call"
+                       if component == "sfa" or key.startswith("sfa_")
+                       else "duplicate_span")
             findings.append(
                 WasteAttribution(
-                    "duplicate_tool_call",
+                    pattern,
                     "observed",
                     tuple(ids),
-                    f"tool call repeated {len(ids)} times: {key[:100]}",
+                    f"span repeated {len(ids)} times: {key[:100]}",
                 )
             )
     for span in spans:
@@ -90,6 +103,21 @@ def _waste(spans: list[dict[str, Any]]) -> list[WasteAttribution]:
                     "observed",
                     (str(span.get("span_id")),),
                     "tool emitted payload bytes with no returned items",
+                )
+            )
+    for span_id, _at in l6_spans:
+        if hit_levels:
+            # hypothesis, not observed: the span metadata does not carry the
+            # retrieval target, so same-file proof is impossible here.  The
+            # honest claim is "a full read happened while index-level hits
+            # already answered in this run" -- worth reviewing, never proof.
+            findings.append(
+                WasteAttribution(
+                    "full_read_after_index_hit",
+                    "hypothesis",
+                    (span_id,),
+                    "L6 full read issued while L1-L5 retrievals already "
+                    "succeeded in this run; verify the target differed",
                 )
             )
     return findings

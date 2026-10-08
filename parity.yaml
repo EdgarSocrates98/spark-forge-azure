@@ -358,7 +358,7 @@ aws_subsystems:
     status: ported
     aws_files: 15
     aws_markers: 0
-    manifest_entries: 15
+    manifest_entries: 19
     azure_path: sparkforge_azure/lab
     reason: nucleo neutro com marcadores AWS ou arestas para modulos AWS; ver changes no port_manifest
   lakeformation:

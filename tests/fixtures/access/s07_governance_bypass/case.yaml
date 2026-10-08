@@ -1,0 +1,14 @@
+name: s07_governance_bypass
+principal:
+  id: spn-job-1
+  type: service_principal
+operation: read
+target:
+  kind: path
+  url: abfss://lake@stg.dfs.core.windows.net/raw/events
+compute:
+  workspace_id: '1234567890123456'
+  type: classic_vnet
+expect:
+  status: findings
+  failure_layer: governance_bypass

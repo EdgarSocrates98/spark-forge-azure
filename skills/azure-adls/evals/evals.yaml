@@ -28,3 +28,23 @@ cases:
   - está 100% seguro
   expected_tools:
   - sparkforge-azure governance diagnose
+- id: azure-adls-uc-grant-negative
+  kind: negative
+  prompt: O usuario nao tem SELECT na tabela gerenciada pelo Unity Catalog
+  must_include:
+  - unity-catalog
+  - unresolved
+  must_not_include:
+  - a acl do adls esta errada
+  expected_tools:
+  - sparkforge-azure governance diagnose
+- id: azure-adls-rbac-ok-acl-boundary
+  kind: boundary
+  prompt: Tenho Storage Blob Data Contributor e ainda recebo AuthorizationPermissionMismatch
+  must_include:
+  - ACL
+  - execute
+  must_not_include:
+  - o rbac ja garante acesso
+  expected_tools:
+  - sparkforge-azure analyze adls-acl

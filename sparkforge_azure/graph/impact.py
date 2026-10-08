@@ -31,10 +31,26 @@ DEPENDENCY_DIRECTION: dict[str, str] = {
     "runs_in": "reverse",
     "located_in": "reverse",
     "member_of": "reverse",
+    # access graph relations (graph/access.py): the source depends on target
+    "accesses": "reverse",
+    "applies_to": "reverse",
+    "bound_to": "reverse",
+    "executes": "reverse",
+    "has_privilege": "reverse",
+    "has_role": "reverse",
+    "located_at": "reverse",
+    "part_of": "reverse",
+    "points_to": "reverse",
+    "reads": "reverse",
+    "uses": "reverse",
+    "uses_identity": "reverse",
+    "writes": "reverse",
     "defines": "forward",
     "contains": "forward",
     "binds_to": "forward",
+    "exposes_identity": "forward",
     "same_as": "both",
+    "governs": "both",
 }
 
 CATEGORIES = (

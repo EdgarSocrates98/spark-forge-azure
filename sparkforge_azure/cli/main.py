@@ -21,6 +21,7 @@ from collections.abc import Callable, Sequence
 from typing import Any
 
 from sparkforge_azure import __version__
+from sparkforge_azure.cli import CliError
 
 PROG = "sparkforge-azure"
 
@@ -33,13 +34,12 @@ COMMAND_MODULES: tuple[str, ...] = (
     "sparkforge_azure.cli.cmd_collect",
     "sparkforge_azure.cli.cmd_bundle",
     "sparkforge_azure.cli.cmd_lab",
+    "sparkforge_azure.cli.cmd_mcp",
+    "sparkforge_azure.cli.cmd_diagnose",
+    "sparkforge_azure.cli.cmd_agentops",
 )
 
 Result = dict[str, Any]
-
-
-class CliError(Exception):
-    """Refused input: exit 2 with a JSON error document."""
 
 
 def build_parser() -> argparse.ArgumentParser:

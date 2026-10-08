@@ -226,10 +226,51 @@ def _lab() -> Check:
     return _optional_module("forge_lab", "sparkforge_azure.lab")
 
 
+_LIVE_COLLECTORS: dict[str, tuple[str, tuple[str, ...]]] = {
+    "databricks": ("sparkforge_azure.collectors.databricks", ("databricks.sdk",)),
+    "unity_catalog": ("sparkforge_azure.collectors.unity_catalog", ("databricks.sdk",)),
+    "azure_rbac": ("sparkforge_azure.collectors.azure_rbac",
+                   ("azure.identity", "azure.mgmt.authorization")),
+    "adls_meta": ("sparkforge_azure.collectors.adls_meta",
+                  ("azure.identity", "azure.storage.filedatalake")),
+    "resource_graph": ("sparkforge_azure.collectors.resource_graph",
+                       ("azure.identity", "azure.mgmt.resourcegraph")),
+}
+
+
+def _live_collectors() -> Check:
+    """Collector module health + lazy SDK extras needed for live mode.
+
+    ``module`` reports whether the collector imports; ``live`` reports whether
+    its SDK extras are installed.  Offline export mode never needs the SDKs,
+    so a missing SDK is ``unavailable`` for live, never a failure.
+    """
+    per: dict[str, Any] = {}
+    broken = []
+    for name, (mod, deps) in _LIVE_COLLECTORS.items():
+        try:
+            importlib.import_module(mod)
+            module_ok = True
+        except Exception as exc:  # noqa: BLE001 - doctor reports, never raises
+            module_ok = False
+            broken.append(f"{name}: {type(exc).__name__}: {exc}"[:160])
+        missing = [d for d in deps if not _spec(d)]
+        per[name] = {
+            "module": "available" if module_ok else "unavailable",
+            "live": "available" if not missing else "unavailable",
+            "missing_sdk": missing,
+        }
+    live_count = sum(1 for v in per.values() if v["live"] == "available")
+    return Check("live_collectors", "fail" if broken else "ok",
+                 f"{live_count}/{len(per)} collectors live-ready; "
+                 "offline export mode always available",
+                 {"collectors": per, "errors": broken} if broken else {"collectors": per})
+
+
 CHECKS: tuple[Callable[[], Check], ...] = (
     _installation, _dependencies, _agentic_os, _tokensave, _graphfy, _code_intelligence,
     _knowledge, _mcp, _skills_agents, _surface, _claims, _azure_extras, _credentials_state,
-    _traces, _lab,
+    _traces, _lab, _live_collectors,
 )
 
 

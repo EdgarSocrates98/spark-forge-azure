@@ -6,6 +6,7 @@ import argparse
 from typing import Any
 
 from sparkforge_azure.tokensave import TokenSave
+from sparkforge_azure.tokensave import benchmark as ts_benchmark
 
 
 def _ts(args: argparse.Namespace) -> TokenSave:
@@ -55,6 +56,16 @@ def _context(a):
     return res
 
 
+def _benchmark(a):
+    report = ts_benchmark.run_benchmark(
+        a.case,
+        task=a.task or ts_benchmark.DEFAULT_TASK,
+        required_terms=a.term or None,
+        index_db=a.index,
+    )
+    return {"status": "ok", "benchmark": report, "authority": "data_only"}
+
+
 def register(sub: argparse._SubParsersAction) -> None:
     p = sub.add_parser("tokensave", help="economical retrieval ladder (L0-L6)")
     s = p.add_subparsers(dest="tokensave_cmd", metavar="<op>")
@@ -98,3 +109,9 @@ def register(sub: argparse._SubParsersAction) -> None:
     q.add_argument("task")
     q.add_argument("--term", action="append", help="required term (repeatable)")
     q.set_defaults(func=_context)
+    q = s.add_parser("benchmark", help="baseline vs profiles on a case corpus")
+    q.add_argument("--case", required=True, help="case corpus directory")
+    q.add_argument("--task", default=None, help="task text (default: UC/ADLS case)")
+    q.add_argument("--term", action="append", help="required term (repeatable)")
+    q.add_argument("--index", default=None, help="code-intelligence index (sqlite)")
+    q.set_defaults(func=_benchmark)

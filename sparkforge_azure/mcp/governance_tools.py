@@ -18,6 +18,22 @@ from sparkforge_azure.mcp.tools import READ_ONLY, tool
     input_schema={"type": "object", "properties": {"scenario": {"type": "object"}},
                   "required": ["scenario"], "additionalProperties": False},
     risk=READ_ONLY, domain="governance", compact=True,
+    output_schema={
+        "type": "object",
+        "required": ["status", "chain", "unresolved", "authority"],
+        "properties": {
+            "scenario": {"type": "string"},
+            "status": {"type": "string", "enum": ["allowed", "denied", "unresolved"]},
+            "effective_identity": {"type": "string"},
+            "root_cause": {"type": ["object", "null"]},
+            "conflicts": {"type": "array", "items": {"type": "string"}},
+            "chain": {"type": "array", "items": {"type": "object"}},
+            "unresolved": {"type": "array", "items": {"type": "string"}},
+            "facts": {"type": "array"},
+            "findings": {"type": "array"},
+            "authority": {"type": "string"},
+        },
+    },
 )
 def governance_diagnose(args: Mapping[str, Any]) -> dict[str, Any]:
     return diagnose(args["scenario"]).to_dict()

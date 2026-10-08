@@ -125,6 +125,18 @@ EVAL_CASE_KEYS: tuple[str, ...] = (
     "expected_tools",
 )
 MIN_EVAL_CASES = 3
+EVAL_KINDS: frozenset[str] = frozenset({"positive", "negative", "boundary"})
+# Vertical de acesso UC/ADLS (prompt 156): estas skills exigem evals com
+# trigger positivo, trigger negativo e caso de fronteira.
+VERTICAL_SKILLS: frozenset[str] = frozenset({
+    "azure-adls",
+    "azure-databricks",
+    "azure-entra",
+    "azure-networking",
+    "delta-lake",
+    "spark-performance",
+    "unity-catalog",
+})
 
 _FRONT_RE = re.compile(r"\A---\r?\n(.*?)\r?\n---\r?\n?(.*)\Z", re.DOTALL)
 
@@ -412,6 +424,7 @@ def validate_evals_file(
     tools = set(tool_refs or [])
     lowered = (skill_text or "").lower()
     seen: set[str] = set()
+    kinds: set[str] = set()
     for i, case in enumerate(cases):
         label = f"{where}[{i}]"
         if not isinstance(case, dict):
@@ -430,6 +443,12 @@ def validate_evals_file(
             seen.add(cid)
         if not isinstance(case["prompt"], str) or not case["prompt"].strip():
             rep.errors.append(f"{label}: prompt must be a non-empty string")
+        kind = case.get("kind", "positive")
+        if kind not in EVAL_KINDS:
+            rep.errors.append(
+                f"{label}: kind {kind!r} invalid (use {sorted(EVAL_KINDS)})")
+        else:
+            kinds.add(kind)
         bad_lists = False
         for key in ("must_include", "must_not_include", "expected_tools"):
             val = case[key]
@@ -455,6 +474,13 @@ def validate_evals_file(
                 rep.errors.append(
                     f"{label}: must_include terms not grounded in SKILL.md: {ungrounded}"
                 )
+    if skill_name in VERTICAL_SKILLS:
+        missing_kinds = {"negative", "boundary"} - kinds
+        if missing_kinds:
+            rep.errors.append(
+                f"{where}: vertical skill needs eval kinds {sorted(missing_kinds)} "
+                "(positive trigger + negative trigger + boundary)"
+            )
     return rep
 
 

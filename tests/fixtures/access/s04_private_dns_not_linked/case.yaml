@@ -1,0 +1,15 @@
+name: s04_private_dns_not_linked
+principal:
+  id: spn-job-1
+  type: service_principal
+operation: read
+target:
+  kind: path
+  url: abfss://lake@stg.dfs.core.windows.net/finance/orders
+compute:
+  workspace_id: '1234567890123456'
+  type: classic_vnet
+  dns_resolves: public
+expect:
+  status: denied
+  failure_layer: network

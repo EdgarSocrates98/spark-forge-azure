@@ -1,0 +1,115 @@
+# Catálogo de regras — vertical de acesso Azure (UC / RBAC / ACL / rede)
+# Regras avaliadas pelo rules engine sobre os Facts de azure/extract.py +
+# facts/notebook_scan.py. Findings estruturais do pipeline (SF-ACC-010..012)
+# são emitidos por azure/pipeline.py porque correlacionam o Diagnosis inteiro,
+# coisa que o `when` fact-a-fact não expressa.
+
+catalog_version: 1
+schema_version: 1
+area: SF-ACC
+retrieved: 2026-10-06
+
+rules:
+
+  - id: SF-ACC-001
+    category: azure-access
+    title: External location sem evidência RBAC da storage credential
+    requires_facts: [unity_catalog.external_location]
+    when:
+      all:
+        - fact: unity_catalog.external_location
+        - absent: azure_rbac.assignment
+    status: structural
+    severity_default: P2
+    runtime_scope: {}
+    explanation: >
+      External locations existem no bundle, mas nenhum assignment RBAC foi
+      observado -- a identidade do access connector pode não ter acesso de dados
+      ao storage que o location cobre.
+    proposed_change:
+      - Incluir export de role assignments cobrindo o escopo do storage account,
+        ou conceder Storage Blob Data Reader/Contributor ao managed identity do
+        access connector da storage credential.
+    validation:
+      - Re-rodar o diagnose com o export completo e confirmar camada azure_rbac ALLOW.
+    rollback:
+      - Revogar o role assignment concedido (Remove-AzRoleAssignment) se a
+        concessão era desnecessária.
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.adls.acl-rbac
+
+  - id: SF-ACC-002
+    category: azure-access
+    title: Catálogo ISOLATED sem workspaces vinculados observados
+    requires_facts: [unity_catalog.binding]
+    when:
+      all:
+        - fact: unity_catalog.binding
+          where: {attrs.isolation_mode: ISOLATED}
+          expr: "measures.bound_workspaces == 0"
+    status: confirmed
+    severity_default: P1
+    runtime_scope: {}
+    explanation: >
+      Catálogo ISOLATED sem nenhum workspace vinculado no export: nenhum workspace
+      pode acessá-lo, porque o binding supersedes os grants individuais.
+    proposed_change:
+      - Vincular o workspace ao catálogo (workspace-catalog binding) ou reduzir o
+        isolation_mode para OPEN se a política permitir.
+    validation:
+      - Re-rodar o diagnose e confirmar camada uc_binding ALLOW para o workspace do job.
+    rollback:
+      - Remover o workspace-catalog binding ou restaurar o isolation_mode anterior.
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.unity-catalog.securable-model
+
+  - id: SF-ACC-003
+    category: azure-access
+    title: Código acessa abfss:// direto com tabelas UC governadas no bundle
+    requires_facts: [notebook.abfss_path, unity_catalog.table]
+    when:
+      all:
+        - fact: notebook.abfss_path
+        - fact: unity_catalog.table
+    status: structural
+    severity_default: P2
+    runtime_scope: {}
+    explanation: >
+      Notebook lê path abfss direto enquanto o catálogo governa tabelas -- acesso
+      por path ignora privilégios UC, linhagem e auditoria.
+    proposed_change:
+      - Trocar leitura por path pelo nome UC (catalog.schema.table) quando o path
+        pertencer a uma tabela governada.
+    validation:
+      - Job lê a tabela pelo nome UC e o acesso aparece no audit log do catálogo.
+    rollback:
+      - Reverter o commit do notebook para a leitura por path anterior.
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.unity-catalog.securable-model
+
+  - id: SF-ACC-004
+    category: azure-access
+    title: Assignment RBAC com condição ABAC não avaliada
+    requires_facts: [azure_rbac.assignment]
+    when:
+      all:
+        - fact: azure_rbac.assignment
+          where: {attrs.condition: true}
+    status: structural
+    severity_default: P3
+    runtime_scope: {}
+    explanation: >
+      Assignment com condição ABAC cujo resultado não foi observado: o grant é
+      incerto -- condition_result ausente no export.
+    proposed_change:
+      - Re-exportar com avaliação da condição ou remover a condição se não for
+        necessária.
+    validation:
+      - Export traz condition_result avaliado e a camada azure_rbac resolve com decisão real.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.adls.acl-rbac

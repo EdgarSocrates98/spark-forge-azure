@@ -29,3 +29,22 @@ cases:
   - 5x mais rápido
   expected_tools:
   - sparkforge-azure lab run
+- id: delta-lake-spark-skew-negative
+  kind: negative
+  prompt: Uma task do stage leva 2h e as outras terminam em segundos
+  must_include:
+  - spark-performance
+  must_not_include:
+  - rode optimize
+  expected_tools:
+  - sfa_analyze
+- id: delta-lake-merge-or-exec-boundary
+  kind: boundary
+  prompt: "MERGE lento: small files na tabela ou problema de execucao do Spark?"
+  must_include:
+  - _delta_log
+  - spark-performance
+  must_not_include:
+  - e so rodar optimize
+  expected_tools:
+  - sparkforge-azure analyze delta-log

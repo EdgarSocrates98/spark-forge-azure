@@ -28,3 +28,24 @@ cases:
   - deploy aprovado
   expected_tools:
   - sparkforge-azure analyze dab
+- id: azure-databricks-uc-grant-negative
+  kind: negative
+  prompt: Por que falta o grant SELECT nesta tabela do Unity Catalog?
+  must_include:
+  - unity-catalog
+  - unresolved
+  must_not_include:
+  - o cluster esta mal configurado
+  expected_tools:
+  - sfa_analyze
+- id: azure-databricks-access-mode-boundary
+  kind: boundary
+  prompt: PERMISSION_DENIED na tabela UC — e o cluster legado, o grant ou os dois?
+  must_include:
+  - unity-catalog
+  - evidência
+  must_not_include:
+  - e so reiniciar o cluster
+  expected_tools:
+  - sparkforge-azure analyze databricks-cluster
+  - sparkforge-azure analyze databricks-job
