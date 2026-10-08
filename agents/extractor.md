@@ -61,6 +61,7 @@ review_policy:
 evals: [tests/test_agentic_debate_evidence.py, tests/test_agent_contract_v2.py]
 agentops_emit_span: true
 risk: local_write
+autonomy: L0
 parent: null
 ---
 

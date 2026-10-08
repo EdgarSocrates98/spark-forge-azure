@@ -61,6 +61,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L2
 parent: null
 name: sparkforge-azure-referee
 description: Resolve divergência entre agentes pela evidência, ou declara unresolved.

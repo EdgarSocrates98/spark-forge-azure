@@ -69,6 +69,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L0
 parent: null
 name: sparkforge-azure-verifier
 description: Tenta refutar cada finding com evidência independente antes de qualquer

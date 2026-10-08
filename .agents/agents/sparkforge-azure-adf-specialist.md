@@ -80,6 +80,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: null
 name: sparkforge-azure-adf-specialist
 description: 'Specialist em Azure Data Factory (pipelines, IR, linked services): produz

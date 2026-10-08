@@ -76,6 +76,7 @@ review_policy:
 evals: [evals/agents/observability-specialist.yaml, tests/test_agent_eval_cases.py, tests/test_agent_contract_v2.py]
 agentops_emit_span: true
 risk: cloud_read
+autonomy: L1
 parent: null
 ---
 

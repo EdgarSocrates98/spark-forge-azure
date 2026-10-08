@@ -62,6 +62,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: cloud_read
+autonomy: L0
 parent: null
 name: sparkforge-azure-inventory
 description: Inventaria artefatos disponíveis (repo, exports, coleta opt-in) e declara

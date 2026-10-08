@@ -68,6 +68,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: azure-databricks-specialist
 name: sparkforge-azure-databricks-cost-reviewer
 description: Revisa fatos de configuração com impacto de custo (all-purpose vs job

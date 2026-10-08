@@ -45,6 +45,7 @@ def build(root: Path) -> dict:
             "kind": a.kind,
             "status": a.status,
             "domain": data.get("domain"),
+            "autonomy": data.get("autonomy"),
             "evals": data.get("evals") or [],
             "mirrors": [
                 f"{mroot}/{mirror_name(a.agent_id)}.md"

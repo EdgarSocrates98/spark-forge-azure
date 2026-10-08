@@ -80,6 +80,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: cloud_read
+autonomy: L1
 parent: null
 name: sparkforge-azure-finops-specialist
 description: 'Specialist em FinOps (Cost Management, DBU, capacidade): produz findings

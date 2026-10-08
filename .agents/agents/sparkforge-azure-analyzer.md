@@ -65,6 +65,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L0
 parent: null
 name: sparkforge-azure-analyzer
 description: Correlaciona facts (grafo, referências, impacto) para produzir facts

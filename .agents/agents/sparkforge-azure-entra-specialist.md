@@ -80,6 +80,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: null
 name: sparkforge-azure-entra-specialist
 description: 'Specialist em Entra ID, managed identity, RBAC, Key Vault: produz findings

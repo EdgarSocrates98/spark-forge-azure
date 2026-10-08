@@ -81,6 +81,7 @@ review_policy:
 evals: [evals/agents/unity-catalog-specialist.yaml, tests/test_agent_eval_cases.py, tests/test_agent_contract_v2.py]
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: null
 rule_areas:
 - SF-ACC

@@ -13,6 +13,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "control",
+      "autonomy": "L2",
       "evals": [
         "tests/test_agentic_spawn.py",
         "tests/test_agentic_labs.py",
@@ -28,6 +29,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "evidence",
+      "autonomy": "L0",
       "evals": [
         "tests/test_agentic_inventory.py",
         "tests/test_agent_contract_v2.py"
@@ -42,6 +44,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "evidence",
+      "autonomy": "L0",
       "evals": [
         "tests/test_agentic_debate_evidence.py",
         "tests/test_agent_contract_v2.py"
@@ -56,6 +59,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "evidence",
+      "autonomy": "L0",
       "evals": [
         "tests/test_agentic_executor_run.py",
         "tests/test_agent_contract_v2.py"
@@ -70,6 +74,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "evidence",
+      "autonomy": "L0",
       "evals": [
         "tests/test_agentic_executor_run.py",
         "tests/test_agentic_executor_digest.py",
@@ -85,6 +90,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "evidence",
+      "autonomy": "L0",
       "evals": [
         "tests/test_agentic_executor_gate.py",
         "tests/test_agentic_security_lab.py",
@@ -100,6 +106,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "review",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_spawn.py",
         "tests/test_agent_contract_v2.py"
@@ -114,6 +121,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "adversarial",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_executor_conflict.py",
         "tests/test_agentic_spawn.py",
@@ -129,6 +137,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "adversarial",
+      "autonomy": "L2",
       "evals": [
         "tests/test_agentic_arbitration.py",
         "tests/test_agentic_debate_run.py",
@@ -144,6 +153,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "evidence",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_executor_digest.py",
         "tests/test_agent_contract_v2.py"
@@ -158,6 +168,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "review",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_security_lab.py",
         "tests/test_agent_contract_v2.py"
@@ -172,6 +183,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "review",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_spans.py",
         "tests/test_agent_contract_v2.py"
@@ -186,6 +198,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "review",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_labs.py",
         "tests/test_agent_contract_v2.py"
@@ -200,6 +213,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "review",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_labs.py",
         "tests/test_agent_contract_v2.py"
@@ -214,6 +228,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "test_eval",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_test_eval.py",
         "tests/test_agent_contract_v2.py"
@@ -228,6 +243,7 @@
       "kind": "role",
       "status": "ready",
       "domain": "test_eval",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_test_eval.py",
         "tests/test_agent_contract_v2.py"
@@ -242,6 +258,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "fabric",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/fabric-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -257,6 +274,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "azure-databricks",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/azure-databricks-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -272,6 +290,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "unity-catalog",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/unity-catalog-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -287,6 +306,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "synapse",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/synapse-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -302,6 +322,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "adf",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/adf-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -317,6 +338,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "adls",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/adls-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -332,6 +354,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "onelake",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/onelake-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -347,6 +370,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "event-hubs",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/event-hubs-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -362,6 +386,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "streaming",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/streaming-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -377,6 +402,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "purview",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/purview-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -392,6 +418,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "entra",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/entra-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -407,6 +434,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "networking",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/networking-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -422,6 +450,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "finops",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/finops-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -437,6 +466,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "spark-performance",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/spark-performance-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -452,6 +482,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "delta",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/delta-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -467,6 +498,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "iceberg",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/iceberg-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -482,6 +514,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "terraform",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/terraform-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -497,6 +530,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "bicep",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/bicep-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -512,6 +546,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "migration",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/migration-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -527,6 +562,7 @@
       "kind": "specialist",
       "status": "ready",
       "domain": "observability",
+      "autonomy": "L1",
       "evals": [
         "evals/agents/observability-specialist.yaml",
         "tests/test_agent_eval_cases.py",
@@ -542,6 +578,7 @@
       "kind": "subagent",
       "status": "ready",
       "domain": "databricks",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_spawn.py",
         "tests/test_agent_contract_v2.py"
@@ -556,6 +593,7 @@
       "kind": "subagent",
       "status": "ready",
       "domain": "databricks",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_spawn.py",
         "tests/test_agent_contract_v2.py"
@@ -570,6 +608,7 @@
       "kind": "subagent",
       "status": "ready",
       "domain": "databricks",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_spawn.py",
         "tests/test_agent_contract_v2.py"
@@ -584,6 +623,7 @@
       "kind": "subagent",
       "status": "ready",
       "domain": "databricks",
+      "autonomy": "L1",
       "evals": [
         "tests/test_agentic_spawn.py",
         "tests/test_agent_contract_v2.py"
