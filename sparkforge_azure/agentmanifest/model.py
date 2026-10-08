@@ -112,6 +112,10 @@ CONTEXT_KINDS: tuple[str, ...] = (
     "risk",
     "unresolved",
     "tool_output",
+    # eval-plane kinds (evaluation-specialist consumes these, never raw artifacts)
+    "eval_result",
+    "metric",
+    "claim",
 )
 #: Inputs an agent may declare — the context kinds plus the two entry points
 #: (a fresh task, or a handoff arriving from another agent).

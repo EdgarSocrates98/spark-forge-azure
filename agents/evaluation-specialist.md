@@ -16,9 +16,10 @@ does_not:
 - não decide remoção sozinho — recomenda ao coordinator
 - não usa estimativa de token sem telemetria real
 inputs:
-- fact
-- evidence
-- memory
+- eval_result
+- metric
+- claim
+- finding
 outputs:
 - report
 - recommendations
@@ -26,13 +27,14 @@ allowed_tools:
 - sfa_agentops_inspect
 denied_tools: []
 required_context_kinds:
-- fact
-- evidence
+- eval_result
+- metric
 allowed_context_kinds:
-- fact
-- evidence
+- eval_result
+- metric
+- claim
 - finding
-- memory
+- evidence
 - unresolved
 knowledge_packs:
 - knowledge/agentic/
