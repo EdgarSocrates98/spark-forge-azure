@@ -17,12 +17,12 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "2541 testes verdes",
+   "text": "2599 passed",
    "proof": {
     "cmd": [
      "python",
@@ -33,10 +33,10 @@
     "timeout": 600,
     "expect": {
      "kind": "regex",
-     "pattern": "\n2541 passed"
+     "pattern": "\n2599 passed"
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "surface-lock",
@@ -51,7 +51,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "skills-catalogue-22",
@@ -69,12 +69,12 @@
      "value": 22
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
-   "id": "mcp-tools-10",
+   "id": "mcp-tools-11",
    "doc": "docs/reference/mcp-tools.md",
-   "text": "Catálogo (10 tools)",
+   "text": "tools=11",
    "proof": {
     "cmd": [
      "python",
@@ -85,10 +85,10 @@
      "kind": "json",
      "path": "tools",
      "op": "==",
-     "value": 10
+     "value": 11
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "knowledge-check",
@@ -103,7 +103,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "lab-verify",
@@ -122,7 +122,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "access-suite-10",
@@ -144,7 +144,7 @@
      "value": 10
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -167,7 +167,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "security-vertical-green",
@@ -187,7 +187,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "c06422198c82b1014520218a6716b4ae38de8ced"
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "fabric-suite-green",
@@ -210,7 +210,7 @@
      "value": 16
     }
    },
-   "sha": ""
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -226,7 +226,7 @@
      "kind": "exit0"
     }
    },
-   "sha": ""
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   },
   {
    "id": "fabric-mcp-surface",
@@ -242,7 +242,7 @@
      "kind": "exit0"
     }
    },
-   "sha": ""
+   "sha": "c8ce8faa588a2fd4af668c6a94857a51853ea912"
   }
  ]
 }

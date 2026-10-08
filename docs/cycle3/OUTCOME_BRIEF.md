@@ -55,7 +55,7 @@ do Cycle 2).
 ```
 sdd.checks      ok=True — 11 features, 0 refused, 0 unresolved
 fabric suite    16 passed / 0 failed
-pytest foco     55 fabric tests verdes (13 arquivos)
+pytest foco     63 fabric tests verdes (14 arquivos) (13 arquivos)
 ruff            clean
 REMOTE_CI       NOT_OBSERVED (quota GitHub — ignorado conforme instruído)
 ```

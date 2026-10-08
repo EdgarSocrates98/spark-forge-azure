@@ -71,8 +71,9 @@ Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
   bypass→runtime→delta→abstain) com `failure_layer`, `evidence_paths`,
   `access_graph`, `context_quality`, `trust` (DATA_ONLY), `knowledge`
   escopado e receipt por caso.
-- MCP runtime real: `mcp` SDK Server sobre o registry `sfa_*` (10 tools,
-  risco declarado, annotations derivadas, dispatch com spans AgentOps).
+- MCP runtime real: `mcp` SDK Server sobre o registry `sfa_*` (10 tools no
+  Cycle 2; 11 no Cycle 3 com `sfa_diagnose_fabric`), risco declarado,
+  annotations derivadas, dispatch com spans AgentOps.
 - Graphfy: `graph/access.py` monta a cadeia de acesso tipada com
   provenance; `federate()` faz merge static/live por ARM-id com
   `attr_conflicts`; queries de alto valor em `graph/access_queries.py`.
@@ -110,5 +111,4 @@ Medido sobre `main` @ `3b280dd` + closure branch `chore/cycle2-closure`:
   verticais provado por `excluded_domains`.
 - SDD: 5 sub-SDDs fechados com build_reports red→green reais
   (worktree base `068b922`); gate 11/11 features ok.
-- Suite Fabric: **16 passed / 0 failed**; suíte total na branch medida
-  no fechamento.
+- Suite Fabric: **16 passed / 0 failed**; suíte total **2599 passed / 9 skipped** (venv 3.12, ~215s).

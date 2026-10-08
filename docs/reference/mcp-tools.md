@@ -49,7 +49,8 @@ O vertical UC/ADLS é servido por composição, não por tool-por-API:
 `sfa_collect_workspace_graph` (coleta live/export unificada) → `sfa_graph_query`
 (inspeção por kind/camada) → `sfa_diagnose_access` (cadeia inteira de uma vez).
 Inspectors por recurso (`*_uc_inspect`, `*_adls_inspect`) duplicariam o que o
-grafo já responde — recusados para manter a superfície em 10 tools.
+grafo já responde — recusados para manter a superfície enxuta (11 tools no
+Cycle 3: as 10 do Cycle 2 + `sfa_diagnose_fabric`).
 
 ## Compact mode
 
