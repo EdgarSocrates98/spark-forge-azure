@@ -61,7 +61,8 @@ Offline sem autenticação é requisito (§179).
 ## Escopo Azure-first (v0.1.0 — §258)
 
 Agentic OS · SDD · TokenSave · Graphfy · Code Intelligence · Workspace · MCP · CLI
-`sparkforge-azure` · Spark genérico · ADLS · Entra foundation · Databricks foundation ·
+`sparkforge-azure` · Spark genérico · ADLS · Entra foundation · **Databricks UC/ADLS
+access vertical (deep — 10 cenários, evidence, grafo, agentops)** ·
 Unity Catalog foundation · Fabric foundation · AgentOps · Forge Lab seed · security · supply chain.
 
 Primeiro vertical que prova a arquitetura (§255): **PySpark + Azure Databricks + ADLS + Unity

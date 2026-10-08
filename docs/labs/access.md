@@ -27,7 +27,8 @@ runner compara `status`/`failure_layer` esperados vs medidos e emite o
 | 10 | s10_missing_evidence          | `unresolved` (ABSTAIN)          | #136   |
 
 Cobertura: `tests/test_access_suite.py`, `tests/test_access_pipeline.py`,
-`tests/test_access_scenarios.py`.
+`tests/test_access_scenarios.py`. Medido: a suite fecha com
+**10 passed** em ~4s.
 
 ## Security lab — taint (#137)
 
@@ -39,6 +40,12 @@ quatro superfícies e prova `trust.taint == "suspicious"`,
 - **resource tag** — `adls.json` → tags
 - **notebook metadata** — célula/comentário em `notebooks/*.py`
 - **tool result** — `entra.json` display_name (payload de collector)
+
+Redaction na fronteira (#192): `tests/test_cycle2_closing.py` injeta
+SAS/client secret/storage key/bearer/connection-string falsas nos
+artefatos e prova que nenhum segredo alcança `facts`/`findings` —
+só tokens `[REDACTED:*]`. Env-mismatch cross-tenant → `SF-ACC-013` +
+`failure_layer=cross_environment`.
 
 O scan de trust cobre **toda a entrada crua** do bundle (case + artefatos +
 bytes de notebook), não só os facts extraídos — texto malicioso em campo
