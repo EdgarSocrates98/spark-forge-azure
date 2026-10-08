@@ -102,6 +102,7 @@ TOOL_MODULES: tuple[str, ...] = (
     "sparkforge_azure.mcp.tokensave_tools",
     "sparkforge_azure.mcp.governance_tools",
     "sparkforge_azure.mcp.graph_tools",
+    "sparkforge_azure.mcp.access_tools",
 )
 
 

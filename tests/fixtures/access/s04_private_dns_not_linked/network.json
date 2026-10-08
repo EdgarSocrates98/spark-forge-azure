@@ -1,0 +1,4 @@
+{
+ "public_network_access": "Disabled",
+ "private_endpoint": true
+}

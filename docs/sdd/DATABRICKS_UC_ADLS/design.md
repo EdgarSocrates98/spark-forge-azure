@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/DATABRICKS_UC_ADLS/define.md
-  sha256: "f6af5a17645fb25e319c4ed5746af73fa44a5e36700e1744dd410760a3559729"
+  sha256: "a57052ea361f1482efa4b105b3f961c30f8c30d23927a7bd2ea825d12de05035"
 files:
   - {path: sparkforge_azure/azure/casefile.py, action: create, reason: "modelo de bundle: caso + artefatos (UC exports, RBAC, ACLs, network, workspace) → scenario normalizado para governance.diagnose"}
   - {path: sparkforge_azure/azure/extract.py, action: create, reason: "extractors offline: storage credentials, external locations, grants, bindings, catalogs/schemas/tables, role assignments, ACLs, network"}
@@ -17,7 +17,7 @@ files:
   - {path: sparkforge_azure/collectors/azure_rbac.py, action: create, reason: "collector de role assignments: export ou Azure SDK opt-in; falhas viram unresolved"}
   - {path: sparkforge_azure/collectors/adls_meta.py, action: create, reason: "collector de ACLs/network do ADLS: export ou SDK opt-in; falhas viram unresolved"}
   - {path: sparkforge_azure/collectors/failure.py, action: create, reason: "mapeia exceções de SDK→FailureClass (authn/authz/network/rate/provider/invalid/missing)"}
-  - {path: rules/catalog/azure_access.yaml, action: create, reason: "áreas SFA-UC/SFA-ADLS/SFA-ID/SFA-NET/SFA-DBR/SFA-DELTA"}
+  - {path: rules/catalog/azure_access.yaml, action: create, reason: "área SF-ACC (catálogo usa prefixo SF-, não SFA-)"}
   - {path: sparkforge_azure/cli/cmd_diagnose.py, action: create, reason: "sparkforge-azure diagnose --bundle/--scenario"}
   - {path: sparkforge_azure/cli/main.py, action: modify, reason: "registrar cmd_diagnose"}
   - {path: sparkforge_azure/mcp/access_tools.py, action: create, reason: "sfa_diagnose_access (READ_ONLY, offline artifacts)"}

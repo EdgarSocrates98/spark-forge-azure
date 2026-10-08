@@ -8,7 +8,7 @@ upstream:
   path: docs/sdd/DATABRICKS_UC_ADLS/explore.md
   sha256: "21285f7d6f0092d46a358f722d219570b32deece15a4abe499c1717c52e72dda"
 hypothesis:
-  claim: "Compondo extractors determinísticos + governance.diagnose + regras SFA-* + grafo de acesso + recibo, o repo diagnostica end-to-end a falha 'job Databricks não acessa tabela/path UC em ADLS' com evidência"
+  claim: "Compondo extractors determinísticos + governance.diagnose + regras SF-ACC + grafo de acesso + recibo, o repo diagnostica end-to-end a falha 'job Databricks não acessa tabela/path UC em ADLS' com evidência"
   prediction: "fixtures offline produzem o failure_layer esperado em cada um dos 10 cenários, com findings citando facts e unresolved explícito quando falta evidência"
   experiment: "pytest tests/test_access_pipeline.py tests/test_access_scenarios.py + sparkforge-azure diagnose"
 acceptance:

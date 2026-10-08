@@ -6,8 +6,12 @@
  },
  "cli": {
   "commands": [
+   "collect adls-meta",
+   "collect azure-rbac",
    "collect resource-graph",
+   "collect unity-catalog",
    "collect workspace-graph",
+   "diagnose",
    "doctor",
    "governance diagnose",
    "graph build",
@@ -50,14 +54,15 @@
  },
  "mcp": {
   "compact": [
+   "sfa_diagnose_access",
    "sfa_governance_diagnose",
    "sfa_graph_impact",
    "sfa_tokensave_context",
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 4793,
-  "tool_count": 9,
+  "compact_bytes": 6040,
+  "tool_count": 10,
   "tools": {
    "sfa_collect_workspace_graph": {
     "compact": false,
@@ -71,6 +76,19 @@
      "security_impact": false
     },
     "schema_sha256": "514a48b3d021367f04e551348793052305bfd5bebe977fead4aa01d6583335be"
+   },
+   "sfa_diagnose_access": {
+    "compact": true,
+    "domain": "access",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "b15bcac2d2db94157ff0c2ef46d8c8cb4c031cec5931042be3a34ad8493e83d6"
    },
    "sfa_governance_diagnose": {
     "compact": true,
@@ -177,7 +195,7 @@
     "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
    }
   },
-  "total_bytes": 8167
+  "total_bytes": 9414
  },
  "schema_version": 2,
  "skills": {

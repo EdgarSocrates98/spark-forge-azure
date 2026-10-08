@@ -1,0 +1,69 @@
+{
+ "account_id": "/subscriptions/s1/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/stg",
+ "hns": true,
+ "acl": {
+  "/": {
+   "owner": "o",
+   "entries": [
+    {
+     "type": "other",
+     "perms": "r-x"
+    }
+   ]
+  },
+  "/finance": {
+   "owner": "o",
+   "entries": [
+    {
+     "type": "other",
+     "perms": "r-x"
+    }
+   ]
+  },
+  "/finance/orders": {
+   "owner": "o",
+   "entries": [
+    {
+     "type": "other",
+     "perms": "r--"
+    }
+   ]
+  },
+  "/raw": {
+   "owner": "o",
+   "entries": [
+    {
+     "type": "other",
+     "perms": "r-x"
+    }
+   ]
+  },
+  "/raw/events": {
+   "owner": "o",
+   "entries": [
+    {
+     "type": "other",
+     "perms": "r--"
+    }
+   ]
+  },
+  "/other": {
+   "owner": "o",
+   "entries": [
+    {
+     "type": "other",
+     "perms": "r-x"
+    }
+   ]
+  },
+  "/other/data": {
+   "owner": "o",
+   "entries": [
+    {
+     "type": "other",
+     "perms": "r--"
+    }
+   ]
+  }
+ }
+}

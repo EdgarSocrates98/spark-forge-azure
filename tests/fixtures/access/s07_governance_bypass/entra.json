@@ -1,0 +1,11 @@
+{
+ "principals": {
+  "spn-job-1": {
+   "enabled": true,
+   "groups": []
+  },
+  "mi-1": {
+   "enabled": true
+  }
+ }
+}

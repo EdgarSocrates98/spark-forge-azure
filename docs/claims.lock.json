@@ -72,9 +72,9 @@
    "sha": "3e000d4288e6cd932e68b74823824bf908f93829"
   },
   {
-   "id": "mcp-tools-9",
+   "id": "mcp-tools-10",
    "doc": "docs/reference/mcp-tools.md",
-   "text": "Catálogo (9 tools)",
+   "text": "Catálogo (10 tools)",
    "proof": {
     "cmd": [
      "python",
@@ -85,7 +85,7 @@
      "kind": "json",
      "path": "tools",
      "op": "==",
-     "value": 9
+     "value": 10
     }
    },
    "sha": "1f69b0d26b9a4155e481268bdbec0e12fb5f68c6"

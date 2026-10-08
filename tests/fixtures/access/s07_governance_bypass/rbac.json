@@ -1,0 +1,9 @@
+{
+ "assignments": [
+  {
+   "principal": "spn-job-1",
+   "role": "Storage Blob Data Reader",
+   "scope": "/subscriptions/s1/resourceGroups/rg/providers/Microsoft.Storage/storageAccounts/stg/blobServices/default/containers/lake"
+  }
+ ]
+}

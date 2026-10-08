@@ -177,6 +177,20 @@ rules:
       custo de execução com o event log, e declara `rule_areas: [SF-PY]`.
       Quando outra área crescer junto, a precedência se declara aqui.
 
+  - id: AGENT-004
+    phase_in: [diagnosis, hypothesis, experiment]
+    title: Achado na vertical de acesso Azure (UC/RBAC/ACL/rede)
+    when:
+      all:
+        - {findings_area: SF-ACC, count_gt: 0}
+    recommended_agent: unity-catalog-specialist
+    reason: >
+      Achados SF-ACC são da cadeia de acesso governado (external location,
+      storage credential, binding, grant, RBAC, ACL); o specialist de Unity
+      Catalog coordena a investigação e faz handoff para adls/entra/networking
+      conforme a camada que negou. Precedência: depois de AGENT-003, porque um
+      case com achados de código E de acesso resolve primeiro a forma do código.
+
 fallback:
   recommended_skill: azure-spark
   reason: >

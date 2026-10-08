@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/DATABRICKS_UC_ADLS/design.md
-  sha256: "675579188c6e441f643e69e536d99ae4a3416e646a5c2003c3a685ebc193d83f"
+  sha256: "fbba1d0b95e357610e8703ecbeccb1085ea3dfb3df789a51d02e4879d77589e0"
 tasks:
   - id: T1
     files: [sparkforge_azure/azure/casefile.py, sparkforge_azure/azure/extract.py, fixtures/access/]
