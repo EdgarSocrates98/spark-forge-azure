@@ -6,8 +6,10 @@ DATE             = 2026-10-08
 BASE_SHA         = b1caf70280a95479f4dcd9bb98b119b46ce823e5
 FINAL_CODE_SHA   = 84a7761
 EVIDENCE_SHA     = 38860e8
-MERGE            = 3b280dd  (PR #4 → main)
+MERGE            = 3b280dd  (PR #4 → main — base de fechamento)
 CLOSURE_BRANCH   = chore/cycle2-closure  (este commit de documentação/audit-fix)
+                 O merge desta PR em `main` produz um novo SHA — o registro
+                 autoritativo é o merge commit do PR, não este documento.
 LOCAL_GATES      = PASS    (pytest 2541/9sk, ruff, surface, claims, knowledge, skills, sdd)
 REMOTE_CI        = NOT_OBSERVED (quota indisponível — não declarado green)
 ```
