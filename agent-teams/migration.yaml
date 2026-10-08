@@ -1,0 +1,19 @@
+# Agent team — ADF/Synapse -> Fabric migration domain.
+#
+# Eligibility only — see databricks.yaml for the contract.
+team: migration
+domain: migration
+mission: Assess and plan ADF/Synapse to Fabric migrations — estate,
+  compatibility, pipelines, Spark refactor and wave planning.
+eligible:
+- migration-specialist
+- synapse-specialist
+- adf-specialist
+- fabric-specialist
+- azure-databricks-specialist
+- adls-specialist
+- onelake-specialist
+rules:
+  max_specialists: 5
+  subagents_require_parent: true
+  reviewers_conditional: true

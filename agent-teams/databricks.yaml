@@ -1,0 +1,26 @@
+# Agent team — Azure Databricks domain.
+#
+# Eligibility only. Membership declares WHO may be composed for a Databricks
+# case — the spawn gate (agentic/spawn.py) decides IF they run. No file here
+# grants tools, context, budget or authority: member privileges come from
+# each manifest, and audit_team() fails on any enlargement.
+team: databricks
+domain: azure-databricks
+mission: Diagnose Databricks workspace problems — compute, jobs, Unity
+  Catalog binding, storage access and Spark performance.
+eligible:
+- azure-databricks-specialist
+- unity-catalog-specialist
+- adls-specialist
+- entra-specialist
+- networking-specialist
+- spark-performance-specialist
+- delta-specialist
+- databricks-runtime-reviewer
+- databricks-uc-reviewer
+- databricks-performance-reviewer
+- databricks-cost-reviewer
+rules:
+  max_specialists: 3
+  subagents_require_parent: true
+  reviewers_conditional: true
