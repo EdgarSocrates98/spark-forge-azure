@@ -475,8 +475,24 @@ def _agentic_fleet() -> Check:
                  {"counts": counts, "total": total})
 
 
+def _agent_runtime() -> Check:
+    """§173 — contracts, routing, adapters, host proof, eval proof."""
+    from sparkforge_azure.agentic.runtimes import runtime_registry
+
+    reg = runtime_registry()
+    statuses = {n.value: e["status"] for n, e in reg.items()}
+    proven = [n for n, s in statuses.items() if s == "host_proven"]
+    detail = (
+        f"{len(statuses)} runtimes — "
+        f"adapter_implemented={sum(s == 'adapter_implemented' for s in statuses.values())} "
+        f"host_proven={len(proven)}"
+    )
+    return Check("agent_runtime", "ok", detail, {"runtimes": statuses})
+
+
 CHECKS: tuple[Callable[[], Check], ...] = (
     _installation, _dependencies, _agentic_os, _agentic_fleet, _tokensave, _graphfy,
+    _agent_runtime,
     _code_intelligence, _knowledge, _mcp, _skills_agents, _surface, _claims,
     _azure_extras, _credentials_state, _traces, _lab, _live_collectors,
     _access_vertical, _fabric_vertical, _streaming_vertical, _migration_vertical,

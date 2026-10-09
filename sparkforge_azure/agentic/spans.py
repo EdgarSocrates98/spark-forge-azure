@@ -73,6 +73,12 @@ class AgentSpan:
     cost_usd: float | None = None
     cost_basis: str = ""
     span_id: str = field(default_factory=lambda: uuid.uuid4().hex[:16])
+    # §122 — runtime execution fields (empty = not a runtime span)
+    runtime: str = ""
+    execution_mode: str = ""
+    runtime_spawn_id: str = ""
+    output_valid: bool | None = None
+    tool_calls: int = 0
 
     @property
     def tokens_status(self) -> str:
@@ -132,6 +138,11 @@ class AgentSpan:
                 "decisions_changed": self.decisions_changed,
                 "handoffs_sent": self.handoffs_sent,
                 "handoffs_received": self.handoffs_received,
+                "runtime": self.runtime,
+                "execution_mode": self.execution_mode,
+                "runtime_spawn_id": self.runtime_spawn_id,
+                "output_valid": self.output_valid,
+                "tool_calls": self.tool_calls,
             },
         )
 
@@ -161,6 +172,11 @@ class AgentSpan:
                 else (self.tokens_in or 0) + (self.tokens_out or 0)),
                 "status": self.tokens_status},
             "cost": {"observed": self.cost_usd, "status": self.cost_status},
+            "runtime": self.runtime,
+            "execution_mode": self.execution_mode,
+            "runtime_spawn_id": self.runtime_spawn_id,
+            "output_valid": self.output_valid,
+            "tool_calls": self.tool_calls,
         }
 
 
@@ -354,3 +370,53 @@ __all__ = [
     "agent_value_report",
     "agent_waste",
 ]
+
+
+def spans_from_execution(receipt: Any) -> list[AgentSpan]:
+    """§122 — runtime receipts -> AgentSpan lanes.
+
+    Converte ``execution.AgentExecutionReceipt`` (o recibo de execucao de
+    runtime) em spans: runtime, execution_mode, spawn_id, output validity,
+    duracao e handoffs viram campos medidos — nunca inferidos de prosa.
+    """
+    spans: list[AgentSpan] = []
+    sent: dict[str, int] = {}
+    recv: dict[str, int] = {}
+    for h in receipt.state.handoffs:
+        sent[h["sender"]] = sent.get(h["sender"], 0) + 1
+        recv[h["receiver"]] = recv.get(h["receiver"], 0) + 1
+    for stage in receipt.stages:
+        res = stage.spawn_result
+        if res is None:
+            continue
+        out = res.structured_output or {}
+        facts = len(out.get("proposed_findings") or out.get("facts") or [])
+        unresolved = out.get("unresolved") or []
+        outcome = (
+            "ok" if res.status == "completed" and not stage.schema_violations
+            else "blocked" if res.status == "unresolved"
+            else "error"
+        )
+        span = AgentSpan(
+            agent_id=stage.agent_id,
+            family=str(res.runtime),
+            case_id=receipt.case_id,
+            run_id=receipt.fingerprint,
+            spawn_reason=stage.spawn_reason,
+            spawn_trigger=res.execution_mode,
+            started_at=res.started,
+            ended_at=res.completed,
+            stop_reason=res.error or "",
+            outcome=outcome,
+            facts_emitted=facts,
+            unresolved_resolved=len(
+                [u for u in unresolved if "resolved" in str(u)]),
+            handoffs_sent=sent.get(stage.agent_id, 0),
+            handoffs_received=recv.get(stage.agent_id, 0),
+            runtime=str(res.runtime),
+            execution_mode=res.execution_mode,
+            runtime_spawn_id=res.spawn_id,
+            output_valid=not stage.schema_violations,
+        )
+        spans.append(span)
+    return spans

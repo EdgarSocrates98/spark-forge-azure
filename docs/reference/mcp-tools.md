@@ -18,7 +18,7 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 `security_impact`, `production_impact`. Annotations MCP derivadas: `readOnlyHint`,
 `destructiveHint` (cloud_write|production_impact), `idempotentHint`, `openWorldHint`.
 
-## Catálogo (15 tools)
+## Catálogo (17 tools)
 
 | Tool | Domínio | Risco | Params |
 |---|---|---|---|
@@ -37,6 +37,8 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 | `sfa_assess_migration` | migration | read_only | `bundle*` (+ `profile`) |
 | `sfa_agents_list` | agentic | read_only | — |
 | `sfa_agents_explain_route` | agentic | read_only | `prompt*` |
+| `sfa_agents_runtimes` | agentic | read_only | — |
+| `sfa_agents_execution_explain` | agentic | read_only | `prompt*` (+ `runtime`) |
 
 `*` = obrigatório. `sfa_collect_workspace_graph` é a única tool que toca nuvem
 (e só leitura): default-negada até `cloud_read_enabled`; com `live=false` usa

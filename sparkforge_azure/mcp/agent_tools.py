@@ -90,3 +90,84 @@ def agents_list(_: Mapping[str, Any]) -> dict[str, Any]:
 )
 def agents_explain_route(args: Mapping[str, Any]) -> dict[str, Any]:
     return {"route": explain_route(str(args["prompt"]))}
+
+
+@tool(
+    "sfa_agents_runtimes",
+    description=(
+        "Runtime registry: per-runtime adapter, capabilities, proven status "
+        "(declared/adapter_implemented/host_proven) and proof — §7 honesty."
+    ),
+    input_schema=_EMPTY,
+    risk=READ_ONLY,
+    domain="agentic",
+    compact=True,
+    output_schema={
+        "type": "object",
+        "required": ["runtimes"],
+        "properties": {"runtimes": {"type": "object"}},
+    },
+)
+def agents_runtimes(_: Mapping[str, Any]) -> dict[str, Any]:
+    from sparkforge_azure.agentic.runtimes import runtime_registry
+
+    return {
+        "runtimes": {
+            name.value: entry for name, entry in runtime_registry().items()
+        }
+    }
+
+
+@tool(
+    "sfa_agents_execution_explain",
+    description=(
+        "Planned execution for a prompt, dry-run only: route, planned stages, "
+        "adapter status and execution mode. Never executes a host."
+    ),
+    input_schema={
+        "type": "object",
+        "required": ["prompt"],
+        "properties": {
+            "prompt": {"type": "string"},
+            "runtime": {"type": "string", "default": "generic"},
+        },
+        "additionalProperties": False,
+    },
+    risk=READ_ONLY,
+    domain="agentic",
+    compact=True,
+    output_schema={
+        "type": "object",
+        "required": ["route", "planned_stages", "execution_mode"],
+        "properties": {
+            "route": {"type": "array", "items": _ROUTE_ENTRY},
+            "planned_stages": {"type": "array", "items": {"type": "string"}},
+            "execution_mode": {"type": "string"},
+            "adapter_status": {"type": "string"},
+            "runtime": {"type": "string"},
+        },
+    },
+)
+def agents_execution_explain(args: Mapping[str, Any]) -> dict[str, Any]:
+    from sparkforge_azure.agentic.pipeline import plan_pipeline
+    from sparkforge_azure.agentic.runtime import RuntimeName
+    from sparkforge_azure.agentic.runtimes import get_adapter
+
+    prompt = str(args["prompt"])
+    try:
+        rt = RuntimeName(str(args.get("runtime") or "generic"))
+    except ValueError:
+        rt = RuntimeName.GENERIC
+    adapter = get_adapter(rt)
+    routed = explain_route(prompt)
+    selected = [r["specialist"] for r in routed if r["decision"] == "selected"]
+    stages: list[str] = []
+    for spec in selected or [None]:
+        stages.extend(plan_pipeline(specialist_id=spec))
+    return {
+        "runtime": rt.value,
+        "adapter_status": adapter.status,
+        "execution_mode": adapter.execution_mode,
+        "route": routed,
+        "planned_stages": sorted(set(stages)),
+    }
