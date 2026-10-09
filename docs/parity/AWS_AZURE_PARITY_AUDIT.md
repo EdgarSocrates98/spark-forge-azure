@@ -186,3 +186,10 @@ Azure adds the runtime layer AWS never shipped — `runtimes/` adapters,
 Empirical proof exists only on this side: `evals/host_proof/claude_code.json`
 transcript + 4 real host evals ($2.79 measured) + `FREEZE_STATUS=frozen`.
 P0-D: **AZURE_AHEAD** — parity does not mean backporting Azure-only value.
+
+### W6 — context / trust / memory (§74–81)
+
+`context/` is 13/13 identical after namespace; `agentic/` shared files
+(memory, trust, handoff, role_plans, runtime, stop) identical. Trust floor
+(UNKNOWN) and memory conflict preservation hold on both. P0-E:
+**EQUIVALENT** — no measured gap to close.
