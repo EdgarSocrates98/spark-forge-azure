@@ -108,6 +108,8 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("cli", "agentmanifest"): "cmd_agents expoe explain_route + a taxonomia fechada",
     ("cli", "distribution"): "cmd_distribution e a superficie L7 do lifecycle portavel",
     ("distribution", "durable"): "manifests/ledger/receipts sao escritas duraveis",
+    ("distribution", "paths"): "scan_repository confina o contexto por raiz (P0-D)",
+    ("distribution", "tokensave"): "context resolve delega a escada L0-L6 por projeto",
     ("doctor", "agentic"): "check agentic_fleet mede o status por agent",
     ("context", "agents"): "gateway monta contexto por agente declarado",
     ("context", "codeintel"): "fatias L5 vem do indice de codigo",

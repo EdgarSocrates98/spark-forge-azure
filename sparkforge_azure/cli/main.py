@@ -43,6 +43,7 @@ COMMAND_MODULES: tuple[str, ...] = (
     "sparkforge_azure.cli.cmd_analyze",
     "sparkforge_azure.cli.cmd_distribution",
     "sparkforge_azure.cli.cmd_workspace",
+    "sparkforge_azure.cli.cmd_context",
 )
 
 Result = dict[str, Any]

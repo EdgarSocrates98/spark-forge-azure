@@ -272,6 +272,26 @@ Roles: `application|data|infra|shared|tests|docs`. Dependências declaradas
 são `direct` ou `optional`; `transitive` é derivado na leitura. Identidade
 nunca vem de path — `workspace add` usa o `project.yaml` do alvo.
 
+## `sparkforge-azure context resolve` — contexto com escopo
+
+Responde "qual contexto deste workspace é relevante para este target?".
+Requer `workspace.yaml`; recusa `workspace_not_found` sem ele.
+
+| Flag | Uso |
+|---|---|
+| `--target` | id ou path do projeto (default: `default_target` do workspace) |
+| `--scope` | `target` (default) \| `direct` \| `transitive` \| `all` — o workspace inteiro nunca é lido por omissão; `all` é só explícito |
+| `--profile` | `economy` (default) \| `balanced` \| `deep` — orçamento TokenSave |
+| `--task` | texto da tarefa — engaja a escada L0→L6 por projeto; sem task, resolve só o conjunto de projetos |
+
+Saída = recibo §58 persistido em `.sparkforge-azure/receipt-context.json`:
+`projects_considered`, `projects_selected`, `files_considered`,
+`files_materialized`, `bytes_read`, `bytes_avoided`, `stop_reason`
+(`scope_complete`/`sufficient`/`partial`) e `unresolved`. Um projeto nunca
+recebe arquivos de outro sem aresta declarada ou `all` explícito — cada
+TokenSave é confinado por `resolve_within` à própria raiz. Ciclos recusam
+`dependency_cycle`.
+
 ## Exit codes
 
 | Código | Significado |

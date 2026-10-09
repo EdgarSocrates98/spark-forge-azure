@@ -25,6 +25,7 @@
    "collect resource-graph",
    "collect unity-catalog",
    "collect workspace-graph",
+   "context resolve",
    "diagnose fabric",
    "diagnose stream",
    "distribution detach",
