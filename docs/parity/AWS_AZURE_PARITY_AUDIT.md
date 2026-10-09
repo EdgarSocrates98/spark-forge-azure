@@ -193,3 +193,14 @@ P0-D: **AZURE_AHEAD** — parity does not mean backporting Azure-only value.
 (memory, trust, handoff, role_plans, runtime, stop) identical. Trust floor
 (UNKNOWN) and memory conflict preservation hold on both. P0-E:
 **EQUIVALENT** — no measured gap to close.
+
+### W7 — graphfy / codeintel (§82–91)
+
+`codeintel/` 18 shared files (11 identical; 7 Azure evolutions). `graph/`
+exists only on Azure (17 modules: federation, arm, fabric, workspace,
+impact, semantic, store) — the AWS side has no equivalent package.
+Canonical identities stay provider-specific (ARM/Fabric IDs vs ARNs) per
+§84–85; federation contract (explicit-identity merge, provenance and
+conflict preservation) is in `graph/federation.py`. CodeIntel recall is
+covered by the W2 gold set (symbol-anchored `.py` findings). P0-F:
+**AZURE_AHEAD** on graphfy, EQUIVALENT on codeintel.
