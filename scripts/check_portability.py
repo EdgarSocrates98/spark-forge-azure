@@ -132,6 +132,44 @@ def check_no_checkout_dep(errors: list[str]) -> None:
         errors.append("mcp entry must invoke the installed binary")
 
 
+#: Módulos autorizados a tocar home/env de caminho (§103–§104).
+_PATH_OWNERS = {
+    "sparkforge_azure/distribution/paths.py",
+    "sparkforge_azure/paths.py",
+    "sparkforge_azure/distribution/manifests.py",  # expanduser em input declarado
+    "sparkforge_azure/distribution/workspace.py",  # expanduser em input declarado
+    "sparkforge_azure/distribution/context.py",    # expanduser em --target
+    # ~/.sparkforge-azure/agentic-evals: store de runs de eval a nível de
+    # máquina (persiste entre projetos) — anterior ao contrato portátil,
+    # deliberado e fora do escopo por-projeto.
+    "sparkforge_azure/evals/cli.py",
+}
+
+
+def check_path_audit(errors: list[str]) -> None:
+    """§105/§116 — nenhum `Path.home()`/escrita-home fora dos módulos de
+    path autorizados; resolve_within recusa `..` e resolve_declared_path
+    não deixa path relativo escapar do root."""
+    import re as _re
+
+    sus = _re.compile(r"Path\.home\(|os\.environ\[['\"](?:HOME|USERPROFILE)")
+    for py in (ROOT / "sparkforge_azure").rglob("*.py"):
+        rel = py.relative_to(ROOT).as_posix()
+        if rel in _PATH_OWNERS or "/tests/" in rel:
+            continue
+        for n, line in enumerate(py.read_text(encoding="utf-8").splitlines(), 1):
+            if sus.search(line) and "expanduser" not in line:
+                errors.append(f"path audit: {rel}:{n} home access")
+    # §116 traversal: tentativas de fuga do root são recusadas
+    from sparkforge_azure.paths import resolve_within
+
+    probe = ROOT / "probe"
+    if resolve_within(probe, "../../etc/passwd") is not None:
+        errors.append("path audit: resolve_within aceitou ../ escape")
+    if resolve_within(probe, "subdir/ok.txt") is None:
+        errors.append("path audit: resolve_within recusou path legítimo")
+
+
 def _venv_python(venv_dir: Path) -> Path:
     win = venv_dir / "Scripts" / "python.exe"
     nix = venv_dir / "bin" / "python"
@@ -236,6 +274,7 @@ def main() -> int:
     check_workspace_schema(errors)
     check_docs(errors)
     check_no_checkout_dep(errors)
+    check_path_audit(errors)
     # mirror sync is the heaviest check — keep it opt-in with --wheel so
     # the fast gate stays fast; it runs anyway inside check_skills_agents.
     if args.wheel:
