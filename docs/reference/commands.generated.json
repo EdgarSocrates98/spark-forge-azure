@@ -1,0 +1,4349 @@
+{
+  "schema": "forge/CommandInventory/v1",
+  "forge_id": "spark-forge-azure",
+  "cli": "sparkforge-azure",
+  "generated_at": "2026-10-09T22:45:17Z",
+  "generated_by": "doc_inventory.py/1",
+  "command_count": 93,
+  "commands": [
+    {
+      "path": "version",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "tokensave",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "tokensave search",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "economy",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "index",
+          "flags": [
+            "--index"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "code-intelligence index (sqlite)"
+        },
+        {
+          "name": "query",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        },
+        {
+          "name": "limit",
+          "flags": [
+            "--limit"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "tokensave read",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "economy",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "index",
+          "flags": [
+            "--index"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "code-intelligence index (sqlite)"
+        },
+        {
+          "name": "path",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        },
+        {
+          "name": "start",
+          "flags": [
+            "--start"
+          ],
+          "required": false,
+          "default": "1",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "end",
+          "flags": [
+            "--end"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "tokensave symbols",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "economy",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "index",
+          "flags": [
+            "--index"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "code-intelligence index (sqlite)"
+        },
+        {
+          "name": "path",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "tokensave refs",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "economy",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "index",
+          "flags": [
+            "--index"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "code-intelligence index (sqlite)"
+        },
+        {
+          "name": "name",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "tokensave diff",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "economy",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "index",
+          "flags": [
+            "--index"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "code-intelligence index (sqlite)"
+        },
+        {
+          "name": "rev",
+          "flags": [
+            "--rev"
+          ],
+          "required": false,
+          "default": "HEAD",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "path",
+          "flags": [
+            "--path"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "tokensave expand",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "economy",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "index",
+          "flags": [
+            "--index"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "code-intelligence index (sqlite)"
+        },
+        {
+          "name": "node_id",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        },
+        {
+          "name": "depth",
+          "flags": [
+            "--depth"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "tokensave context",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "economy",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "index",
+          "flags": [
+            "--index"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "code-intelligence index (sqlite)"
+        },
+        {
+          "name": "task",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        },
+        {
+          "name": "term",
+          "flags": [
+            "--term"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "required term (repeatable)"
+        }
+      ]
+    },
+    {
+      "path": "tokensave benchmark",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "case",
+          "flags": [
+            "--case"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "case corpus directory"
+        },
+        {
+          "name": "task",
+          "flags": [
+            "--task"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "task text (default: UC/ADLS case)"
+        },
+        {
+          "name": "term",
+          "flags": [
+            "--term"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "required term (repeatable)"
+        },
+        {
+          "name": "index",
+          "flags": [
+            "--index"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "code-intelligence index (sqlite)"
+        }
+      ]
+    },
+    {
+      "path": "governance",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "governance diagnose",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "scenario",
+          "flags": [
+            "--scenario"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "scenario JSON/YAML"
+        }
+      ]
+    },
+    {
+      "path": "doctor",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "area",
+          "flags": [
+            "--area"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "limit to an area (repeatable)"
+        }
+      ]
+    },
+    {
+      "path": "graph",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "graph build",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "workspace or repository root"
+        },
+        {
+          "name": "manifest",
+          "flags": [
+            "--manifest"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "workspace manifest (default <root>/sparkforge-azure.workspace.yaml)"
+        },
+        {
+          "name": "out",
+          "flags": [
+            "--out"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "graph JSON output (default .sparkforge-azure/graph/graph.json)"
+        },
+        {
+          "name": "knowledge_root",
+          "flags": [
+            "--knowledge-root"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "merge knowledge/skills/agents from this root"
+        },
+        {
+          "name": "no_codeintel",
+          "flags": [
+            "--no-codeintel"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "force the ast fallback"
+        },
+        {
+          "name": "limit",
+          "flags": [
+            "--limit"
+          ],
+          "required": false,
+          "default": "50",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "graph query",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "graph",
+          "flags": [
+            "--graph"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "kind",
+          "flags": [
+            "--kind"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "layer",
+          "flags": [
+            "--layer"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "NODE_ID",
+          "flags": [
+            "--neighbors"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": [
+            "FROM",
+            "TO"
+          ],
+          "flags": [
+            "--path"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "relation",
+          "flags": [
+            "--relation"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "direction",
+          "flags": [
+            "--direction"
+          ],
+          "required": false,
+          "default": "out",
+          "choices": [
+            "out",
+            "in",
+            "both"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "depth",
+          "flags": [
+            "--depth"
+          ],
+          "required": false,
+          "default": "6",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "limit",
+          "flags": [
+            "--limit"
+          ],
+          "required": false,
+          "default": "100",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "graph impact",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "graph",
+          "flags": [
+            "--graph"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "changed",
+          "flags": [
+            "--changed"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "path, node id or knowledge id"
+        },
+        {
+          "name": "depth",
+          "flags": [
+            "--depth"
+          ],
+          "required": false,
+          "default": "3",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "graph federate",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "static",
+          "flags": [
+            "--static"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "live",
+          "flags": [
+            "--live"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "artifact",
+          "flags": [
+            "--artifact"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "knowledge_root",
+          "flags": [
+            "--knowledge-root"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "out",
+          "flags": [
+            "--out"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "limit",
+          "flags": [
+            "--limit"
+          ],
+          "required": false,
+          "default": "100",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "collect",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "collect workspace-graph",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "manifest",
+          "flags": [
+            "--manifest"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "export",
+          "flags": [
+            "--export"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "offline Azure Resource Graph export (JSON)"
+        },
+        {
+          "name": "live",
+          "flags": [
+            "--live"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "read Azure (requires azure extra + auth)"
+        },
+        {
+          "name": "out",
+          "flags": [
+            "--out"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "write the live graph JSON here"
+        },
+        {
+          "name": "hash_principals",
+          "flags": [
+            "--hash-principals"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "collect resource-graph",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "export",
+          "flags": [
+            "--export"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "out",
+          "flags": [
+            "--out"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "write the live graph JSON here"
+        },
+        {
+          "name": "facts",
+          "flags": [
+            "--facts"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "include the redacted facts"
+        },
+        {
+          "name": "hash_principals",
+          "flags": [
+            "--hash-principals"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "collect unity-catalog",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "export",
+          "flags": [
+            "--export"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "offline UC export (JSON)"
+        },
+        {
+          "name": "live",
+          "flags": [
+            "--live"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "read the workspace via databricks-sdk"
+        },
+        {
+          "name": "host",
+          "flags": [
+            "--host"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "workspace URL (with --live)"
+        },
+        {
+          "name": "workspace_id",
+          "flags": [
+            "--workspace-id"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "numeric workspace id (with --live)"
+        },
+        {
+          "name": "fallback_export",
+          "flags": [
+            "--fallback-export"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "offline export to use if --live fails (degraded mode)"
+        },
+        {
+          "name": "facts",
+          "flags": [
+            "--facts"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "collect azure-rbac",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "export",
+          "flags": [
+            "--export"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "offline assignments export (JSON)"
+        },
+        {
+          "name": "live",
+          "flags": [
+            "--live"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "read assignments via azure-mgmt-authorization"
+        },
+        {
+          "name": "scope",
+          "flags": [
+            "--scope"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "ARM scope to list assignments for (--live)"
+        },
+        {
+          "name": "subscription_id",
+          "flags": [
+            "--subscription-id"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "subscription for --live"
+        },
+        {
+          "name": "fallback_export",
+          "flags": [
+            "--fallback-export"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "offline export to use if --live fails (degraded mode)"
+        },
+        {
+          "name": "facts",
+          "flags": [
+            "--facts"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "collect adls-meta",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "export",
+          "flags": [
+            "--export"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "offline ADLS export (JSON)"
+        },
+        {
+          "name": "live",
+          "flags": [
+            "--live"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "read ACLs via azure-storage-file-datalake"
+        },
+        {
+          "name": "account_url",
+          "flags": [
+            "--account-url"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "https://<acct>.dfs.core.windows.net"
+        },
+        {
+          "name": "container",
+          "flags": [
+            "--container"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "filesystem/container name"
+        },
+        {
+          "name": "paths",
+          "flags": [
+            "--paths"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "paths whose ACLs to read"
+        },
+        {
+          "name": "fallback_export",
+          "flags": [
+            "--fallback-export"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "offline export to use if --live fails (degraded mode)"
+        },
+        {
+          "name": "facts",
+          "flags": [
+            "--facts"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "offline-bundle",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "offline-bundle build",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "out",
+          "flags": [
+            "--out"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "facts",
+          "flags": [
+            "--facts"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "findings",
+          "flags": [
+            "--findings"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "graph",
+          "flags": [
+            "--graph"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "seed",
+          "flags": [
+            "--seed"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "graph node id to slice around"
+        },
+        {
+          "name": "receipt",
+          "flags": [
+            "--receipt"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "config",
+          "flags": [
+            "--config"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "knowledge",
+          "flags": [
+            "--knowledge"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "extra knowledge id"
+        }
+      ]
+    },
+    {
+      "path": "offline-bundle verify",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "path",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "repo",
+          "flags": [
+            "--repo"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "repository root (default .)"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "lab doctor",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "lab profiles",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "lab verify",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "lab scenarios",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "lab describe",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "scenario",
+          "flags": [],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": "scenario id (omit com --all)"
+        },
+        {
+          "name": "all",
+          "flags": [
+            "--all"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "todos os cenarios (plan/run)"
+        },
+        {
+          "name": "backend",
+          "flags": [
+            "--backend"
+          ],
+          "required": false,
+          "default": "compose",
+          "choices": [
+            "compose",
+            "testcontainers"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "execute",
+          "flags": [
+            "--execute"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "confirm",
+          "flags": [
+            "--confirm"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab plan",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "scenario",
+          "flags": [],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": "scenario id (omit com --all)"
+        },
+        {
+          "name": "all",
+          "flags": [
+            "--all"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "todos os cenarios (plan/run)"
+        },
+        {
+          "name": "backend",
+          "flags": [
+            "--backend"
+          ],
+          "required": false,
+          "default": "compose",
+          "choices": [
+            "compose",
+            "testcontainers"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "execute",
+          "flags": [
+            "--execute"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "confirm",
+          "flags": [
+            "--confirm"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab run",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "scenario",
+          "flags": [],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": "scenario id (omit com --all)"
+        },
+        {
+          "name": "all",
+          "flags": [
+            "--all"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "todos os cenarios (plan/run)"
+        },
+        {
+          "name": "backend",
+          "flags": [
+            "--backend"
+          ],
+          "required": false,
+          "default": "compose",
+          "choices": [
+            "compose",
+            "testcontainers"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "execute",
+          "flags": [
+            "--execute"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "confirm",
+          "flags": [
+            "--confirm"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab inspect",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "path",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab analyze",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "path",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab compare",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "before",
+          "flags": [
+            "--before"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "after",
+          "flags": [
+            "--after"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab promote-fixture",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "run",
+          "flags": [
+            "--run"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "destination",
+          "flags": [
+            "--destination"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "reviewed",
+          "flags": [
+            "--reviewed"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab reproduce",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "receipt",
+          "flags": [
+            "--receipt"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab up",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "project",
+          "flags": [
+            "--project"
+          ],
+          "required": false,
+          "default": "sparkforge-azure-lab",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "service",
+          "flags": [
+            "--service"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "execute",
+          "flags": [
+            "--execute"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "confirm",
+          "flags": [
+            "--confirm"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab down",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "project",
+          "flags": [
+            "--project"
+          ],
+          "required": false,
+          "default": "sparkforge-azure-lab",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "service",
+          "flags": [
+            "--service"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "execute",
+          "flags": [
+            "--execute"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "confirm",
+          "flags": [
+            "--confirm"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab shell",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "project",
+          "flags": [
+            "--project"
+          ],
+          "required": false,
+          "default": "sparkforge-azure-lab",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "service",
+          "flags": [
+            "--service"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "execute",
+          "flags": [
+            "--execute"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "confirm",
+          "flags": [
+            "--confirm"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "lab gc",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "project",
+          "flags": [
+            "--project"
+          ],
+          "required": false,
+          "default": "sparkforge-azure-lab",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "service",
+          "flags": [
+            "--service"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "execute",
+          "flags": [
+            "--execute"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "confirm",
+          "flags": [
+            "--confirm"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "mcp",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "mcp catalog",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "compact",
+          "flags": [
+            "--compact"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "read-only tools only"
+        }
+      ]
+    },
+    {
+      "path": "mcp serve",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "transport",
+          "flags": [
+            "--transport"
+          ],
+          "required": false,
+          "default": "stdio",
+          "choices": [
+            "stdio",
+            "http"
+          ],
+          "positional": false,
+          "help": "stdio is the default MCP transport"
+        },
+        {
+          "name": "compact",
+          "flags": [
+            "--compact"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "expose read-only catalog only"
+        },
+        {
+          "name": "no_local_write",
+          "flags": [
+            "--no-local-write"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "deny tools declared local_write"
+        },
+        {
+          "name": "cloud_read",
+          "flags": [
+            "--cloud-read"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "allow tools declared cloud_read (default: denied)"
+        },
+        {
+          "name": "TOKEN",
+          "flags": [
+            "--cloud-write-grant"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "explicit human grant for cloud_write tools (value is not logged)"
+        },
+        {
+          "name": "allow_source_tools",
+          "flags": [
+            "--allow-source-tools"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "under --transport http, re-enable tools that return workspace source"
+        },
+        {
+          "name": "host",
+          "flags": [
+            "--host"
+          ],
+          "required": false,
+          "default": "127.0.0.1",
+          "choices": null,
+          "positional": false,
+          "help": "http bind host"
+        },
+        {
+          "name": "port",
+          "flags": [
+            "--port"
+          ],
+          "required": false,
+          "default": "8765",
+          "choices": null,
+          "positional": false,
+          "help": "http bind port"
+        }
+      ]
+    },
+    {
+      "path": "diagnose",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "bundle",
+          "flags": [
+            "--bundle"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "case bundle directory (case.yaml + artifacts)"
+        },
+        {
+          "name": "suite",
+          "flags": [
+            "--suite"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "directory of case bundles; checks each expect: block"
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "balanced",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "diagnose fabric",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "bundle",
+          "flags": [
+            "--bundle"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "Fabric case bundle directory (case.yaml + artifacts)"
+        },
+        {
+          "name": "suite",
+          "flags": [
+            "--suite"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "directory of Fabric case bundles; checks expect:"
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "balanced",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "diagnose stream",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "bundle",
+          "flags": [
+            "--bundle"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "streaming case bundle directory (case.yaml + artifacts)"
+        },
+        {
+          "name": "suite",
+          "flags": [
+            "--suite"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "directory of streaming case bundles; checks expect:"
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "balanced",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "migration",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "migration inventory",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "bundle",
+          "flags": [
+            "--bundle"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "migration case bundle directory"
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "balanced",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "migration assess",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "bundle",
+          "flags": [
+            "--bundle"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "migration case bundle directory"
+        },
+        {
+          "name": "suite",
+          "flags": [
+            "--suite"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "directory of migration case bundles"
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "balanced",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "migration plan",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "bundle",
+          "flags": [
+            "--bundle"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "migration case bundle directory"
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "balanced",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "migration validate",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "bundle",
+          "flags": [
+            "--bundle"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "migration case bundle directory"
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "balanced",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "sdd",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "sdd check",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "feature",
+          "flags": [
+            "--feature"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "check a single feature (dir name)"
+        }
+      ]
+    },
+    {
+      "path": "sdd status",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "agents",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "agents list",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "agents inspect",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "agent_id",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "agents route",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "query",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": "free-text task/problem to route"
+        },
+        {
+          "name": "max_agents",
+          "flags": [
+            "--max-agents"
+          ],
+          "required": false,
+          "default": "3",
+          "choices": null,
+          "positional": false,
+          "help": "specialist cap (1-5, default 3)"
+        },
+        {
+          "name": "unresolved_domain",
+          "flags": [
+            "--unresolved-domain"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "domain with an open unresolved item (repeatable)"
+        }
+      ]
+    },
+    {
+      "path": "agents fingerprint",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "agents impact",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "path",
+          "flags": [
+            "--path"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "repo-relative path changed (repeatable)"
+        }
+      ]
+    },
+    {
+      "path": "agents runtimes",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "agents runtime-inspect",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "runtime",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "agents execute",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "task",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": "free-text case/task"
+        },
+        {
+          "name": "runtime",
+          "flags": [
+            "--runtime"
+          ],
+          "required": false,
+          "default": "generic",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "max_agents",
+          "flags": [
+            "--max-agents"
+          ],
+          "required": false,
+          "default": "3",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "dry_run",
+          "flags": [
+            "--dry-run"
+          ],
+          "required": false,
+          "default": "True",
+          "choices": null,
+          "positional": false,
+          "help": "always on — host execution is opt-in elsewhere"
+        }
+      ]
+    },
+    {
+      "path": "agents compare",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "case",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": "path to evals/agent_runtime/cases/*.yaml"
+        }
+      ]
+    },
+    {
+      "path": "agentops",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "db",
+          "flags": [
+            "--db"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "traces.db path (default ./.sparkforge-azure/traces.db)"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "agentops runs",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "limit",
+          "flags": [
+            "--limit"
+          ],
+          "required": false,
+          "default": "20",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "agentops inspect",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "run",
+          "flags": [
+            "--run"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "run_id (default: most recent)"
+        }
+      ]
+    },
+    {
+      "path": "agentops timeline",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "run",
+          "flags": [
+            "--run"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "run_id (default: most recent)"
+        }
+      ]
+    },
+    {
+      "path": "agentops critical-path",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "run",
+          "flags": [
+            "--run"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "run_id (default: most recent)"
+        }
+      ]
+    },
+    {
+      "path": "analyze",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "analyze pyspark",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "path",
+          "flags": [
+            "--path"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "file or directory to analyse"
+        },
+        {
+          "name": "out",
+          "flags": [
+            "--out"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "write {'facts': [...]} to this JSON file"
+        }
+      ]
+    },
+    {
+      "path": "judge",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "facts",
+          "flags": [
+            "--facts"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "facts JSON (list or {'facts': [...]})"
+        },
+        {
+          "name": "KEY=VERSION",
+          "flags": [
+            "--runtime"
+          ],
+          "required": false,
+          "default": "[]",
+          "choices": null,
+          "positional": false,
+          "help": "runtime component version, repeatable (e.g. spark=3.5.0)"
+        }
+      ]
+    },
+    {
+      "path": "knowledge",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "knowledge select",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "domain",
+          "flags": [
+            "--domain"
+          ],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "pack dir under knowledge/azure or knowledge"
+        },
+        {
+          "name": "query",
+          "flags": [
+            "--query"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "terms to rank claims (omit = first claims)"
+        },
+        {
+          "name": "limit",
+          "flags": [
+            "--limit"
+          ],
+          "required": false,
+          "default": "8",
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "distribution",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "distribution inspect",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "project root (default: cwd)"
+        }
+      ]
+    },
+    {
+      "path": "distribution init",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "project root (default: cwd)"
+        },
+        {
+          "name": "name",
+          "flags": [
+            "--name"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "project name (default: directory name)"
+        },
+        {
+          "name": "with_mirrors",
+          "flags": [
+            "--with-mirrors"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "also materialize agent mirrors into .claude/agents/custom + .agents/agents"
+        },
+        {
+          "name": "regen_id",
+          "flags": [
+            "--regen-id"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "mint a new project_id (for a copied/cloned project)"
+        }
+      ]
+    },
+    {
+      "path": "distribution status",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "project root (default: cwd)"
+        }
+      ]
+    },
+    {
+      "path": "distribution doctor",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "project root (default: cwd)"
+        }
+      ]
+    },
+    {
+      "path": "distribution detach",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "project root (default: cwd)"
+        },
+        {
+          "name": "dry_run",
+          "flags": [
+            "--dry-run"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "report what would be removed"
+        },
+        {
+          "name": "purge_state",
+          "flags": [
+            "--purge-state"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "also remove .sparkforge-azure state"
+        },
+        {
+          "name": "purge_cache",
+          "flags": [
+            "--purge-cache"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "also remove the managed cache dir"
+        }
+      ]
+    },
+    {
+      "path": "install",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "op",
+          "flags": [],
+          "required": false,
+          "default": "apply",
+          "choices": [
+            "apply",
+            "doctor",
+            "mcp-verify",
+            "repair",
+            "status",
+            "uninstall",
+            "update"
+          ],
+          "positional": true,
+          "help": "lifecycle verb (default: apply — writes managed assets)"
+        },
+        {
+          "name": "scope",
+          "flags": [
+            "--scope"
+          ],
+          "required": false,
+          "default": "project",
+          "choices": [
+            "project",
+            "workspace",
+            "user"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "explicit target root (default: resolved from cwd)"
+        },
+        {
+          "name": "host",
+          "flags": [
+            "--host"
+          ],
+          "required": false,
+          "default": "all",
+          "choices": [
+            "claude",
+            "devin",
+            "codex",
+            "copilot",
+            "all"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "recommended",
+          "choices": [
+            "minimal",
+            "recommended",
+            "full"
+          ],
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "yes",
+          "flags": [
+            "--yes",
+            "-y"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "explicit approval — required for any write"
+        },
+        {
+          "name": "dry_run",
+          "flags": [
+            "--dry-run"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": null
+        },
+        {
+          "name": "purge",
+          "flags": [
+            "--purge"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "uninstall: also delete .sparkforge-azure state"
+        },
+        {
+          "name": "to",
+          "flags": [
+            "--to"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "update: pinned version — never 'latest'"
+        },
+        {
+          "name": "repo",
+          "flags": [
+            "--repo"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": null
+        }
+      ]
+    },
+    {
+      "path": "workspace",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "workspace discover",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "starting dir (default: cwd)"
+        }
+      ]
+    },
+    {
+      "path": "workspace init",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "starting dir (default: cwd)"
+        },
+        {
+          "name": "name",
+          "flags": [
+            "--name"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "workspace name (default: directory name)"
+        }
+      ]
+    },
+    {
+      "path": "workspace add",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "starting dir (default: cwd)"
+        },
+        {
+          "name": "path",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": "repo dir — relative to the workspace root or absolute"
+        },
+        {
+          "name": "id",
+          "flags": [
+            "--id"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "expected project_id (collision check)"
+        },
+        {
+          "name": "role",
+          "flags": [
+            "--role"
+          ],
+          "required": false,
+          "default": null,
+          "choices": [
+            "application",
+            "data",
+            "infra",
+            "shared",
+            "tests",
+            "docs"
+          ],
+          "positional": false,
+          "help": "advisory role"
+        },
+        {
+          "name": "ID",
+          "flags": [
+            "--depends-on"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "direct dependency ids"
+        },
+        {
+          "name": "ID",
+          "flags": [
+            "--optional"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "optional dependency ids"
+        }
+      ]
+    },
+    {
+      "path": "workspace remove",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "starting dir (default: cwd)"
+        },
+        {
+          "name": "id",
+          "flags": [],
+          "required": true,
+          "default": null,
+          "choices": null,
+          "positional": true,
+          "help": "declared project id"
+        }
+      ]
+    },
+    {
+      "path": "workspace status",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "starting dir (default: cwd)"
+        }
+      ]
+    },
+    {
+      "path": "context",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        }
+      ],
+      "group": true
+    },
+    {
+      "path": "context resolve",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "root",
+          "flags": [
+            "--root"
+          ],
+          "required": false,
+          "default": ".",
+          "choices": null,
+          "positional": false,
+          "help": "starting dir (default: cwd)"
+        },
+        {
+          "name": "target",
+          "flags": [
+            "--target"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "project id or path (default: workspace default_target)"
+        },
+        {
+          "name": "scope",
+          "flags": [
+            "--scope"
+          ],
+          "required": false,
+          "default": "target",
+          "choices": [
+            "target",
+            "direct",
+            "transitive",
+            "all"
+          ],
+          "positional": false,
+          "help": "locality scope (default: target — never the whole workspace by omission)"
+        },
+        {
+          "name": "profile",
+          "flags": [
+            "--profile"
+          ],
+          "required": false,
+          "default": "economy",
+          "choices": [
+            "economy",
+            "balanced",
+            "deep"
+          ],
+          "positional": false,
+          "help": "TokenSave budget profile (default: economy)"
+        },
+        {
+          "name": "task",
+          "flags": [
+            "--task"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "task text — engages the per-project L0→L6 ladder (default: project set only)"
+        }
+      ]
+    }
+  ]
+}

@@ -113,3 +113,8 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S603", "S607", "S108"]
 "scripts/*" = ["S603", "S607"]
+# Vendored engine (canonical: the-forge/scripts/installkit) — kept
+# byte-identical to the shared source; linted in the canonical repo.
+"sparkforge_azure/_installkit.py" = ["ALL"]
+"scripts/forge_bootstrap.py" = ["ALL"]
+"scripts/forge_installkit.py" = ["ALL"]

@@ -30,6 +30,28 @@ a verdade (o vocabulario é o contrato; a frase é detalhe).
 | `host_unavailable` | reservado — ausência de host **não** é falha (`inspect`/`doctor` reportam `unavailable`/`unproven` por host) | instalar o host é opcional; o lifecycle funciona sem |
 | `unsupported` | operação/scope/profile fora do conjunto fechado | ajustar o argumento (ex.: `scope: target\|direct\|transitive\|all`) |
 
+## Glossário `install` (`FORGE-INSTALL-*`)
+
+Kinds do contrato `forge/*` — os mesmos em todo Forge irmão. Emitidos
+pelo `install` (e traduzidos de `InstallError` do engine vendored) como
+documentos `refused` com `unlock`.
+
+| kind | Causa típica | Desbloqueio |
+|---|---|---|
+| `FORGE-INSTALL-SCOPE-UNKNOWN` | `--scope` fora de `project\|workspace\|user` | ajustar o flag |
+| `FORGE-INSTALL-HOST-UNKNOWN` | `--host` fora de `claude\|devin\|codex\|copilot\|all` | ajustar o flag |
+| `FORGE-INSTALL-PROFILE-UNKNOWN` | `--profile` fora de `minimal\|recommended\|full` | ajustar o flag |
+| `FORGE-INSTALL-PERMISSION-DENIED` | target sem permissão de escrita | permissões do FS ou `--root` diferente |
+| `FORGE-INSTALL-PYTHON-INCOMPATIBLE` | interpreter < spec do `forge.json` no bootstrap | apontar `--python` compatível ao `setup` |
+| `FORGE-INSTALL-NOT-A-REPO` | `--scope project` fora de repositório git | rodar na raiz do repo ou `--scope user` |
+| `FORGE-INSTALL-PLAN-NOT-APPROVED` | `install` sem `--yes` nem `--dry-run` | `--dry-run` para o plano, `--yes` para escrever |
+| `FORGE-INSTALL-LOCKED` | outro `install` ativo no mesmo target (lockfile) | terminar o outro processo; lock stale: remover `.sparkforge-azure/install.lock` |
+| `FORGE-INSTALL-NOT-INSTALLED` | `repair`/`uninstall`/`update` sem instalação prévia | `sparkforge-azure install --yes` |
+| `FORGE-INSTALL-DRIFT-UNREPAIRABLE` | drift que repair não reescreve (asset deletado à mão fora do ledger) | `install uninstall` + `install --yes` |
+| `FORGE-INSTALL-UNSUPPORTED` | op pedida não faz sentido para o forge (ex.: `update` num forge sem checkout registrado) | verificar o manifesto em `~/.forge/installations` |
+| `FORGE-INSTALL-SPAWN-DISABLED` | verificação MCP bloqueada por política (spawn proibido) | permitir spawn ou aceitar `BLOCKED` |
+| `FORGE-INSTALL-VERIFY-FAILED` | handshake MCP completou mas a resposta é inválida | `sparkforge-azure mcp serve` a partir do pacote instalado |
+
 ## Padrões de sintoma
 
 **`workspace add` recusa um path válido** — quase sempre `identity_collision`

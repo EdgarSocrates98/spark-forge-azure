@@ -254,6 +254,35 @@ Estado e cache: `.sparkforge-azure/` (projeto), override por
 `SPARKFORGE_AZURE_STATE_DIR` / `SPARKFORGE_AZURE_CACHE`. Nada é escrito fora
 do projeto ou dos overrides explícitos.
 
+## `sparkforge-azure install [op]` — ciclo de vida `forge/*`
+
+Surface de instalação portátil do contrato compartilhado
+(`forge/InstallReceipt/v1`, `forge/InstallationHealth/v1`) — mesmos verbos
+de todo Forge irmão; `theforge install auto` delega para cá. Implementado
+sobre o ledger do `distribution` (nada duplicado): apply = `init` +
+espelhos de skills no ledger; uninstall = `detach` + poda de diretórios
+vazios.
+
+| Op | Uso |
+|---|---|
+| *(default: apply)* | escreve assets gerenciados: `project.yaml`, chave `mcpServers.sparkforge-azure` em `.mcp.json`, blocos gerenciados em `AGENTS.md`/`CLAUDE.md`, espelhos `sparkforge-azure-*` de skills — exige `--yes` (o plano é o contrato) ou `--dry-run` |
+| `status` | saúde `forge/InstallationHealth/v1` — `healthy`/`degraded`/`unverified` com `repair_hint` |
+| `doctor` | checks do `distribution doctor` + handshake MCP (`mcp-handshake`: PASS/FAIL/BLOCKED — BLOCKED quando o CLI não está no PATH) |
+| `repair` | reescreve só drift do ledger (`missing`/`modified`) preservando conteúdo do usuário; `--dry-run` lista o drift sem tocar |
+| `uninstall` | `detach` por ledger + poda de diretórios esvaziados; `--purge` remove também o estado `.sparkforge-azure/`; `--dry-run` planeja |
+| `update` | `pip install --upgrade` do checkout registrado no manifesto `~/.forge`; recusa `latest`; `--to` pinado, `--repo` alternativo |
+| `mcp-verify` | handshake JSON-RPC stdio do `mcp serve` (initialize → tools/list) — honesto, nunca infere por existência de arquivo |
+
+Flags comuns: `--scope project|workspace|user` (default `project`;
+`workspace` resolve pelo `workspace.yaml` e instala no projeto corrente;
+`user` escreve só assets de host sob `~`, sem identidade de projeto),
+`--root`, `--host claude|devin|codex|copilot|all` (restringe os espelhos),
+`--profile minimal|recommended|full` (minimal = marcadores + MCP;
+recommended = + espelhos de skills; full = + espelhos de agents).
+Recibos `forge/InstallReceipt/v1` com `status`
+`completed`/`planned`/`failed`; recusas `PortableError` → documento
+`refused` com `kind` (`FORGE-INSTALL-*`).
+
 ## `sparkforge-azure workspace <op>` — ForgeWorkspace
 
 Agrupamento lógico de projetos — **não** é Azure/Databricks/Fabric
