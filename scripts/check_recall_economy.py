@@ -54,10 +54,15 @@ import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
-from sparkforge_azure.economy.goldset import derivar_goldset, fora_do_alcance  # noqa: E402
-from sparkforge_azure.economy.recall import medir  # noqa: E402
+from sparkforge_azure.economy.goldset import (  # noqa: E402
+    derivar_goldset,
+    derivar_goldset_arvore,
+    fora_do_alcance,
+)
+from sparkforge_azure.economy.recall import medir, medir_arvore  # noqa: E402
 
 # Piso de perguntas derivadas. 12 fixtures em `fixtures/pyspark/*` produzem
 # `expected/` com evidence ancorada em simbolo `.py` (geradas pelo extrator +
@@ -93,6 +98,47 @@ def _relatorio() -> dict:
 
     corpus_bytes = sum(m.bytes_arquivos for m in medidas)
     medivel = corpus_bytes > ENVELOPE_FIXO_BYTES * len(medidas) > 0
+
+    # A medida que destrava a razao de economia, executada: a arvore do
+    # proprio pacote e corpus real maior que o envelope. Gold set derivado de
+    # `__all__` (superficie publica declarada), indice unico, eixo nominal.
+    arvore = medir_arvore(
+        ROOT / "sparkforge_azure", derivar_goldset_arvore()
+    )
+    medidas_arvore = [m for m in arvore["medidas"] if not m.get("erro")]
+    pack_a = sum(m["bytes_pack"] for m in medidas_arvore)
+    arquivos_a = sum(m["bytes_arquivos"] for m in medidas_arvore)
+    grep_a = sum(m["bytes_grep"] for m in medidas_arvore)
+    economia_arvore: dict[str, object] = {
+        "raiz": arvore["raiz"],
+        "perguntas": len(medidas_arvore),
+        "recall_nominal": {
+            "passou": sum(1 for m in medidas_arvore if m.get("presente")),
+            "de": len(medidas_arvore),
+            # Misses nomeados, nunca escondidos: stopword (`No`), mesmo-nome
+            # entre modulos (`collect_live` em 4 collectors) e compostos que
+            # perdem o corte por bonus de vizinho de grafo (`impact_for`).
+            "falhas": [
+                f"{m['arquivo']}::{m['simbolo']}"
+                for m in medidas_arvore if not m.get("presente")
+            ],
+        },
+        "bytes_pack": pack_a,
+        "bytes_arquivos": arquivos_a,
+        "bytes_grep": grep_a,
+        "bytes_por_nivel": {
+            nivel: sum(m["bytes_por_nivel"].get(nivel, 0) for m in medidas_arvore)
+            for nivel in ("None", "summary", "full")
+        },
+        "erro": arvore.get("erro"),
+    }
+    if medidas_arvore and pack_a:
+        # contra_arquivos > 1: o pack custa menos que ler os arquivos que
+        # contem o simbolo -- a razao de economia real, com denominador.
+        economia_arvore["contra_arquivos"] = round(arquivos_a / pack_a, 2)
+        # contra_grep: quanto o pack custa alem do `grep -n` cru (estrutura
+        # tem preco; o numero mostra o preco, nao finge que e gratis).
+        economia_arvore["contra_grep"] = round(pack_a / max(grep_a, 1), 2)
 
     economia: dict[str, object] = {
         "bytes_pack": sum(m.bytes_pack for m in medidas),
@@ -175,6 +221,7 @@ def _relatorio() -> dict:
             else {"unresolved": "gold set vazio"}
         ),
         "economia": economia,
+        "economia_arvore": economia_arvore,
         "recusas_curadas": curadas,
         "fora_do_alcance": [
             {
@@ -212,6 +259,18 @@ def _imprimir(rel: dict) -> None:
         print(f"economia vs grep ............. {e['contra_grep']}x")
     niveis = e["bytes_por_nivel"]
     print(f"bytes por detail_level ....... {niveis}")
+    ea = rel["economia_arvore"]
+    if ea.get("erro"):
+        print(f"economia na arvore ........... ERRO ({ea['erro']})")
+    else:
+        r = ea["recall_nominal"]
+        print(f"economia na arvore ({ea['perguntas']} perguntas em {ea['raiz']})")
+        print(f"  recall nominal ............. {r['passou']}/{r['de']}")
+        for falha in r["falhas"]:
+            print(f"    miss {falha}")
+        print(f"  pack vs arquivos ........... {ea.get('contra_arquivos', 'unresolved')}x")
+        print(f"  pack vs grep ............... {ea.get('contra_grep', 'unresolved')}x")
+        print(f"  bytes por nivel ............ {ea['bytes_por_nivel']}")
     fora = rel["fora_do_alcance"]
     if fora:
         por_razao: dict[str, int] = {}

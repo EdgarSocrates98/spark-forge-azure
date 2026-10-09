@@ -321,4 +321,74 @@ def medir(
     return tuple(_medir_uma(p) for p in alvo)
 
 
-__all__ = ["NIVEIS", "MedidaDeRecall", "SimboloExigido", "medir"]
+def medir_arvore(
+    raiz: str | Path,
+    simbolos: Sequence[tuple[str, str]],
+) -> dict[str, Any]:
+    """A mesma medicao de `medir`, sobre UMA arvore real com indice unico.
+
+    O corpus de fixture (~70 bytes por input) nao paga o envelope fixo do
+    pack -- o gate fica `unresolved` por recusa, nao por defeito. A arvore do
+    pacote e o primeiro corpus honesto que o excede: ~380 modulos reais. Um
+    indice compartilhado mede exatamente o caso de uso do produto (pack sobre
+    codebase real) em vez de inflar 225 indexacoes iguais.
+
+    So o eixo NOMINAL: na arvore nao ha titulo de regra para a consulta
+    conceitual, e medir pergunta inventada mediria a minha escrita, nao o
+    pack. `recall` sai reportado -- piso de 100% e do gold set de fixture, e
+    transferi-lo para ca fingiria que a superficie publica e obrigacao de
+    recuperacao, quando na pratica `montar` pode decidir que outro simbolo
+    responde melhor.
+    """
+    from sparkforge_azure.codeintel.context import montar
+    from sparkforge_azure.codeintel.index import indexar
+
+    raiz = Path(raiz)
+    perguntas = tuple(sorted(set(simbolos)))
+    vazio = {
+        "raiz": raiz.as_posix(), "perguntas": len(perguntas),
+        "medidas": [], "erro": None,
+    }
+    if not raiz.is_dir():
+        return {**vazio, "erro": f"arvore ausente: {raiz}"}
+
+    medidas: list[dict[str, Any]] = []
+    with tempfile.TemporaryDirectory(
+        prefix="sf-recall-arvore-", ignore_cleanup_errors=True
+    ) as tmp:
+        banco = Path(tmp) / "indice.sqlite3"
+        try:
+            indexar(raiz, banco)
+        except Exception as erro:  # noqa: BLE001
+            return {**vazio, "erro": f"indexar: {erro!r}"}
+        for arquivo, simbolo in perguntas:
+            base: dict[str, Any] = {"arquivo": arquivo, "simbolo": simbolo}
+            try:
+                pacote = montar(banco, simbolo).para_dicionario()
+            except Exception as erro:  # noqa: BLE001
+                medidas.append({**base, "erro": f"montar: {erro!r}"})
+                continue
+            encontrados = _nomes_do_pack(pacote)
+            medidas.append({
+                **base,
+                "presente": (Path(arquivo).name, simbolo) in encontrados
+                            or (Path(arquivo).name, simbolo.split(".")[-1]) in encontrados,
+                "bytes_pack": budget.tamanho_em_bytes(pacote),
+                "bytes_arquivos": _bytes_dos_arquivos(raiz, [arquivo]),
+                "bytes_grep": _bytes_do_grep(raiz, [(arquivo, simbolo)]),
+                "bytes_por_nivel": {
+                    str(nivel): budget.tamanho_em_bytes(
+                        pacote if nivel is None else _no_nivel(pacote, nivel)
+                    )
+                    for nivel in NIVEIS
+                },
+            })
+    return {
+        "raiz": raiz.as_posix(),
+        "perguntas": len(perguntas),
+        "medidas": medidas,
+        "erro": None,
+    }
+
+
+__all__ = ["NIVEIS", "MedidaDeRecall", "SimboloExigido", "medir", "medir_arvore"]

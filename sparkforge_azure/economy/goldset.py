@@ -242,6 +242,60 @@ def derivar_goldset() -> tuple[PerguntaDeOuro, ...]:
     return _derivar()[0]
 
 
+def derivar_goldset_arvore(
+    raiz: str | Path | None = None,
+) -> tuple[tuple[str, str], ...]:
+    """`(arquivo_rel, simbolo)` derivado da superficie publica declarada.
+
+    As perguntas de fixture medem recall sobre corpus minusculo (~70 bytes de
+    input) -- insuficiente para pagar o envelope fixo do pack. A medicao de
+    economia real precisa de um corpus que o exceda, e a arvore do proprio
+    pacote e o maior corpus honesto disponivel sem depender de nuvem.
+
+    A fonte de verdade e `__all__` de cada modulo: e a declaracao versionada
+    do que o modulo publica. Um nome so entra se existir como `def`/`class`
+    NO MESMO arquivo -- re-exportacao em `__all__` produziria pergunta cuja
+    resposta mora em outro arquivo, e o par (arquivo, simbolo) deixaria de
+    ser uma promessa verificavel. Dois primeiros nomes por modulo, no maximo:
+    cobre as sub-arvores sem deixar um modulo com `__all__` grande dominar a
+    amostra.
+    """
+    import ast
+
+    base = Path(raiz) if raiz is not None else _RAIZ / "sparkforge_azure"
+    pares: set[tuple[str, str]] = set()
+    for caminho in sorted(base.rglob("*.py")):
+        try:
+            arvore = ast.parse(caminho.read_text(encoding="utf-8"))
+        except (OSError, SyntaxError, ValueError):
+            continue
+        publicos: list[str] = []
+        definidos: set[str] = set()
+        for node in arvore.body:
+            if isinstance(node, ast.Assign):
+                for alvo in node.targets:
+                    if (
+                        isinstance(alvo, ast.Name)
+                        and alvo.id == "__all__"
+                        and isinstance(node.value, (ast.List, ast.Tuple))
+                    ):
+                        publicos = [
+                            e.value
+                            for e in node.value.elts
+                            if isinstance(e, ast.Constant) and isinstance(e.value, str)
+                        ]
+            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+                definidos.add(node.name)
+        # Caminho relativo a raiz medida (ex.: `azure/pipeline.py`): `rglob`
+        # casa padroes com diretorios, e basenames colidem entre subpacotes
+        # (`pipeline.py` existe em quatro). `_presenca` reduz a basename.
+        rel = caminho.relative_to(base).as_posix()
+        for nome in publicos[:2]:
+            if nome in definidos:
+                pares.add((rel, nome))
+    return tuple(sorted(pares))
+
+
 def fora_do_alcance() -> tuple[ForaDoAlcance, ...]:
     """Os pares que ancoram fora de arquivo indexado, NOMEADOS.
 
@@ -257,5 +311,6 @@ __all__ = [
     "ForaDoAlcance",
     "PerguntaDeOuro",
     "derivar_goldset",
+    "derivar_goldset_arvore",
     "fora_do_alcance",
 ]
