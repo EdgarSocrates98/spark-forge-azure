@@ -229,7 +229,7 @@ maturity pass auditou cada bloco § contra artefatos reais
   (negative exige `no_match`, nunca `below_cap`); `_eval_coverage` agora
   resolve cada entrada contra `tests/`/`evals/` (antes bastava lista
   não-vazia — divergência docstring↔código fechada); 40 manifests declaram
-  evals reais → frota **40/40 `ready`** (era 40× `unevaluated`; suite 2812/9).
+  evals reais → frota **40/40 `ready`** (era 40× `unevaluated`; suite 2818/9).
 - `AGENT_MIRRORS` (W2): mirrors de hosts para os 40 manifests —
   `.claude/agents/custom/` + `.agents/agents/` file-per-agent, `name`/
   `description` injetados, drift `missing|stale|orphan` + sync, campo
@@ -242,3 +242,16 @@ maturity pass auditou cada bloco § contra artefatos reais
   read-only (mesma engine do CLI); superficie 13→15 tools, lock regen.
 - `AGENT_DOD_GATE` (W5): `test_agent_dod.py` por família + `agents/
   CAPABILITY.json` gerado + gate de novo agent no CONTRIBUTING.
+
+## Estado medido — cycle 8 (autonomy contract + docs) — **DELIVERED**
+
+`feat/cycle8-autonomy-docs`, continuando o maturity pass:
+
+- `AGENT_AUTONOMY_FIELD` (W1): `autonomy` vira **required** no manifest v2 com
+  vocab fechado `L0–L5`; frota inteira ≤ L2 (coordinator/referee L2, roles
+  determinísticas L0, demais L1) — §153 "default BOUNDED" vira contrato, não
+  convenção. `autonomy_for()` resolve manifest→`AutonomyLevel` fail-closed
+  (fora da taxonomia → L0); `autonomy` virou dim medida do inventário.
+- `AGENTS_REFERENCE_DOC` (W2): `docs/reference/agents.md` **gerado** por
+  `gen_agents_doc.py` (kind/domain/autonomy/risk/evals por agent) com sync
+  test anti-drift — par do catálogo de skills.
