@@ -16,6 +16,7 @@ from __future__ import annotations
 from collections.abc import Iterable
 from dataclasses import dataclass, field
 from enum import Enum
+from pathlib import Path
 
 
 class AutonomyLevel(str, Enum):
@@ -184,6 +185,24 @@ _PROFILES: dict[AutonomyLevel, AutonomyProfile] = {
 def get_profile(level: AutonomyLevel) -> AutonomyProfile:
     """Retorna o perfil de um nível de autonomia."""
     return _PROFILES.get(level, _PROFILES[AutonomyLevel.L0_DETERMINISTIC])
+
+
+def autonomy_for(agent_id: str, root: Path | str = ".") -> AutonomyLevel:
+    """Nível de autonomia declarado no manifest v2 do agent (§153).
+
+    Fail-closed: id fora da taxonomia ou valor fora do vocabulário fechado
+    resolve ``L0_DETERMINISTIC`` — nunca privilégio inventado.
+    """
+    from sparkforge_azure.agentmanifest.model import parse_manifest
+
+    src = Path(root) / "agents" / f"{agent_id}.md"
+    if not src.is_file():
+        return AutonomyLevel.L0_DETERMINISTIC
+    try:
+        level = parse_manifest(src).data.get("autonomy")
+        return AutonomyLevel(str(level))
+    except (ValueError, KeyError):
+        return AutonomyLevel.L0_DETERMINISTIC
 
 
 def can_perform_action(level: AutonomyLevel, action: str) -> bool:

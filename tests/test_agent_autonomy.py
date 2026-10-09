@@ -63,3 +63,16 @@ def test_declared_level_resolves_profile() -> None:
         profile = get_profile(AutonomyLevel(_autonomy(agent_id)))
         assert profile is not None
         assert profile.level.value == _autonomy(agent_id)
+
+
+def test_autonomy_for_is_fail_closed() -> None:
+    from sparkforge_azure.agentic.autonomy import autonomy_for
+
+    assert autonomy_for("coordinator", REPO) == AutonomyLevel.L2_COOPERATIVE
+    assert autonomy_for("unity-catalog-specialist", REPO) == (
+        AutonomyLevel.L1_SPECIALIST
+    )
+    assert autonomy_for("not-an-agent", REPO) == AutonomyLevel.L0_DETERMINISTIC
+    assert autonomy_for("coordinator", REPO / "nonexistent") == (
+        AutonomyLevel.L0_DETERMINISTIC
+    )
