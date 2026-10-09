@@ -204,3 +204,18 @@ Canonical identities stay provider-specific (ARM/Fabric IDs vs ARNs) per
 conflict preservation) is in `graph/federation.py`. CodeIntel recall is
 covered by the W2 gold set (symbol-anchored `.py` findings). P0-F:
 **AZURE_AHEAD** on graphfy, EQUIVALENT on codeintel.
+
+### W9 — supply chain / release (§120–128)
+
+Measured this cycle, offline:
+
+| gate | result |
+|---|---|
+| `supply_chain.py verify-lock` | ok — every pin exact+hashed, covers pyproject |
+| `supply_chain.py audit` | ok — 0 findings vs `locks/advisories.yaml` floors (offline basis) |
+| `supply_chain.py sbom` | CycloneDX 7 components → `evals/parity/sbom.cdx.json` |
+| `verify_wheel.py` | **ok** — two builds, same sha256 `fd5b3c…`; sole entrypoint `sparkforge-azure`; packaged `_data/` present; clean-venv `version`/`doctor` run outside the repo; import resolves to the wheel |
+| `check_surface_lock.py` | green (drift discipline, §127) |
+
+P0-I: **EQUIVALENT** — consolidated script covers the AWS `gen_lock` +
+`gen_sbom` + offline audit trio; wheel gate matches the AWS release posture.
