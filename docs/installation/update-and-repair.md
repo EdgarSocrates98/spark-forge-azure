@@ -3,7 +3,7 @@
 ## Update
 
 ```bash
-sparkforge-azure update --to <versão ou tag pinada>
+sparkforge-azure install update --to <versão ou tag pinada>
 ```
 
 `latest` é recusado por contrato — sempre pin a versão. Sem checkout
@@ -13,7 +13,7 @@ registrado o update reporta BLOCKED honestamente.
 
 ```bash
 sparkforge-azure doctor   # mostra o drift
-sparkforge-azure repair   # reassegura regiões gerenciadas
+sparkforge-azure install repair   # reassegura regiões gerenciadas
 ```
 
 Repair restaura arquivos gerenciados removidos e cura blocos

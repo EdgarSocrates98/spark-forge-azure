@@ -1,8 +1,8 @@
 # Uninstall — spark-forge-azure
 
 ```bash
-sparkforge-azure uninstall            # remove só arquivos gerenciados
-sparkforge-azure uninstall --purge    # + remove o estado local (.sparkforge-azure/)
+sparkforge-azure install uninstall            # remove só arquivos gerenciados
+sparkforge-azure install uninstall --purge    # + remove o estado local (.sparkforge-azure/)
 ```
 
 O ledger SHA-256 decide ownership: arquivos que você criou ou modificou
