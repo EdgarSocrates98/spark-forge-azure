@@ -7,6 +7,16 @@ de nuvem é tocado, lido ou inferido.
 
 Manifesto: `.sparkforge-azure/workspace.yaml` na raiz do workspace.
 
+> **Dois `workspace.yaml` coexistem — não confundir** (§122–§124):
+>
+> | Manifesto | Dono | Cobre |
+> |---|---|---|
+> | `.sparkforge-azure/workspace.yaml` | `distribution` (esta doc) | agrupamento local de **projetos** — ids `sfa-*`, arestas, scopes de contexto |
+> | `sparkforge-azure.workspace.yaml` | `graph` (`graph/workspace.py`) | fronteira de **workspaces de nuvem** (Azure/Databricks/Fabric) para o grafo federado |
+>
+> Um agrupa repositórios; o outro delimita alvos de nuvem. Nenhum dos dois
+> toca recurso de nuvem.
+
 ## Modelo
 
 ```yaml

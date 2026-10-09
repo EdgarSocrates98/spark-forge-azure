@@ -87,3 +87,48 @@ Textos verbatim em `docs/claims.lock.json`, cada um com prova executável:
 - mover o projeto preserva project_id; copiar exige --regen-id
 - scopes direct/transitive resolvem o grafo declarado com recibo de bytes
 - detach remove só o ledger, preserva trabalho do usuário e estado por padrão
+
+## Post-closure freshness update
+
+*Snapshot histórico preservado acima (closure: `2985→2988 passed`, BASE_SHA
+`9f5a1f7`). Esta seção compara contra os `main` atuais das referências —
+comparações de paridade são snapshots amarrados a SHA (§161–§162). Estado
+medido vivo do Azure: `docs/CURRENT_STATE.md` (gerado).*
+
+```text
+AWS_REFERENCE_SHA        904b40e   (origin/main — distribution/workspace/context resolve chegaram depois do audit)
+API_FORGE_REFERENCE_SHA  07459a2   (origin/main — inalterado desde o audit)
+AZURE_SHA_NA_MEDIÇÃO     1a5948f   (pós-merge PR #22 + docs completude PR #23)
+REMOTE_CI                NOT_OBSERVED — quota esgotada; gates locais verdes
+```
+
+### Paridade atual (recomputada do código, não do audit)
+
+| Capability | API Forge `07459a2` | Spark Forge AWS `904b40e` | Spark Forge Azure |
+|---|---|---|---|
+| Distribution lifecycle | EQUIVALENT — inspect/init/status/doctor | EQUIVALENT — idem | AZURE_AHEAD — +`detach` de projeto, ledger `managed.json`, receipts |
+| Workspace lifecycle | EQUIVALENT — discover/init/add/status/graph | EQUIVALENT — discover/init/add/status | AZURE_AHEAD — +remove, arestas/ciclos nomeados, roles, scopes |
+| Relocatable identity | DIFFERENT_BY_DESIGN — `project_id = sha256(path)`; quebra em realocação | EQUIVALENT parcial — id persistido pós-init, fallback `sha256(path)`; sem contrato de cópia | AZURE_AHEAD — `sfa-<uuid>` persistido, colisão `identity_collision`, `--regen-id` |
+| Context locality | ausente (nenhum resolve por workspace) | DIFFERENT_BY_DESIGN — `context resolve` com scope repo/workspace/target + impact; resolve o *conjunto*, sem materialização | AZURE_AHEAD — scope target→all + escada TokenSave por projeto confinada + recibo de bytes |
+| Host integration | host_assets/ | REFERENCE_AHEAD — `integrate`/`detach` nível **usuário**, 4 hosts (claude/devin/codex/copilot), marketplace plugin | DIFFERENT_BY_DESIGN — nível **projeto** (`.mcp.json` + markers + mirrors opt-in), reversível por ledger |
+| Detach | ausente | `sparkforge-aws detach` — escopo usuário | AZURE_AHEAD — escopo projeto: preserve-por-padrão, purge granular, dry-run |
+| Wheel proof | não observado | `scripts/verify_wheel.py` — verifica packaging, não lifecycle | AZURE_AHEAD — T3: lifecycle inteiro a partir do wheel instalado fora do checkout |
+| Evals de portabilidade | não observado | não observado | PROVEN — `evals/portability/` 10/10 casos |
+
+### O que mudou em relação ao audit original
+
+- **AWS portable distribution**: `ausente` (histórico) → `PROVEN` atual —
+  `sparkforge_aws/distribution/` + `workspace/portable.py` +
+  `context resolve` existem no `904b40e`. A evolução do AWS depois do audit
+  não é regressão do Azure — é estado novo de referência (§160).
+- **AWS detach**: já existia como `integrate`+`detach` de nível usuário —
+  paridade semântica, escopo diferente (§68).
+- **API Forge**: inalterado — `project_id` continua `sha256(path)`; sem
+  `detach`, sem resolve de contexto por workspace.
+- **Diferenças preservadas** (§10): o `context resolve` do Azure materializa
+  contexto com recibo de bytes — o do AWS resolve só o conjunto de projetos.
+  O Azure cobre *reversibilidade por projeto*; o AWS cobre *amplitude de
+  hosts* (copilot + install home-level + marketplace).
+
+`PORTABILITY_STATUS = CLOSED` — nenhum gap P0/P1 de portabilidade em aberto;
+itens remanescentes são P2 (docs/polish).

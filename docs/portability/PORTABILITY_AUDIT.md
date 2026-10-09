@@ -213,3 +213,12 @@ init/inspect/status/doctor) → W2 `workspace` (discover/init/add/remove/status,
 manifest, roles, deps, ciclos) → W3 identity relocável → W4 `context resolve`
 → W5 host integration → W6 detach → W7 provas T0–T4, gate, claims, docs×8,
 SDD×6. Cada onda commitada separadamente; freeze re-verificado ao final.
+
+---
+
+> **Post-closure reference update** (polish wave): o Spark Forge AWS evoluiu
+> depois desta auditoria — `origin/main 904b40e` já contém
+> `sparkforge_aws/distribution/`, `workspace/portable.py` e `context resolve`.
+> As classificações ABSENT/PARTIAL abaixo permanecem corretas **para o SHA
+> auditado**; a comparação atual vive na seção *Post-closure freshness
+> update* de `PORTABILITY_OUTCOME.md`.
