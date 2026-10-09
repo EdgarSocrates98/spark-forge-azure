@@ -1,139 +1,91 @@
-# Cycle 6 — Outcome Brief (Agentic Engineering Runtime Hardening)
+# Cycle 6 — Outcome Brief (Convergence + Freeze)
 
-`prompt_evo_agentic_enginner.md` implementado em fases/ondas com commit por
-wave na branch `feat/cycle6-agentic-runtime`. Tese da spec: **NO AGENT
-WITHOUT CONTRACT** — runtime agentico operacional, governado, testavel e
-mensuravel, nao uma colecao de arquivos de manifest.
+Execucao de `prompt_evo_cycle6.md` na branch `feat/cycle6-convergence`.
+Missao §0: provar que os componentes principais operam juntos de forma
+consistente, eficiente, governada, recuperavel e mensuravel — e decidir
+freeze. Este documento substitui o outcome anterior deste arquivo (o do
+hardening do runtime agêntico, `prompt_evo_agentic_enginner.md`,
+historico em git).
 
-## STATUS
+## Campos §151
 
-- Agentic runtime hardening = **CONTRACTED + GATED + OBSERVED**
+```text
+STATUS              CONVERGED + FREEZE-READY
+BASE_SHA            21ac3e9 (main pos-PR#18, ciclo 11)
+FINAL_CODE_SHA      949c67edcabe2a4779a554906d8e871e1ff80ecd
+FINAL_EVIDENCE_SHA  68d3ed12b15440971833b3531e7543b6a7eb3f32ebdb14309d1faae2eccf58f0
+                    (sha256 LF-normalizado de evals/convergence/reports/final.json)
+FINAL_MAIN_SHA      <preenchido no merge do PR>
 
-A auditoria inicial (exigida pela propria spec) encontrou um substrato forte
-ja existente — manifests v1 estritos (38 agents), routing deterministico,
-governor strictest-wins, handoff DATA_ONLY com taint, blackboard, budgets,
-recovery. O ciclo formalizou o que faltava: inventario por agent, contrato
-v2, role plans derivados, spawn gate, teams, spans agênticos, labs e as
-superficies de fechamento (fingerprint, impact graph).
+CROSS_VERTICAL      CONVERGED — evals/convergence 20/20 celulas
+                    (4 casos x 5 profiles); fingerprint e evidence_paths
+                    uniformizados; namespaces de fact.kind verificados
+AGENT_RUNTIME       HOST_PROVEN — evals/host_proof/claude_code.json
+                    (claude -p via adapter, usage medido, trace sha256);
+                    runtimes/ base+generic+playbook+host+registry+fallback
+AGENT_VALUE         EVALUATED — evals/agent_runtime/reports/*.host.json
+                    (4 verticais, $2.79 medido); EMPIRICAL_AGENT_VALUE.md
+EVALUATION          CONVERGED — evals/{evolution,decision_replay,
+                    metric_compiler,lifecycle,policy}; baseline/candidate
+                    + paired replay + promotion gates existem e passam
+STATE               HARDENED — paths.py::state_dir +
+                    SPARKFORGE_AZURE_STATE_DIR; kernel state tests verdes
+RECOVERY            HARDENED — collectors/recover.py FailureKinds +
+                    test_recovery_{governance,policy} + checkpoint suite
+CACHE               HARDENED — test_cache_contracts +
+                    decision_cache_versions; stale != current coberto
+CONTEXT             CONVERGED — context/ packs + profiles; slice
+                    isolation provada no corpus sintetico (5 dominios)
+TOKEN_SAVE          MEASURED — 4.28x vs arquivos / 32.72x vs grep na
+                    arvore real (380 modulos); unresolved residual
+                    nomeado (fixture < envelope fixo, por desenho)
+GRAPHFY             CONVERGED — graph/ tipado + proveniencia; teste de
+                    contaminacao de grafo no lab; impact queries cobertas
+TRUST               CONVERGED — DATA_ONLY + taint=external nos 4
+                    verticais, todo profile; red-team 32 testes
+MEMORY              SCOPED — agentic/memory env-fingerprint gate
+                    medido; azure/memory.py declarado doc-only
+AGENTOPS            CONVERGED — context_ledger + stages/overhead nos 4
+                    resultados; spans agênticos cobertos
+MCP                 GOVERNED — sfa_* tools, cursor pagination, compact,
+                    risk vocab read_only→cloud_write, default-deny
+SECURITY            TESTED — red-team suite: injecao, tool poisoning,
+                    quarentena, memoria por raiz, segredo por formato;
+                    secret boundary verificado na serializacao
+CLAIMS              GREEN — claims.lock.json re-stampado, 24 claims
+                    executaveis (suite-green atualizado p/ 2907)
+SUPPLY_CHAIN        VERIFIED — lock ok, audit ok, SBOM CycloneDX, wheel
+                    reproduzivel (sha256 identico em 2 builds, ciclo 11)
 
-## SHAs
+TESTS               2907 passed / 9 skipped / 0 failed (411s)
+REMOTE_CI           NOT_OBSERVED — quota GitHub esgotada; ignorado por
+                    instrucao explicita do usuario
 
-| Marco | SHA |
-|---|---|
-| `BASE_SHA` | `4f4f57558520460125ed21d836b72e6682261025` (main pós-PR #10) |
-| `WAVE0_SDD` | `4240534` — 7 sub-SDDs sha-encadeados (gate vermelho honesto `test_not_written`) |
-| `WAVE1` | `bda8c90` — AGENT_INVENTORY |
-| `WAVE2` | `b32df99` — AGENT_CONTRACT_V2 |
-| `WAVE3` | `a45832c` — ROLE_PLANS + SPAWN GATE |
-| `WAVE4` | `2c14ca6` — TEST_EVAL_AGENTS |
-| `WAVE5` | `06b5ff4` — AGENT_TEAMS |
-| `WAVE6` | `2729032` — AGENTOPS_AGENT |
-| `WAVE7` | `13fa056` — AGENT_LABS_SECURITY |
-| `CLOSURE` | fingerprint + impact graph + docs + gates (este commit) |
-| `FINAL_MAIN_SHA` | commit de merge do PR (post-hoc) |
-
-## W1 — AGENT_INVENTORY
-
-`agentic/inventory.py` + `agents list|inspect` + doctor `agentic_fleet` +
-`docs/agentic/AGENT_INVENTORY.md` (gerada). Vocabulario fechado
-`ready|partial|manifest_only|broken|unevaluated`. Dimensoes: manifest,
-role_plan, tool_policy, knowledge, budget, handoff, routing, evals,
-agentops. Resultado honesto: **40/40 `unevaluated`** — contrato completo,
-sem evals declarados ainda. `agentmanifest/tools.py` virou o registry
-interno que separa verbos de runtime (`sfa_analyze`, `sfa_judge`, …) do
-catalogo MCP — sem ele o inventario marcava toda a frota `partial` por
-tools validas nao-MCP.
-
-## W2 — AGENT_CONTRACT_V2
-
-Schema v2 nos 40 manifests: `family/domain/mission/inputs/outputs/
-allowed_tools/denied_tools/spawn/stop/handoffs/review_policy/evals`.
-Resolveu um bug latente: `CallPolicy.from_manifest` ja lia
-`manifest.allowed_tools`/`denied_tools` que o modelo v1 nao expunha.
-Dois roles novos — `test-engineer`, `evaluation-specialist` — taxonomia
-14→16 roles, 38→40 agents.
-
-## W3 — ROLE_PLANS + SPAWN GATE
-
-`role_plan_for` deriva o RoleContextPlan DO MANIFEST (a segunda tabela que
-a spec pedia ja existia nos campos v2 — derivar e o que impede a deriva).
-`agentic/spawn.py`: SPAWN/SKIP/DEFER com information-gain por trigger
-(always/on_domain_match/on_finding_review/on_disagreement/on_conflict/
-on_parent_spawn/on_gate). `explain_route` + `agents route`: decisao por
-candidato (selected/below_cap/no_match) com matched_terms.
-
-## W4 — TEST_EVAL_AGENTS
-
-CONTEXT_KINDS + `eval_result/metric/claim`. `evaluation-specialist` consome
-so o plano de eval — nunca artifact/tool_output cru. `test-engineer` com
-policy read-only (tokensave read/symbols). Ambos spawnam por trigger
-explicito (on_gate + gate_requested) — nunca por routing de dominio.
-
-## W5 — AGENT_TEAMS
-
-`agent-teams/{databricks,fabric,streaming,migration}.yaml`: elegibilidade
-apenas — NUNCA spawn list. `teams.py` audit: eligible ⊆ taxonomia;
-familias control/evidence/adversarial/test_eval nunca elegiveis em team de
-dominio; subagent exige parent elegivel; max_specialists ≤ ceiling; o
-arquivo nao pode ampliar privilegio (allowed_tools/context/budget/trust/
-members no YAML = recusa nomeada).
-
-## W6 — AGENTOPS_AGENT
-
-`agentic/spans.py`: `AgentSpan` (lane `agent` do trace persistido) com
-contadores de saida — facts/findings/unresolved_resolved/decisions_changed;
-tokens/cost `None`+status `unresolved` quando sem fonte. 
-`AgentExecutionReceipt`: considered com razao, spawned/skipped/deferred,
-handoffs, budgets. `agent_waste`: `empty_agent_spawn` e
-`duplicate_agent_spawn` (observed apenas). `agent_value_report`: vetor
-multi-eixo por agent, sem score magico.
-
-## W7 — AGENT_LABS_SECURITY
-
-`test_agentic_labs.py`: routing lab (canonico → esperado e so ele;
-multi-dominio databricks+uc+adls), negative routing (sem sinal → ninguem),
-budget lab (estouro nomeado em qualquer dimensao).
-`test_agentic_security_lab.py`: CallPolicy nega tool fora da allowlist;
-confused deputy → `handoff_confused_deputy`; origin forjada →
-`handoff_sender_origin_mismatch`; poisoned → deny; injecao → SUSPICIOUS +
-REVIEW; benigno externo nunca vira clean; memoria com evidencia fabricada →
-quarantine/rejeitada.
-
-## CLOSURE — fingerprint + impact + superficies
-
-`agentic/fingerprint.py`: `sha256:` sobre campos de contrato dos 40
-manifests + routing table + 4 teams + vocabularios fechados — identidade da
-frota detectavel em review (nao e score; o gate/testes medem correcao).
-`agentic/impact.py`: grafo de impacto declarado — `agents/<id>.md` → testes
-do contrato; `model.py` → fleet-wide; path desconhecido → `unresolved`
-(nunca vazio confiante). Verbos `agents fingerprint` e `agents impact` na
-CLI (surface lock regerado, cli.md atualizado).
-
-## ESTADO HONESTO DA FROTA
-
-- 40 manifests v2 validados; 4 teams auditadas; 20 rotas deterministicas
-- Status da frota: **40 `unevaluated`** — o inventario existe exatamente
-  para nao deixar isso invisivel; `evals: []` nos manifests e a proxima
-  fronteira (promover para `ready` exige evals executados, nao declarados)
-- Fingerprint `sha256:d3901db1…` na data do commit — qualquer drift de
-  contrato muda o hash
-
-## VERIFICACAO
-
-```
-pytest -q              verde (suites agentic + labs + closure)
-sdd check              ok — 7 features Cycle 6, 0 refused
-docs-index             ok
-docs-surface           ok — agents list/inspect/route/fingerprint/impact
-surface.lock           regerado (+2 verbos)
-ruff                   clean
-REMOTE_CI              NOT_OBSERVED (quota — ignorado conforme instruido)
+FREEZE_STATUS       READY_FOR_ARCHITECTURE_FREEZE
+                    (14/14 candidatos §96 STABLE —
+                    docs/cycle6/ARCHITECTURE_FREEZE_READINESS.md)
+DEFERRED            azure/memory.py consumidor real (doc-only);
+                    recall conceitual na arvore (sem titulo de regra);
+                    provider tokens fora do host transcript
+BACKLOG             evals/convergence: ampliar para mais casos por
+                    vertical quando houver demanda; misses de retrieval
+                    nomeados (No stopword, collect_live ambiguo)
 ```
 
-## O QUE ESTE CICLO NAO FEZ (honesto)
+## O que este ciclo mudou de verdade
 
-- Nenhum agent foi EXECUTADO — a frota esta contratada, roteada, gated e
-  observavel; execucao real e o ciclo que vem
-- `evals: []` em todos os manifests — `unevaluated` nao e `ready`
-- Impact graph cobre a superficie agentica; paths fora dela saem
-  `unresolved` por design
+1. **Duas divergencias de contrato fechadas** — fingerprint em
+   databricks, `evidence_paths` em migration. Ambas medidas no W0,
+   fechadas no W1, guardadas pelo lab.
+2. **Lab de convergencia criado** — `evals/convergence/` torna
+   divergencia futura uma falha de teste, nao uma surpresa de release.
+3. **Bug real de roteamento corrigido** — `findings_area` agora casa
+   sub-areas (`SF-STR-LOSS-RISK` → streaming-specialist). Achado pelo
+   teste §114, nao por revisao.
+4. **Freeze decidido com evidencia** — `READY_FOR_ARCHITECTURE_FREEZE`;
+   a partir daqui `EVALUATION_DRIVEN_ENGINEERING = ACTIVE`.
+
+## Claims operacionais (proof-anchored)
+
+- Fleet fingerprint: `sha256:c58f94b8` (40 agents — `agents fingerprint`)
+- SDD gate: `0 refused` (`sparkforge-azure sdd check`)

@@ -96,6 +96,9 @@ from __future__ import annotations
 
 import json
 import os
+import re
+import unicodedata
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import Any
 
@@ -142,6 +145,11 @@ ENTRY_POINTS = 3
 UNRESOLVED_MAXIMO = 20
 
 _AVISO_DE_CONFIANCA = "untrusted_repository_content"
+
+# Chunk de identificador na pergunta -- `\w+` inteiro, com `_` dentro. O
+# mesmo alfabeto de `search._TOKEN`: la ele casa identificador para citacao;
+# aqui ele extrai a forma que o FTS phrase-match recupera de uma vez.
+_IDENTIFICADOR = re.compile(r"\w+", re.UNICODE)
 
 # Dois campos so podem ser escritos DEPOIS da reducao: `reductions`, que nao
 # existe antes de a reducao acontecer, e `estimated_tokens`, que so descreve o
@@ -309,6 +317,7 @@ def _candidatos(
     banco: str | os.PathLike[str],
     expansao: Expansao,
     limite: int,
+    identificadores: Sequence[str] = (),
 ) -> dict[str, tuple[Achado, int]]:
     """`{node_id: (achado, melhor posicao no FTS)}`, na ordem em que apareceram.
 
@@ -316,14 +325,37 @@ def _candidatos(
     termo, e nao a ultima: aparecer no topo de qualquer termo e o sinal, e
     deixar o ultimo termo sobrescrever faria a ordem depender de qual palavra a
     pessoa escreveu por ultimo.
+
+    `identificadores` sao os chunks compostos da pergunta (`run_case`,
+    `node_id`), buscados ANTES dos termos da expansao: no FTS5 o
+    identificador casa a frase adjacente, o match mais preciso que existe,
+    enquanto os literais quebrados disputam `limite` candidatos contra todo
+    simbolo que contem `run` ou `case`. Eles NAO vao para
+    `expansao.literais` -- o pack nao pode ecoar o texto cru da pergunta
+    (ver ranking.expandir).
     """
     encontrados: dict[str, tuple[Achado, int]] = {}
-    for termo in expansao.termos[:TERMOS_MAXIMOS]:
+    for termo in (*identificadores, *expansao.termos[:TERMOS_MAXIMOS]):
         for posicao, achado in enumerate(buscar(banco, termo, limite)):
             anterior = encontrados.get(achado.node_id)
             if anterior is None or posicao < anterior[1]:
                 encontrados[achado.node_id] = (achado, posicao)
     return encontrados
+
+
+def _identificadores(tarefa: str) -> tuple[str, ...]:
+    """Os chunks `\\w+` compostos (com `_` ou digito) da pergunta, deduplicados.
+
+    Palavra simples ja e literal na expansao -- o que falta e o identificador
+    inteiro, que o unicode61 indexa como tokens separados e que a busca por
+    frase recupera de uma vez.
+    """
+    vistos: list[str] = []
+    for chunk in _IDENTIFICADOR.findall(tarefa):
+        norm = unicodedata.normalize("NFKD", chunk).casefold()
+        if ("_" in norm or any(c.isdigit() for c in norm)) and norm not in vistos:
+            vistos.append(norm)
+    return tuple(vistos)
 
 
 def _profundidades(
@@ -734,7 +766,9 @@ def montar(
     """
     orcamento = budget.normalizar_orcamento(max_bytes)
     expansao = expandir(tarefa, dicionario=dicionario)
-    encontrados = _candidatos(banco, expansao, CANDIDATOS_POR_TERMO)
+    encontrados = _candidatos(
+        banco, expansao, CANDIDATOS_POR_TERMO, _identificadores(tarefa)
+    )
 
     # Primeira passada SEM grafo, so para escolher a ancora. Ancorar antes de
     # pontuar exigiria escolher semente por posicao do FTS sozinha, que e o

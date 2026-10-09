@@ -19,6 +19,7 @@ from typing import Any
 
 from sparkforge_azure.agentic.trust import TrustEnvelope
 from sparkforge_azure.azure import casefile, extract, receipt
+from sparkforge_azure.azure.fingerprint import azure_fingerprint
 from sparkforge_azure.azure.governance.diagnose import diagnose
 from sparkforge_azure.azure.governance.model import Verdict, parse_abfss
 from sparkforge_azure.facts import notebook_scan
@@ -497,6 +498,9 @@ def run_case(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
             "operation": bundle.case.get("operation", ""),
             "target": dict(bundle.case.get("target") or {}),
             "compute": merged_compute,
+            # fingerprint de ambiente ancora reuso de memoria a ESTE
+            # tenant/workspace — nunca reusado silenciosamente em outro.
+            "environment_fingerprint": azure_fingerprint(bundle.case, facts),
         },
         "failure_layer": layer,
         "diagnosis": diagnosis.to_dict(),

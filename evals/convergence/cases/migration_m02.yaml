@@ -1,0 +1,9 @@
+id: migration-m02
+vertical: migration
+fixture: tests/fixtures/migration/m02-ssis-blocked
+required_findings: [SF-MIG-002]
+forbidden_findings: [SFA-GOV-000, SF-FAB-001, SF-STR-LOSS-RISK]
+required_evidence:
+  - ssis
+allowed_unresolved:
+  - readiness: UNRESOLVED

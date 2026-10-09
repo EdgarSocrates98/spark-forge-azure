@@ -307,7 +307,7 @@ o blocker #1 do freeze era resolvivel de verdade:
   custo total medido **$2.79**. Reports: `reports/<case>.host.json`.
 - `evaluate_freeze()`: **FREEZE_STATUS=frozen** — 6/6 condicoes met com
   evidencia nomeada. Regressao de prova volta a `candidate` sozinha.
-- Suite total **2895 passed / 9 skipped** (venv 3.12, ~296s).
+- Suite total **2907 passed / 9 skipped** (venv 3.12, ~411s).
 
 ## Estado medido — cycle 11 (paridade AWS↔Azure) — **DELIVERED**
 

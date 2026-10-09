@@ -183,6 +183,21 @@ def assess_bundle(bundle: casefile.MigrationBundle) -> dict[str, Any]:
     }
 
 
+def _evidence_paths(findings: list[Any], facts: list[Any]) -> dict[str, Any]:
+    """finding -> facts -> bundle file / asset (contrato cross-vertical)."""
+    by_id = {f.id: f for f in facts}
+    paths: dict[str, Any] = {}
+    for finding in findings:
+        ev = [by_id[e] for e in finding.evidence if e in by_id]
+        paths[finding.rule_id] = {
+            "facts": list(finding.evidence),
+            "files": sorted({str(f.provenance.get("source"))
+                             for f in ev if f.provenance.get("source")}),
+            "assets": sorted({str(v) for f in ev for v in f.subject.values()}),
+        }
+    return paths
+
+
 def _knowledge_for(result: dict[str, Any]) -> dict[str, Any]:
     """Scoped knowledge: layer = the assessment stage that owns the worst
     readiness signal (prompt §282 stage names become pack layers)."""
@@ -244,6 +259,7 @@ def run_migration_case(root: str | Path,
 
     t = time.time()
     trust = _trust_scan(bundle)
+    evidence = _evidence_paths(findings, facts)
     _record_stage("validate", t,
                   {"verdict": (result["validation"] or {}).get("overall")},
                   stage_ms)
@@ -298,6 +314,7 @@ def run_migration_case(root: str | Path,
         "unresolved": unresolved,
         "facts": [f.to_dict() for f in facts] + list(bundle.upstream_facts),
         "migration_graph": graph.to_dict(),
+        "evidence_paths": evidence,
         "knowledge": _knowledge_for(result),
         "overhead": {"graph": {"nodes": len(graph.nodes),
                                "edges": len(graph.edges)},

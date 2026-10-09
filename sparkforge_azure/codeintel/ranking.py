@@ -263,6 +263,11 @@ def expandir(tarefa: str, *, dicionario: str | None = None) -> Expansao:
     clusters: list[str] = []
     derivados: set[str] = set()
 
+    # ATENCAO: identificador cru (`run_case`) NAO entra em `literais` --
+    # `expansao` e publicada no pack e ecoar o texto da pergunta num objeto que
+    # outro agente le e o que `test_o_texto_da_tarefa_nao_e_ecoado` protege.
+    # A busca por identificador acontece em `context.montar`, fora do objeto
+    # publicado; o escore o reconhece pela igualdade de TOKENS do nome.
     for token in _tokens(tarefa):
         if len(token) < 2 or token in vocabulario.stopwords:
             continue
@@ -317,6 +322,14 @@ class Escore:
         )
 
 
+def _contido_adjacente(agulha: list[str], palheiro: tuple[str, ...]) -> bool:
+    """`agulha` ocorre como fatia contigua de `palheiro`, na mesma ordem."""
+    if not agulha or len(agulha) > len(palheiro):
+        return False
+    limite = len(palheiro) - len(agulha) + 1
+    return any(list(palheiro[i : i + len(agulha)]) == agulha for i in range(limite))
+
+
 def _segmentos_do_caminho(caminho: str) -> set[str]:
     """As palavras de `caminho`, para casar termo contra diretorio e arquivo.
 
@@ -356,7 +369,19 @@ def escore(
     qualificado = set(_tokens(achado.qualified_name))
     caminho = _segmentos_do_caminho(achado.path)
 
-    exact = PESO_EXACT_NAME if nome in literais else 0
+    # `run_case` expande para literais `run`,`case` e o nome normalizado fica
+    # `run_case` -- comparacao inteira nunca casa. O match exato de simbolo
+    # composto e os TOKENS do nome (>1) como fatia CONTIGUA dos literais:
+    # quem pede `run_case` pede o simbolo, e `case_run` nao e `run_case`
+    # porque ordem conta. Nome de UMA palavra ja e coberto por `nome in
+    # literais` -- inclui-lo aqui daria bonus exato a `run` e `case` soltos,
+    # e medido: a inflacao derrubava o composto do topo (209/225 -> 215/225).
+    tokens_do_nome = _tokens(achado.name)
+    exact = PESO_EXACT_NAME if (
+        nome in literais
+        or (len(tokens_do_nome) > 1
+            and _contido_adjacente(tokens_do_nome, expansao.literais))
+    ) else 0
     qualificado_bate = PESO_QUALIFIED_NAME if literais & qualificado else 0
     relevancia_fts = max(0, PESO_FTS_TOPO - max(0, posicao_fts))
     relevancia_caminho = PESO_PATH if literais & caminho else 0

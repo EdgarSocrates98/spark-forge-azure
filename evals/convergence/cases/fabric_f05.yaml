@@ -1,0 +1,10 @@
+id: fabric-f05
+vertical: fabric
+fixture: tests/fixtures/fabric/f05_shortcut_target_missing
+required_findings: [SF-FAB-001]
+forbidden_findings: [SFA-GOV-000, SF-STR-LOSS-RISK, SF-MIG-002]
+required_evidence:
+  - shortcut
+allowed_unresolved:
+  - artifact: connections
+  - artifact: capacity

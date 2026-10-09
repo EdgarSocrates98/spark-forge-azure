@@ -208,7 +208,16 @@ def _condition_operator(condition: dict[str, Any]) -> tuple[str, Any]:
 
 
 def _count_finding_area(finding_ids: frozenset[str], area: str) -> int:
-    return sum(1 for fid in finding_ids if area_of(fid) == area)
+    """Area exata OU sub-area com fronteira de hifen.
+
+    `SF-STR-LOSS-RISK` tem area `SF-STR-LOSS` — um `findings_area: SF-STR`
+    precisa casa-lo (a familia SF-STR-* e o mesmo dominio). A fronteira
+    `"-"` impede `SF-MIG` de casar `SF-MIGDATA-X`.
+    """
+    return sum(
+        1 for fid in finding_ids
+        if area_of(fid) == area or area_of(fid).startswith(f"{area}-")
+    )
 
 
 def _eval_condition(

@@ -1,0 +1,80 @@
+# Convergence lab (prompt_evo_cycle6 §19, §106-114).
+#
+# Um caso por vertical; cada caso declara o contrato que o resultado DEVE
+# cumprir. O runner executa cada caso em todos os profiles e valida:
+#   - findings requeridos presentes, proibidos ausentes
+#   - evidencia requerida citada (token aparece na serializacao do resultado)
+#   - unresolved so em valores permitidos
+#   - chaves estruturais compartilhadas identicas entre verticais
+#   - invariantes §20: finding sem evidencia nao e verified; segredo nao vaza;
+#     trust DATA_ONLY preservado; fingerprint de ambiente presente
+profiles:
+  - economy
+  - balanced
+  - deep
+  - deterministic-only
+  - agent-assisted
+
+# Chaves que TODA resposta de pipeline deve expor (contrato compartilhado).
+shared_result_keys:
+  - status
+  - case
+  - case_meta
+  - facts
+  - findings
+  - rules_skipped
+  - unresolved
+  - evidence_paths
+  - knowledge
+  - receipt
+  - trust
+  - overhead
+
+shared_case_meta_keys:
+  - name
+  - environment_fingerprint
+
+shared_receipt_keys:
+  - case
+  - profile
+  - facts
+  - findings
+  - rules
+  - unresolved
+  - sources
+  - tools
+  - agents
+  - budget
+  - schema_version
+
+# Prefixos REAIS de fact.kind por vertical (medidos nas fixtures). Um run de
+# um vertical nao pode produzir facts fora do proprio namespace — e o teste
+# de contaminacao cruzada do lab.
+fact_kind_namespaces:
+  databricks:
+    - adls.
+    - azure_rbac.
+    - databricks.
+    - entra.
+    - environment.
+    - network.
+    - notebook.
+    - unity_catalog.
+    - upstream.
+  fabric:
+    - environment.
+    - fabric.
+    - onelake.
+    - upstream.
+  stream:
+    - consumer.
+    - eh.
+    - environment.
+    - offset.
+    - stream.
+    - upstream.
+  migration:
+    - dep.
+    - environment.
+    - mig.
+    - upstream.
