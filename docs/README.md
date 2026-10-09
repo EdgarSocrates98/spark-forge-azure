@@ -39,6 +39,12 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `manifest.json` (raiz) | Capabilities publicadas (gerado) |
 | `docs/architecture/evidence/` | `aws_audit.json`, `provenance.json`, `dropped_aws_tests.json` |
 
+## Portabilidade
+
+| Doc | Cobre |
+|---|---|
+| `docs/portability/PORTABILITY_AUDIT.md` | Auditoria API Forge/AWS vs Azure: paridade, gaps, classes COPY_SAFE/ADAPT/REFERENCE_ONLY/DO_NOT_PORT |
+
 ## Operação
 
 | Doc | Cobre |
