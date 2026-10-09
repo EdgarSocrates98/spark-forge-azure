@@ -247,8 +247,16 @@ def check_current_state(errors: list[str]) -> None:
         ]
 
     fresh = gen_current_state.render(gen_current_state.collect())
-    if body_rows(existing) != body_rows(fresh):
-        errors.append("current_state: stale — regen with gen_current_state.py")
+    diff = [
+        f"{a!r} != {b!r}"
+        for a, b in zip(body_rows(existing), body_rows(fresh))
+        if a != b
+    ]
+    if diff or len(body_rows(existing)) != len(body_rows(fresh)):
+        errors.append(
+            "current_state: stale — regen with gen_current_state.py "
+            f"({'; '.join(diff) or 'row count differs'})"
+        )
 
 
 def _venv_python(venv_dir: Path) -> Path:

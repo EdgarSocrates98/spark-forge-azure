@@ -27,3 +27,4 @@ htmlcov/
 
 # Tool indexes
 .tokensave/
+evals/portability/reports/case-*.json
