@@ -21,7 +21,7 @@ spark-forge-azure já estão instaladas.
 ## Verificar
 
 ```bash
-sparkforge-azure status
+sparkforge-azure distribution status
 sparkforge-azure doctor
 ```
 
