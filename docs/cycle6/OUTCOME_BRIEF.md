@@ -15,7 +15,7 @@ BASE_SHA            21ac3e9 (main pos-PR#18, ciclo 11)
 FINAL_CODE_SHA      949c67edcabe2a4779a554906d8e871e1ff80ecd
 FINAL_EVIDENCE_SHA  68d3ed12b15440971833b3531e7543b6a7eb3f32ebdb14309d1faae2eccf58f0
                     (sha256 LF-normalizado de evals/convergence/reports/final.json)
-FINAL_MAIN_SHA      <preenchido no merge do PR>
+FINAL_MAIN_SHA      cb51c61 (merge PR #19, squash)
 
 CROSS_VERTICAL      CONVERGED — evals/convergence 20/20 celulas
                     (4 casos x 5 profiles); fingerprint e evidence_paths
