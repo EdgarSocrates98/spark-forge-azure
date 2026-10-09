@@ -44,6 +44,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | Doc | Cobre |
 |---|---|
 | `docs/portability/PORTABILITY_AUDIT.md` | Auditoria API Forge/AWS vs Azure: paridade, gaps, classes COPY_SAFE/ADAPT/REFERENCE_ONLY/DO_NOT_PORT |
+| `docs/portability/PORTABLE_DISTRIBUTION.md` | Lifecycle portável: inspect/init/status/doctor/detach, identidade relocável, ledger gerenciado, config com precedência |
 
 ## Operação
 

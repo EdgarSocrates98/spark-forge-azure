@@ -106,6 +106,8 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("agentmanifest", "mcp"): "tool registry mede nomes sfa_* contra o catalogo vivo",
     ("cli", "agentic"): "cmd_agents e a superficie L7 do inventario da frota",
     ("cli", "agentmanifest"): "cmd_agents expoe explain_route + a taxonomia fechada",
+    ("cli", "distribution"): "cmd_distribution e a superficie L7 do lifecycle portavel",
+    ("distribution", "durable"): "manifests/ledger/receipts sao escritas duraveis",
     ("doctor", "agentic"): "check agentic_fleet mede o status por agent",
     ("context", "agents"): "gateway monta contexto por agente declarado",
     ("context", "codeintel"): "fatias L5 vem do indice de codigo",

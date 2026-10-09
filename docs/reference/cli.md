@@ -234,6 +234,26 @@ quando há findings.
 |---|---|
 | `select` | `--domain` (pack sob `knowledge/azure` ou `knowledge`) + `--query`/`--limit` — claims ranqueados; cache sob o state dir |
 
+## `sparkforge-azure distribution <op>` — lifecycle portável
+
+Camada de produto portável (prompt_evo_portable.md): identidade de projeto
+relocável, paths centralizados, assets empacotados, hosts detectados,
+detach reversível. Todos aceitam `--root` (default: cwd). Recusas são
+documentos `{"status":"refused","error":{"kind":...}}` — `kind` do vocabulário
+fechado em `distribution/errors.py`.
+
+| Op | Uso |
+|---|---|
+| `inspect` | resolve e reporta paths (`value`+`source` por path), identidades, config efetivo com proveniência, assets com sha256, hosts detectados — sem mutação |
+| `init` | cria `.sparkforge-azure/project.yaml` + entrada gerenciada em `.mcp.json` (`mcpServers.sparkforge-azure` → `sparkforge-azure mcp serve`); idempotente; `--name`, `--regen-id` (nova identidade p/ cópia) |
+| `status` | `uninitialized`/`initialized`/`partial`/`drifted`/`broken` + drift por asset gerenciado |
+| `doctor` | saúde offline — assets, state/cache dirs, identidade, workspace, ledger, hosts (`unavailable`/`unproven` nunca falham), runtime MCP |
+| `detach` | remove só assets gerenciados (ledger); `--dry-run`, `--purge-state`, `--purge-cache`; state preservado por default; `init` religa |
+
+Estado e cache: `.sparkforge-azure/` (projeto), override por
+`SPARKFORGE_AZURE_STATE_DIR` / `SPARKFORGE_AZURE_CACHE`. Nada é escrito fora
+do projeto ou dos overrides explícitos.
+
 ## Exit codes
 
 | Código | Significado |

@@ -27,6 +27,11 @@
    "collect workspace-graph",
    "diagnose fabric",
    "diagnose stream",
+   "distribution detach",
+   "distribution doctor",
+   "distribution init",
+   "distribution inspect",
+   "distribution status",
    "doctor",
    "governance diagnose",
    "graph build",
@@ -322,6 +327,6 @@
  "schema_version": 2,
  "skills": {
   "count": 22,
-  "total_bytes": 95136
+  "total_bytes": 97766
  }
 }
