@@ -16,6 +16,7 @@ value + source (§45). Unknown keys are refused in strict mode and surface as
 
 from __future__ import annotations
 
+import re
 from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
@@ -67,6 +68,35 @@ def _unflatten(flat: Mapping[str, Any]) -> dict[str, Any]:
     return out
 
 
+#: Key fragments that would carry a secret (§119–§121). Config keys are
+#: already a closed vocabulary (§115) — this is defense in depth for when
+#: the vocabulary grows and for values embedded under known keys.
+_SECRET_KEY_PARTS = re.compile(
+    r"(?:secret|password|passwd|token|apikey|api_key|sas|credential|"
+    r"private_key|connection_string|client_secret)",
+    re.IGNORECASE,
+)
+
+
+def refuse_secret_keys(data: Mapping[str, Any] | None, *, where: str) -> None:
+    """Refuse config carrying secret-shaped key names (§119–§121).
+
+    Env var *references* stay legal (``$VAR``/``${VAR}`` literals); literal
+    secrets do not. Applied to every config carrier: user file,
+    workspace.yaml, project.yaml and `--set` overrides.
+    """
+    if not data:
+        return
+    for dotted in _flatten(data):
+        if _SECRET_KEY_PARTS.search(dotted):
+            raise PortableError(
+                "config_invalid",
+                f"{where}: config key {dotted!r} looks secret-shaped",
+                unlock="reference an env var in the host config instead of "
+                "storing secrets in a portable manifest",
+            )
+
+
 def _load_user_config(path: Path | None) -> dict[str, Any]:
     if path is None or not path.is_file():
         return {}
@@ -81,6 +111,7 @@ def _load_user_config(path: Path | None) -> dict[str, Any]:
         return {}
     if not isinstance(raw, dict):
         raise PortableError("config_invalid", f"{path}: config must be a mapping")
+    refuse_secret_keys(raw, where=str(path))
     return dict(raw)
 
 
@@ -101,6 +132,7 @@ def parse_overrides(pairs: list[str] | tuple[str, ...] | None) -> dict[str, Any]
         for part in parts[:-1]:
             cursor = cursor.setdefault(part, {})
         cursor[parts[-1]] = value
+    refuse_secret_keys(out, where="--set")
     return out
 
 
@@ -124,6 +156,7 @@ def resolve_config(
     sources: dict[str, str] = {}
     unknown: list[str] = []
     for layer, data in layers:
+        refuse_secret_keys(data, where=f"{layer} layer")
         for dotted, value in _flatten(data).items():
             if dotted not in KNOWN_CONFIG_KEYS and layer != "defaults":
                 if strict:
@@ -149,5 +182,6 @@ __all__ = [
     "DEFAULT_CONFIG",
     "KNOWN_CONFIG_KEYS",
     "parse_overrides",
+    "refuse_secret_keys",
     "resolve_config",
 ]

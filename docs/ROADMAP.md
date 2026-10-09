@@ -360,6 +360,7 @@ na arvore (SDD `TREE_ECONOMY_MEASUREMENT`, AC4):
   real existe hoje — o retrieve/record e um adaptador pronto para a
   camada agêntica; ligar `diagnose` (verbo read-only) a escrita de
   `.sparkforge-azure/memory/` seria decisao de produto, nao bug.
-- Suite total **2966 passed / 9 skipped** (venv 3.12, ~394s) — inclui
-  hardening de skills/agents + distribuição portável W1–W3
-  (distribution/workspace/relocatable identity).
+- Suite total **2985 passed / 9 skipped** (venv 3.12, ~417s) — inclui
+  hardening de skills/agents + distribuição portável W1–W6
+  (distribution/workspace/relocatable identity/context resolve/host
+  integration/detach hardening).

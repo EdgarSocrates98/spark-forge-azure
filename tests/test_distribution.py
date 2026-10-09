@@ -152,6 +152,54 @@ def test_detach_preserves_user_owned_mcp_key(project: Path) -> None:
     assert data["mcpServers"]["other-server"]["command"] == "x"
 
 
+def test_detach_cache_preserved_by_default_purged_on_flag(project: Path) -> None:
+    service.initialize(project)
+    cache = project / ".sparkforge-azure" / "cache"
+    cache.mkdir(parents=True)
+    (cache / "blob.bin").write_bytes(b"cached")
+    out = detach_service.detach(project)
+    assert out["state_preserved"] is True
+    assert (cache / "blob.bin").is_file()
+    out = detach_service.detach(project, purge_cache=True)
+    assert not cache.exists()
+    # state itself still preserved — purge_cache ≠ purge_state
+    assert (project / ".sparkforge-azure" / "project.yaml").is_file()
+
+
+def test_detach_missing_asset_is_absent_not_error(project: Path) -> None:
+    service.initialize(project)
+    (project / ".mcp.json").unlink()  # user deleted it before detach
+    out = detach_service.detach(project)
+    states = {d["state"] for d in out["detached"]}
+    assert "missing" in states
+    assert out["status"] == "ok"
+
+
+def test_detach_dry_run_purge_lists_but_keeps(project: Path) -> None:
+    service.initialize(project)
+    cache = project / ".sparkforge-azure" / "cache"
+    cache.mkdir()
+    out = detach_service.detach(project, dry_run=True, purge_state=True, purge_cache=True)
+    assert any(p.startswith("would_remove:") for p in out["purged"])
+    assert cache.is_dir() and (project / ".sparkforge-azure" / "project.yaml").is_file()
+
+
+def test_user_config_and_set_refuse_secret_keys(tmp_path: Path) -> None:
+    from sparkforge_azure.distribution.config import parse_overrides as po
+    from sparkforge_azure.distribution.config import resolve_config as rc
+
+    cfg = tmp_path / "user.yaml"
+    cfg.write_text("connection_string: 'Server=x;Password=y'\n", encoding="utf-8")
+    with pytest.raises(PortableError) as exc:
+        rc(user_config_path=cfg)
+    assert exc.value.kind == "config_invalid"
+    with pytest.raises(PortableError):
+        po(["network.token=abc"])
+    # env-var references are legal — key name is the signal, not the value
+    out = rc(cli_overrides={"network": {"mode": "env:SPARKFORGE_AZURE_NET"}})
+    assert out["config"]["network"]["mode"] == "env:SPARKFORGE_AZURE_NET"
+
+
 def test_manifest_refuses_secret_like_keys(project: Path) -> None:
     init_project_identity(project)
     manifest = project / ".sparkforge-azure" / "project.yaml"
