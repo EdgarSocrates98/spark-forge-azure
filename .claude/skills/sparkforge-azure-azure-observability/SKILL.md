@@ -33,14 +33,15 @@ metadata:
   knowledge_refs:
   - knowledge/azure/observability/
   tool_refs:
-  - sparkforge-azure analyze diagnostic-settings
-  - sparkforge-azure analyze log-analytics-export
   - sparkforge-azure collect workspace-graph
   - sfa_analyze
   - sparkforge-azure knowledge select
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze diagnostic-settings
+  - sparkforge-azure analyze log-analytics-export
   eval_refs:
   - skills/azure-observability/evals/evals.yaml
   source_authority:
@@ -68,9 +69,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze diagnostic-settings --path exports/diagnostics/ --out .sparkforge-azure/facts.json
-sparkforge-azure analyze log-analytics-export --path exports/kql/
-sparkforge-azure collect workspace-graph   # opt-in, read-only
+sparkforge-azure collect workspace-graph --manifest sparkforge-azure.workspace.yaml --export exports/resource-graph.json   # opt-in, read-only
+# Sem extrator de diagnostics/KQL ainda (planned_tool_refs): fatos de diagnostic
+# settings e queries entram em .sparkforge-azure/facts.json montados a mão.
 ```
 
    Fatos esperados:

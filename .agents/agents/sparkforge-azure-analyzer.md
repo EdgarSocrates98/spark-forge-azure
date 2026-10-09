@@ -70,6 +70,7 @@ parent: null
 name: sparkforge-azure-analyzer
 description: Correlaciona facts (grafo, referências, impacto) para produzir facts
   derivados com origem.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/analyzer.md; do not edit -->
 # Analyzer

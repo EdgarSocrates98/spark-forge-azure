@@ -32,12 +32,15 @@ metadata:
   knowledge_refs:
   - knowledge/lakehouse/
   tool_refs:
-  - sparkforge-azure analyze iceberg-metadata
+  - sparkforge-azure lab run
   - sfa_analyze
+  - sfa_lab_run
   - sparkforge-azure knowledge select
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze iceberg-metadata
   eval_refs:
   - skills/iceberg/evals/evals.yaml
   source_authority:
@@ -66,7 +69,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze iceberg-metadata --path <tabela>/metadata --out .sparkforge-azure/facts.json
+sparkforge-azure lab run iceberg-small-files   # digital twin determinístico, opcional
+# Sem extrator de metadata ainda (planned_tool_refs): fatos de snapshots/manifests
+# entram em .sparkforge-azure/facts.json montados a mão de <tabela>/metadata.
 ```
 
    Fatos esperados:

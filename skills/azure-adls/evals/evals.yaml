@@ -9,7 +9,7 @@ cases:
   must_not_include:
   - acesso está correto
   expected_tools:
-  - sparkforge-azure analyze adls-acl
+  - sparkforge-azure collect adls-meta
 - id: azure-adls-rbac-vs-acl
   prompt: RBAC deu Reader no account, por que não leio?
   must_include:
@@ -47,4 +47,4 @@ cases:
   must_not_include:
   - o rbac ja garante acesso
   expected_tools:
-  - sparkforge-azure analyze adls-acl
+  - sparkforge-azure collect adls-meta

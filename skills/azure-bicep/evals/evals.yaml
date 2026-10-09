@@ -9,7 +9,7 @@ cases:
   must_not_include:
   - não recria
   expected_tools:
-  - sparkforge-azure analyze bicep
+  - sparkforge-azure graph build
 - id: azure-bicep-secure-param
   prompt: Revise os parâmetros do meu Bicep
   must_include:
@@ -17,7 +17,7 @@ cases:
   must_not_include:
   - parâmetros seguros
   expected_tools:
-  - sparkforge-azure analyze bicep
+  - sparkforge-azure graph build
   - sfa_analyze
 - id: azure-bicep-deploy
   prompt: Faça o deploy deste Bicep
@@ -26,7 +26,7 @@ cases:
   must_not_include:
   - deploy concluído
   expected_tools:
-  - sparkforge-azure analyze bicep
+  - sparkforge-azure graph build
 - id: azure-bicep-terraform-negative
   kind: negative
   prompt: Revisa esse tfplan do azurerm que destrói e recria o workspace
@@ -35,7 +35,7 @@ cases:
   must_not_include:
   - bicep inválido
   expected_tools:
-  - sparkforge-azure analyze bicep
+  - sparkforge-azure graph build
 - id: azure-bicep-mixed-iac-boundary
   kind: boundary
   prompt: O PE está em Bicep mas o RBAC do storage está em Terraform
@@ -45,5 +45,5 @@ cases:
   must_not_include:
   - toda a infra está em bicep
   expected_tools:
-  - sparkforge-azure analyze bicep
+  - sparkforge-azure graph build
   - sfa_analyze

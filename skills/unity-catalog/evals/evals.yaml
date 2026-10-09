@@ -18,7 +18,7 @@ cases:
   must_not_include:
   - equivalente 1:1 ao lake formation
   expected_tools:
-  - sparkforge-azure analyze uc-grants
+  - sparkforge-azure collect unity-catalog
 - id: unity-catalog-ext-location
   prompt: External location não consegue ler o container
   must_include:

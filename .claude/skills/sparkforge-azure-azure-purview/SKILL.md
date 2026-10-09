@@ -33,7 +33,6 @@ metadata:
   - knowledge/azure/purview/
   - knowledge/governance/
   tool_refs:
-  - sparkforge-azure analyze purview-lineage
   - sparkforge-azure graph query
   - sfa_analyze
   - sfa_graph_query
@@ -41,6 +40,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze purview-lineage
   eval_refs:
   - skills/azure-purview/evals/evals.yaml
   source_authority:
@@ -67,8 +68,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze purview-lineage --path exports/purview/ --out .sparkforge-azure/facts.json
-sparkforge-azure graph query --from purview:<qualifiedName> --direction downstream
+sparkforge-azure graph query --graph .sparkforge-azure/graph/graph.json --neighbors purview:<qualifiedName> --direction out
+# Sem extrator de lineage ainda (planned_tool_refs): fatos de entidade/linha de
+# lineage entram em .sparkforge-azure/facts.json montados a mão do export Purview.
 ```
 
    Fatos esperados:

@@ -72,6 +72,7 @@ parent: null
 name: sparkforge-azure-evaluation-specialist
 description: 'Mede se um agent acrescenta valor: ganho de informação, custo e qualidade
   por perfil (economy/balanced/deep); recomenda rebaixar, fundir ou remover.'
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/evaluation-specialist.md; do not edit -->
 # Evaluation Specialist

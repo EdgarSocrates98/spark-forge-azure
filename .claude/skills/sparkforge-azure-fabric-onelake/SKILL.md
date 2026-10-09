@@ -32,7 +32,6 @@ metadata:
   - knowledge/azure/storage/
   - knowledge/governance/
   tool_refs:
-  - sparkforge-azure analyze onelake-shortcuts
   - sparkforge-azure governance diagnose
   - sfa_governance_diagnose
   - sfa_analyze
@@ -40,6 +39,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze onelake-shortcuts
   eval_refs:
   - skills/fabric-onelake/evals/evals.yaml
   source_authority:
@@ -66,8 +67,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze onelake-shortcuts --path fabric-workspace/ --out .sparkforge-azure/facts.json
-sparkforge-azure governance diagnose --scenario onelake-shortcut-denied --facts .sparkforge-azure/facts.json
+sparkforge-azure governance diagnose --scenario .sparkforge-azure/cenario.yaml
+# Sem extrator de shortcuts ainda (planned_tool_refs): fatos de shortcut/origem
+# entram em .sparkforge-azure/facts.json montados a mão do workspace export.
 ```
 
    Fatos esperados:

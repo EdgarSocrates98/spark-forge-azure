@@ -32,7 +32,7 @@ metadata:
   knowledge_refs:
   - knowledge/azure/adf/
   tool_refs:
-  - sparkforge-azure analyze adf-pipeline
+  - sparkforge-azure graph build
   - sparkforge-azure graph impact
   - sfa_analyze
   - sfa_graph_impact
@@ -40,6 +40,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze adf-pipeline
   eval_refs:
   - skills/azure-data-factory/evals/evals.yaml
   source_authority:
@@ -66,8 +68,10 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze adf-pipeline --path adf-arm-export/ --out .sparkforge-azure/facts.json
-sparkforge-azure graph impact --node adf:dataset/<name>
+sparkforge-azure graph build --root adf-arm-export/
+sparkforge-azure graph impact --graph .sparkforge-azure/graph/graph.json --changed adf-arm-export/<pipeline>.json
+# Sem extrator de pipeline ainda (planned_tool_refs): fatos de pipelines/datasets/
+# triggers entram em .sparkforge-azure/facts.json montados a mão do ARM export.
 ```
 
    Fatos esperados:

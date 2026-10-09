@@ -212,6 +212,28 @@ dashboard proibido como fonte primária).
 | `build` | `--out` + fatias (`--facts`, `--findings`, `--graph`, `--seed`, `--receipt`, `--config`, `--knowledge`). Bundle redigido — sem segredo, sem dump bruto |
 | `verify` | `path` — verifica integridade/redação do bundle |
 
+## `sparkforge-azure analyze <kind>` — extratores offline de facts
+
+| Kind | Uso |
+|---|---|
+| `pyspark` | `--path` (arquivo `.py` ou diretório) + `--out` opcional — facts AST (`pyspark.loop`, `pyspark.chain`, `pyspark.driver_collect`, …) sem executar o código |
+
+Só kinds com extrator existem; os demais ficam em `planned_tool_refs` das
+skills. Saída: `{"facts": [...]}` (lista completa também no stdout).
+
+## `sparkforge-azure judge` — catálogo de regras sobre facts
+
+`--facts` (lista `[...]`, envelope `{"facts": [...]}` ou envelope de collector
+com `fact_list`) + `--runtime KEY=VERSION` repetível. Regras sem
+`runtime_scope` satisfeito aparecem em `skipped`, não viram finding. Exit 1
+quando há findings.
+
+## `sparkforge-azure knowledge <op>` — packs datados
+
+| Op | Uso |
+|---|---|
+| `select` | `--domain` (pack sob `knowledge/azure` ou `knowledge`) + `--query`/`--limit` — claims ranqueados; cache sob o state dir |
+
 ## Exit codes
 
 | Código | Significado |
@@ -222,7 +244,7 @@ dashboard proibido como fonte primária).
 
 ## Verbos planejados (ainda não implementados)
 
-`analyze`, `judge` e `knowledge select|check` aparecem como `tool_refs` em
-skills/agentes — são o contrato-alvo das skills, não comandos existentes
-hoje. A superfície atual é a listada acima (`sdd`, `agents`, `agentops` e
-`mcp` já são implementados — ver as seções próprias).
+`analyze <kind>` para kinds sem extrator e `knowledge check` aparecem como
+`planned_tool_refs` em skills — são o contrato-alvo, não comandos
+existentes hoje. A superfície atual é a listada acima (`sdd`, `agents`,
+`agentops` e `mcp` já são implementados — ver as seções próprias).

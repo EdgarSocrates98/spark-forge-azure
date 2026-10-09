@@ -17,7 +17,7 @@ cases:
   must_not_include:
   - é o mesmo que grant do unity catalog
   expected_tools:
-  - sparkforge-azure analyze onelake-shortcuts
+  - sparkforge-azure governance diagnose
 - id: fabric-onelake-table-no-files
   prompt: Vejo a tabela mas não os arquivos no OneLake
   must_include:

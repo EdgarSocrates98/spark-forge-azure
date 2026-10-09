@@ -71,6 +71,7 @@ autonomy: L1
 parent: azure-databricks-specialist
 name: sparkforge-azure-databricks-uc-reviewer
 description: Revisa modo de acesso do cluster e prontidão para Unity Catalog.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/databricks-uc-reviewer.md; do not edit -->
 # databricks-uc-reviewer

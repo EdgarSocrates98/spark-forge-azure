@@ -83,7 +83,10 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-observability-specialist
 description: 'Specialist em Observabilidade (Azure Monitor, Log Analytics, system
-  tables): produz findings do domínio com evidência e unresolved explícito.'
+  tables): produz findings do domínio com evidência e unresolved explícito. Use quando
+  a tarefa envolve: observability, observabilidade, azure monitor, log analytics,
+  kql, diagnostic settings, alert, system tables.'
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/observability-specialist.md; do not edit -->
 # Observabilidade (Azure Monitor, Log Analytics, system tables) — Specialist

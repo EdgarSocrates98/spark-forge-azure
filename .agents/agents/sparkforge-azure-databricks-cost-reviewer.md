@@ -73,6 +73,7 @@ parent: azure-databricks-specialist
 name: sparkforge-azure-databricks-cost-reviewer
 description: Revisa fatos de configuração com impacto de custo (all-purpose vs job
   cluster, autoterminação).
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/databricks-cost-reviewer.md; do not edit -->
 # databricks-cost-reviewer

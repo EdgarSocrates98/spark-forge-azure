@@ -32,7 +32,7 @@ metadata:
   knowledge_refs:
   - knowledge/azure/iac/
   tool_refs:
-  - sparkforge-azure analyze terraform
+  - sparkforge-azure graph build
   - sparkforge-azure graph impact
   - sfa_analyze
   - sfa_graph_impact
@@ -40,6 +40,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze terraform
   eval_refs:
   - skills/azure-terraform/evals/evals.yaml
   source_authority:
@@ -68,8 +70,10 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze terraform --path infra/ --out .sparkforge-azure/facts.json
-sparkforge-azure graph impact --node tf:azurerm_storage_account.<name>
+sparkforge-azure graph build --root infra/
+sparkforge-azure graph impact --graph .sparkforge-azure/graph/graph.json --changed infra/main.tf
+# Sem extrator de .tf ainda (planned_tool_refs): fatos de recursos/módulos entram
+# em .sparkforge-azure/facts.json montados a mão do plan/state exportado.
 ```
 
    Fatos esperados:

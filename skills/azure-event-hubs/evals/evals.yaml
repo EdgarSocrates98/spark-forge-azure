@@ -8,7 +8,7 @@ cases:
   must_not_include:
   - exactly-once garantido
   expected_tools:
-  - sparkforge-azure analyze eventhubs-namespace
+  - sparkforge-azure judge
 - id: azure-event-hubs-partitions
   prompt: Tenho 4 partições e 32 executores
   must_include:
@@ -17,17 +17,17 @@ cases:
   must_not_include:
   - mais partições resolvem
   expected_tools:
-  - sparkforge-azure analyze eventhubs-namespace
+  - sparkforge-azure judge
   - sfa_analyze
 - id: azure-event-hubs-sas-code
   prompt: Revise a conexão Kafka do meu consumidor
   must_include:
-  - analyze spark-kafka-options
+  - analyze pyspark
   - azure-entra
   must_not_include:
   - conexão segura
   expected_tools:
-  - sparkforge-azure analyze spark-kafka-options
+  - sparkforge-azure analyze pyspark
 - id: azure-event-hubs-eventstream-negative
   kind: negative
   prompt: Meu Eventstream do Fabric não entrega eventos no Eventhouse
@@ -47,5 +47,5 @@ cases:
   must_not_include:
   - é certamente a partição
   expected_tools:
-  - sparkforge-azure analyze eventhubs-namespace
+  - sparkforge-azure judge
   - sfa_analyze

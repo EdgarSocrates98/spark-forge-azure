@@ -84,7 +84,9 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-terraform-specialist
 description: 'Specialist em Terraform (azurerm, azapi, databricks): produz findings
-  do domínio com evidência e unresolved explícito.'
+  do domínio com evidência e unresolved explícito. Use quando a tarefa envolve: terraform,
+  azurerm, tfstate, terraform plan, databricks provider, hcl.'
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/terraform-specialist.md; do not edit -->
 # Terraform (azurerm, azapi, databricks) — Specialist

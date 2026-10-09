@@ -29,13 +29,15 @@ metadata:
   knowledge_refs:
   - knowledge/azure/iac/
   tool_refs:
-  - sparkforge-azure analyze bicep
+  - sparkforge-azure graph build
   - sparkforge-azure graph impact
   - sfa_analyze
   - sparkforge-azure knowledge select
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze bicep
   eval_refs:
   - skills/azure-bicep/evals/evals.yaml
   source_authority:
@@ -62,8 +64,10 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze bicep --path infra/ --out .sparkforge-azure/facts.json
-sparkforge-azure graph impact --node bicep:<symbolic-name>
+sparkforge-azure graph build --root infra/
+sparkforge-azure graph impact --graph .sparkforge-azure/graph/graph.json --changed infra/main.bicep
+# Sem extrator de template ainda (planned_tool_refs): fatos de módulos/recursos
+# entram em .sparkforge-azure/facts.json montados a mão a partir dos .bicep.
 ```
 
    Fatos esperados:

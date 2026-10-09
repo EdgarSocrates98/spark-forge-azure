@@ -74,6 +74,7 @@ parent: null
 name: sparkforge-azure-verifier
 description: Tenta refutar cada finding com evidência independente antes de qualquer
   síntese.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/verifier.md; do not edit -->
 # Verifier

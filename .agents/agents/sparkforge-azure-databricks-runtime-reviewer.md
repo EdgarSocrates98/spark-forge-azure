@@ -69,6 +69,7 @@ autonomy: L1
 parent: azure-databricks-specialist
 name: sparkforge-azure-databricks-runtime-reviewer
 description: Revisa versão de DBR, suporte e compatibilidade de bibliotecas de jobs/clusters.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/databricks-runtime-reviewer.md; do not edit -->
 # databricks-runtime-reviewer

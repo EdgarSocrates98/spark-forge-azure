@@ -32,13 +32,15 @@ metadata:
   knowledge_refs:
   - knowledge/azure/eventhubs/
   tool_refs:
-  - sparkforge-azure analyze eventhubs-namespace
-  - sparkforge-azure analyze spark-kafka-options
+  - sparkforge-azure analyze pyspark
   - sfa_analyze
   - sparkforge-azure knowledge select
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze eventhubs-namespace
+  - sparkforge-azure analyze spark-kafka-options
   eval_refs:
   - skills/azure-event-hubs/evals/evals.yaml
   source_authority:
@@ -66,8 +68,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze eventhubs-namespace --path exports/eventhubs/ --out .sparkforge-azure/facts.json
-sparkforge-azure analyze spark-kafka-options --path <repo>
+sparkforge-azure analyze pyspark --path <repo> --out .sparkforge-azure/facts.json   # opções Kafka/Event Hubs no código
+# Sem extrator de namespace ainda (planned_tool_refs): fatos de namespace (TU/PU,
+# partições, consumer groups) completam o facts.json montados a mão do export.
 ```
 
    Fatos esperados:

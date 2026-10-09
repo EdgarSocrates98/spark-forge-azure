@@ -48,7 +48,7 @@ metadata:
 1. Extraia os facts:
 
 ```bash
-sparkforge-azure analyze pyspark --path <arquivo-ou-diretório> --out .sparkforge-azure/facts.json --kind pyspark.loop
+sparkforge-azure analyze pyspark --path <arquivo-ou-diretório> --out .sparkforge-azure/facts.json
 ```
 
 Cada `pyspark.loop` vem com `measures.loop_depth` (aninhamento) e
@@ -57,13 +57,13 @@ Cada `pyspark.loop` vem com `measures.loop_depth` (aninhamento) e
 2. Julgue:
 
 ```bash
-sparkforge-azure judge --facts .sparkforge-azure/facts.json --show-skipped
+sparkforge-azure judge --facts .sparkforge-azure/facts.json
 ```
 
 Sem flag de versão: `SF-PY-004`, a regra que decide esta análise, é estrutural e não
 declara `runtime_scope` — passar ou omitir a versão não muda se ela dispara. Os facts
 vêm de `analyze pyspark`, que lê AST e nunca observa versão de runtime. Regras que
-aparecem em `--show-skipped` com `reason: runtime_scope` são de outro domínio. `SF-PY-004`
+aparecem em `skipped` com `reason: runtime_scope` são de outro domínio. `SF-PY-004`
 (severidade `P0`) dispara quando `contains_action` ou `contains_write` é verdadeiro — o
 padrão "reexecuta o DAG a montante a cada iteração" de `knowledge/spark/execution-model.md`.
 

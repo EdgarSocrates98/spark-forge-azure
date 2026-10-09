@@ -61,7 +61,7 @@ ROUTING_TABLE: tuple[Route, ...] = (
            "availablenow", "readstream", "exactly once", "late data", "eventstream",
            "real time intelligence")),
     Route("purview-specialist", "Microsoft Purview (data map, lineage, classificação)",
-          ("purview", "microsoft purview", "lineage", "data map", "scan", "classification",
+          ("purview", "microsoft purview", "lineage", "data map", "purview scan", "classification",
            "sensitivity label", "glossary")),
     Route("entra-specialist", "Entra ID, Managed Identity, RBAC, Key Vault",
           ("entra", "entra id", "managed identity", "service principal", "rbac",

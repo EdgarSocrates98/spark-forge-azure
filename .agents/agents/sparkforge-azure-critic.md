@@ -65,6 +65,7 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-critic
 description: Questiona premissas, lacunas e conclusões fortes demais antes da síntese.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/critic.md; do not edit -->
 # Critic

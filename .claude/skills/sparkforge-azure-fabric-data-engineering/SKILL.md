@@ -33,8 +33,8 @@ metadata:
   - knowledge/azure/fabric/
   - knowledge/spark/
   tool_refs:
-  - sparkforge-azure analyze fabric-item
   - sparkforge-azure analyze pyspark
+  - sparkforge-azure graph build
   - sparkforge-azure graph impact
   - sfa_analyze
   - sfa_graph_impact
@@ -42,6 +42,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze fabric-item
   eval_refs:
   - skills/fabric-data-engineering/evals/evals.yaml
   source_authority:
@@ -68,9 +70,11 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze fabric-item --path fabric-workspace/ --out .sparkforge-azure/facts.json
-sparkforge-azure analyze pyspark --path fabric-workspace/notebooks/
-sparkforge-azure graph impact --node fabric:<item-guid>
+sparkforge-azure analyze pyspark --path fabric-workspace/notebooks/ --out .sparkforge-azure/facts.json
+sparkforge-azure graph build --root fabric-workspace/
+sparkforge-azure graph impact --graph .sparkforge-azure/graph/graph.json --changed fabric-workspace/<item>
+# Metadados de item ainda sem extrator (planned_tool_refs): completam o facts.json
+# montados a mão a partir do workspace export.
 ```
 
    Fatos esperados:

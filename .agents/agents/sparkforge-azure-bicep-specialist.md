@@ -83,7 +83,9 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-bicep-specialist
 description: 'Specialist em Bicep / ARM: produz findings do domínio com evidência
-  e unresolved explícito.'
+  e unresolved explícito. Use quando a tarefa envolve: bicep, arm template, what if,
+  bicepparam.'
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/bicep-specialist.md; do not edit -->
 # Bicep / ARM — Specialist

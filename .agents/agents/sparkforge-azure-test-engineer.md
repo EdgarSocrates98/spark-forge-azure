@@ -71,6 +71,7 @@ parent: null
 name: sparkforge-azure-test-engineer
 description: 'Audita a cobertura de testes do caso: encontra testes negativos, de
   fronteira e de contrato ausentes; nunca escreve código de produção.'
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/test-engineer.md; do not edit -->
 # Test Engineer

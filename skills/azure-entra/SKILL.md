@@ -34,7 +34,7 @@ metadata:
   - knowledge/azure/identity/
   - knowledge/governance/
   tool_refs:
-  - sparkforge-azure analyze role-assignments
+  - sparkforge-azure collect azure-rbac
   - sparkforge-azure governance diagnose
   - sparkforge-azure collect workspace-graph
   - sfa_governance_diagnose
@@ -43,6 +43,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze role-assignments
   eval_refs:
   - skills/azure-entra/evals/evals.yaml
   source_authority:
@@ -69,9 +71,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze role-assignments --path exports/rbac/ --out .sparkforge-azure/facts.json
-sparkforge-azure governance diagnose --scenario identity-chain --facts .sparkforge-azure/facts.json
-sparkforge-azure collect workspace-graph   # opt-in, read-only
+sparkforge-azure collect azure-rbac --export exports/rbac.json --facts
+sparkforge-azure governance diagnose --scenario .sparkforge-azure/cenario.yaml
+sparkforge-azure collect workspace-graph --manifest sparkforge-azure.workspace.yaml --export exports/resource-graph.json   # opt-in, read-only
 ```
 
    Fatos esperados:

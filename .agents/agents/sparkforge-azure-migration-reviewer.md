@@ -70,6 +70,7 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-migration-reviewer
 description: Revisa planos de migração quanto a paridade, inventário e riscos de corte.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/migration-reviewer.md; do not edit -->
 # Migration Reviewer

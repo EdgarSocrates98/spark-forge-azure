@@ -34,15 +34,16 @@ metadata:
   - knowledge/azure/databricks/
   - knowledge/spark/
   tool_refs:
-  - sparkforge-azure analyze databricks-job
-  - sparkforge-azure analyze databricks-cluster
-  - sparkforge-azure analyze dab
   - sparkforge-azure collect workspace-graph
   - sfa_analyze
   - sparkforge-azure knowledge select
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze databricks-job
+  - sparkforge-azure analyze databricks-cluster
+  - sparkforge-azure analyze dab
   eval_refs:
   - skills/azure-databricks/evals/evals.yaml
   source_authority:
@@ -70,10 +71,10 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze databricks-job --path exports/jobs/ --out .sparkforge-azure/facts.json
-sparkforge-azure analyze databricks-cluster --path exports/clusters/
-sparkforge-azure analyze dab --path databricks.yml
-sparkforge-azure collect workspace-graph   # opt-in, read-only, exige credencial
+sparkforge-azure collect workspace-graph --manifest sparkforge-azure.workspace.yaml --export exports/resource-graph.json   # opt-in, read-only; --live exige credencial
+# Sem extrator de job/cluster/DAB ainda (planned_tool_refs): fatos entram em
+# .sparkforge-azure/facts.json montados a mão de exports/jobs/, exports/clusters/
+# e databricks.yml.
 ```
 
    Fatos esperados:

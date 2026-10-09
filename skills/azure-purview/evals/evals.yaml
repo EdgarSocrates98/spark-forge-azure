@@ -8,7 +8,7 @@ cases:
   must_not_include:
   - lineage completo
   expected_tools:
-  - sparkforge-azure analyze purview-lineage
+  - sparkforge-azure graph query
 - id: azure-purview-pii
   prompt: Quais tabelas têm PII?
   must_include:
@@ -16,7 +16,7 @@ cases:
   must_not_include:
   - não há pii
   expected_tools:
-  - sparkforge-azure analyze purview-lineage
+  - sparkforge-azure graph query
   - sfa_analyze
 - id: azure-purview-purview-access
   prompt: Label confidencial no Purview bloqueia acesso no Databricks?
@@ -44,5 +44,5 @@ cases:
   must_not_include:
   - não tem pii
   expected_tools:
-  - sparkforge-azure analyze purview-lineage
+  - sparkforge-azure graph query
   - sfa_graph_query

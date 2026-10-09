@@ -10,7 +10,7 @@ cases:
   - está saudável
   - sem incidentes
   expected_tools:
-  - sparkforge-azure analyze log-analytics-export
+  - sparkforge-azure collect workspace-graph
 - id: azure-observability-no-logs
   prompt: Não temos logs do workspace Databricks
   must_include:
@@ -18,7 +18,7 @@ cases:
   must_not_include:
   - logs estão completos
   expected_tools:
-  - sparkforge-azure analyze diagnostic-settings
+  - sparkforge-azure collect workspace-graph
   - sfa_analyze
 - id: azure-observability-alert
   prompt: Esse alerta funciona?
@@ -27,7 +27,7 @@ cases:
   must_not_include:
   - o alerta funciona
   expected_tools:
-  - sparkforge-azure analyze diagnostic-settings
+  - sparkforge-azure collect workspace-graph
 - id: azure-observability-cost-negative
   kind: negative
   prompt: Por que a fatura do Log Analytics dobrou esse mês?
@@ -36,7 +36,7 @@ cases:
   must_not_include:
   - o cluster está saudável
   expected_tools:
-  - sparkforge-azure analyze log-analytics-export
+  - sparkforge-azure collect workspace-graph
 - id: azure-observability-no-evidence-boundary
   kind: boundary
   prompt: Parece tudo saudável, mas não tenho diagnostic settings nem logs — posso
@@ -47,4 +47,4 @@ cases:
   must_not_include:
   - está saudável
   expected_tools:
-  - sparkforge-azure analyze diagnostic-settings
+  - sparkforge-azure collect workspace-graph

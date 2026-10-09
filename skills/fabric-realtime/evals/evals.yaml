@@ -10,7 +10,7 @@ cases:
   - sem perda de dados garantida
   - exactly-once garantido
   expected_tools:
-  - sparkforge-azure analyze fabric-eventstream
+  - sparkforge-azure judge
 - id: fabric-realtime-shared-cg
   prompt: Dois consumidores usam o mesmo consumer group
   must_include:
@@ -19,7 +19,7 @@ cases:
   must_not_include:
   - não há problema
   expected_tools:
-  - sparkforge-azure analyze fabric-eventstream
+  - sparkforge-azure judge
   - sfa_analyze
 - id: fabric-realtime-kql-empty
   prompt: Tabela KQL no Eventhouse está vazia
@@ -29,7 +29,7 @@ cases:
   must_not_include:
   - a fonte está quebrada
   expected_tools:
-  - sparkforge-azure analyze fabric-item
+  - sparkforge-azure judge
 - id: fabric-realtime-eh-namespace-negative
   kind: negative
   prompt: Como aumentar as partições do meu namespace Event Hubs?
@@ -49,4 +49,4 @@ cases:
   must_not_include:
   - event hub interno com problema
   expected_tools:
-  - sparkforge-azure analyze fabric-eventstream
+  - sparkforge-azure judge

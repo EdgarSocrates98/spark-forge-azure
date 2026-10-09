@@ -4,7 +4,8 @@
 deterministically for each agent host under a ``sparkforge-azure-`` prefix —
 file-per-agent, since hosts conventionally scan ``<root>/*.md``. Host
 frontmatter requires ``name``/``description``; the render injects both from
-``id``/``mission`` while the rest of the manifest is preserved verbatim.
+``id``/``mission`` (plus routing terms for specialists) and a read-only
+``tools`` list, while the rest of the manifest is preserved verbatim.
 """
 
 from __future__ import annotations
@@ -30,6 +31,31 @@ def generated_header(agent_id: str) -> str:
     return f"<!-- GENERATED from agents/{agent_id}.md; do not edit -->"
 
 
+#: Host tools every agent mirror gets: reading only. No Write/Edit/Web/Agent —
+#: manifests are ``risk: read_only`` and a host without ``tools:`` grants all.
+HOST_READ_TOOLS: tuple[str, ...] = ("Read", "Grep", "Glob")
+
+
+def host_tools(allowed_tools: list[str]) -> list[str]:
+    """Host tool list: read tools, plus Bash when the manifest declares any
+    ``sfa_*`` tool (each one has an equivalent ``sparkforge-azure`` verb and no
+    MCP server is registered for the host)."""
+    tools = list(HOST_READ_TOOLS)
+    if any(str(t).startswith("sfa_") for t in allowed_tools):
+        tools.append("Bash")
+    return tools
+
+
+def host_description(agent_id: str, mission: str) -> str:
+    """Mission plus, for specialists, when to delegate (routing-table terms)."""
+    from sparkforge_azure.agentmanifest.routing import ROUTING_TABLE
+
+    row = next((r for r in ROUTING_TABLE if r.specialist == agent_id), None)
+    if row is None:
+        return mission
+    return f"{mission} Use quando a tarefa envolve: {', '.join(row.terms[:8])}."
+
+
 def render_agent_mirror(source_text: str, agent_id: str) -> str:
     """Render the host mirror: frontmatter gains ``name``/``description``.
 
@@ -41,9 +67,9 @@ def render_agent_mirror(source_text: str, agent_id: str) -> str:
     _, data, body = split_front_matter(text)
     if data.get("id") != agent_id:
         raise ValueError(f"source id {data.get('id')!r} != {agent_id!r}")
-    mission = str(data.get("mission", "")).strip()
     data["name"] = mirror_name(agent_id)
-    data["description"] = mission
+    data["description"] = host_description(agent_id, str(data.get("mission", "")).strip())
+    data["tools"] = ", ".join(host_tools(data.get("allowed_tools") or []))
     new_raw = yaml.safe_dump(data, sort_keys=False, allow_unicode=True)
     return (
         f"---\n{new_raw}---\n"

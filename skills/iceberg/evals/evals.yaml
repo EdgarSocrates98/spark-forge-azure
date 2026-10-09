@@ -9,7 +9,7 @@ cases:
   must_not_include:
   - pode expirar tudo com segurança
   expected_tools:
-  - sparkforge-azure analyze iceberg-metadata
+  - sparkforge-azure lab run
 - id: iceberg-glue
   prompt: Uso o mesmo catálogo Glue no Azure?
   must_include:
@@ -17,7 +17,7 @@ cases:
   must_not_include:
   - glue funciona igual no azure
   expected_tools:
-  - sparkforge-azure analyze iceberg-metadata
+  - sparkforge-azure lab run
   - sfa_analyze
 - id: iceberg-reader-stale
   prompt: Leitor externo não vê dados novos da tabela UniForm
@@ -27,7 +27,7 @@ cases:
   must_not_include:
   - o writer está quebrado
   expected_tools:
-  - sparkforge-azure analyze iceberg-metadata
+  - sparkforge-azure lab run
 - id: iceberg-delta-negative
   kind: negative
   prompt: Minha tabela Delta Lake acumulou small files depois do MERGE
@@ -36,7 +36,7 @@ cases:
   must_not_include:
   - metadata.json do iceberg
   expected_tools:
-  - sparkforge-azure analyze iceberg-metadata
+  - sparkforge-azure lab run
 - id: iceberg-uniform-boundary
   kind: boundary
   prompt: A tabela UniForm é lida como Delta no Fabric e como Iceberg no catálogo
@@ -48,5 +48,5 @@ cases:
   - delta puro
   - são equivalentes
   expected_tools:
-  - sparkforge-azure analyze iceberg-metadata
+  - sparkforge-azure lab run
   - sfa_analyze

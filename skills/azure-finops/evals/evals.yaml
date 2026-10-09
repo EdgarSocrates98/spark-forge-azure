@@ -9,7 +9,7 @@ cases:
   - vai economizar 40%
   - economia garantida
   expected_tools:
-  - sparkforge-azure analyze billing-usage
+  - sparkforge-azure collect workspace-graph
 - id: azure-finops-bill-up
   prompt: Por que a conta do Databricks subiu este mês?
   must_include:
@@ -18,7 +18,7 @@ cases:
   must_not_include:
   - a culpa é do photon
   expected_tools:
-  - sparkforge-azure analyze cost-export
+  - sparkforge-azure collect workspace-graph
   - sfa_analyze
 - id: azure-finops-untagged
   prompt: Quanto o time de vendas gasta?
@@ -27,7 +27,7 @@ cases:
   must_not_include:
   - vendas gasta exatamente
   expected_tools:
-  - sparkforge-azure analyze cost-export
+  - sparkforge-azure collect workspace-graph
 - id: azure-finops-performance-negative
   kind: negative
   prompt: Quero o job mais rápido; custo não importa nesse caso
@@ -36,7 +36,7 @@ cases:
   must_not_include:
   - economia garantida
   expected_tools:
-  - sparkforge-azure analyze billing-usage
+  - sparkforge-azure collect workspace-graph
 - id: azure-finops-no-baseline-boundary
   kind: boundary
   prompt: Quanto eu economizo desligando esse cluster à noite? Não tenho baseline
@@ -47,5 +47,5 @@ cases:
   must_not_include:
   - você vai economizar
   expected_tools:
-  - sparkforge-azure analyze cost-export
+  - sparkforge-azure collect workspace-graph
   - sfa_analyze

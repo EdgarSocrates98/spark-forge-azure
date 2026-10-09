@@ -36,7 +36,7 @@ metadata:
   - knowledge/spark/
   - knowledge/azure/eventhubs/
   tool_refs:
-  - sparkforge-azure analyze streaming
+  - sparkforge-azure analyze pyspark
   - sparkforge-azure lab run
   - sparkforge-azure lab verify
   - sfa_analyze
@@ -45,6 +45,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze streaming
   eval_refs:
   - skills/spark-streaming/evals/evals.yaml
   source_authority:
@@ -73,9 +75,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze streaming --path <repo> --out .sparkforge-azure/facts.json
-sparkforge-azure lab run streaming-restart-duplicates --facts .sparkforge-azure/facts.json
-sparkforge-azure lab verify --run <run-id>
+sparkforge-azure analyze pyspark --path <repo> --out .sparkforge-azure/facts.json   # readStream/writeStream no código
+sparkforge-azure lab run cdc-duplicate-restart   # duplicidade pós-restart (cenário mais próximo), opcional
+sparkforge-azure lab verify
 ```
 
    Fatos esperados:

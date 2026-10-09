@@ -32,8 +32,6 @@ metadata:
   - knowledge/azure/synapse/
   - knowledge/migration/
   tool_refs:
-  - sparkforge-azure analyze synapse-spark-pool
-  - sparkforge-azure analyze synapse-pipeline
   - sparkforge-azure graph build
   - sfa_analyze
   - sfa_graph_query
@@ -41,6 +39,9 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze synapse-spark-pool
+  - sparkforge-azure analyze synapse-pipeline
   eval_refs:
   - skills/azure-synapse/evals/evals.yaml
   source_authority:
@@ -67,9 +68,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze synapse-spark-pool --path synapse/sparkpools/ --out .sparkforge-azure/facts.json
-sparkforge-azure analyze synapse-pipeline --path synapse/pipelines/
-sparkforge-azure graph build --path synapse/
+sparkforge-azure graph build --root synapse/
+# Sem extrator de spark pool/pipeline ainda (planned_tool_refs): fatos entram em
+# .sparkforge-azure/facts.json montados a mão do workspace export Synapse.
 ```
 
    Fatos esperados:

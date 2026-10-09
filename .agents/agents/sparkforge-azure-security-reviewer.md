@@ -75,6 +75,7 @@ parent: null
 name: sparkforge-azure-security-reviewer
 description: Revisa findings e mudanças pelo ângulo de identidade, segredos, exposição
   e privilégio.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/security-reviewer.md; do not edit -->
 # Security Reviewer
