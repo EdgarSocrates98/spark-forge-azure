@@ -1,0 +1,16 @@
+{
+  "forge_id": "spark-forge-azure",
+  "package": "sparkforge_azure",
+  "distribution": "sparkforge-azure",
+  "cli": "sparkforge-azure",
+  "python": ">=3.10",
+  "mcp_server_name": "sparkforge-azure",
+  "mcp_command": [
+    "sparkforge-azure",
+    "mcp",
+    "serve"
+  ],
+  "extras": [
+    "mcp"
+  ]
+}
