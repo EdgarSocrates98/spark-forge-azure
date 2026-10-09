@@ -19,6 +19,8 @@ verificação pré-entrega (`AGENTS.md`).
 .venv/Scripts/python scripts/check_surface_lock.py                 # superfície travada
 .venv/Scripts/python scripts/check_docs_surface.py                 # docs cobrem toda a superfície travada
 .venv/Scripts/python scripts/check_docs_index.py                   # toda doc indexada no README
+.venv/Scripts/python scripts/check_portability.py                  # gate §188: assets, schema, docs, mirrors, paths
+.venv/Scripts/python evals/portability/runner.py                   # matriz de portabilidade (10 casos)
 .venv/Scripts/python scripts/check_claims.py                       # claims com prova
 ```
 
@@ -37,6 +39,9 @@ verificação pré-entrega (`AGENTS.md`).
 | `diagnose fabric --suite tests/fixtures/fabric` | 16 cenários Fabric contra o oráculo `expect:` | idem; `unresolved` nunca é `denied`/`allowed` inventado |
 | `diagnose stream --suite tests/fixtures/stream` | 22 cenários Streaming/RTI contra o oráculo `expect:` | `unresolved` nunca é entitlement inventado; delivery semantics não promove sem evidência |
 | `migration assess --suite tests/fixtures/migration` | 22 cenários ADF/Synapse→Fabric contra o oráculo `expect:` | readiness ausente ≠ READY; ciclo → REVIEW; conflito oficial → REVIEW |
+| `check_portability.py` | gate estático §188: inventário de assets, schema de manifests, docs de portabilidade presentes, mirrors em sync, nenhum path de checkout em config gerada, acesso a HOME só em módulos autorizados, traversal/symlink recusados | vazamento de path de checkout em `.mcp.json`; `Path.home()` em módulo não autorizado; doc de portabilidade ausente |
+| `check_portability.py --wheel` | T3: builda a wheel, instala num venv temporário fora do checkout e corre `inspect→init→status→detach→init` do binário instalado | command `sparkforge-azure` ausente; manifesto/assets faltando na wheel |
+| `evals/portability/runner.py` | matriz §96–§101 — 10 cenários (single/monorepo/multi-repo/relocate/copy/scopes/detach/mcp-only/host-unavailable) em temp dirs com HOME/XDG falsos; grava `reports/portability-matrix.json` | caso `ok`→falha é regressão do lifecycle; `refused` esperado = recusa nomeada, nunca exceção |
 
 ## Regeneração de locks (nunca editar à mão)
 

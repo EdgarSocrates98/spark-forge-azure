@@ -102,7 +102,7 @@ def _load_yaml(path: Path) -> dict[str, Any]:
     except yaml.YAMLError as exc:
         raise PortableError(
             "manifest_invalid", f"{path.name}: invalid YAML ({exc})",
-            unlock="fix the YAML or re-run `distribution init --new-identity`",
+            unlock="fix the YAML or re-run `distribution init --regen-id`",
         ) from exc
     if not isinstance(raw, dict):
         raise PortableError("manifest_invalid", f"{path.name}: expected a mapping")
