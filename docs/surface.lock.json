@@ -10,11 +10,15 @@
    "agentops inspect",
    "agentops runs",
    "agentops timeline",
+   "agents compare",
+   "agents execute",
    "agents fingerprint",
    "agents impact",
    "agents inspect",
    "agents list",
    "agents route",
+   "agents runtime-inspect",
+   "agents runtimes",
    "collect adls-meta",
    "collect azure-rbac",
    "collect resource-graph",
@@ -71,8 +75,10 @@
  },
  "mcp": {
   "compact": [
+   "sfa_agents_execution_explain",
    "sfa_agents_explain_route",
    "sfa_agents_list",
+   "sfa_agents_runtimes",
    "sfa_assess_migration",
    "sfa_diagnose_access",
    "sfa_diagnose_fabric",
@@ -83,9 +89,22 @@
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 12712,
-  "tool_count": 15,
+  "compact_bytes": 14674,
+  "tool_count": 17,
   "tools": {
+   "sfa_agents_execution_explain": {
+    "compact": true,
+    "domain": "agentic",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "79e2e721c6c3b3f8b1b1cca3eec1357da98b7401ea8a9d420966a01a195518b6"
+   },
    "sfa_agents_explain_route": {
     "compact": true,
     "domain": "agentic",
@@ -111,6 +130,19 @@
      "security_impact": false
     },
     "schema_sha256": "1dc3cac86bb1544a9b8ccfd797a4570a975b6228f7c0cc39bc848d41c02ba073"
+   },
+   "sfa_agents_runtimes": {
+    "compact": true,
+    "domain": "agentic",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "d867baee0cdfe381ec9c738290f405dccbd503f820bff20586f8fe87dd32a526"
    },
    "sfa_assess_migration": {
     "compact": true,
@@ -282,7 +314,7 @@
     "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
    }
   },
-  "total_bytes": 16086
+  "total_bytes": 18048
  },
  "schema_version": 2,
  "skills": {

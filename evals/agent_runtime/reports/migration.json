@@ -1,0 +1,266 @@
+{
+  "case_id": "migration",
+  "runtime": "generic",
+  "results": {
+    "A": {
+      "case_id": "migration",
+      "configuration": "A",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "migration:blocked-activity-remediation",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:migration:blocked-activity-remediation",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.3913,
+      "tool_calls": 0,
+      "context_bytes": 89,
+      "degraded": true
+    },
+    "B": {
+      "case_id": "migration",
+      "configuration": "B",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "migration:blocked-activity-remediation",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:migration:blocked-activity-remediation",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4028,
+      "tool_calls": 0,
+      "context_bytes": 89,
+      "degraded": true
+    },
+    "C": {
+      "case_id": "migration",
+      "configuration": "C",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "verifier",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "migration:blocked-activity-remediation",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:migration:blocked-activity-remediation",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4183,
+      "tool_calls": 0,
+      "context_bytes": 89,
+      "degraded": true
+    },
+    "D": {
+      "case_id": "migration",
+      "configuration": "D",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "verifier",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "migration:blocked-activity-remediation",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:migration:blocked-activity-remediation",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4172,
+      "tool_calls": 0,
+      "context_bytes": 89,
+      "degraded": true
+    }
+  },
+  "value_vectors": {
+    "A": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": 0,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.0
+    },
+    "B": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": 0,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.0115
+    },
+    "C": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": 0,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.027
+    },
+    "D": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": 0,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.0259
+    }
+  },
+  "necessity": {
+    "A": "NEUTRAL",
+    "B": "UNRESOLVED",
+    "C": "UNRESOLVED",
+    "D": "UNRESOLVED"
+  },
+  "quality_frontier": [
+    {
+      "config": "A",
+      "quality": 0,
+      "latency_s": 0.3913
+    },
+    {
+      "config": "B",
+      "quality": 0,
+      "latency_s": 0.4028
+    },
+    {
+      "config": "C",
+      "quality": 0,
+      "latency_s": 0.4183
+    },
+    {
+      "config": "D",
+      "quality": 0,
+      "latency_s": 0.4172
+    }
+  ]
+}

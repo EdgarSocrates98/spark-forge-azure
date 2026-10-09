@@ -255,3 +255,36 @@ maturity pass auditou cada bloco § contra artefatos reais
 - `AGENTS_REFERENCE_DOC` (W2): `docs/reference/agents.md` **gerado** por
   `gen_agents_doc.py` (kind/domain/autonomy/risk/evals por agent) com sync
   test anti-drift — par do catálogo de skills.
+
+## Estado medido — cycle 9 (agent runtime execution) — **DELIVERED**
+
+`feat/cycle9-agent-runtime`, prompt `prompt_evo_agent_runtime.md` (244
+secoes, 6 P0s). Frota congelada — zero agents novos (§1):
+
+- `RUNTIME_EXECUTION_AUDIT` (W0): classificacao honesta — toda camada
+  era planning/gating; zero adapters. 6 runtimes `DECLARED_UNPROVEN`.
+- `AGENT_RUNTIME_ADAPTERS` (W1): `agentic/runtimes/` — ExecutionMode/
+  UsageStatus/RuntimeStatus/FailureKinds fechados; SpawnResultV2;
+  registry runtime->adapter->status->proof; host stubs fail-closed
+  (binario+opt-in, nunca finge); playbook/inline executam roles L0 de
+  verdade (extractor/inventory/judge/verifier/synthesizer).
+- `REAL_AGENT_EXECUTION` (W2): schemas por role §96-103,
+  `contract_violation` nomeado, freeform -> provisional (§31); `run_case`
+  liga gate->adapter->schema->receipt (§24).
+- `REAL_HANDOFF_EXECUTION` (W3): handoff emitido entre estagios,
+  admit_handoff re-filtra pelo receiver (§41-42); CaseState §45;
+  stage_fingerprint §48; resume §47 — fp identico nao re-executa.
+- `RUNTIME_DEGRADATION` (W4): cadeia §77 preferred->playbook->inline;
+  degraded_reason obrigatorio (§78-79); retry so transiente 1x (§83-84).
+- `AGENT_VALUE_EVAL` (W5): `evals/agent_runtime/` (4 cases, expected,
+  configs A-D, reports §75); value_vector §57; necessity §59; custo
+  `unresolved` sem provider (§55). Resultado honesto: sem host, ganho
+  medido = 0 -> necessity UNRESOLVED/NEUTRAL.
+- `AGENT_RUNTIME_SURFACE` (W6): spans com campos §122; CLI
+  `agents runtimes|runtime-inspect|execute --dry-run|compare`; MCP
+  `sfa_agents_runtimes`+`sfa_agents_execution_explain` (17 tools);
+  doctor `agent_runtime`.
+- `AGENTIC_ARCHITECTURE_FREEZE` (W7): security lab §112-120 verde;
+  `freeze.py` mede as 6 condicoes -> **FREEZE_STATUS=candidate**
+  (blockers: host_proof_missing, value_eval_unresolved_without_host) —
+  freeze so com prova de host (§176).

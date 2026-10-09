@@ -1,0 +1,7 @@
+id: databricks-access
+task: "databricks job cannot access unity catalog governed path in ADLS"
+context:
+  evidence:
+  - {ref: "error: PERMISSION_DENIED on abfss://c@acct/x", kind: obs}
+unresolved:
+- "unity-catalog:which-principal-lacks-grant"

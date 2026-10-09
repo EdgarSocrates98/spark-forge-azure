@@ -1,0 +1,7 @@
+id: fabric-onelake
+task: "fabric lakehouse shortcut to onelake returns access denied"
+context:
+  evidence:
+  - {ref: "shortcut table read denied", kind: obs}
+unresolved:
+- "onelake:workspace-identity-vs-user-delegation"

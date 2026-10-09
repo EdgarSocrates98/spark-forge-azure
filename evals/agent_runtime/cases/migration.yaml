@@ -1,0 +1,7 @@
+id: migration
+task: "adf to fabric migration mixed blockers on pipelines"
+context:
+  evidence:
+  - {ref: "3 activities unsupported in fabric data factory", kind: obs}
+unresolved:
+- "migration:blocked-activity-remediation"
