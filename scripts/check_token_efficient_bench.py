@@ -59,13 +59,24 @@ def main() -> int:
 
     # A matriz inteira executa: cada celula confere status + eixos de qualidade
     # contra o gabarito. Sem score composto — recusar o gabarito e o defeito.
+    import tempfile
+
+    from sparkforge_azure.context.gateway import ContextGateway
+    from sparkforge_azure.decision.cache import ArtifactCache
     from sparkforge_azure.evals.token_benchmark import (
         load_benchmark_suite,
         run_benchmark_matrix,
     )
+    from sparkforge_azure.mcp.tools import full_catalog
 
     suite = load_benchmark_suite(SUITE.parent)
-    matrix = run_benchmark_matrix(suite)
+    with tempfile.TemporaryDirectory(
+        prefix="sfa-bench-", ignore_cleanup_errors=True
+    ) as tmp:
+        # Cache isolado: o benchmark nao pode gravar .sparkforge-azure/ na
+        # arvore nem ler hit de execucao anterior (contaminaria a medicao).
+        gateway = ContextGateway(full_catalog(), cache=ArtifactCache(cache_dir=tmp))
+        matrix = run_benchmark_matrix(suite, gateway=gateway)
     failed = [r for r in matrix["results"] if r.get("passed") is not True]
     unresolved_tokens = sum(
         1 for r in matrix["results"] if r.get("tokens_unresolved")

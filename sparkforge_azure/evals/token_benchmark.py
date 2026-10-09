@@ -30,7 +30,6 @@ import yaml
 from sparkforge_azure.context.gateway import ContextGateway
 from sparkforge_azure.context.gateway_models import GatewayProfile
 from sparkforge_azure.evals.runner import EvaluationRunner
-from sparkforge_azure.mcp.tools import full_catalog
 
 SCHEMA_VERSION = 1
 MINIMUM_LABELED_TASKS = 50
@@ -154,11 +153,17 @@ def load_benchmark_suite(directory: Path | str) -> dict[str, Any]:
 
 
 def run_benchmark_matrix(
-    suite: dict[str, Any], *, gateway: ContextGateway | None = None
+    suite: dict[str, Any], *, gateway: ContextGateway
 ) -> dict[str, Any]:
-    """Run identical cases over all declared profiles and keep raw axes."""
+    """Run identical cases over all declared profiles and keep raw axes.
+
+    `gateway` is required and injected: `evals/` must not import the MCP
+    layer to build a default catalog (architecture + provider-free core).
+    The caller decides which catalog feeds the gateway — the bench check
+    script uses `mcp.tools.full_catalog()`, tests use their own.
+    """
     runner = EvaluationRunner()
-    gateway_to_use = gateway or ContextGateway(full_catalog())
+    gateway_to_use = gateway
     profiles = tuple(GatewayProfile(profile) for profile in suite["profiles"])
     results = runner.run_context_benchmark(
         gateway_to_use,

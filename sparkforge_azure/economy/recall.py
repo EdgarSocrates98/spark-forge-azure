@@ -300,10 +300,16 @@ def _no_nivel(corpo: dict[str, Any], nivel: str) -> dict[str, Any]:
         return corpo
     magro = dict(corpo)
     magro["snippets"] = []
-    magro["symbols"] = [
-        {k: v for k, v in s.items() if k != "score_breakdown"}
-        for s in corpo.get("symbols", ())
-    ]
+    # `score_breakdown` vive nos DOIS cortes do montar(): entry_points (a
+    # fatia de topo) e symbols (o resto). O irmao so media symbols porque la
+    # o corpus enche os dois — aqui packs pequenos podem ter symbols vazio e
+    # o score_breakdown inteiro passaria como "summary". Medir so metade da
+    # quebra de escore mediria errado.
+    for campo in ("symbols", "entry_points"):
+        magro[campo] = [
+            {k: v for k, v in s.items() if k != "score_breakdown"}
+            for s in corpo.get(campo, ())
+        ]
     return magro
 
 

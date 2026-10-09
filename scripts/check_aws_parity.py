@@ -34,13 +34,14 @@ def _proof_paths_exist(proof: str) -> list[str]:
     Tokens inside parentheses or prose are ignored; we check tokens that
     start with a known top-level dir or end with a source/doc suffix."""
     missing = []
-    for token in proof.replace("(", " ").replace(")", " ").replace("+", " ").replace(",", " ").split():
+    scrubbed = proof.replace("(", " ").replace(")", " ").replace("+", " ").replace(",", " ")
+    prefixes = ("sparkforge_azure/", "scripts/", "docs/", "evals/", "tests/", "parity/")
+    for token in scrubbed.split():
         token = token.strip()
         if "/" not in token and not token.endswith((".py", ".md", ".json", ".yaml")):
             continue
-        if token.startswith(("sparkforge_azure/", "scripts/", "docs/", "evals/", "tests/", "parity/")):
-            if not (ROOT / token).exists():
-                missing.append(token)
+        if token.startswith(prefixes) and not (ROOT / token).exists():
+            missing.append(token)
     return missing
 
 
@@ -66,7 +67,6 @@ def main() -> int:
     counts: dict[str, int] = {}
     for i, entry in enumerate(entries):
         cap = entry.get("capability") if isinstance(entry, dict) else None
-        where = cap or f"entry[{i}]"
         if not cap:
             failures.append(f"entry[{i}]: missing capability")
             continue
@@ -80,7 +80,9 @@ def main() -> int:
             failures.append(f"{cap}: portability {port!r} not in {sorted(PORTABILITY)}")
         for side in ("aws", "azure"):
             if entry.get(side) not in STATUSES:
-                failures.append(f"{cap}: {side} status {entry.get(side)!r} not in {sorted(STATUSES)}")
+                failures.append(
+                    f"{cap}: {side} status {entry.get(side)!r} not in {sorted(STATUSES)}"
+                )
         proof = entry.get("proof")
         if not isinstance(proof, str) or not proof.strip():
             failures.append(f"{cap}: proof missing — no capability claim without evidence")
