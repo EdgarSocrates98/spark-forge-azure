@@ -67,6 +67,7 @@ autonomy: L0
 parent: null
 name: sparkforge-azure-judge
 description: Aplica regras versionadas a facts e produz findings com evidência.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/judge.md; do not edit -->
 # Judge

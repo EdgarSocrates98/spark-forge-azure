@@ -65,6 +65,7 @@ autonomy: L2
 parent: null
 name: sparkforge-azure-referee
 description: Resolve divergência entre agentes pela evidência, ou declara unresolved.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/referee.md; do not edit -->
 # Referee

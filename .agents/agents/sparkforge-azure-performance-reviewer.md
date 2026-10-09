@@ -68,6 +68,7 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-performance-reviewer
 description: Revisa propostas de performance contra medição antes/depois.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/performance-reviewer.md; do not edit -->
 # Performance Reviewer

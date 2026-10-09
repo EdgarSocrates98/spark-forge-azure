@@ -68,6 +68,7 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-cost-reviewer
 description: Revisa propostas de redução de custo contra baseline medido.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/cost-reviewer.md; do not edit -->
 # Cost Reviewer

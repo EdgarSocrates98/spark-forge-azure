@@ -9,7 +9,7 @@ cases:
   must_not_include:
   - linked service seguro
   expected_tools:
-  - sparkforge-azure analyze adf-pipeline
+  - sparkforge-azure graph build
 - id: azure-data-factory-impact
   prompt: Se eu mudar este dataset, o que quebra?
   must_include:
@@ -27,7 +27,7 @@ cases:
   must_not_include:
   - mesmas regras do adf
   expected_tools:
-  - sparkforge-azure analyze adf-pipeline
+  - sparkforge-azure graph build
 - id: azure-data-factory-fabric-negative
   kind: negative
   prompt: O item de pipeline do workspace Fabric falhou no run de ontem
@@ -47,5 +47,5 @@ cases:
   - migra automaticamente
   - equivalente direto
   expected_tools:
-  - sparkforge-azure analyze adf-pipeline
+  - sparkforge-azure graph build
   - sfa_graph_impact

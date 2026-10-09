@@ -71,6 +71,7 @@ parent: null
 name: sparkforge-azure-reviewer
 description: Revisa a solução proposta (patch, config, plano) contra findings verificados
   e regras.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/reviewer.md; do not edit -->
 # Reviewer

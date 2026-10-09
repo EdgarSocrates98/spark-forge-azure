@@ -145,7 +145,9 @@ def test_skill_boundaries_are_explicit():
 def test_bodies_never_use_aws_cli_and_declare_used_verbs():
     for name in SKILL_NAMES:
         skill = parse_skill(ROOT / "skills" / name / "SKILL.md")
-        assert "sparkforge-azure judge" in body_cli_refs(skill.body)
+        # every body shows an executable step; which verb depends on the domain
+        # (judge only fires on facts a real extractor emits — SKILLS_AGENTS_HARDENING)
+        assert body_cli_refs(skill.body)
         assert set(body_cli_refs(skill.body)) <= set(skill.tool_refs)
 
 

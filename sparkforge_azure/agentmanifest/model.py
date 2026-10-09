@@ -224,6 +224,8 @@ REQUIRED_KEYS: tuple[str, ...] = (
 #: and ``knowledge_drift.py``, and checked against routing by tests/test_router_agents.py.
 OPTIONAL_KEYS: tuple[str, ...] = ("rule_areas",)
 _RULE_AREA_RE = re.compile(r"^SF-[A-Z0-9-]+$")
+#: ``does_not`` lists refusals; a positive domain rule there reads inverted.
+_NEGATION_RE = re.compile(r"^(não|nao|nunca)\b", re.IGNORECASE)
 _TOOL_RE = re.compile(r"^sfa_[a-z][a-z0-9_]*$")
 
 
@@ -397,6 +399,11 @@ def validate_manifest(
                 "required_context_kinds", "allowed_context_kinds"):
         if not _str_list(data[key]) or not data[key]:
             err(f"{where}: {key} must be a non-empty list of strings")
+    if _str_list(data["does_not"]):
+        for item in data["does_not"]:
+            if not _NEGATION_RE.match(item):
+                err(f"{where}: does_not item must be a negation "
+                    f"(start with 'não'/'nunca'): {item!r}")
     for key in ("allowed_tools", "denied_tools", "skills", "knowledge_packs", "evals"):
         if not _str_list(data[key]):
             err(f"{where}: {key} must be a list of strings")

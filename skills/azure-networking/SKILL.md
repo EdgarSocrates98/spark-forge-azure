@@ -33,7 +33,6 @@ metadata:
   knowledge_refs:
   - knowledge/azure/network/
   tool_refs:
-  - sparkforge-azure analyze network-topology
   - sparkforge-azure governance diagnose
   - sfa_governance_diagnose
   - sfa_analyze
@@ -41,6 +40,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze network-topology
   eval_refs:
   - skills/azure-networking/evals/evals.yaml
   source_authority:
@@ -67,8 +68,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze network-topology --path exports/network/ --out .sparkforge-azure/facts.json
-sparkforge-azure governance diagnose --scenario private-endpoint-dns --facts .sparkforge-azure/facts.json
+sparkforge-azure governance diagnose --scenario .sparkforge-azure/cenario.yaml
+# Sem extrator de topologia ainda (planned_tool_refs): fatos de VNet/NSG/PE/DNS
+# entram em .sparkforge-azure/facts.json montados a mão dos exports de rede.
 ```
 
    Fatos esperados:

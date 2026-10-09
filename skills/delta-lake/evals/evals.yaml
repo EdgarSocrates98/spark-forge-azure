@@ -9,7 +9,7 @@ cases:
   must_not_include:
   - é só rodar optimize
   expected_tools:
-  - sparkforge-azure analyze delta-log
+  - sparkforge-azure judge
 - id: delta-lake-vacuum-safe
   prompt: Posso rodar VACUUM 0 horas?
   must_include:
@@ -19,7 +19,7 @@ cases:
   - vacuum é seguro
   - sem perda de dados
   expected_tools:
-  - sparkforge-azure analyze delta-log
+  - sparkforge-azure judge
   - sfa_analyze
 - id: delta-lake-optimize-gain
   prompt: OPTIMIZE vai deixar 5x mais rápido?
@@ -47,4 +47,4 @@ cases:
   must_not_include:
   - e so rodar optimize
   expected_tools:
-  - sparkforge-azure analyze delta-log
+  - sparkforge-azure judge

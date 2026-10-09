@@ -20,7 +20,7 @@ cases:
   must_not_include:
   - roda igual no fabric sem mudanças
   expected_tools:
-  - sparkforge-azure analyze spark-conf
+  - sparkforge-azure judge
 - id: azure-spark-udf-claim
   prompt: A UDF Python é a causa da lentidão?
   must_include:

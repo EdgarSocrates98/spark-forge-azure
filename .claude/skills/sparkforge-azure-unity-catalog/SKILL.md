@@ -37,8 +37,8 @@ metadata:
   - knowledge/azure/unity-catalog/
   - knowledge/governance/
   tool_refs:
+  - sparkforge-azure collect unity-catalog
   - sparkforge-azure governance diagnose
-  - sparkforge-azure analyze uc-grants
   - sparkforge-azure graph query
   - sfa_governance_diagnose
   - sfa_graph_query
@@ -46,6 +46,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze uc-grants
   eval_refs:
   - skills/unity-catalog/evals/evals.yaml
   source_authority:
@@ -73,9 +75,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze uc-grants --path exports/uc/ --out .sparkforge-azure/facts.json
-sparkforge-azure governance diagnose --scenario uc-read-denied --facts .sparkforge-azure/facts.json
-sparkforge-azure graph query --from principal:<id> --to table:<catalog.schema.table>
+sparkforge-azure collect unity-catalog --export exports/uc.json --facts
+sparkforge-azure governance diagnose --scenario .sparkforge-azure/cenario.yaml
+sparkforge-azure graph query --graph .sparkforge-azure/graph/graph.json --path principal:<id> table:<catalog.schema.table>
 ```
 
    Fatos esperados:

@@ -63,6 +63,7 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-synthesizer
 description: Escreve a resposta final só com findings verificados, evidência e unresolved.
+tools: Read, Grep, Glob
 ---
 <!-- GENERATED from agents/synthesizer.md; do not edit -->
 # Synthesizer

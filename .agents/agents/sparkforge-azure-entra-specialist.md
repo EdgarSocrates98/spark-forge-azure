@@ -84,7 +84,10 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-entra-specialist
 description: 'Specialist em Entra ID, managed identity, RBAC, Key Vault: produz findings
-  do domínio com evidência e unresolved explícito.'
+  do domínio com evidência e unresolved explícito. Use quando a tarefa envolve: entra,
+  entra id, managed identity, service principal, rbac, role assignment, key vault,
+  workload identity.'
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/entra-specialist.md; do not edit -->
 # Entra ID, managed identity, RBAC, Key Vault — Specialist

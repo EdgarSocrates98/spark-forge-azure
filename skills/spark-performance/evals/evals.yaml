@@ -10,7 +10,7 @@ cases:
   - otimizado
   - vai ficar 10x mais rápido
   expected_tools:
-  - sparkforge-azure analyze spark-eventlog
+  - sparkforge-azure analyze pyspark
   - sparkforge-azure lab verify
 - id: spark-performance-no-eventlog
   prompt: Meu job está lento, aqui está o código
@@ -29,7 +29,7 @@ cases:
   must_not_include:
   - sim, aumente a memória
   expected_tools:
-  - sparkforge-azure analyze spark-eventlog
+  - sparkforge-azure analyze pyspark
 - id: spark-performance-delta-layout-negative
   kind: negative
   prompt: A tabela Delta acumulou 500 mil arquivos pequenos
@@ -47,4 +47,4 @@ cases:
   must_not_include:
   - aumente o paralelismo e pronto
   expected_tools:
-  - sparkforge-azure analyze spark-eventlog
+  - sparkforge-azure analyze pyspark

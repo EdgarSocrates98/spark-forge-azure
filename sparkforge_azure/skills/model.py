@@ -89,8 +89,10 @@ CLI_VERBS: dict[str, tuple[str, ...] | None] = {
     "tokensave": ("search", "read", "symbols", "refs", "diff", "expand", "context"),
     "knowledge": ("select", "check"),
     "doctor": (),
-    "lab": ("run", "verify"),
-    "collect": ("workspace-graph",),
+    "lab": ("run", "verify", "describe", "scenarios"),
+    "collect": ("workspace-graph", "unity-catalog", "adls-meta", "azure-rbac"),
+    "diagnose": ("", "fabric", "stream"),  # "" = access vertical (diagnose --bundle)
+    "migration": ("assess",),
     "offline-bundle": (),
     "agentops": ("inspect", "waste"),
 }
@@ -111,6 +113,8 @@ REQUIRED_LIST_FIELDS: tuple[str, ...] = (
     "eval_refs",
     "source_authority",
 )
+#: Verbs a skill targets but the CLI does not implement yet. Never in the body.
+OPTIONAL_LIST_FIELDS: tuple[str, ...] = ("planned_tool_refs",)
 REQUIRED_BODY_HEADINGS: tuple[str, ...] = (
     "## Procedimento",
     "## Pontos de decisão",
@@ -218,9 +222,36 @@ def validate_tool_ref(ref: Any) -> str | None:
     elif not subs:
         if rest:
             return f"tool ref {ref!r}: '{words[1]}' takes no sub-verb"
+    elif not rest and "" in subs:
+        return None
     elif len(rest) != 1 or rest[0] not in subs:
         return f"tool ref {ref!r}: '{words[1]}' sub-verb must be one of {list(subs)}"
     return None
+
+
+def real_cli_paths(root: Path) -> frozenset[str] | None:
+    """Implemented CLI command paths from the surface lock (``docs/surface.lock.json``).
+
+    Read from the lock, not the parser: skills must not import the CLI layer.
+    Falls back to the checkout holding this package; ``None`` when no lock is
+    reachable (installed wheel), which skips the existence check.
+    """
+    import json
+
+    for base in (root, Path(__file__).resolve().parents[2]):
+        lock = base / "docs" / "surface.lock.json"
+        if lock.is_file():
+            commands = json.loads(lock.read_text(encoding="utf-8"))["cli"]["commands"]
+            return frozenset(commands)
+    return None
+
+
+def cli_ref_resolves(ref: str, paths: frozenset[str]) -> bool:
+    """``sparkforge-azure <verb> [<sub>]`` names an implemented command (or group)."""
+    if not ref.startswith(f"{CLI_NAME} "):
+        return True  # sfa_* refs are checked by the agent tool registry
+    cmd = ref.removeprefix(f"{CLI_NAME} ").strip()
+    return cmd in paths or any(p.startswith(cmd + " ") for p in paths)
 
 
 _BODY_CLI_RE = re.compile(rf"(?<![\w./-]){CLI_NAME} ([a-z][a-z0-9-]*)(?: ([a-z][a-z0-9-]*))?")
@@ -360,7 +391,8 @@ def validate_skill_file(
         return rep
     if meta.get("sparkforge_azure_contract") != CONTRACT_VERSION:
         rep.errors.append(f"{where}: metadata.sparkforge_azure_contract must be {CONTRACT_VERSION}")
-    unknown = sorted(set(meta) - set(REQUIRED_LIST_FIELDS) - {"sparkforge_azure_contract"})
+    unknown = sorted(set(meta) - set(REQUIRED_LIST_FIELDS) - set(OPTIONAL_LIST_FIELDS)
+                    - {"sparkforge_azure_contract"})
     if unknown:
         rep.errors.append(f"{where}: unknown metadata keys {unknown}")
     for key in REQUIRED_LIST_FIELDS:
@@ -381,10 +413,29 @@ def validate_skill_file(
                 rep.pending_knowledge.append(ref)
             else:
                 rep.errors.append(f"{where}: knowledge dir {ref!r} does not exist")
+    cli_paths = real_cli_paths(root)
     for ref in meta.get("tool_refs") or []:
         err = validate_tool_ref(ref)
         if err:
             rep.errors.append(f"{where}: {err}")
+        elif cli_paths is not None and not cli_ref_resolves(ref, cli_paths):
+            rep.errors.append(
+                f"{where}: tool_ref {ref!r} is not a real CLI command; "
+                "declare it in planned_tool_refs and keep it out of the body"
+            )
+    planned = meta.get("planned_tool_refs") or []
+    if not isinstance(planned, list):
+        rep.errors.append(f"{where}: metadata.planned_tool_refs must be a list")
+        planned = []
+    for ref in planned:
+        err = validate_tool_ref(ref)
+        if err:
+            rep.errors.append(f"{where}: planned: {err}")
+        elif cli_paths is not None and cli_ref_resolves(ref, cli_paths):
+            rep.errors.append(f"{where}: planned_tool_ref {ref!r} already exists; "
+                              "move it to tool_refs")
+        elif ref in body:
+            rep.errors.append(f"{where}: body instructs planned verb {ref!r} as if it existed")
     for src in meta.get("source_authority") or []:
         if src not in SOURCE_AUTHORITIES:
             rep.errors.append(f"{where}: unknown source_authority {src!r}")

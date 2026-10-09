@@ -68,6 +68,7 @@ parent: null
 name: sparkforge-azure-extractor
 description: Converte artefato em fact tipado, sem interpretar nem executar o código
   analisado.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/extractor.md; do not edit -->
 # Extractor

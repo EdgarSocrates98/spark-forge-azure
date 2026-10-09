@@ -34,7 +34,6 @@ metadata:
   - knowledge/spark/
   tool_refs:
   - sparkforge-azure analyze pyspark
-  - sparkforge-azure analyze spark-conf
   - sparkforge-azure tokensave search
   - sfa_analyze
   - sfa_tokensave_search
@@ -42,6 +41,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze spark-conf
   eval_refs:
   - skills/azure-spark/evals/evals.yaml
   source_authority:
@@ -71,8 +72,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 
 ```bash
 sparkforge-azure analyze pyspark --path <repo> --out .sparkforge-azure/facts.json
-sparkforge-azure analyze spark-conf --path <conf-dir> --out .sparkforge-azure/conf-facts.json
-sparkforge-azure tokensave search "collect(" --path <repo>
+sparkforge-azure tokensave search "collect(" --root <repo>
+# spark.conf efetivo ainda sem extrator (planned_tool_refs): fatos de config
+# completam o facts.json montados a mão do dump de conf.
 ```
 
    Fatos esperados:

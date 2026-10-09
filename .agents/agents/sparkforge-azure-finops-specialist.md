@@ -84,7 +84,9 @@ autonomy: L1
 parent: null
 name: sparkforge-azure-finops-specialist
 description: 'Specialist em FinOps (Cost Management, DBU, capacidade): produz findings
-  do domínio com evidência e unresolved explícito.'
+  do domínio com evidência e unresolved explícito. Use quando a tarefa envolve: cost,
+  custo, finops, billing, dbu, capacity units, reservation, budget.'
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/finops-specialist.md; do not edit -->
 # FinOps (Cost Management, DBU, capacidade) — Specialist

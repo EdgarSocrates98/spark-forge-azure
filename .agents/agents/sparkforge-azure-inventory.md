@@ -67,6 +67,7 @@ parent: null
 name: sparkforge-azure-inventory
 description: Inventaria artefatos disponíveis (repo, exports, coleta opt-in) e declara
   o que falta.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/inventory.md; do not edit -->
 # Inventory

@@ -91,7 +91,10 @@ rule_areas:
 - SF-RTI
 name: sparkforge-azure-streaming-specialist
 description: 'Specialist em Structured Streaming e Fabric RTI: produz findings do
-  domínio com evidência e unresolved explícito.'
+  domínio com evidência e unresolved explícito. Use quando a tarefa envolve: structured
+  streaming, streaming, watermark, checkpoint, foreachbatch, availablenow, readstream,
+  exactly once.'
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/streaming-specialist.md; do not edit -->
 # Structured Streaming e Fabric RTI — Specialist

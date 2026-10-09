@@ -74,6 +74,7 @@ parent: azure-databricks-specialist
 name: sparkforge-azure-databricks-performance-reviewer
 description: Revisa configuração de compute (autoscale, Photon, node type) frente
   a evidência de execução.
+tools: Read, Grep, Glob, Bash
 ---
 <!-- GENERATED from agents/databricks-performance-reviewer.md; do not edit -->
 # databricks-performance-reviewer

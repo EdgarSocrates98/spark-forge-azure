@@ -34,7 +34,8 @@ metadata:
   - knowledge/azure/identity/
   - knowledge/governance/
   tool_refs:
-  - sparkforge-azure analyze adls-acl
+  - sparkforge-azure collect adls-meta
+  - sparkforge-azure collect azure-rbac
   - sparkforge-azure governance diagnose
   - sfa_governance_diagnose
   - sfa_analyze
@@ -42,6 +43,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze adls-acl
   eval_refs:
   - skills/azure-adls/evals/evals.yaml
   source_authority:
@@ -68,9 +71,14 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze adls-acl --path exports/acl/ --out .sparkforge-azure/facts.json
-sparkforge-azure governance diagnose --scenario adls-read-denied --facts .sparkforge-azure/facts.json
+sparkforge-azure collect adls-meta --export exports/adls.json --facts
+sparkforge-azure collect azure-rbac --export exports/rbac.json --facts
+sparkforge-azure governance diagnose --scenario .sparkforge-azure/cenario.yaml
 ```
+
+   Salve a saída dos collectors em `.sparkforge-azure/facts.json` — `judge` aceita o
+   envelope `fact_list`. O cenário de governance é um YAML composto dos artefatos;
+   formato em `examples/governance/uc_external_location_denied.yaml`.
 
    Fatos esperados:
    - role assignments de dados por principal e escopo

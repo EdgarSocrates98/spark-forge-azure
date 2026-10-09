@@ -122,7 +122,7 @@ Máximo 3 specialists por padrão (teto 5); empate segue a ordem da tabela.
 | OneLake (shortcuts, segurança OneLake) | onelake, onelake shortcut, shortcut, onelake security, onelake catalog | `onelake-specialist` |
 | Event Hubs (namespace, partições, Kafka endpoint) | event hubs, event hub, eventhub, eventhubs, kafka endpoint | `event-hubs-specialist` |
 | Spark Structured Streaming / Fabric RTI | structured streaming, streaming, watermark, checkpoint, foreachbatch | `streaming-specialist` |
-| Microsoft Purview (data map, lineage, classificação) | purview, microsoft purview, lineage, data map, scan | `purview-specialist` |
+| Microsoft Purview (data map, lineage, classificação) | purview, microsoft purview, lineage, data map, purview scan | `purview-specialist` |
 | Entra ID, Managed Identity, RBAC, Key Vault | entra, entra id, managed identity, service principal, rbac | `entra-specialist` |
 | Rede (Private Link, DNS, VNet, NSG) | private endpoint, private link, vnet, vnet injection, dns | `networking-specialist` |
 | FinOps (Cost Management, DBU, capacidade) | cost, custo, finops, billing, dbu | `finops-specialist` |

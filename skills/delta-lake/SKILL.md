@@ -35,7 +35,6 @@ metadata:
   knowledge_refs:
   - knowledge/lakehouse/
   tool_refs:
-  - sparkforge-azure analyze delta-log
   - sparkforge-azure lab run
   - sfa_analyze
   - sfa_lab_run
@@ -43,6 +42,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze delta-log
   eval_refs:
   - skills/delta-lake/evals/evals.yaml
   source_authority:
@@ -70,8 +71,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze delta-log --path <tabela>/_delta_log --out .sparkforge-azure/facts.json
-sparkforge-azure lab run delta-merge-small-files   # digital twin determinístico, opcional
+sparkforge-azure lab run iceberg-small-files   # small files em table format (cenário mais próximo; não prova semântica Delta), opcional
+# Sem extrator de _delta_log ainda (planned_tool_refs): fatos de operação/métricas
+# entram em .sparkforge-azure/facts.json montados a mão dos JSON/checkpoint.
 ```
 
    Fatos esperados:

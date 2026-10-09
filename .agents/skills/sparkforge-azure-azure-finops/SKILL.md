@@ -34,14 +34,15 @@ metadata:
   knowledge_refs:
   - knowledge/azure/finops/
   tool_refs:
-  - sparkforge-azure analyze cost-export
-  - sparkforge-azure analyze billing-usage
   - sparkforge-azure collect workspace-graph
   - sfa_analyze
   - sparkforge-azure knowledge select
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze cost-export
+  - sparkforge-azure analyze billing-usage
   eval_refs:
   - skills/azure-finops/evals/evals.yaml
   source_authority:
@@ -70,9 +71,9 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze cost-export --path exports/cost/ --out .sparkforge-azure/facts.json
-sparkforge-azure analyze billing-usage --path exports/system_billing_usage/
-sparkforge-azure collect workspace-graph   # opt-in, read-only, para tags
+sparkforge-azure collect workspace-graph --manifest sparkforge-azure.workspace.yaml --export exports/resource-graph.json   # opt-in, read-only, para tags
+# Sem extrator de custo ainda (planned_tool_refs): fatos de cost export/billing
+# entram em .sparkforge-azure/facts.json montados a mão dos exports (FOCUS/usage).
 ```
 
    Fatos esperados:

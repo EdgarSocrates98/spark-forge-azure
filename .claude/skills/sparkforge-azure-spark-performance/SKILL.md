@@ -37,7 +37,6 @@ metadata:
   knowledge_refs:
   - knowledge/spark/
   tool_refs:
-  - sparkforge-azure analyze spark-eventlog
   - sparkforge-azure analyze pyspark
   - sparkforge-azure lab run
   - sparkforge-azure lab verify
@@ -47,6 +46,8 @@ metadata:
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze spark-eventlog
   eval_refs:
   - skills/spark-performance/evals/evals.yaml
   source_authority:
@@ -75,10 +76,11 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze spark-eventlog --path eventlogs/<app-id> --out .sparkforge-azure/facts.json
-sparkforge-azure analyze pyspark --path <repo>
-sparkforge-azure lab run skew-join --facts .sparkforge-azure/facts.json
-sparkforge-azure lab verify --run <run-id>
+sparkforge-azure analyze pyspark --path <repo> --out .sparkforge-azure/facts.json
+sparkforge-azure lab run spark-skew   # digital twin determinístico, opcional
+sparkforge-azure lab verify
+# Sem extrator de event log ainda (planned_tool_refs): fatos de stage/task/skew/
+# spill completam o facts.json montados a mão do eventlog exportado.
 ```
 
    Fatos esperados:

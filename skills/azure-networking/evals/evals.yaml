@@ -9,7 +9,7 @@ cases:
   must_not_include:
   - o private endpoint resolve tudo
   expected_tools:
-  - sparkforge-azure analyze network-topology
+  - sparkforge-azure governance diagnose
 - id: azure-networking-isolated
   prompt: Minha rede está totalmente isolada?
   must_include:
@@ -27,7 +27,7 @@ cases:
   must_not_include:
   - dns está correto
   expected_tools:
-  - sparkforge-azure analyze network-topology
+  - sparkforge-azure governance diagnose
   - sfa_analyze
 - id: azure-networking-rbac-negative
   kind: negative
@@ -48,4 +48,4 @@ cases:
   must_not_include:
   - a rede esta descartada como causa
   expected_tools:
-  - sparkforge-azure analyze network-topology
+  - sparkforge-azure governance diagnose

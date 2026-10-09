@@ -31,13 +31,14 @@ metadata:
   - knowledge/azure/fabric/
   - knowledge/azure/eventhubs/
   tool_refs:
-  - sparkforge-azure analyze fabric-eventstream
-  - sparkforge-azure analyze fabric-item
   - sfa_analyze
   - sparkforge-azure knowledge select
   - sparkforge-azure judge
   - sfa_knowledge_select
   - sfa_judge
+  planned_tool_refs:
+  - sparkforge-azure analyze fabric-eventstream
+  - sparkforge-azure analyze fabric-item
   eval_refs:
   - skills/fabric-realtime/evals/evals.yaml
   source_authority:
@@ -64,8 +65,8 @@ Evidence-first: cada passo produz artefato rastreável; nada é concluído de me
 2. **Extrair fatos** (offline, sem executar código analisado):
 
 ```bash
-sparkforge-azure analyze fabric-eventstream --path fabric-workspace/eventstreams/ --out .sparkforge-azure/facts.json
-sparkforge-azure analyze fabric-item --path fabric-workspace/
+# Sem extrator de eventstream/item ainda (planned_tool_refs): fatos entram em
+# .sparkforge-azure/facts.json montados a mão do workspace export do Fabric.
 ```
 
    Fatos esperados:
