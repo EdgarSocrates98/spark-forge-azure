@@ -37,8 +37,10 @@ acceptance:
     ref: tests/test_recall_economy_gate.py::test_tree_economy_is_measured
 - id: AC4
   statement: 'escore de simbolo composto: quem pede `run_case` recebe
-    `run_case` — tokens do nome como fatia contigua dos literais, sem
-    ecoar identificador cru no pack publicado'
+    `run_case` — tokens do nome como fatia contigua dos literais, OU
+    igualdade direta do identificador composto quando stopword quebra a
+    fatia (`impact_for` → literais `[impact]`), sem ecoar identificador
+    cru no pack publicado'
   verified_by:
     kind: test
     ref: tests/test_codeintel_context.py::test_o_texto_da_tarefa_nao_e_ecoado
@@ -71,8 +73,20 @@ Dois artefatos novos:
 2. `recall.medir_arvore(raiz, simbolos)` — um indice compartilhado para
    N perguntas (indexar por pergunta inflaria 225 indexacoes iguais).
 
-A medicao expôs defeito real de retrieval: `exact_name` comparava o nome
-normalizado inteiro contra literais que sao palavras quebradas — `run_case`
-nunca casava com `{run, case}`. Correcao: igualdade por tokens do nome como
-fatia contigua dos literais, sem publicar o identificador cru (o pack nao
-pode ecoar texto da pergunta — `test_o_texto_da_tarefa_nao_e_ecoado`).
+A medicao expôs defeito real de retrieval, em duas iteracoes medidas:
+
+1. `exact_name` comparava o nome normalizado inteiro contra literais
+   quebrados — `run_case` nunca casava com `{run, case}` (209/225 →
+   220/225). Correcao: fatia contigua de tokens + frase FTS por
+   identificador composto, via `_identificadores(tarefa)` — buscado,
+   nunca publicado em `expansao.literais`.
+2. Stopword no meio do nome quebrava a fatia — `impact_for` expande para
+   `[impact]` porque `for` e stopword, e `[impact, for]` nao e fatia de
+   `[impact]`; o proprio `impact` vencia por `nome in literais`
+   (220/225 → 224/226). Correcao: `escore(..., identificadores=)` casa o
+   nome normalizado contra o identificador composto da pergunta —
+   igualdade no escore, nao na expansao publicada.
+
+Residuais nomeados e mantidos: `codeintel/extract.py::No` (stopword
+integra — pergunta filtrada inteira) e `collectors/unity_catalog.py::
+collect_live` (ambiguo — 4 collectors definem o mesmo nome).

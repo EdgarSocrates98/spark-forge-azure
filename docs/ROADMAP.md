@@ -336,3 +336,27 @@ o blocker #1 do freeze era resolvivel de verdade:
 - Correcao real achada pela paridade: `_no_nivel` so media `symbols` —
   `score_breakdown` tambem vive em `entry_points`; `summary` agora reduz
   9.6% medido (13976 vs 15464 bytes).
+
+## Estado medido — pos-freeze (retrieval de identificador composto) — **DELIVERED**
+
+`feat/cycle7-retrieval-docs`. Segunda iteracao medida do gate de economia
+na arvore (SDD `TREE_ECONOMY_MEASUREMENT`, AC4):
+
+- Escore `exact_name` por fatia contigua falhava quando **stopword no meio
+  do nome** quebrava a fatia: `impact_for` expande para literais `[impact]`
+  (`for` e stopword) e `[impact, for]` nao e fatia de `[impact]` — o
+  simbolo errado (`impact`) vencia por igualdade com literal solto.
+- Fix: `escore(..., identificadores=)` — igualdade do nome normalizado
+  contra o identificador composto da pergunta, passado por parametro;
+  `_identificadores(tarefa)` ja alimentava a busca de frase FTS em
+  `_candidatos()`. Nada e publicado em `expansao.literais` (o invariante
+  "pack nao ecoa texto cru da pergunta" segue coberto por teste).
+- Recall nominal na arvore: **221/226 -> 224/226** medido. Residuais
+  honestos e nomeados no gate: `codeintel/extract.py::No` (stopword
+  integra — a expansao filtra a pergunta inteira) e
+  `collectors/unity_catalog.py::collect_live` (ambiguo — 4 collectors
+  definem o mesmo nome; o pack carrega um dos irmaos).
+- `azure/memory.py` permanece declarado `doc-only`: nenhum consumidor
+  real existe hoje — o retrieve/record e um adaptador pronto para a
+  camada agêntica; ligar `diagnose` (verbo read-only) a escrita de
+  `.sparkforge-azure/memory/` seria decisao de produto, nao bug.

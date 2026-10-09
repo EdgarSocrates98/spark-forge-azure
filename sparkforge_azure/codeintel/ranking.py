@@ -61,7 +61,7 @@ sinal e que nao muda, e ranking nao o inverte. Nao e para isso que ele existe.
 from __future__ import annotations
 
 import unicodedata
-from collections.abc import Mapping
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -347,6 +347,7 @@ def escore(
     *,
     posicao_fts: int = 0,
     profundidade_no_grafo: int | None = None,
+    identificadores: Sequence[str] = (),
 ) -> Escore:
     """O escore composto de `achado` para `expansao`.
 
@@ -376,9 +377,18 @@ def escore(
     # porque ordem conta. Nome de UMA palavra ja e coberto por `nome in
     # literais` -- inclui-lo aqui daria bonus exato a `run` e `case` soltos,
     # e medido: a inflacao derrubava o composto do topo (209/225 -> 215/225).
+    # `impact_for` expande para literais que podem perder um token para
+    # stopword (`for`) -- e entao `[impact, for]` nao e fatia contigua de
+    # `[impact]`. O identificador composto da pergunta ja chega ao FTS
+    # como frase via `_identificadores`; dar-lhe igualdade exata aqui e o
+    # mesmo match, so que no escore: quem pede `impact_for` pede o
+    # simbolo inteiro, nao `impact`. Nada e publicado -- `literais`
+    # continua sem o identificador cru.
+    nomes_identificadores = {_normalizar(i) for i in identificadores}
     tokens_do_nome = _tokens(achado.name)
     exact = PESO_EXACT_NAME if (
         nome in literais
+        or nome in nomes_identificadores
         or (len(tokens_do_nome) > 1
             and _contido_adjacente(tokens_do_nome, expansao.literais))
     ) else 0
