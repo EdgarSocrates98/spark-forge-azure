@@ -126,14 +126,25 @@ class AgentExecutionReceipt:
 
 
 def _spawn_request(
-    agent_id: str, case: dict[str, Any], root: Path | str
+    agent_id: str, case: dict[str, Any], root: Path | str,
+    state: CaseState | None = None,
 ) -> AgentSpawnRequestV2:
-    """§25-26 — resolve manifest contract antes do spawn."""
+    """§25-26 — resolve manifest contract antes do spawn.
+
+    O contexto do estagio acumula o que estagios anteriores produziram
+    (proposed_findings, unresolved) — o verifier ve o que o specialist
+    propos (§34), o synthesizer ve o estado, nunca transcript cru (§38).
+    """
     data = parse_manifest(Path(root) / "agents" / f"{agent_id}.md").data
+    context = dict(case.get("context") or {})
+    if state is not None:
+        context.setdefault("proposed_findings", list(state.provisional_findings))
+        context.setdefault("prior_unresolved", list(state.unresolved))
+        context.setdefault("conflicts", list(state.conflicts))
     return AgentSpawnRequestV2(
         agent_id=agent_id,
         task=str(case.get("task") or case.get("query") or agent_id),
-        context=dict(case.get("context") or {}),
+        context=context,
         context_refs=tuple(case.get("context_refs") or ()),
         allowed_tools=tuple(data.get("allowed_tools") or ()),
         budget_tokens=case.get("budget_tokens"),
@@ -201,6 +212,7 @@ def run_case(
     root: Path | str = ".",
     max_specialists: int = 2,
     prior: AgentExecutionReceipt | None = None,
+    allowed: set[str] | None = None,
 ) -> AgentExecutionReceipt:
     """Executa o fluxo canonico §24 sobre um case.
 
@@ -233,6 +245,9 @@ def run_case(
     # dedup preservando ordem (specialists repetem a espinha)
     seen: set[str] = set()
     pipeline = [s for s in stages_plan if not (s in seen or seen.add(s))]
+    # §51 — configs A/B/C/D restringem quais estagios entram
+    if allowed is not None:
+        pipeline = [s for s in pipeline if s in allowed]
 
     ctx = SpawnContext(
         routed_specialists=tuple(specialists),
@@ -269,7 +284,7 @@ def run_case(
                 agent_id, decision.decision, decision.reason, None,
                 stage_fingerprint=sfp))
             continue
-        request = _spawn_request(agent_id, case, root)
+        request = _spawn_request(agent_id, case, root, state)
         state.agents_spawned.append(agent_id)
         state.budgets[agent_id] = request.budget_tokens
         result = adapter.spawn_agent(request)

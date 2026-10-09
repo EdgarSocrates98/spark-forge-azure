@@ -1,0 +1,275 @@
+{
+  "case_id": "streaming-lag",
+  "runtime": "generic",
+  "results": {
+    "A": {
+      "case_id": "streaming-lag",
+      "configuration": "A",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "event-hubs:checkpoint-vs-processing-bottleneck",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:event-hubs:checkpoint-vs-processing-bottleneck",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.3971,
+      "tool_calls": 0,
+      "context_bytes": 68,
+      "degraded": true
+    },
+    "B": {
+      "case_id": "streaming-lag",
+      "configuration": "B",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "event-hubs-specialist",
+        "judge",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "event-hubs:checkpoint-vs-processing-bottleneck",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "event-hubs-specialist:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:event-hubs:checkpoint-vs-processing-bottleneck",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:event-hubs-specialist:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4287,
+      "tool_calls": 0,
+      "context_bytes": 68,
+      "degraded": true
+    },
+    "C": {
+      "case_id": "streaming-lag",
+      "configuration": "C",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "event-hubs-specialist",
+        "judge",
+        "verifier",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "event-hubs:checkpoint-vs-processing-bottleneck",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "event-hubs-specialist:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:event-hubs:checkpoint-vs-processing-bottleneck",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:event-hubs-specialist:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4129,
+      "tool_calls": 0,
+      "context_bytes": 68,
+      "degraded": true
+    },
+    "D": {
+      "case_id": "streaming-lag",
+      "configuration": "D",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "event-hubs-specialist",
+        "judge",
+        "verifier",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "event-hubs:checkpoint-vs-processing-bottleneck",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "event-hubs-specialist:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:event-hubs:checkpoint-vs-processing-bottleneck",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:event-hubs-specialist:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4091,
+      "tool_calls": 0,
+      "context_bytes": 68,
+      "degraded": true
+    }
+  },
+  "value_vectors": {
+    "A": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": 0,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.0
+    },
+    "B": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": -2,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.0316
+    },
+    "C": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": -2,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.0158
+    },
+    "D": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": -2,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.012
+    }
+  },
+  "necessity": {
+    "A": "NEUTRAL",
+    "B": "UNRESOLVED",
+    "C": "UNRESOLVED",
+    "D": "UNRESOLVED"
+  },
+  "quality_frontier": [
+    {
+      "config": "A",
+      "quality": 0,
+      "latency_s": 0.3971
+    },
+    {
+      "config": "B",
+      "quality": 0,
+      "latency_s": 0.4287
+    },
+    {
+      "config": "C",
+      "quality": 0,
+      "latency_s": 0.4129
+    },
+    {
+      "config": "D",
+      "quality": 0,
+      "latency_s": 0.4091
+    }
+  ]
+}

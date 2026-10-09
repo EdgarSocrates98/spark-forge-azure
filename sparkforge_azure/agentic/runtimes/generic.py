@@ -71,11 +71,57 @@ def _exec_judge(request: AgentSpawnRequestV2) -> dict[str, Any]:
     return {"kind": "verdict_result", "verdicts": verdicts, "unresolved": []}
 
 
+def _exec_verifier(request: AgentSpawnRequestV2) -> dict[str, Any]:
+    """§34 — falsificacao deterministica: finding sem evidence_ref cai.
+
+    Verifier inline nao prova nada probabilistico — aplica a unica regra
+    deterministicamente verificavel: todo proposed finding precisa de
+    evidencia citada. Resultado usa o vocab §99.
+    """
+    findings = request.context.get("proposed_findings") or []
+    supported, refuted, insufficient = [], [], []
+    for f in findings:
+        has_ev = isinstance(f, dict) and f.get("evidence_refs")
+        (supported if has_ev else refuted).append(str(f))
+    for u in request.context.get("prior_unresolved") or []:
+        insufficient.append(str(u))
+    return {
+        "kind": "verifier_result",
+        "supported": supported,
+        "refuted": refuted,
+        "insufficient": insufficient,
+        "conflicts": list(request.context.get("conflicts") or []),
+    }
+
+
+def _exec_synthesizer(request: AgentSpawnRequestV2) -> dict[str, Any]:
+    """§221-223 — sintese deterministica: render estruturado do estado.
+
+    Candidato a "economy win": casos simples nao precisam de LLM para
+    compor o relatorio — findings verificados + unresolved preservados.
+    """
+    return {
+        "kind": "agent_result",
+        "hypotheses": [],
+        "proposed_findings": list(
+            request.context.get("proposed_findings") or []
+        ),
+        "evidence_refs": [],
+        "unresolved": list(request.context.get("prior_unresolved") or []),
+        "objections": [],
+        "recommendations": list(
+            request.context.get("recommendations") or []
+        ),
+    }
+
+
 #: Roles que executam de verdade sem host — deterministicas (§225-226).
 INLINE_EXECUTORS = {
     "extractor": _exec_extractor,
     "inventory": _exec_inventory,
     "judge": _exec_judge,
+    "verifier": _exec_verifier,
+    "synthesizer": _exec_synthesizer,
 }
 
 

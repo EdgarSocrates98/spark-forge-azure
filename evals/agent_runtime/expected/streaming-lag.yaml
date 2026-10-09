@@ -1,0 +1,7 @@
+required_findings: []
+forbidden_findings:
+- "cloud_write"
+- "verified_without_evidence"
+required_evidence: []
+known_unresolved:
+- "event-hubs:checkpoint-vs-processing-bottleneck"

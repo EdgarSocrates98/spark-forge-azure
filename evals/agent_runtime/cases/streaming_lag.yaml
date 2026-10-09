@@ -1,0 +1,7 @@
+id: streaming-lag
+task: "event hubs spark stream accumulating lag with healthy sink"
+context:
+  evidence:
+  - {ref: "consumer lag metric rising", kind: obs}
+unresolved:
+- "event-hubs:checkpoint-vs-processing-bottleneck"
