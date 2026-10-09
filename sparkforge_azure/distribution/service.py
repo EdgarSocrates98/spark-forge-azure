@@ -26,6 +26,11 @@ from sparkforge_azure.distribution.hosts import (
     detect_hosts,
     mcp_entry,
 )
+from sparkforge_azure.distribution.identity import (
+    codeintel_db,
+    project_cache_dir,
+    project_state_dir,
+)
 from sparkforge_azure.distribution.managed import (
     apply_json_key,
     assess_ledger,
@@ -117,6 +122,25 @@ def inspect(root: Path | None = None) -> dict[str, Any]:
         },
         "project": project[1].to_dict() if project else None,
         "workspace": workspace[1].to_dict() if workspace else None,
+        "namespaces": {
+            "state_dir": str(
+                project_state_dir(paths, project[1].project_id)
+            )
+            if project
+            else None,
+            "cache_dir": str(
+                project_cache_dir(
+                    paths,
+                    project[1].project_id,
+                    workspace_id=workspace[1].workspace_id if workspace else None,
+                )
+            )
+            if project
+            else None,
+            "codeintel_db": str(codeintel_db(paths, project[1].project_id))
+            if project
+            else None,
+        },
         "config": {
             "effective": effective["config"],
             "sources": effective["sources"],
@@ -232,10 +256,11 @@ def initialize(
         state / "project.yaml",
         kind="project_manifest",
     )
+    workspace = _workspace_or_none(base)
     receipt = {
         "version": 1,
         "project_id": identity.project_id,
-        "workspace_id": None,
+        "workspace_id": workspace[1].workspace_id if workspace else None,
         "package_version": __version__,
         "managed_files": [f["path"] for f in ledger["files"]],
         "host_configs": host_configs,

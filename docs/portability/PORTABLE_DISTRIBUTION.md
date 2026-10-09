@@ -42,6 +42,31 @@ resolvem contra a raiz *atual*). Cópia intencional usa `init --regen-id` —
 registrado no receipt, nunca silencioso. O modelo api-forge (`sha256(path)`)
 foi rejeitado no audit (D1).
 
+`workspace add` separa os dois casos (W3):
+
+- **Relocação**: o path antigo declarado **não existe mais** → `action:
+  relocated`, manifest atualizado para a nova localização, mesma identidade.
+- **Cópia/clone**: o path antigo **ainda existe** e o candidato traz o mesmo
+  `project_id` → `identity_collision` com unlock
+  `distribution init --regen-id` na cópia (ou `workspace remove` na antiga).
+  Dois diretórios vivos nunca dividem um `project_id` em silêncio.
+- **Path ocupado**: path já declarado por **outro** id → `identity_collision`.
+
+### Namespaces lógicos
+
+Quando `SPARKFORGE_AZURE_STATE_DIR`/`SPARKFORGE_AZURE_CACHE` apontam um root
+**compartilhado** (vários projetos), o estado é namespaced pelo id lógico —
+nunca pelo path absoluto:
+
+```
+<state_root>/projects/<project_id>/…        inclui local/codeintel/graph.sqlite3
+<cache_root>/<workspace_id>/projects/<project_id>/…
+```
+
+Sem override, o layout clássico `<projeto>/.sparkforge-azure/` é preservado
+(root já é por-projeto, namespacing seria redundante). `inspect` reporta os
+três (`namespaces.state_dir|cache_dir|codeintel_db`) com o projeto resolvido.
+
 ## Paths com fonte registrada (§45)
 
 `resolve_paths` emite valor + `source` ∈ `default|environment|discovery|argument`:

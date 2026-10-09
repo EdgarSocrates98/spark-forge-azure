@@ -47,6 +47,13 @@ config: {}                   # camada workspace da precedência de config
   `workspace add` cria a identidade portátil do alvo se ausente
   (`initialized_target: true` — única escrita fora do root, e é a ação
   explícita do comando).
+- **`add` distingue relocated de cópia** (W3). Resultado carrega `action` ∈
+  `added | kept | relocated`:
+  - mesmo id, path novo e path antigo **sumiu** → `relocated`
+    (`relocated_from` registrado);
+  - mesmo id, path novo e path antigo **existe** → `identity_collision` —
+    cópia deliberada desbloqueia com `distribution init --regen-id` na cópia;
+  - path já declarado por **outro** id → `identity_collision`.
 
 ## Locality (base da resolução de contexto — W4)
 

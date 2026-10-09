@@ -322,6 +322,24 @@ def workspace_add(
             unlock="remove the duplicate declaration first",
         )
     existing = ws.project(pid)
+    relocated_from: str | None = None
+    if existing is not None:
+        previous = resolve_declared_path(existing.path, ws_root)
+        if previous != candidate:
+            if previous.is_dir():
+                # Two live dirs claiming one id: a copy/clone. Never merge
+                # silently — the copy needs its own identity (§41–§43).
+                raise PortableError(
+                    "identity_collision",
+                    f"project_id {pid!r} is already declared at "
+                    f"{previous} and that directory still exists; "
+                    f"{candidate} looks like a copy",
+                    unlock="run `distribution init --regen-id` in the copy to "
+                    "mint its own identity, or `workspace remove` the old one",
+                )
+            # The old location is gone: this add records the relocation —
+            # same identity, new resolved location (§40).
+            relocated_from = existing.path
     decl = ProjectDecl(
         id=pid,
         path=str(candidate) if _is_external(candidate, ws_root) else _rel(candidate, ws_root),
@@ -341,7 +359,8 @@ def workspace_add(
     cycles = detect_cycles(ws)
     return {
         "status": "ok" if not cycles else "degraded",
-        "action": action,
+        "action": "relocated" if relocated_from else action,
+        "relocated_from": relocated_from,
         "project": decl.to_dict(),
         "resolved_path": str(candidate),
         "external": _is_external(candidate, ws_root),
