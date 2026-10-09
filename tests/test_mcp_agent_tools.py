@@ -35,10 +35,15 @@ def test_sfa_agents_explain_route() -> None:
 
 def test_agent_tools_are_read_only() -> None:
     load_all()
-    for name in ("sfa_agents_list", "sfa_agents_explain_route"):
+    for name in sorted(n for n in TOOLS if "agent" in n):
         spec = TOOLS[name]
         assert spec.risk.read_only is True
         assert spec.risk.local_write is False
         assert spec.risk.cloud_read is False
     agent_tools = sorted(n for n in TOOLS if "agent" in n)
-    assert agent_tools == ["sfa_agents_explain_route", "sfa_agents_list"]
+    assert agent_tools == [
+        "sfa_agents_execution_explain",
+        "sfa_agents_explain_route",
+        "sfa_agents_list",
+        "sfa_agents_runtimes",
+    ]
