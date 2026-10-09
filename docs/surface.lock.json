@@ -74,7 +74,12 @@
    "tokensave refs",
    "tokensave search",
    "tokensave symbols",
-   "version"
+   "version",
+   "workspace add",
+   "workspace discover",
+   "workspace init",
+   "workspace remove",
+   "workspace status"
   ]
  },
  "knowledge": {

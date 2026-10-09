@@ -254,6 +254,24 @@ Estado e cache: `.sparkforge-azure/` (projeto), override por
 `SPARKFORGE_AZURE_STATE_DIR` / `SPARKFORGE_AZURE_CACHE`. Nada é escrito fora
 do projeto ou dos overrides explícitos.
 
+## `sparkforge-azure workspace <op>` — ForgeWorkspace
+
+Agrupamento lógico de projetos — **não** é Azure/Databricks/Fabric
+Workspace. Manifesto em `.sparkforge-azure/workspace.yaml`, data-only,
+determinístico e offline. Todos aceitam `--root` (default: cwd).
+
+| Op | Uso |
+|---|---|
+| `discover` | sugere candidatos (cwd, ancestrais limitados, filhos declarados e do root) — nunca escreve; `workspace add` confirma |
+| `init` | cria `workspace.yaml` (`workspace_id` `sfw-*`) + registra o projeto hospedeiro como `default_target`; idempotente; `--name` |
+| `add <path>` | declara repo membro: relativo ao root ou absoluto (externo = declarado explicitamente); cria a identidade portátil do alvo se ausente (`initialized_target`); `--role`, `--depends-on ID...`, `--optional ID...` |
+| `remove <id>` | remove só a declaração e as arestas de entrada — nunca deleta o repositório |
+| `status` | projetos declarados × resolução + `dependency_cycles`; estados `ok`/`degraded`/`dependency_cycle` |
+
+Roles: `application|data|infra|shared|tests|docs`. Dependências declaradas
+são `direct` ou `optional`; `transitive` é derivado na leitura. Identidade
+nunca vem de path — `workspace add` usa o `project.yaml` do alvo.
+
 ## Exit codes
 
 | Código | Significado |
