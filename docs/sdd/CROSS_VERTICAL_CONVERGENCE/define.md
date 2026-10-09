@@ -45,7 +45,8 @@ acceptance:
   statement: 'testes de contaminacao: facts nao cruzam namespace entre
     verticais; nos de grafo nao carregam marcador estrangeiro; memoria
     so pontua ambiente quando o fingerprint bate; trust permanece
-    data_only nos quatro verticais'
+    data_only nos quatro verticais; caso Fabric/Migration/Stream roteia
+    o specialist do proprio vertical, nunca o de outro (§114)'
   verified_by:
     kind: test
     ref: tests/test_cross_vertical_convergence.py::test_contaminacao_de_memoria

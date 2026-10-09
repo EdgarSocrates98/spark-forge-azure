@@ -130,3 +130,112 @@ def test_trust_nunca_elevado_nos_quatro_verticais():
         trust = result["trust"]
         assert trust["instruction_authority"] == "data_only"
         assert trust["taint"] == "external"
+
+
+# --- §109-110: large synthetic workspace + relevant-slice ---
+
+_DOMINIOS = {
+    "databricks": [
+        ("unity_catalog_grant.py", "check_uc_grant", "unity catalog grant"),
+        ("adls_acl.py", "check_adls_acl", "adls acl permission"),
+        ("cluster_policy.py", "validate_cluster_policy", "cluster policy"),
+        ("workspace_binding.py", "bind_workspace_catalog", "workspace binding"),
+        ("storage_credential.py", "audit_storage_credential", "credential"),
+    ],
+    "fabric": [
+        ("onelake_shortcut.py", "resolve_shortcut", "onelake shortcut"),
+        ("capacity_throttle.py", "detect_throttle", "capacity throttling"),
+        ("workspace_role.py", "check_workspace_role", "workspace role"),
+        ("spark_job_def.py", "validate_sjd", "spark job definition"),
+        ("lakehouse_schema.py", "list_lakehouse_tables", "lakehouse tables"),
+    ],
+    "streaming": [
+        ("checkpoint_store.py", "recover_checkpoint", "stream checkpoint"),
+        ("consumer_lag.py", "measure_lag", "consumer lag"),
+        ("eventhub_auth.py", "check_eh_authz", "event hubs authorization"),
+        ("watermark.py", "compute_watermark", "watermark"),
+        ("sink_delivery.py", "verify_exactly_once", "delivery semantics"),
+    ],
+    "migration": [
+        ("adf_inventory.py", "list_adf_pipelines", "adf pipeline inventory"),
+        ("ssis_compat.py", "ssis_readiness", "ssis compatibility"),
+        ("linked_service.py", "map_linked_service", "linked service mapping"),
+        ("synapse_notebook.py", "convert_synapse_notebook", "synapse notebook"),
+        ("wave_planner.py", "plan_migration_waves", "migration waves"),
+    ],
+    "unrelated": [
+        ("hello.py", "hello_world", "hello"),
+        ("utils_math.py", "fibonacci", "fibonacci"),
+        ("readme_gen.py", "render_readme", "readme"),
+        ("csv_parse.py", "parse_csv", "csv parser"),
+        ("sorts.py", "quicksort", "quicksort"),
+    ],
+}
+
+_QUERIES = {
+    "databricks": "unity catalog grant",
+    "fabric": "onelake shortcut",
+    "streaming": "consumer lag checkpoint",
+    "migration": "adf pipeline inventory",
+}
+
+
+def _corpus_sintetico(tmp_path: Path) -> Path:
+    """§109: corpus sintetico com os 4 dominios + arquivos nao relacionados."""
+    corpus = tmp_path / "corpus"
+    for dominio, modulos in _DOMINIOS.items():
+        (corpus / dominio).mkdir(parents=True)
+        for arquivo, simbolo, doc in modulos:
+            (corpus / dominio / arquivo).write_text(
+                f'def {simbolo}():\n    """{doc}"""\n    return True\n',
+                encoding="utf-8")
+    return corpus
+
+
+def _paths_do_pack(pacote: dict) -> set[str]:
+    return {str(s.get("path", ""))
+            for s in (*pacote.get("entry_points", ()),
+                      *pacote.get("symbols", ()))}
+
+
+def test_large_workspace_materializa_so_a_fatia_relevante(tmp_path):
+    """§109-110: consulta de um dominio materializa so a fatia daquele
+    dominio — nenhum simbolo de outro dominio entra no pack."""
+    from sparkforge_azure.codeintel.context import montar
+    from sparkforge_azure.codeintel.index import indexar
+
+    corpus = _corpus_sintetico(tmp_path)
+    banco = tmp_path / "idx.sqlite3"
+    indexar(corpus, banco)
+    for dominio, consulta in _QUERIES.items():
+        pacote = montar(banco, consulta).para_dicionario()
+        paths = _paths_do_pack(pacote)
+        assert paths, f"{dominio}: pack vazio para '{consulta}'"
+        for path in paths:
+            topo = path.replace("\\", "/").split("/", 1)[0]
+            assert topo == dominio, (
+                f"consulta '{consulta}' trouxe '{path}' "
+                f"fora da fatia '{dominio}/'")
+
+
+def test_contaminacao_de_agente():
+    """§114: caso Fabric nunca despacha unity-catalog-specialist; migracao
+    nunca despacha streaming-specialist. Rotas seguem o findings_area."""
+    from sparkforge_azure.case.router import next_step
+    from sparkforge_azure.case.store import new_case, set_phase
+
+    runtime = {"databricks_runtime": "15.4", "spark": "3.5.0"}
+    caso = set_phase(new_case("c", "2026-07-29T00:00:00Z", runtime),
+                     "diagnosis")
+
+    step = next_step(caso, ["SF-FAB-001"])
+    assert step["recommended_agent"] == "fabric-specialist"
+
+    step = next_step(caso, ["SF-MIG-002"])
+    assert step["recommended_agent"] == "migration-specialist"
+
+    step = next_step(caso, ["SF-STR-LOSS-RISK"])
+    assert step["recommended_agent"] == "streaming-specialist"
+
+    step = next_step(caso, ["SFA-GOV-000"])
+    assert step["recommended_agent"] in (None, "unity-catalog-specialist")

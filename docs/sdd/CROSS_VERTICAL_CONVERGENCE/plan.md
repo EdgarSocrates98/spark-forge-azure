@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/CROSS_VERTICAL_CONVERGENCE/design.md
-  sha256: "f23c40e2e355c79e77d55579dea671e4e86b2485aae4625b0af489a179c1a157"
+  sha256: "2659f204f54e9a55671929639daefb3a964bdfc3aeec039ce149244c55436ddb"
 tasks:
 - id: T1
   files:
@@ -37,6 +37,7 @@ tasks:
     name: test_lab_all_cells_pass
 - id: T4
   files:
+  - sparkforge_azure/case/router.py
   - tests/test_cross_vertical_convergence.py
   covers: [AC4]
   test:

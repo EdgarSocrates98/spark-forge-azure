@@ -6,7 +6,7 @@ profile: dev
 status: done
 upstream:
   path: docs/sdd/CROSS_VERTICAL_CONVERGENCE/define.md
-  sha256: "dc1820037f79ae21d7e6fa5493f46968f897dd7be5dc13aec4338ba5e4f66f81"
+  sha256: "6528f827a8fd202c1ac1218ea05e66d39b8ac18823b0528a71ae21addf698ea1"
 files:
 - path: sparkforge_azure/azure/fingerprint.py
   action: create
@@ -32,6 +32,13 @@ files:
   action: create
   reason: executor do lab — roda cada caso em cada profile, valida
     contrato, reporta violacoes nomeadas (nunca agregadas a um score)
+- path: sparkforge_azure/case/router.py
+  action: modify
+  reason: '_count_finding_area casa sub-area com fronteira de hifen —
+    o lab §114 mediu que findings descritivos do stream
+    (SF-STR-LOSS-RISK -> area SF-STR-LOSS) nunca casavam
+    findings_area: SF-STR, logo o streaming-specialist ficava sem rota
+    para os findings reais do proprio vertical'
 - path: tests/test_cross_vertical_convergence.py
   action: create
   reason: gate pytest — 20 celulas + contaminacao de dominio/grafo/
@@ -79,3 +86,8 @@ o lab torna a convergencia verificavel para sempre:
   facts, facts citam fontes), sem forcar campos que o vertical nao tem.
 - O runner nao produz score magico: cada violacao e uma linha nomeada
   com caso, profile e campo. `ok` = zero violacoes.
+- Bug real medido pelo lab: `area_of("SF-STR-LOSS-RISK")` = `SF-STR-LOSS`,
+  que nao casava `findings_area: SF-STR` — o teste de contaminacao de
+  agente falhou de verdade antes de passar. O match de area agora aceita
+  sub-area (`X-` prefixo), com fronteira de hifen para nao casar
+  prefixos textuais acidentais.
