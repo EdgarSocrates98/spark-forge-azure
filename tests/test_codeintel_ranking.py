@@ -369,3 +369,49 @@ def test_peso_de_lineage_e_zero_declarado_e_nao_omitido():
     medido = escore(_achado(name="ler_tabela"), expandir("tabela"))
     assert medido.lineage == 0
     assert "lineage" in medido.__dataclass_fields__
+
+
+def test_identificador_composto_com_stopword_casa_por_igualdade():
+    """`impact_for` expande para `[impact]` — `for` e stopword.
+
+    A fatia contigua `[impact, for]` nunca cabe em `[impact]`, entao sem o
+    parametro `identificadores` o simbolo `impact` (igualdade com literal
+    solto) vencia `impact_for` — medido: 220/225 -> 224/226 na arvore. O
+    identificador cru chega ao escore por parametro, nao por
+    `expansao.literais` — publicar seria ecoar a pergunta no pack.
+    """
+    expansao = expandir("impact_for")
+    assert "impact_for" not in expansao.literais
+    composto = escore(
+        _achado(name="impact_for"), expansao, identificadores=("impact_for",)
+    )
+    solto = escore(_achado(name="impact"), expansao,
+                   identificadores=("impact_for",))
+    assert composto.exact_name > 0
+    assert solto.exact_name > 0  # `impact` continua casando o literal
+    assert composto.total == solto.total or composto.total > solto.total
+
+
+def test_identificadores_nao_publica_nem_infla_nome_simples():
+    """O kwarg e opt-in e nunca infla nome simples.
+
+    `run` ja casa o literal `run` da expansao de `run_case` — passar o
+    identificador composto nao muda o escore dele (o nome simples nao
+    esta em `nomes_identificadores`, e o caminho por literal ja deu o
+    mesmo peso). E quem nao passa `identificadores` mantem o escore
+    estrito de literais.
+    """
+    expansao = expandir("run_case")
+    composto_sem = escore(_achado(name="run_case"), expansao)
+    composto_com = escore(
+        _achado(name="run_case"), expansao, identificadores=("run_case",)
+    )
+    simples_sem = escore(_achado(name="run"), expansao)
+    simples_com = escore(
+        _achado(name="run"), expansao, identificadores=("run_case",)
+    )
+    assert composto_com.exact_name > 0
+    assert composto_com.exact_name >= composto_sem.exact_name
+    # `run` ja casa o literal `run` — o identificador nao infla nem zera:
+    # o escore do nome simples e identico com ou sem o kwarg.
+    assert simples_com.exact_name == simples_sem.exact_name

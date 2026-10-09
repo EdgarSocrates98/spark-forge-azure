@@ -96,4 +96,8 @@ def test_tree_economy_is_measured():
     # Recall nominal da arvore e reportado com falhas NOMEADAS -- queda
     # significa que o retrieval perdeu simbolo publico pedido pelo nome.
     r = ea["recall_nominal"]
-    assert r["passou"] >= 215  # 220 medido; residuais nomeados no bloco
+    # 224/226 medido. Residuais nomeados e legitimos: `codeintel/extract.py::No`
+    # (stopword -- a expansao filtra a pergunta inteira) e
+    # `collectors/unity_catalog.py::collect_live` (ambiguo -- 4 collectors
+    # definem o mesmo nome e o pack carrega um dos irmaos).
+    assert r["passou"] >= 224

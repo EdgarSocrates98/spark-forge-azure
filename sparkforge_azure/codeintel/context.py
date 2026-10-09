@@ -766,15 +766,17 @@ def montar(
     """
     orcamento = budget.normalizar_orcamento(max_bytes)
     expansao = expandir(tarefa, dicionario=dicionario)
+    identificadores = _identificadores(tarefa)
     encontrados = _candidatos(
-        banco, expansao, CANDIDATOS_POR_TERMO, _identificadores(tarefa)
+        banco, expansao, CANDIDATOS_POR_TERMO, identificadores
     )
 
     # Primeira passada SEM grafo, so para escolher a ancora. Ancorar antes de
     # pontuar exigiria escolher semente por posicao do FTS sozinha, que e o
     # criterio que o escore composto existe para melhorar.
     preliminar = [
-        (achado, escore(achado, expansao, posicao_fts=posicao))
+        (achado, escore(achado, expansao, posicao_fts=posicao,
+                        identificadores=identificadores))
         for achado, posicao in encontrados.values()
     ]
     sementes = [achado.node_id for achado, _ in ordenar(preliminar)[:SEMENTES]]
@@ -789,6 +791,7 @@ def montar(
                     expansao,
                     posicao_fts=posicao,
                     profundidade_no_grafo=perto.get(achado.node_id),
+                    identificadores=identificadores,
                 ),
             )
             for achado, posicao in encontrados.values()
