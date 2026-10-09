@@ -263,7 +263,7 @@ def run_stream_case(root: str | Path, *, profile: str = "balanced") -> dict[str,
         "findings": [f.to_dict() for f in findings],
         "rules_skipped": skipped,
         "unresolved": unresolved,
-        "facts": [f.to_dict() for f in facts],
+        "facts": [f.to_dict() for f in facts] + list(bundle.upstream_facts),
         "stream_graph": graph.to_dict(),
         "evidence_paths": paths,
         "knowledge": compile_access_knowledge(
