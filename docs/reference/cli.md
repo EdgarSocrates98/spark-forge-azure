@@ -245,7 +245,7 @@ fechado em `distribution/errors.py`.
 | Op | Uso |
 |---|---|
 | `inspect` | resolve e reporta paths (`value`+`source` por path), identidades, config efetivo com proveniência, assets com sha256, hosts detectados — sem mutação |
-| `init` | cria `.sparkforge-azure/project.yaml` + entrada gerenciada em `.mcp.json` (`mcpServers.sparkforge-azure` → `sparkforge-azure mcp serve`); idempotente; `--name`, `--regen-id` (nova identidade p/ cópia) |
+| `init` | cria `.sparkforge-azure/project.yaml` + entrada gerenciada em `.mcp.json` (`mcpServers.sparkforge-azure` → `sparkforge-azure mcp serve`) + bloco gerenciado em `AGENTS.md`/`CLAUDE.md`; idempotente; `--name`, `--regen-id` (nova identidade p/ cópia), `--with-mirrors` (materializa `.claude/agents/custom/` + `.agents/agents/`) |
 | `status` | `uninitialized`/`initialized`/`partial`/`drifted`/`broken` + drift por asset gerenciado |
 | `doctor` | saúde offline — assets, state/cache dirs, identidade, workspace, ledger, hosts (`unavailable`/`unproven` nunca falham), runtime MCP |
 | `detach` | remove só assets gerenciados (ledger); `--dry-run`, `--purge-state`, `--purge-cache`; state preservado por default; `init` religa |

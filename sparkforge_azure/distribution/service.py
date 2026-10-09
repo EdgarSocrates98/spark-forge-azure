@@ -21,6 +21,7 @@ from sparkforge_azure.distribution.discovery import (
     discover,
 )
 from sparkforge_azure.distribution.errors import PortableError
+from sparkforge_azure.distribution.hostfiles import install_host_assets
 from sparkforge_azure.distribution.hosts import (
     MCP_SERVER_NAME,
     detect_hosts,
@@ -178,6 +179,7 @@ def initialize(
     *,
     name: str | None = None,
     regen_id: bool = False,
+    with_mirrors: bool = False,
 ) -> dict[str, Any]:
     """Initialize portable identity + local integration for ``root``.
 
@@ -251,6 +253,18 @@ def initialize(
     except ValueError as exc:
         warnings.append(f".mcp.json not written: {exc}")
 
+    # Host contracts (§65–§71): managed marker blocks in AGENTS.md always
+    # and CLAUDE.md when the host is around; mirrors are opt-in bulk.
+    detected = tuple(
+        h["name"] for h in detect_hosts() if h["status"] == "available"
+    )
+    ledger, host_files = install_host_assets(
+        base,
+        ledger,
+        hosts=detected,
+        with_mirrors=with_mirrors,
+    )
+
     ledger = record_file(
         ledger,
         state / "project.yaml",
@@ -283,6 +297,7 @@ def initialize(
         "receipt": str(receipt_path),
         "managed_files": [f["path"] for f in ledger["files"]],
         "host_configs": host_configs,
+        "host_files": host_files,
         "warnings": warnings,
     }
 

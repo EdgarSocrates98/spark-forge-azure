@@ -24,7 +24,9 @@ from sparkforge_azure.distribution.managed import (
     load_ledger,
     remove_json_key,
     save_ledger,
+    strip_marker_block,
 )
+from sparkforge_azure.durable import write_atomic
 
 #: Ledger kinds that live under `.sparkforge-azure/` — lifecycle *state*,
 #: removed only via --purge-state.
@@ -84,6 +86,21 @@ def detach(
             preserved.append(entry["path"])
             warnings.append(f"modified after our write, preserved: {entry['path']}")
             detached.append(record)
+            continue
+        if entry.get("mode") == "markers":
+            if dry_run:
+                record["action"] = "would_strip_block"
+            else:
+                text = target.read_text(encoding="utf-8")
+                stripped = strip_marker_block(text)
+                if stripped:
+                    write_atomic(target, stripped)
+                    record["action"] = "stripped_block"
+                else:
+                    target.unlink(missing_ok=True)
+                    record["action"] = "removed_empty_file"
+            detached.append(record)
+            drop(entry)
             continue
         if entry.get("mode") == "merge":
             if dry_run:

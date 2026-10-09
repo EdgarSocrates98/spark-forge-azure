@@ -39,7 +39,10 @@ def _init(args: argparse.Namespace) -> dict[str, Any]:
     from sparkforge_azure.distribution import service
 
     return service.initialize(
-        Path(args.root), name=args.name, regen_id=args.regen_id
+        Path(args.root),
+        name=args.name,
+        regen_id=args.regen_id,
+        with_mirrors=args.with_mirrors,
     )
 
 
@@ -83,6 +86,11 @@ def register(sub: argparse._SubParsersAction) -> None:
     n = leaf.add_parser("init", help="initialize portable identity + local integration")
     with_root(n)
     n.add_argument("--name", help="project name (default: directory name)")
+    n.add_argument(
+        "--with-mirrors",
+        action="store_true",
+        help="also materialize agent mirrors into .claude/agents/custom + .agents/agents",
+    )
     n.add_argument(
         "--regen-id",
         action="store_true",

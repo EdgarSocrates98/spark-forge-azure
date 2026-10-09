@@ -22,6 +22,65 @@ LEDGER_NAME = "managed.json"
 
 AssetState = Literal["present", "missing", "modified"]
 
+#: Delimiters for the managed text block (§70). Content between them is
+#: ours; everything else in the file is the user's and is never touched.
+MARKER_BEGIN = "<!-- sparkforge-azure:begin -->"
+MARKER_END = "<!-- sparkforge-azure:end -->"
+
+
+def wrap_marker_block(body: str) -> str:
+    """Full managed block including delimiters and trailing newline."""
+    return f"{MARKER_BEGIN}\n{body.rstrip()}\n{MARKER_END}\n"
+
+
+def extract_marker_block(text: str) -> str | None:
+    """The managed region (markers included) or None when absent."""
+    start = text.find(MARKER_BEGIN)
+    end = text.find(MARKER_END)
+    if start < 0 or end < 0 or end < start:
+        return None
+    return text[start : end + len(MARKER_END)]
+
+
+def apply_marker_block(path: Path, body: str) -> str:
+    """Upsert the managed block in ``path``; user content outside markers
+    is byte-preserved (§70–§71). Returns the resulting file text."""
+    block = wrap_marker_block(body)
+    if path.is_file():
+        text = path.read_text(encoding="utf-8")
+        existing = extract_marker_block(text)
+        if existing is not None:
+            text = text.replace(existing, block.rstrip("\n"), 1)
+            if not text.endswith("\n"):
+                text += "\n"
+        else:
+            if text and not text.endswith("\n"):
+                text += "\n"
+            text += "\n" + block if text.strip() else block
+    else:
+        text = block
+    path.parent.mkdir(parents=True, exist_ok=True)
+    write_atomic(path, text)
+    return text
+
+
+def strip_marker_block(text: str) -> str:
+    """Remove the managed region and collapse the gap it leaves."""
+    block = extract_marker_block(text)
+    if block is None:
+        return text
+    out = text.replace(block, "", 1)
+    out = out.replace("\n\n\n", "\n\n").strip("\n")
+    return (out + "\n") if out.strip() else ""
+
+
+def marker_block_sha(text: str) -> str | None:
+    """sha256 of the managed region, None when no markers exist."""
+    block = extract_marker_block(text)
+    if block is None:
+        return None
+    return hashlib.sha256(block.encode("utf-8")).hexdigest()
+
 
 @dataclass(frozen=True, slots=True)
 class ManagedFile:
@@ -125,6 +184,18 @@ def assess_file(entry: dict[str, Any]) -> AssetState:
     target = Path(str(entry["path"]))
     if not target.is_file():
         return "missing"
+    if entry.get("mode") == "markers":
+        try:
+            text = target.read_text(encoding="utf-8")
+        except (OSError, UnicodeError):
+            return "modified"
+        expected = (entry.get("owned_key_hashes") or {}).get("block")
+        actual = marker_block_sha(text)
+        if actual is None:
+            return "modified"
+        if expected is not None and actual != expected:
+            return "modified"
+        return "present"
     if entry.get("mode") == "merge":
         try:
             data = json.loads(target.read_text(encoding="utf-8"))
@@ -250,13 +321,19 @@ __all__ = [
     "LEDGER_NAME",
     "AssetState",
     "ManagedFile",
+    "MARKER_BEGIN",
+    "MARKER_END",
     "apply_json_key",
+    "apply_marker_block",
     "assess_file",
     "assess_ledger",
     "forget_file",
     "ledger_path",
     "load_ledger",
+    "marker_block_sha",
     "record_file",
     "remove_json_key",
     "save_ledger",
+    "strip_marker_block",
+    "wrap_marker_block",
 ]

@@ -47,6 +47,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/portability/PORTABLE_DISTRIBUTION.md` | Lifecycle portável: inspect/init/status/doctor/detach, identidade relocável, ledger gerenciado, config com precedência |
 | `docs/portability/WORKSPACES.md` | ForgeWorkspace: modelo, manifesto, discover/init/add/remove/status, roles, arestas, ciclos, locality |
 | `docs/portability/CONTEXT_RESOLUTION.md` | `context resolve`: scopes target/direct/transitive/all, TokenSave por projeto confinado, recibo §58 com bytes |
+| `docs/portability/HOST_INTEGRATION.md` | Hosts: `.mcp.json`, blocos gerenciados em AGENTS.md/CLAUDE.md, mirrors opt-in, detecção sem probing |
 
 ## Operação
 
