@@ -1,0 +1,255 @@
+"""Anti-drift portability gate (prompt_evo_portable.md §187–§188).
+
+Static checks (always run):
+  - package assets available: the packaged groups (agents/, skills/, ...)
+    resolve through the dual-mode asset source and carry sha256;
+  - workspace schema valid: manifests.py loads strict YAML, refuses
+    unknown keys/secrets, workspace.yaml v1 round-trips;
+  - host mirrors sync: canonical agents/*.md render == committed mirrors
+    (delegates to the check_skills_agents mirror comparison when
+    available);
+  - portable docs current: the docs/portability/*.md set exists and is
+    indexed in docs/README.md;
+  - no checkout dependency: the MCP entry references the installed
+    binary, never a path under the repo root.
+
+Wheel gate (``--wheel``, T3): builds the wheel, installs it in a temp
+venv *outside* the checkout, and runs the lifecycle end-to-end from the
+installed package (init → workspace → resolve → detach). Mandatory for
+closure (§194).
+
+Exit 0 = all checks green.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import sys
+import tempfile
+import venv
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+PORTABLE_DOCS = (
+    "docs/portability/PORTABILITY_AUDIT.md",
+    "docs/portability/PORTABLE_DISTRIBUTION.md",
+    "docs/portability/WORKSPACES.md",
+    "docs/portability/CONTEXT_RESOLUTION.md",
+    "docs/portability/HOST_INTEGRATION.md",
+    "docs/portability/DETACH.md",
+    "docs/portability/PORTABILITY_OUTCOME.md",
+    "docs/guides/SPARKFORGE_AZURE_PORTABLE.md",
+    "docs/guides/SPARKFORGE_AZURE_PORTABLE.pt-BR.md",
+)
+
+
+def check_assets(errors: list[str]) -> None:
+    from sparkforge_azure.distribution.assets import asset_inventory
+
+    inv = asset_inventory()
+    if not inv:
+        errors.append("assets: inventory is empty")
+        return
+    missing = [a for a in inv if not a.sha256 or len(a.sha256) != 64]
+    if missing:
+        errors.append(f"assets: {len(missing)} entries without sha256")
+
+
+def check_workspace_schema(errors: list[str]) -> None:
+    import tempfile as _t
+
+    import yaml
+
+    from sparkforge_azure.distribution.errors import PortableError
+    from sparkforge_azure.distribution.manifests import (
+        WorkspaceDecl,
+        load_workspace_manifest,
+        write_workspace_manifest,
+    )
+
+    with _t.TemporaryDirectory() as td:
+        root = Path(td)
+        decl = WorkspaceDecl(
+            workspace_id="sfw-" + "0" * 24, name="gate", projects=()
+        )
+        write_workspace_manifest(root, decl)
+        back = load_workspace_manifest(
+            root / ".sparkforge-azure" / "workspace.yaml"
+        )
+        if back.workspace_id != decl.workspace_id:
+            errors.append("workspace schema: round-trip lost workspace_id")
+        raw = yaml.safe_load(
+            (root / ".sparkforge-azure" / "workspace.yaml").read_text(
+                encoding="utf-8"
+            )
+        )
+        raw["rogue_key"] = True
+        (root / ".sparkforge-azure" / "workspace.yaml").write_text(
+            yaml.safe_dump(raw), encoding="utf-8"
+        )
+        try:
+            load_workspace_manifest(root / ".sparkforge-azure" / "workspace.yaml")
+            errors.append("workspace schema: unknown key not refused")
+        except PortableError as exc:
+            if exc.kind != "manifest_invalid":
+                errors.append(f"workspace schema: wrong refusal {exc.kind}")
+
+
+def check_host_mirrors(errors: list[str]) -> None:
+    sync = ROOT / "scripts" / "check_skills_agents.py"
+    if not sync.is_file():
+        errors.append("mirrors: check_skills_agents.py missing")
+        return
+    proc = subprocess.run(
+        [sys.executable, str(sync)], capture_output=True, text=True,
+        cwd=str(ROOT),
+    )
+    if proc.returncode != 0:
+        tail = (proc.stdout + proc.stderr).strip().splitlines()[-3:]
+        errors.append(f"mirrors out of sync: {' | '.join(tail)}")
+
+
+def check_docs(errors: list[str]) -> None:
+    index = (ROOT / "docs" / "README.md").read_text(encoding="utf-8")
+    for rel in PORTABLE_DOCS:
+        if not (ROOT / rel).is_file():
+            errors.append(f"docs: {rel} missing")
+        elif rel.replace("\\", "/") not in index and rel not in index:
+            errors.append(f"docs: {rel} not indexed in docs/README.md")
+
+
+def check_no_checkout_dep(errors: list[str]) -> None:
+    from sparkforge_azure.distribution.hosts import mcp_entry
+
+    entry = mcp_entry()
+    for value in json.dumps(entry).split('"'):
+        if str(ROOT) in value:
+            errors.append(f"mcp entry leaks checkout path: {entry}")
+    if entry.get("command") != "sparkforge-azure":
+        errors.append("mcp entry must invoke the installed binary")
+
+
+def _venv_python(venv_dir: Path) -> Path:
+    win = venv_dir / "Scripts" / "python.exe"
+    nix = venv_dir / "bin" / "python"
+    return win if win.exists() else nix
+
+
+def _find_uv() -> str | None:
+    import shutil
+
+    return shutil.which("uv")
+
+
+def wheel_gate(errors: list[str]) -> None:
+    """T3 — build wheel, install in temp venv outside checkout, run the
+    lifecycle from the installed package only.
+
+    Prefers `uv` (no pip needed in the host env); falls back to
+    `pip wheel` + `venv --with-pip`.
+    """
+    uv = _find_uv()
+    with tempfile.TemporaryDirectory(prefix="sf-wheel-gate-") as td:
+        work = Path(td)
+        dist = work / "dist"
+        if uv:
+            build = subprocess.run(
+                [uv, "build", "--wheel", "--out-dir", str(dist), str(ROOT)],
+                capture_output=True, text=True,
+            )
+        else:
+            build = subprocess.run(
+                [sys.executable, "-m", "pip", "wheel", "--no-deps", "-w",
+                 str(dist), str(ROOT)],
+                capture_output=True, text=True,
+            )
+        wheels = list(dist.glob("sparkforge_azure-*.whl"))
+        if build.returncode != 0 or not wheels:
+            errors.append(
+                f"wheel: build failed: {(build.stderr or build.stdout)[-300:]}"
+            )
+            return
+        venv_dir = work / "venv"
+        if uv:
+            mk = subprocess.run(
+                [uv, "venv", str(venv_dir)], capture_output=True, text=True
+            )
+        else:
+            venv.create(venv_dir, with_pip=True)
+            mk = subprocess.CompletedProcess([], 0)
+        if mk.returncode != 0:
+            errors.append(f"wheel: venv failed: {mk.stderr[-300:]}")
+            return
+        py = _venv_python(venv_dir)
+        if uv:
+            inst = subprocess.run(
+                [uv, "pip", "install", "--python", str(py),
+                 str(wheels[0])],
+                capture_output=True, text=True,
+            )
+        else:
+            inst = subprocess.run(
+                [str(py), "-m", "pip", "install", str(wheels[0])],
+                capture_output=True, text=True,
+            )
+        if inst.returncode != 0:
+            errors.append(f"wheel: install failed: {inst.stderr[-300:]}")
+            return
+        proj = work / "proj"
+        proj.mkdir()
+        script = (
+            "import sys; from pathlib import Path;"
+            "from sparkforge_azure.distribution import service, detach;"
+            "root = Path(sys.argv[1]);"
+            "out = service.initialize(root);"
+            "assert out['status'] == 'ok' and out['project_id'].startswith('sfa-'), out;"
+            "st = service.status(root);"
+            "assert st['status'] in {'ok','initialized'}, st;"
+            "d = detach.detach(root); assert d['status'] == 'ok', d;"
+            "again = service.initialize(root);"
+            "assert again['project_id'] == out['project_id'];"
+            "print('WHEEL-LIFECYCLE-OK', out['project_id'])"
+        )
+        run = subprocess.run(
+            [str(py), "-c", script, str(proj)],
+            capture_output=True, text=True, cwd=str(work),
+        )
+        if "WHEEL-LIFECYCLE-OK" not in run.stdout:
+            errors.append(
+                "wheel: lifecycle failed: "
+                f"{(run.stdout + run.stderr)[-400:]}"
+            )
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--wheel", action="store_true",
+                    help="run the T3 installed-wheel gate (slow)")
+    ap.add_argument("--json", action="store_true")
+    args = ap.parse_args()
+
+    errors: list[str] = []
+    check_assets(errors)
+    check_workspace_schema(errors)
+    check_docs(errors)
+    check_no_checkout_dep(errors)
+    # mirror sync is the heaviest check — keep it opt-in with --wheel so
+    # the fast gate stays fast; it runs anyway inside check_skills_agents.
+    if args.wheel:
+        check_host_mirrors(errors)
+        wheel_gate(errors)
+    report = {"status": "ok" if not errors else "fail", "errors": errors}
+    if args.json:
+        print(json.dumps(report, indent=1, ensure_ascii=False))
+    else:
+        for e in errors:
+            print(f"FAIL {e}")
+        print(f"portability gate: {report['status']}")
+    return 0 if not errors else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

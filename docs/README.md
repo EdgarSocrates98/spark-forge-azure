@@ -49,6 +49,9 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/portability/CONTEXT_RESOLUTION.md` | `context resolve`: scopes target/direct/transitive/all, TokenSave por projeto confinado, recibo §58 com bytes |
 | `docs/portability/HOST_INTEGRATION.md` | Hosts: `.mcp.json`, blocos gerenciados em AGENTS.md/CLAUDE.md, mirrors opt-in, detecção sem probing |
 | `docs/portability/DETACH.md` | Detach/reattach: ledger-driven, preserve-por-padrão, purge granular, dry-run, decisão `repair` |
+| `docs/portability/PORTABILITY_OUTCOME.md` | Outcome brief §200–§204: scorecard PROVEN/PARTIAL/DEFERRED + parity final vs API Forge/AWS |
+| `docs/guides/SPARKFORGE_AZURE_PORTABLE.md` | Quickstart portável (EN): install→init→workspace→resolve→detach sem checkout |
+| `docs/guides/SPARKFORGE_AZURE_PORTABLE.pt-BR.md` | Quickstart portável (pt-BR): mesmo ciclo, traduzido |
 
 ## Operação
 

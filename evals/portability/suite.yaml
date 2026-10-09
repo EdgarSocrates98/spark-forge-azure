@@ -1,0 +1,60 @@
+# Portability matrix (prompt_evo_portable.md §96–§101, §199).
+#
+# Cada caso declara o contrato que o runner executa em temp dirs via a API
+# `sparkforge_azure.distribution` — nunca no HOME real, nunca no checkout.
+# Status possíveis por caso: ok | refused | skip (unproven, nunca erro).
+tier: T1-T2
+cases:
+  - id: single-repo
+    summary: init+status+doctor+detach num repo isolado; reattach preserva id
+    expect:
+      project_id_prefix: sfa-
+      detach_preserves_state: true
+      reattach_same_id: true
+  - id: monorepo
+    summary: workspace com dois projetos irmãos; paths relativos
+    expect:
+      paths_relative: true
+      projects: 3              # host do init + app + lib
+  - id: multi-repo
+    summary: workspace ancora + repo externo declarado (path absoluto)
+    expect:
+      external_paths_absolute: true
+      external_marked: true
+  - id: relocated-repo
+    summary: mover o projeto preserva project_id; workspace re-resolve
+    expect:
+      id_survives_move: true
+  - id: copied-repo
+    summary: copiar o diretório NÃO compartilha id até --regen-id
+    expect:
+      copy_needs_regen: true
+      regen_new_id: true
+  - id: direct-deps
+    summary: "scope=direct resolve target+diretas; transitiva fica fora"
+    expect:
+      scope: direct
+      excludes_transitive: true
+  - id: transitive-deps
+    summary: "scope=transitive alcança o fecho; ciclos recusam named"
+    expect:
+      scope: transitive
+      reaches_closure: true
+  - id: host-unavailable
+    summary: hosts ausentes reportam unavailable/unproven — nunca falham
+    expect:
+      never_fails: true
+      statuses_allowed: [available, unavailable, unproven, unsupported]
+  - id: mcp-only
+    summary: init sem mirrors não cria .claude/.agents — só .mcp.json + markers
+    expect:
+      mirrors_written: 0
+      mcp_key: sparkforge-azure
+  - id: detach-reattach
+    summary: detach remove integração, preserva estado; init re-anexa
+    expect:
+      user_content_preserved: true
+      same_id_after_reattach: true
+home_isolation: true          # §99–§100: HOME/XDG redirecionados p/ temp
+no_global_pollution: true     # o runner falha se algo escapar do temp root
+state_dir_env: true           # §101: SPARKFORGE_AZURE_STATE_DIR respeitado

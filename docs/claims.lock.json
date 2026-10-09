@@ -22,7 +22,7 @@
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "2985 passed",
+   "text": "2988 passed",
    "proof": {
     "cmd": [
      "python",
@@ -33,7 +33,7 @@
     "timeout": 600,
     "expect": {
      "kind": "regex",
-     "pattern": "\\n2985 passed"
+     "pattern": "\\n2988 passed"
     }
    },
    "sha": "9442254616dff1912c3d9b2578ab2b9dddfa2649"
@@ -433,6 +433,78 @@
      "path": "s",
      "op": "==",
      "value": "host_proven"
+    }
+   },
+   "sha": "9442254616dff1912c3d9b2578ab2b9dddfa2649"
+  },
+  {
+   "id": "portable-distribution-wheel",
+   "doc": "docs/portability/PORTABILITY_OUTCOME.md",
+   "text": "portable lifecycle verified from installed wheel in clean temp workspace",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_portability.py",
+     "--wheel"
+    ],
+    "timeout": 300,
+    "expect": {
+     "kind": "regex",
+     "pattern": "portability gate: ok"
+    }
+   },
+   "sha": "9442254616dff1912c3d9b2578ab2b9dddfa2649"
+  },
+  {
+   "id": "workspace-relocation",
+   "doc": "docs/portability/PORTABILITY_OUTCOME.md",
+   "text": "mover o projeto preserva project_id; copiar exige --regen-id",
+   "proof": {
+    "cmd": [
+     "python",
+     "evals/portability/runner.py",
+     "--case",
+     "relocated-repo"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "ok\\s+relocated-repo"
+    }
+   },
+   "sha": "9442254616dff1912c3d9b2578ab2b9dddfa2649"
+  },
+  {
+   "id": "multi-repo-context",
+   "doc": "docs/portability/PORTABILITY_OUTCOME.md",
+   "text": "scopes direct/transitive resolvem o grafo declarado com recibo de bytes",
+   "proof": {
+    "cmd": [
+     "python",
+     "evals/portability/runner.py",
+     "--case",
+     "transitive-deps"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "ok\\s+transitive-deps"
+    }
+   },
+   "sha": "9442254616dff1912c3d9b2578ab2b9dddfa2649"
+  },
+  {
+   "id": "detach-safe",
+   "doc": "docs/portability/PORTABILITY_OUTCOME.md",
+   "text": "detach remove só o ledger, preserva trabalho do usuário e estado por padrão",
+   "proof": {
+    "cmd": [
+     "python",
+     "evals/portability/runner.py",
+     "--case",
+     "detach-reattach"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "ok\\s+detach-reattach"
     }
    },
    "sha": "9442254616dff1912c3d9b2578ab2b9dddfa2649"
