@@ -12,6 +12,7 @@ Necessity §59 sai do vetor §57, nunca de um escalar unico.
 
 from __future__ import annotations
 
+import json
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -215,4 +216,143 @@ def evaluate_case(
              "latency_s": r.latency_s}
             for c, r in results.items()
         ],
+    }
+
+
+# ---------------------------------------------------------------- host eval
+
+_SPECIALIST_SCHEMA_HINT = {
+    "kind": "specialist_result",
+    "hypotheses": ["<hypothesis about the root cause>"],
+    "evidence_refs": ["<evidence reference supporting each hypothesis>"],
+    "proposed_findings": ["<concrete finding id or statement>"],
+    "unresolved": ["<what could not be determined>"],
+    "recommendations": ["<actionable next step>"],
+}
+
+
+def _host_prompt(agent_id: str, case: dict[str, Any]) -> str:
+    """Contexto minimo §28: task + unresolved + schema — nunca o transcript."""
+    unresolved = "\n".join(
+        f"- {u}" for u in case.get("unresolved") or [])
+    return (
+        "You are the bounded specialist "
+        f"`{agent_id}` in a deterministic Azure diagnosis pipeline.\n"
+        f"Task: {case.get('task')}\n"
+        f"Known unresolved items:\n{unresolved or '- none'}\n"
+        "Reply with ONLY a JSON object matching this schema exactly "
+        "(no prose, no markdown fence):\n"
+        f"{json.dumps(_SPECIALIST_SCHEMA_HINT, indent=0)}"
+    )
+
+
+def _parse_host_structured(agent_id: str, output: str) -> dict[str, Any]:
+    """Tenta JSON do modelo; fallback -> parse_freeform (§31, DATA_ONLY)."""
+    from sparkforge_azure.agentic.schemas import parse_freeform
+
+    text = (output or "").strip()
+    if text.startswith("```"):
+        text = text.split("\n", 1)[-1].rsplit("```", 1)[0].strip()
+    try:
+        parsed = json.loads(text)
+    except (json.JSONDecodeError, ValueError):
+        return parse_freeform(agent_id, output)
+    if isinstance(parsed, dict):
+        return parsed
+    return parse_freeform(agent_id, output)
+
+
+def evaluate_case_host(
+    case_path: Path | str, *, root: Path | str = ".",
+    runtime: RuntimeName = RuntimeName.CLAUDE_CODE,
+) -> dict[str, Any]:
+    """§50-75 em host real: config B — core deterministico + 1 specialist.
+
+    O specialist roteado executa de verdade via adapter host; o output e
+    DATA_ONLY parseado para o schema, validado, e comparado ao expected.
+    Custo/tokens sao medidos do envelope do host — nunca estimados.
+    """
+    from sparkforge_azure.agentic.runtimes import get_adapter
+    from sparkforge_azure.agentic.runtimes.base import AgentSpawnRequestV2
+    from sparkforge_azure.agentic.schemas import validate_output
+
+    case_path = Path(case_path)
+    case = yaml.safe_load(case_path.read_text(encoding="utf-8"))
+    expected_path = (
+        Path(root) / EVAL_DIR / "expected" / f"{case['id']}.yaml")
+    expected = (
+        yaml.safe_load(expected_path.read_text(encoding="utf-8"))
+        if expected_path.is_file() else {}
+    )
+    baseline = run_eval(case, expected, "A", root=root)
+
+    routed = route(str(case.get("task") or ""), max_agents=1)
+    specialist = routed[0] if routed else "coordinator"
+    adapter = get_adapter(runtime)
+    t0 = time.time()
+    spawn = adapter.spawn_agent(AgentSpawnRequestV2(
+        agent_id=specialist,
+        task=_host_prompt(specialist, case),
+        timeout_seconds=180,
+    ))
+    latency = round(time.time() - t0, 3)
+    structured = (
+        _parse_host_structured(specialist, spawn.output)
+        if spawn.status == "completed" else None
+    )
+    violations = (
+        validate_output(specialist, structured)
+        if structured is not None
+        else ["contract_violation:missing_structured_output"]
+    )
+    findings = [
+        str(f) for f in (structured or {}).get("proposed_findings") or []
+    ]
+
+    class _Receipt:  # mede com o mesmo _measure_quality
+        class state:  # noqa: D106
+            provisional_findings = findings
+            verified_findings: list = []
+            unresolved = list(
+                (structured or {}).get("unresolved") or [])
+            handoffs: list = []
+
+    usage = dict(spawn.usage)
+    measured = usage.get("status") == "measured"
+    result = EvalResult(
+        case_id=str(case.get("id") or "case"),
+        configuration="B",
+        runtime=runtime.value,
+        agents=[specialist],
+        quality=_measure_quality(_Receipt(), expected),
+        evidence=[str(e) for e in
+                  (structured or {}).get("evidence_refs") or []],
+        unresolved=list((structured or {}).get("unresolved") or []),
+        tokens={
+            "status": usage.get("status", "unresolved"),
+            "input": usage.get("input_tokens"),
+            "output": usage.get("output_tokens"),
+            "cache_creation_input": usage.get(
+                "cache_creation_input_tokens"),
+        },
+        cost={
+            "status": "measured" if usage.get("cost_usd") is not None
+            else usage.get("status", "unresolved"),
+            "usd": usage.get("cost_usd"),
+        },
+        latency_s=latency,
+        degraded=spawn.status != "completed",
+    )
+    vector = value_vector(result, baseline)
+    return {
+        "case_id": case["id"],
+        "runtime": runtime.value,
+        "specialist": specialist,
+        "spawn": spawn.to_dict(),
+        "host_usage_measured": measured,
+        "schema_violations": violations,
+        "result": result.to_dict(),
+        "value_vector_vs_A": vector,
+        "necessity": classify_necessity(vector, result),
+        "baseline_A": baseline.to_dict(),
     }

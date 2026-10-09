@@ -1,0 +1,136 @@
+{
+  "case_id": "fabric-onelake",
+  "runtime": "claude_code",
+  "specialist": "onelake-specialist",
+  "spawn": {
+    "agent_id": "onelake-specialist",
+    "spawn_id": "sp-onelake-specialist-70b7ca8972ca",
+    "runtime": "claude_code",
+    "execution_mode": "subagent",
+    "status": "completed",
+    "started": 1791509593.4630823,
+    "completed": 1791509633.9322712,
+    "duration_s": 40.469,
+    "output": "{\"kind\":\"specialist_result\",\"hypotheses\":[\"H1: The shortcut is an internal OneLake-to-OneLake shortcut. These use passthrough of the calling identity, so the user or job reading the shortcut has no Read/ReadAll on the target lakehouse item (no workspace role and no item share on the target workspace).\",\"H2: OneLake security (data access roles) is enabled on the target lakehouse, and the caller is not a member of a role that covers the shortcut's target folder or table path. That gives an access denied even when workspace or item permission exists.\",\"H3: The access is not interactive: a Spark notebook or job, a pipeline, or the SQL analytics endpoint. The effective identity is different from the user who created the shortcut. The notebook owner or job identity, or the SQL endpoint in delegated or owner identity mode, is the identity being denied, not the end user.\",\"H4: The target is an external ADLS Gen2 path reached through OneLake rather than a pure OneLake target. The shortcut's cloud connection credential (workspace identity, service principal, or organizational account) lacks Storage Blob Data Reader on the container. Or the storage firewall blocks Fabric because trusted workspace access or a resource instance rule for the workspace is missing.\",\"H5: The target item or workspace was moved, renamed, or deleted, or sits in another tenant or a paused capacity. Some of these conditions show up as an authorization error instead of not-found.\"],\"evidence_refs\":[\"none-collected: no shortcut definition, connection, role assignment, or error payload was given to this specialist\",\"required:shortcut-definition (Lakehouse > shortcut properties: target type OneLake vs ADLS Gen2, target workspace/item/path, connection id)\",\"required:error-payload (full HTTP status, error code and request-id from Spark/SQL endpoint/UI; 403 vs 401 vs 404 distinguishes H1/H2 vs H4 vs H5)\",\"required:target-workspace-role-assignments and item permissions for the failing principal (H1)\",\"required:onelake-data-access-roles on target lakehouse (enabled flag, role membership, folder scope) (H2)\",\"required:execution context (interactive UI vs notebook owner vs pipeline vs SQL analytics endpoint identity mode) (H3)\",\"required:cloud connection auth kind and ADLS RBAC/ACL + storage networking (firewall, resource instance rules, trusted workspace access) if target is ADLS (H4)\",\"required:target workspace capacity state and tenant id (H5)\"],\"proposed_findings\":[\"onelake:shortcut-access-denied-root-cause-undetermined (proposed only, not verified; no artifact evidence)\",\"candidate onelake:internal-shortcut-caller-lacks-target-readall (H1, needs evidence)\",\"candidate onelake:data-access-role-excludes-shortcut-path (H2, needs evidence)\",\"candidate onelake:effective-identity-mismatch-nonInteractive (H3, needs evidence)\",\"candidate adls:connection-identity-missing-blob-reader-or-firewall-block (H4, handoff to adls/entra/networking specialists)\"],\"unresolved\":[\"onelake:workspace-identity-vs-user-delegation: unknown whether access runs as the calling user (internal OneLake shortcut passthrough), as the shortcut's connection credential (workspace identity, SP, or org account for ADLS), or as a delegated item-owner identity (SQL analytics endpoint)\",\"shortcut target type (OneLake internal vs ADLS Gen2 vs other) not provided\",\"exact error code and status not provided\",\"whether OneLake security data access roles are enabled on the target\",\"identity of the failing principal and execution surface (UI, Spark, pipeline, SQL endpoint)\",\"same-tenant and capacity status of the target workspace\"],\"recommendations\":[\"Collect the shortcut definition and the full error (status, code, request-id) first. Target type decides which identity applies and resolves the workspace-identity-vs-user-delegation question.\",\"If the target is internal OneLake: give the failing principal Viewer or higher on the target workspace, or share the target item with ReadAll. Then retry with the same principal in the same surface (UI vs notebook vs SQL endpoint).\",\"If OneLake security is enabled on the target: add the principal to a data access role that covers the exact folder or table path the shortcut points to. A role on DefaultReader alone may not cover it if custom roles restrict scope.\",\"For the SQL analytics endpoint: check the identity mode (delegated or owner vs user identity). Grant the effective identity, not only the end user.\",\"If the target is ADLS Gen2: hand off to the adls and entra specialists. Confirm the connection credential has Storage Blob Data Reader (or the right ACLs) on the container. If the storage firewall is on, enable trusted workspace access with a resource instance rule for the Fabric workspace and use workspace identity. Hand off to the networking specialist if private endpoints are involved.\",\"Check that the target item still exists at the referenced path, is in the same tenant, and has an active (not paused) capacity. Recreate the shortcut if the target was moved or renamed.\"]}",
+    "structured_output": null,
+    "error": null,
+    "usage": {
+      "status": "measured",
+      "input_tokens": 2,
+      "output_tokens": 2051,
+      "cache_creation_input_tokens": 81950,
+      "cost_usd": 0.7006688,
+      "model": "claude-opus-5-5[1m]"
+    },
+    "trace_ref": "sha256:4b473252d4b030c04a2d7313d8e72e52fa74f1b6860ad252c80f6905e66609d1"
+  },
+  "host_usage_measured": true,
+  "schema_violations": [],
+  "result": {
+    "case_id": "fabric-onelake",
+    "configuration": "B",
+    "runtime": "claude_code",
+    "agents": [
+      "onelake-specialist"
+    ],
+    "quality": {
+      "required_findings_hit": 0,
+      "required_findings_total": 0,
+      "forbidden_findings_hit": 0,
+      "forbidden_findings": [],
+      "known_unresolved_preserved": 1,
+      "known_unresolved_total": 1,
+      "provisional_findings": 5
+    },
+    "evidence": [
+      "none-collected: no shortcut definition, connection, role assignment, or error payload was given to this specialist",
+      "required:shortcut-definition (Lakehouse > shortcut properties: target type OneLake vs ADLS Gen2, target workspace/item/path, connection id)",
+      "required:error-payload (full HTTP status, error code and request-id from Spark/SQL endpoint/UI; 403 vs 401 vs 404 distinguishes H1/H2 vs H4 vs H5)",
+      "required:target-workspace-role-assignments and item permissions for the failing principal (H1)",
+      "required:onelake-data-access-roles on target lakehouse (enabled flag, role membership, folder scope) (H2)",
+      "required:execution context (interactive UI vs notebook owner vs pipeline vs SQL analytics endpoint identity mode) (H3)",
+      "required:cloud connection auth kind and ADLS RBAC/ACL + storage networking (firewall, resource instance rules, trusted workspace access) if target is ADLS (H4)",
+      "required:target workspace capacity state and tenant id (H5)"
+    ],
+    "unresolved": [
+      "onelake:workspace-identity-vs-user-delegation: unknown whether access runs as the calling user (internal OneLake shortcut passthrough), as the shortcut's connection credential (workspace identity, SP, or org account for ADLS), or as a delegated item-owner identity (SQL analytics endpoint)",
+      "shortcut target type (OneLake internal vs ADLS Gen2 vs other) not provided",
+      "exact error code and status not provided",
+      "whether OneLake security data access roles are enabled on the target",
+      "identity of the failing principal and execution surface (UI, Spark, pipeline, SQL endpoint)",
+      "same-tenant and capacity status of the target workspace"
+    ],
+    "tokens": {
+      "status": "measured",
+      "input": 2,
+      "output": 2051,
+      "cache_creation_input": 81950
+    },
+    "cost": {
+      "status": "measured",
+      "usd": 0.7006688
+    },
+    "latency_s": 40.484,
+    "tool_calls": 0,
+    "context_bytes": 0,
+    "degraded": false
+  },
+  "value_vector_vs_A": {
+    "information_gain": 0,
+    "evidence_gain": 6,
+    "uncertainty_reduction": 2,
+    "decision_impact": "unresolved",
+    "quality_delta": 0,
+    "cost": {
+      "status": "unresolved"
+    },
+    "latency_delta_s": 39.9557
+  },
+  "necessity": "USEFUL",
+  "baseline_A": {
+    "case_id": "fabric-onelake",
+    "configuration": "A",
+    "runtime": "generic",
+    "agents": [
+      "coordinator",
+      "inventory",
+      "extractor",
+      "analyzer",
+      "judge",
+      "synthesizer"
+    ],
+    "quality": {
+      "required_findings_hit": 0,
+      "required_findings_total": 0,
+      "forbidden_findings_hit": 0,
+      "forbidden_findings": [],
+      "known_unresolved_preserved": 1,
+      "known_unresolved_total": 1,
+      "provisional_findings": 2
+    },
+    "evidence": [
+      "extractor:{'id': 'fact-0', 'ref': 'shortcut table read denied', 'kind': 'provisional'}",
+      "synthesizer:extractor:{'id': 'fact-0', 'ref': 'shortcut table read denied', 'kind': 'provisional'}"
+    ],
+    "unresolved": [
+      "onelake:workspace-identity-vs-user-delegation",
+      "coordinator:requires_probabilistic_reasoning",
+      "analyzer:requires_probabilistic_reasoning",
+      "judge:no_claims_provided",
+      "synthesizer:onelake:workspace-identity-vs-user-delegation",
+      "synthesizer:coordinator:requires_probabilistic_reasoning",
+      "synthesizer:analyzer:requires_probabilistic_reasoning",
+      "synthesizer:judge:no_claims_provided"
+    ],
+    "tokens": {
+      "status": "unresolved"
+    },
+    "cost": {
+      "status": "unresolved"
+    },
+    "latency_s": 0.5283,
+    "tool_calls": 0,
+    "context_bytes": 68,
+    "degraded": true
+  }
+}

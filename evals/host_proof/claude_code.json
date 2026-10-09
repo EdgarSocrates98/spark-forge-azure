@@ -1,0 +1,24 @@
+{
+  "agent_id": "extractor",
+  "spawn_id": "sp-extractor-1a82cec0ff9a",
+  "runtime": "claude_code",
+  "execution_mode": "subagent",
+  "status": "completed",
+  "started": 1791509353.6071084,
+  "completed": 1791509373.8673182,
+  "duration_s": 20.26,
+  "output": "{\"pong\": true}",
+  "structured_output": null,
+  "error": null,
+  "usage": {
+    "status": "measured",
+    "input_tokens": 2,
+    "output_tokens": 66,
+    "cache_creation_input_tokens": 81566,
+    "cost_usd": 0.6578968,
+    "model": "claude-opus-5-5[1m]"
+  },
+  "trace_ref": "sha256:89f0eb2c74c88bfe8d495a59f6bedf2154121621c0ee675029a8d8c57240078d",
+  "proof_kind": "minimal_ping",
+  "note": "prova de host: claude -p executado via adapter; output e o campo result do envelope"
+}

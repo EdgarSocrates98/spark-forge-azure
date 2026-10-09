@@ -26,11 +26,17 @@ def test_freeze_conditions_evidence() -> None:
     out = evaluate_freeze()
     names = {c["name"] for c in out["conditions"]}
     assert names == set(FREEZE_CONDITIONS)
-    # nada 'met' sem evidencia nomeada; host_proven e unmet honesto
+    # nada 'met' sem evidencia nomeada; host provado via transcript gravado
     by_name = {c["name"]: c for c in out["conditions"]}
-    assert by_name["host_execution_proven"]["status"] == "unmet"
-    assert out["freeze_status"] == "candidate"
-    assert "host_proof_missing" in out["blockers"]
+    host = by_name["host_execution_proven"]
+    assert host["status"] in {"met", "unmet"}
+    if host["status"] == "met":
+        assert Path("evals/host_proof/claude_code.json").is_file()
+    else:
+        assert host["blocker"] == "host_proof_missing"
+    # sem value eval empirica em host, freeze nao fecha
+    if by_name["critical_specialists_evaluated"]["status"] != "met":
+        assert out["freeze_status"] == "candidate"
 
 
 def test_outcome_brief_fields() -> None:

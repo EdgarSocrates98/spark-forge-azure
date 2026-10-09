@@ -4,26 +4,29 @@
 
 | Condicao | Status | Evidencia |
 |---|---|---|
-| runtime_adapters_stable | met | 6/6 adapter_implemented |
-| host_execution_proven | **unmet** | sem transcript de host |
-| critical_specialists_evaluated | unresolved | routing evals sim; value eval exige host |
+| runtime_adapters_stable | met | 6/6 adapters resolviveis; claude_code host_proven |
+| host_execution_proven | **met** | `evals/host_proof/claude_code.json` (transcript real) |
+| critical_specialists_evaluated | **met** | 4 host evals medidos: `reports/*.host.json` (usage measured) |
 | security_labs_green | met | tests/test_agent_runtime_security.py |
-| no_p0_orchestration_gap | met | run_case end-to-end degradado explicito |
-| quality_frontier_established | met | evals/agent_runtime/reports |
+| no_p0_orchestration_gap | met | run_case end-to-end com degradacao nomeada |
+| quality_frontier_established | met | evals/agent_runtime/reports (A-D + host) |
 
 ## Decisao
 
-`FREEZE_STATUS = candidate` — bloqueios nomeados:
+`FREEZE_STATUS = frozen` — 6/6 condicoes `met` com evidencia nomeada
+(cycle 10). A decisao vem de `evaluate_freeze()`; se qualquer artefato de
+prova for removido ou corrompido, o status volta a `candidate`
+automaticamente — o gate nao memoriza, ele mede.
 
-- `host_proof_missing`: nenhum runtime host_proven (§154 exige real host)
-- `value_eval_unresolved_without_host`: valor empirico nao medido
+## O que o freeze significa
 
-O freeze NAO acontece nesta wave — §176: production candidate exige host
-proof + quality proof + security proof + budget proof. A frota permanece
-tratada como congelada por default (§1) e o gate impede expansao.
+- Frota congelada por default (§1): novo agent exige evidencia medida.
+- Runtime boundary fechada: novos runtimes entram via adapter + prova.
+- Autonomy ≤ L2; gates humanos §164-169 permanecem.
+- `unfrozen` nao e um estado: regressao de prova => `candidate` com
+  blocker nomeado.
 
-## Pos-freeze (quando host provar)
+## Pos-freeze
 
-§182-188: durante freeze so bugfix/security/provider-compat/knowledge/
-eval. Novo agent exige measured gap + baseline + ADR + eval. Remover
-agent com prova neutral/harmful e permitido — 40 nao e alvo (§185).
+Melhorias futuras entram por SDD com hipotese medida — o freeze protege
+a arquitetura de expansao por entusiasmo, nao de evolucao evidenciada.

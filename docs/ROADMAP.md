@@ -288,3 +288,22 @@ secoes, 6 P0s). Frota congelada — zero agents novos (§1):
   `freeze.py` mede as 6 condicoes -> **FREEZE_STATUS=candidate**
   (blockers: host_proof_missing, value_eval_unresolved_without_host) —
   freeze so com prova de host (§176).
+
+## Estado medido — cycle 10 (host proof + real eval) — **DELIVERED**
+
+`feat/cycle10-host-proof`. Os binarios de host existem no PATH —
+o blocker #1 do freeze era resolvivel de verdade:
+
+- `HOST_PROOF_RECORDED`: `evals/host_proof/<runtime>.json` = transcript
+  real (`status=completed` + `trace_ref sha256`); `HostCLIAdapter.status`
+  deriva do artefato — prova valida promove a `host_proven`, ausente ou
+  corrompida nunca promove. `ClaudeCodeAdapter.postprocess` extrai
+  `result` + usage do envelope JSON -> tokens/custo `measured`.
+- `claude_code` = **host_proven** (ping minimo $0.66 medido); devin_cli,
+  devin_desktop, codex seguem `adapter_implemented` ate prova propria.
+- `REAL_HOST_EVAL`: `evaluate_case_host` roda config B real — 1 spawn de
+  specialist por vertical via `claude -p`, output DATA_ONLY parseado e
+  validado por schema. 4/4 completed, 0 violacoes, necessity USEFUL x4,
+  custo total medido **$2.79**. Reports: `reports/<case>.host.json`.
+- `evaluate_freeze()`: **FREEZE_STATUS=frozen** — 6/6 condicoes met com
+  evidencia nomeada. Regressao de prova volta a `candidate` sozinha.
