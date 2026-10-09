@@ -360,3 +360,5 @@ na arvore (SDD `TREE_ECONOMY_MEASUREMENT`, AC4):
   real existe hoje — o retrieve/record e um adaptador pronto para a
   camada agêntica; ligar `diagnose` (verbo read-only) a escrita de
   `.sparkforge-azure/memory/` seria decisao de produto, nao bug.
+- Suite total **2909 passed / 9 skipped** (venv 3.12, ~380s) — 2 testes
+  de regressao novos em `test_codeintel_ranking.py`.
