@@ -54,6 +54,7 @@ python -m pytest -q
 python scripts/check_surface_lock.py
 python scripts/check_docs_surface.py
 python scripts/check_docs_index.py
+python scripts/check_portability.py
 python scripts/check_claims.py
 ```
 

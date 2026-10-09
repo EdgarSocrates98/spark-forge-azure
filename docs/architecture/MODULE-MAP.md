@@ -66,6 +66,16 @@ reais entre pacotes são medidas por `tests/test_architecture_layers.py`.
 | `migration` | vertical migração ADF/Synapse→Fabric (L5) — assessment evidence-bound |
 | `collectors` | coletores Azure read-only com redaction obrigatória (L6) |
 
+## Lifecycle portável — distribuição
+
+Camada aditiva sobre a arquitetura congelada (prompt_evo_portable.md §208):
+orquestra L0/L2/L4 do lado de dentro dos limites declarados, exposta pelas
+superfícies L7.
+
+| Pacote | Papel |
+|---|---|
+| `distribution` | lifecycle portável por-projeto: `inspect`/`init`/`status`/`doctor`/`detach`, manifests gerenciados (`project.yaml`/`workspace.yaml`), identidade relocável `sfa-*`/`sfw-*`, ledger de assets gerenciados (`managed.json`), ForgeWorkspace (arestas declaradas, ciclos, scopes), `context resolve` confinado, integração de hosts (`.mcp.json`, markers AGENTS/CLAUDE, mirrors opt-in) |
+
 ## L7 surfaces
 
 | Pacote | Papel |
@@ -92,3 +102,12 @@ reais entre pacotes são medidas por `tests/test_architecture_layers.py`.
   (`new_azure` em `parity.yaml`).
 - `__init__` — identidade `sparkforge_azure.__version__`; o `__init__` AWS não
   foi portado.
+- `cli→distribution` — `cmd_distribution`/`cmd_workspace`/`cmd_context` são a
+  superfície do lifecycle portável.
+- `distribution→durable` — manifests/ledger/receipts são escritas duráveis.
+- `distribution→paths` — `scan_repository`/`resolve_within` confinam o
+  contexto à raiz de cada projeto.
+- `distribution→tokensave` — `context resolve` delega a escada L0–L6 por
+  projeto.
+- `distribution→agentmanifest` — `init --with-mirrors` reusa o render
+  canônico de espelhos.
