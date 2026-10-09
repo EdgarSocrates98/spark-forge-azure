@@ -219,3 +219,17 @@ Measured this cycle, offline:
 
 P0-I: **EQUIVALENT** — consolidated script covers the AWS `gen_lock` +
 `gen_sbom` + offline audit trio; wheel gate matches the AWS release posture.
+
+### W8 — MCP / interoperability (§104–119)
+
+| item | status |
+|---|---|
+| upstream intake `upstream-facts/v1` | done W1 — foreign identity preserved, instruction keys refused, 256 KiB/128-fact bounds |
+| **common envelope** | **done W8** — intake accepts the AWS schema label; `write_upstream_facts` emits facts wrapped under `upstream:`/`upstream.` with `theforge/handoff` provenance; default consumer schema is the AWS label, so The Forge routes Azure→AWS with no translator |
+| pagination | cursor-based `tools/list` (`mcp/dispatch.py`), audited by `tests/test_mcp_server.py` |
+| compact mode | `compact=True` across tool modules |
+| risk vocabulary | read_only / cloud_read / local_write / cloud_write |
+| A2A | `protocols/a2a_adapter.py` — `A2A_EXPERIMENTAL` (§113: stays EXPERIMENTAL until interoperable proof) |
+
+P0-H: **EQUIVALENT** on governance discipline; MCP parity means same
+governance/schema/pagination/risk — not same tool count (§104).
