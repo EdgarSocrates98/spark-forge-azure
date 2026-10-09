@@ -55,6 +55,10 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/agentic/RUNTIME_EXECUTION_OUTCOME.md` | Outcome brief §190-191 do cycle 9 |
 | `docs/reference/agents.md` | Catálogo gerado dos 40 agents (contrato v2): kind, domain, autonomy, evals — `gen_agents_doc.py` |
 | `docs/tokensave/benchmark.md` | Benchmark reproduzível TokenSave (bytes evitados por profile) |
+| `docs/parity/AWS_AZURE_PARITY_AUDIT.md` | Auditoria capability-a-capability AWS↔Azure + wave log do ciclo 11 |
+| `docs/parity/ECONOMY_PARITY.md` | Comparativo de economia mecanismo-a-mecanismo (§135-136) com números medidos |
+| `docs/parity/AZURE_ARCHITECTURE_FREEZE_READINESS.md` | Avaliação das 8 condições §133 de freeze — veredito `ready` com provas |
+| `docs/parity/AWS_AZURE_PARITY_OUTCOME.md` | Outcome machine-readable do ciclo de paridade (§213-214) |
 
 ## Labs executáveis
 

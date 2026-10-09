@@ -307,3 +307,32 @@ o blocker #1 do freeze era resolvivel de verdade:
   custo total medido **$2.79**. Reports: `reports/<case>.host.json`.
 - `evaluate_freeze()`: **FREEZE_STATUS=frozen** — 6/6 condicoes met com
   evidencia nomeada. Regressao de prova volta a `candidate` sozinha.
+- Suite total **2895 passed / 9 skipped** (venv 3.12, ~296s).
+
+## Estado medido — cycle 11 (paridade AWS↔Azure) — **DELIVERED**
+
+`feat/cycle11-economy-parity`. `prompt_evo_economy.md` §199-212:
+
+- `W0` baseline + `parity/aws-azure.yaml` (21 capabilities) + gate
+  `scripts/check_aws_parity.py` (provas tem que existir).
+- `W1` `adapters/upstream.py`: intake `upstream-facts/v1` nos 4 casefiles —
+  identidade estrangeira preservada, chaves de instrucao recusadas,
+  bounds 256KiB/128.
+- `W2` `scripts/check_recall_economy.py`: gold set real derivado (12
+  perguntas ancoradas em simbolo .py), nominal 12/12, conceitual 0/12
+  reportado, economia `unresolved` nomeada (corpus < envelope 747B/call).
+- `W3` `evals/token_benchmark.py` + gabarito `benchmark_cases.yaml`:
+  15 casos x 3 profiles = 45/45 celulas; deep escala (debate/reviewer/
+  specialist), economy/balanced unresolved; `tokens_unresolved` declarado.
+- `W4-W7` medidos: evals/receipt/context/codeintel equivalentes; agentic
+  e graphfy **AZURE_AHEAD** (superset estrito + 17 modulos `graph/`).
+- `W8` envelope comum §118: intake aceita o rotulo AWS +
+  `write_upstream_facts` emissor (round-trip provado).
+- `W9` supply chain: verify-lock ok, audit offline 0 findings, SBOM
+  CycloneDX, `verify_wheel` reproduzivel (sha256 fd5b3c...).
+- `W10` `docs/parity/ECONOMY_PARITY.md`; `W11`
+  `AZURE_ARCHITECTURE_FREEZE_READINESS.md` = **ready** (8/8 §133);
+  `W12` `AWS_AZURE_PARITY_OUTCOME.md`.
+- Correcao real achada pela paridade: `_no_nivel` so media `symbols` —
+  `score_breakdown` tambem vive em `entry_points`; `summary` agora reduz
+  9.6% medido (13976 vs 15464 bytes).

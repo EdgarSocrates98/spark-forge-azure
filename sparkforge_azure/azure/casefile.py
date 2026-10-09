@@ -26,6 +26,7 @@ from typing import Any
 
 import yaml
 
+from sparkforge_azure.adapters.upstream import UPSTREAM_ARTIFACT, UpstreamError, read_upstream_facts
 from sparkforge_azure.facts.scan import varrer_source_files
 
 ARTIFACT_NAMES = ("unity_catalog", "rbac", "adls", "network", "entra", "compute")
@@ -47,6 +48,7 @@ class CaseBundle:
     sources: dict[str, str] = field(default_factory=dict)
     notebook_files: list[Path] = field(default_factory=list)
     skipped: list[dict[str, str]] = field(default_factory=list)
+    upstream_facts: list[dict[str, Any]] = field(default_factory=list)
 
     def to_scenario(self) -> dict[str, Any]:
         """Build the Scenario.from_dict input from the bundle."""
@@ -106,6 +108,14 @@ def load_bundle(root: str | Path) -> CaseBundle:
             raise CaseError(f"{path.name} must be a mapping")
         bundle.artifacts[name] = dict(payload)
         bundle.sources[name] = path.name
+
+    upstream_doc = root / UPSTREAM_ARTIFACT
+    if upstream_doc.is_file():
+        try:
+            bundle.upstream_facts = read_upstream_facts(upstream_doc)
+        except UpstreamError as exc:
+            raise CaseError(str(exc)) from exc
+        bundle.sources["upstream"] = upstream_doc.name
     nb_dir = root / "notebooks"
     if nb_dir.is_dir():
         varredura = varrer_source_files(nb_dir, "*")

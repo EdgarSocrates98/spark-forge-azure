@@ -33,7 +33,9 @@ case -> deterministic core -> route() -> plan_pipeline -> spawn gate
 
 `claude_code` tem transcript real: `evals/host_proof/claude_code.json` —
 ping minimo via `claude -p --output-format json`, `status=completed`,
-`trace_ref sha256:1d1c…`, usage **measured** (cost_usd=0.66). O adapter
+`trace_ref sha256:1d1c…`, usage **measured** (cost_usd=0.66). Estado
+resultante: `claude_code host_proven via evals/host_proof/claude_code.json`.
+O adapter
 deriva `status`/`proof` do artefato: transcript valido promove a
 `host_proven`; ausente/invalido nunca promove. `ClaudeCodeAdapter.
 postprocess` extrai `result` e usage do envelope JSON — tokens e custo
