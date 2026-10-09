@@ -63,7 +63,7 @@ Per-agent contract status, measured by `sparkforge_azure.agentic.inventory` — 
 
 ## Dimensions
 
-Each agent is measured on: `manifest`, `role_plan`, `tool_policy`, `knowledge`, `budget`, `handoff`, `routing`, `evals`, `agentops`. A dimension reports `True` (measured pass), `False` (measured fail), or `null` — not measurable, unresolved. Inspect one agent:
+Each agent is measured on: `manifest`, `role_plan`, `tool_policy`, `knowledge`, `budget`, `handoff`, `routing`, `evals`, `agentops`, `autonomy`. A dimension reports `True` (measured pass), `False` (measured fail), or `null` — not measurable, unresolved. Inspect one agent:
 
 ```bash
 sparkforge-azure agents inspect <id>

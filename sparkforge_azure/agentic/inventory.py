@@ -14,7 +14,8 @@ answer. No clock, no network, no LLM. Consumers: ``sparkforge-azure agents``
 ``docs/agentic/AGENT_INVENTORY.md`` (generated).
 
 Dimensions measured (Definition of Done, spec §217): manifest, role_plan,
-tool policy, knowledge bindings, routing reachability, evals. A dimension
+tool policy, knowledge bindings, budget, handoff, routing reachability,
+evals, AgentOps, autonomy level. A dimension
 that cannot be measured (e.g. evals key absent in v1 manifests) is reported
 ``None`` — unresolved — and never counts as satisfied.
 """
@@ -27,6 +28,7 @@ from typing import Any
 
 from sparkforge_azure.agentmanifest.model import (
     ALL_AGENT_IDS,
+    AUTONOMY_LEVELS,
     ROLE_IDS,
     SPECIALIST_IDS,
     SUBAGENT_IDS,
@@ -55,6 +57,7 @@ DIMENSIONS: tuple[str, ...] = (
     "routing",
     "evals",
     "agentops",
+    "autonomy",
 )
 
 
@@ -264,6 +267,12 @@ def _dim_reports(
         f"unresolvable: {unresolvable}" if unresolvable else None,
     ))
     dims.append(DimensionReport("agentops", _agentops_coverage(agent_id, data)))
+    level = data.get("autonomy")
+    dims.append(DimensionReport(
+        "autonomy",
+        None if level is None else level in AUTONOMY_LEVELS,
+        f"level {level}" if level in AUTONOMY_LEVELS else f"invalid: {level}",
+    ))
     return tuple(dims)
 
 
