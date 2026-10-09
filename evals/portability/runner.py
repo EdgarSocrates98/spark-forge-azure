@@ -341,7 +341,16 @@ def main() -> int:
     report["failed"] = len(all_fails)
 
     REPORTS.mkdir(exist_ok=True)
-    (REPORTS / "portability-matrix.json").write_text(
+    # `--case` é prova pontual: escreve artefato próprio e nunca sobrescreve
+    # a matriz rastreada (a matriz é evidência do run completo — um caso
+    # isolado não a representa; polish: o gate de frescura lia 1/1 depois
+    # de qualquer prova de claim).
+    out = (
+        REPORTS / "portability-matrix.json"
+        if not args.only
+        else REPORTS / f"case-{args.only}.json"
+    )
+    out.write_text(
         json.dumps(report, indent=1, ensure_ascii=False), encoding="utf-8"
     )
     if args.json:

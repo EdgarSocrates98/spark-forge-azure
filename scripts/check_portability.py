@@ -41,6 +41,8 @@ PORTABLE_DOCS = (
     "docs/portability/HOST_INTEGRATION.md",
     "docs/portability/DETACH.md",
     "docs/portability/PORTABILITY_OUTCOME.md",
+    "docs/portability/TROUBLESHOOTING.md",
+    "docs/CURRENT_STATE.md",
     "docs/guides/SPARKFORGE_AZURE_PORTABLE.md",
     "docs/guides/SPARKFORGE_AZURE_PORTABLE.pt-BR.md",
 )
@@ -170,6 +172,93 @@ def check_path_audit(errors: list[str]) -> None:
         errors.append("path audit: resolve_within recusou path legítimo")
 
 
+def check_failure_kind_docs(errors: list[str]) -> None:
+    """Polish §52–§54: every closed-vocabulary failure `kind` must appear in
+    TROUBLESHOOTING.md. Kind is the contract; unlock wording may evolve."""
+    doc = ROOT / "docs" / "portability" / "TROUBLESHOOTING.md"
+    if not doc.is_file():
+        return  # check_docs already flags the missing file
+    from sparkforge_azure.distribution.errors import FAILURE_KINDS
+
+    text = doc.read_text(encoding="utf-8")
+    for kind in sorted(FAILURE_KINDS):
+        if f"`{kind}`" not in text:
+            errors.append(f"troubleshooting: failure kind `{kind}` undocumented")
+
+
+def check_quickstart_commands(errors: list[str]) -> None:
+    """Polish §62–§64: every `sparkforge-azure <verb>` line in the portable
+    quickstarts must resolve to a real command path in the surface lock
+    (parser-level check — never executes the commands)."""
+    import re as _re
+
+    known = set(
+        json.loads((ROOT / "docs" / "surface.lock.json").read_text(
+            encoding="utf-8"
+        ))["cli"]["commands"]
+    )
+    for rel in PORTABLE_DOCS:
+        if "guides/" not in rel:
+            continue
+        doc = ROOT / rel
+        if not doc.is_file():
+            continue
+        for n, line in enumerate(
+            doc.read_text(encoding="utf-8").splitlines(), 1
+        ):
+            m = _re.match(r"^\s*sparkforge-azure\s+(.+?)(?:\s+#.*)?$", line)
+            if not m:
+                continue
+            tokens = [
+                t for t in m.group(1).split() if not t.startswith("-")
+            ]
+            # longest prefix of tokens that forms a locked command path
+            matched = ""
+            for i in range(len(tokens), 0, -1):
+                cand = " ".join(tokens[:i])
+                if cand in known:
+                    matched = cand
+                    break
+            if not matched:
+                errors.append(
+                    f"quickstart {rel}:{n}: `sparkforge-azure "
+                    f"{' '.join(tokens[:2])}` is not a real command"
+                )
+
+
+def check_current_state(errors: list[str]) -> None:
+    """Polish §22: CURRENT_STATE.md must exist, carry the GENERATED header
+    and not drift from a fresh regeneration (SHA stamped at gen time is
+    exempt — it changes on every commit by design)."""
+    doc = ROOT / "docs" / "CURRENT_STATE.md"
+    if not doc.is_file():
+        return  # check_docs flags it
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import gen_current_state  # noqa: PLC0415
+
+    existing = doc.read_text(encoding="utf-8")
+    if gen_current_state.HEADER not in existing:
+        errors.append("current_state: GENERATED header missing")
+        return
+    def body_rows(text: str) -> list[str]:
+        return [
+            line for line in text.splitlines()
+            if line.startswith("|") and "MAIN_SHA" not in line
+        ]
+
+    fresh = gen_current_state.render(gen_current_state.collect())
+    diff = [
+        f"{a!r} != {b!r}"
+        for a, b in zip(body_rows(existing), body_rows(fresh))
+        if a != b
+    ]
+    if diff or len(body_rows(existing)) != len(body_rows(fresh)):
+        errors.append(
+            "current_state: stale — regen with gen_current_state.py "
+            f"({'; '.join(diff) or 'row count differs'})"
+        )
+
+
 def _venv_python(venv_dir: Path) -> Path:
     win = venv_dir / "Scripts" / "python.exe"
     nix = venv_dir / "bin" / "python"
@@ -275,6 +364,9 @@ def main() -> int:
     check_docs(errors)
     check_no_checkout_dep(errors)
     check_path_audit(errors)
+    check_failure_kind_docs(errors)
+    check_quickstart_commands(errors)
+    check_current_state(errors)
     # mirror sync is the heaviest check — keep it opt-in with --wheel so
     # the fast gate stays fast; it runs anyway inside check_skills_agents.
     if args.wheel:

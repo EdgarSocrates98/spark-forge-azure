@@ -3,6 +3,106 @@
  "tier": "T1-T2",
  "results": [
   {
+   "case": "single-repo",
+   "status": "ok",
+   "observed": {
+    "project_id_prefix": "sfa-",
+    "status_ok": false,
+    "detach_preserves_state": true,
+    "reattach_same_id": true
+   },
+   "failures": []
+  },
+  {
+   "case": "monorepo",
+   "status": "ok",
+   "observed": {
+    "projects": 3,
+    "paths_relative": true,
+    "workspace_id_prefix": "sfw-"
+   },
+   "failures": []
+  },
+  {
+   "case": "multi-repo",
+   "status": "ok",
+   "observed": {
+    "external_marked": true,
+    "external_paths_absolute": true,
+    "projects": 2
+   },
+   "failures": []
+  },
+  {
+   "case": "relocated-repo",
+   "status": "ok",
+   "observed": {
+    "id_survives_move": true,
+    "redeclared": true,
+    "add_outcome": "relocated"
+   },
+   "failures": []
+  },
+  {
+   "case": "copied-repo",
+   "status": "ok",
+   "observed": {
+    "copy_needs_regen": true,
+    "regen_new_id": true,
+    "added_after_regen": true
+   },
+   "failures": []
+  },
+  {
+   "case": "direct-deps",
+   "status": "ok",
+   "observed": {
+    "scope": "direct",
+    "selected": [
+     "app",
+     "lib"
+    ],
+    "target_in": true,
+    "direct_in": true,
+    "excludes_transitive": true
+   },
+   "failures": []
+  },
+  {
+   "case": "transitive-deps",
+   "status": "ok",
+   "observed": {
+    "scope": "transitive",
+    "reaches_closure": true,
+    "cycle_refused": true,
+    "cycle_kind": "dependency_cycle"
+   },
+   "failures": []
+  },
+  {
+   "case": "host-unavailable",
+   "status": "ok",
+   "observed": {
+    "never_fails": true,
+    "statuses": [
+     "unavailable"
+    ],
+    "no_unexpected": true
+   },
+   "failures": []
+  },
+  {
+   "case": "mcp-only",
+   "status": "ok",
+   "observed": {
+    "mirrors_written": 0,
+    "mcp_key": true,
+    "no_claude_dir": true,
+    "marker_block": true
+   },
+   "failures": []
+  },
+  {
    "case": "detach-reattach",
    "status": "ok",
    "observed": {

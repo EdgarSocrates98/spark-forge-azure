@@ -44,6 +44,15 @@ def test_inspect_uninitialized_is_ok(project: Path) -> None:
     assert out["assets"]["asset_count"] > 0
 
 
+def test_existing_verbs_work_without_distribution_init(tmp_path: Path) -> None:
+    # §125–§127: `distribution init` is opt-in — pre-existing CLI verbs must
+    # still succeed in a repo with no .sparkforge-azure/project.yaml.
+    from sparkforge_azure.cli.main import main
+
+    assert main(["version"]) == 0
+    assert not (tmp_path / ".sparkforge-azure" / "project.yaml").exists()
+
+
 def test_init_writes_identity_and_mcp(project: Path) -> None:
     out = service.initialize(project)
     assert out["status"] == "ok"
