@@ -17,7 +17,7 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "suite-green",
@@ -36,7 +36,7 @@
      "pattern": "\n2818 passed"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "surface-lock",
@@ -51,7 +51,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "skills-catalogue-22",
@@ -69,7 +69,7 @@
      "value": 22
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "mcp-tools-15",
@@ -88,7 +88,7 @@
      "value": 15
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "knowledge-check",
@@ -103,7 +103,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "lab-verify",
@@ -122,7 +122,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "access-suite-10",
@@ -144,7 +144,7 @@
      "value": 10
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -167,7 +167,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "security-vertical-green",
@@ -187,7 +187,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "fabric-suite-green",
@@ -210,7 +210,7 @@
      "value": 16
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -226,7 +226,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "fabric-mcp-surface",
@@ -242,7 +242,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "docs-surface",
@@ -258,7 +258,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "stream-suite-green",
@@ -274,7 +274,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "stream-mcp-surface",
@@ -290,7 +290,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "migration-suite-green",
@@ -306,7 +306,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "migration-mcp-surface",
@@ -322,7 +322,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "docs-index",
@@ -338,7 +338,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "agentic-fleet-40",
@@ -358,7 +358,7 @@
      "value": 40
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "agentic-fingerprint",
@@ -377,7 +377,7 @@
      "pattern": "\"fingerprint\":\\s*\"sha256:[0-9a-f]{64}\""
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   },
   {
    "id": "sdd-gate-green",
@@ -397,7 +397,7 @@
      "value": true
     }
    },
-   "sha": "38f19f2258ddeed98c32e2df3f80ef702019b07d"
+   "sha": "13c5d005e07b4f48ea8e2a1ccdbc57f51187f7df"
   }
  ]
 }
