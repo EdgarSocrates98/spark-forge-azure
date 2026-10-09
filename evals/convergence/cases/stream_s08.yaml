@@ -1,0 +1,8 @@
+id: stream-s08
+vertical: stream
+fixture: tests/fixtures/stream/s08-checkpoint-deleted-latest
+required_findings: [SF-STR-LOSS-RISK, SF-STR-RETENTION]
+forbidden_findings: [SFA-GOV-000, SF-FAB-001, SF-MIG-002]
+required_evidence:
+  - checkpoint
+allowed_unresolved: []

@@ -31,10 +31,15 @@ Medido neste repositorio em `feat/cycle6-convergence` (base
 1. **Convergencia estrutural dos recibos e real.** Os 4 `run_case`
    devolvem o mesmo nucleo: `case`, `case_meta`, `facts`, `findings`,
    `rules_skipped`, `unresolved`, `knowledge`, `graph` (+ graph tipado por
-   vertical), `evidence_paths` (3/4), `trust`, `taint`, `stages`,
+   vertical), `evidence_paths`, `trust`, `taint`, `stages`,
    `overhead`, `receipt`, `status`, `operation`.
-2. **`environment_fingerprint` existe em fabric/stream/migration e falta
-   em databricks.** Divergencia pequena e medida — fechada na Wave 1.
+2. **`environment_fingerprint` existia em fabric/stream/migration e
+   faltava em databricks — fechado na Wave 1** via
+   `azure/fingerprint.py` (`case_meta.environment_fingerprint`, mesma
+   posicao semantica dos demais). `evidence_paths` faltava em migration
+   — fechado na Wave 1 via `migration._evidence_paths` (finding ->
+   facts -> arquivo de proveniencia). Validado por
+   `evals/convergence/runner.py`: 20/20 celulas (4 casos x 5 profiles).
 3. **Memory nao tem consumidor real.** `azure/memory.py` define
    `record_access_case`/`env_fingerprint` e nenhum pipeline, MCP tool ou
    CLI os invoca. Candidato a `doc-only`: declarar como tal ou ligar a um

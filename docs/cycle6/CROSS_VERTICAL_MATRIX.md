@@ -7,7 +7,7 @@ Legenda de uso real: **H** = hot path do `run_case`; **S** = superficie
 | Capability | Databricks | Fabric | Streaming | Migration | Shared contract | Shared impl | Provider specialization | Known divergence | Action |
 |---|---|---|---|---|---|---|---|---|---|
 | Facts/Rules/Findings | H | H | H | H | `Fact`/`Finding` em `facts/`+`findings/` | mesmos loaders e judge | regras por vertical | nenhuma | — |
-| Receipt | H | H | H | H | `receipt`+`evidence_paths`+`overhead` | `receipt/`+`decision/` | nome do graph key muda | `evidence_paths` ausente em migration | verificar (§18) |
+| Receipt | H | H | H | H | `receipt`+`evidence_paths`+`overhead` | `receipt/`+`decision/` | nome do graph key muda | fechada W1: migration emite `evidence_paths` | — |
 | Graphfy | H | H | H | H | nodes/edges tipados + proveniencia | `graph/` | `access/fabric/stream/migration_graph` | ids por dominio (§14) | — |
 | Knowledge | H | H | H | H | `knowledge` no resultado | `knowledgebase/` | packs por vertical | nenhuma | — |
 | Trust DATA_ONLY | H | H | H | H | `taint`/`trust` no resultado | `agentic/trust.py` | — | nenhuma | — |
@@ -18,8 +18,8 @@ Legenda de uso real: **H** = hot path do `run_case`; **S** = superficie
 | Code Intelligence | S | S | S | S | indice+pack | `codeintel/` | — | idem | documentar |
 | Memory | - | S | - | - | env-scoped records | `azure/memory.py` | so fabric referencia fingerprint | **sem consumidor real** | nomear doc-only |
 | Recovery | S (collect) | S (collect) | S (collect) | S (collect) | taxonomia FailureKinds | `collectors/recover.py` | — | pipelines nao coletam live | documentar taxonomia |
-| Env fingerprint | - | H | H | H | `environment_fingerprint` | por pipeline | — | **ausente em databricks** | fechar W1 |
-| Eval lab | S | S | S | S | `evals/convergence/` | runner compartilhado | cases por vertical | **lab nao existia** | criar W2 |
+| Env fingerprint | H | H | H | H | `case_meta.environment_fingerprint` | por pipeline | — | fechada W1: `azure/fingerprint.py` | — |
+| Eval lab | H | H | H | H | `evals/convergence/` | runner compartilhado | cases por vertical | fechada W1: 20/20 celulas | — |
 
 ## Divergencias deliberadas (nao forcar identidade, §10)
 

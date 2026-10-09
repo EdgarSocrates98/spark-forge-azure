@@ -1,0 +1,9 @@
+id: access-s01
+vertical: databricks
+fixture: tests/fixtures/access/s01_uc_privilege_denied
+required_findings: [SFA-GOV-000]
+forbidden_findings: [SF-FAB-001, SF-STR-LOSS-RISK, SF-MIG-002]
+required_evidence:
+  - uc_privileges
+  - adls_acl
+allowed_unresolved: []
