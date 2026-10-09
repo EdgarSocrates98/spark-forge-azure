@@ -82,6 +82,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: null
 name: sparkforge-azure-adls-specialist
 description: 'Specialist em ADLS Gen2 (RBAC de dados, ACL, firewall): produz findings

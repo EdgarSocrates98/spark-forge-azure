@@ -70,6 +70,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: null
 name: sparkforge-azure-security-reviewer
 description: Revisa findings e mudanças pelo ângulo de identidade, segredos, exposição

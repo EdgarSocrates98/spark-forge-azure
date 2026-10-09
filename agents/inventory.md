@@ -59,6 +59,7 @@ review_policy:
 evals: [tests/test_agentic_inventory.py, tests/test_agent_contract_v2.py]
 agentops_emit_span: true
 risk: cloud_read
+autonomy: L0
 parent: null
 ---
 

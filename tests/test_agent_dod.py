@@ -24,7 +24,7 @@ REPO = Path(__file__).resolve().parents[1]
 
 CORE_DIMS = {
     "manifest", "role_plan", "tool_policy", "budget",
-    "handoff", "routing", "evals", "agentops",
+    "handoff", "routing", "evals", "agentops", "autonomy",
 }
 
 

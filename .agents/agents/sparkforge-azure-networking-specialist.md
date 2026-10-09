@@ -80,6 +80,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: null
 name: sparkforge-azure-networking-specialist
 description: 'Specialist em Rede (Private Link, DNS, VNet, NSG): produz findings do

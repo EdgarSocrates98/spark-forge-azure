@@ -65,6 +65,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: azure-databricks-specialist
 name: sparkforge-azure-databricks-runtime-reviewer
 description: Revisa versão de DBR, suporte e compatibilidade de bibliotecas de jobs/clusters.

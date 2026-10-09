@@ -162,6 +162,8 @@ ADVERSARIAL_CHECKS: tuple[str, ...] = ("never", "on_conflict", "always")
 MODEL_TIERS: tuple[str, ...] = ("economy", "balanced", "deep")
 RISKS: tuple[str, ...] = ("read_only", "local_write", "cloud_read")
 FORBIDDEN_RISKS: tuple[str, ...] = ("cloud_write",)
+#: Closed autonomy vocabulary (§153) — values of agentic.autonomy.AutonomyLevel.
+AUTONOMY_LEVELS: tuple[str, ...] = ("L0", "L1", "L2", "L3", "L4", "L5")
 #: Mirrors ``sparkforge_azure.agentic.trust.TrustLabel`` values usable as a floor.
 TRUST_FLOORS: tuple[str, ...] = (
     "VERIFIED_FINDING",
@@ -214,6 +216,7 @@ REQUIRED_KEYS: tuple[str, ...] = (
     "evals",
     "agentops_emit_span",
     "risk",
+    "autonomy",
     "parent",
 )
 #: Optional keys — validated when present, never required. ``rule_areas`` names the
@@ -502,6 +505,10 @@ def validate_manifest(
                 f"{list(ADVERSARIAL_CHECKS)}")
     if not isinstance(data["agentops_emit_span"], bool):
         err(f"{where}: agentops_emit_span must be a bool")
+
+    autonomy = data["autonomy"]
+    if autonomy not in AUTONOMY_LEVELS:
+        err(f"{where}: autonomy {autonomy!r} not in {list(AUTONOMY_LEVELS)}")
 
     risk = data["risk"]
     if risk in FORBIDDEN_RISKS:

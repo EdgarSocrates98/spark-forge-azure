@@ -58,6 +58,7 @@ review_policy:
 evals: [tests/test_agentic_arbitration.py, tests/test_agentic_debate_run.py, tests/test_agent_contract_v2.py]
 agentops_emit_span: true
 risk: read_only
+autonomy: L2
 parent: null
 ---
 

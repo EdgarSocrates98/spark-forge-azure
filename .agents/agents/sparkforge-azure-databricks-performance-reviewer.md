@@ -69,6 +69,7 @@ evals:
 - tests/test_agent_contract_v2.py
 agentops_emit_span: true
 risk: read_only
+autonomy: L1
 parent: azure-databricks-specialist
 name: sparkforge-azure-databricks-performance-reviewer
 description: Revisa configuração de compute (autoscale, Photon, node type) frente
