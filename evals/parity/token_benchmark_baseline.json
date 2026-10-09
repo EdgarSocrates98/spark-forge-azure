@@ -1,0 +1,2671 @@
+{
+ "schema_version": 1,
+ "suite": {
+  "id": "token-efficient-matrix",
+  "sha256": "53a40ec7eb5f2f0c20f64124d884d26910f4206eae33cd56b57c2d239c7e66fe",
+  "baseline_id": "local-deterministic-v1"
+ },
+ "profiles": [
+  "economy",
+  "balanced",
+  "deep"
+ ],
+ "quality_axes": [
+  "status",
+  "evidence_recall",
+  "false_positive_rate",
+  "unresolved",
+  "execution_plan"
+ ],
+ "fixture_paths": [
+  "fixtures/benchmark_cases.yaml",
+  "fixtures/federated_graph_cases.yaml",
+  "fixtures/provider_transcripts.yaml",
+  "fixtures/decision_control_plane_cases.yaml",
+  "fixtures/calibration_history.yaml",
+  "fixtures/host_replay.yaml"
+ ],
+ "decision_fixture_path": "fixtures/decision_plane_cases.yaml",
+ "decision_replay_contract": {
+  "labeled_tasks": 50,
+  "minimum_labeled_tasks": 50,
+  "same_case_required": true,
+  "same_input_manifest_required": true,
+  "cost_requires_basis": true
+ },
+ "results": [
+  {
+   "schema_version": 1,
+   "case_id": "uc-access-routing",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2842,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "deterministic",
+    "reason": "deterministic_first",
+    "triggers": [],
+    "complexity": "low",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "resolved",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "resolved",
+    "observed_answer_status": "resolved",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "deterministic",
+    "observed_execution_plan": "deterministic"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "uc-access-routing",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2845,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "deterministic",
+    "reason": "deterministic_first",
+    "triggers": [],
+    "complexity": "low",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "resolved",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "resolved",
+    "observed_answer_status": "resolved",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "deterministic",
+    "observed_execution_plan": "deterministic"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "uc-access-routing",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2842,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "deterministic",
+    "reason": "deterministic_first",
+    "triggers": [],
+    "complexity": "low",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "resolved",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "resolved",
+    "observed_answer_status": "resolved",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "deterministic",
+    "observed_execution_plan": "deterministic"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "critical-budget",
+   "profile": "economy",
+   "status": "refused",
+   "payload_bytes": 415,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": null,
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [
+     "budget_unresolved"
+    ],
+    "observed_unresolved": [
+     "budget_unresolved"
+    ],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": null,
+    "observed_execution_plan": null
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": "budget_unresolved",
+   "unresolved": [
+    "budget_unresolved"
+   ]
+  },
+  {
+   "schema_version": 1,
+   "case_id": "critical-budget",
+   "profile": "balanced",
+   "status": "refused",
+   "payload_bytes": 416,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": null,
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [
+     "budget_unresolved"
+    ],
+    "observed_unresolved": [
+     "budget_unresolved"
+    ],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": null,
+    "observed_execution_plan": null
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": "budget_unresolved",
+   "unresolved": [
+    "budget_unresolved"
+   ]
+  },
+  {
+   "schema_version": 1,
+   "case_id": "critical-budget",
+   "profile": "deep",
+   "status": "refused",
+   "payload_bytes": 412,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": null,
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [
+     "budget_unresolved"
+    ],
+    "observed_unresolved": [
+     "budget_unresolved"
+    ],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": null,
+    "observed_execution_plan": null
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": "budget_unresolved",
+   "unresolved": [
+    "budget_unresolved"
+   ]
+  },
+  {
+   "schema_version": 1,
+   "case_id": "planner-partial",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 3288,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "high_risk_change"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "high_risk_change"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "partial",
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "high_risk_change"
+    ],
+    "observed_triggers": [
+     "high_risk_change"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "planner-partial",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 3291,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "high_risk_change"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "high_risk_change"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "partial",
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "high_risk_change"
+    ],
+    "observed_triggers": [
+     "high_risk_change"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "planner-partial",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 3264,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "reviewer",
+    "reason": "review_triggered",
+    "triggers": [
+     "high_risk_change"
+    ],
+    "complexity": "high",
+    "reasoning_required": true,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "high_risk_change"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "partial",
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "high_risk_change"
+    ],
+    "observed_triggers": [
+     "high_risk_change"
+    ],
+    "expected_execution_plan": "reviewer",
+    "observed_execution_plan": "reviewer"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "workspace-unresolved",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 3573,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "unresolved_reference"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "unresolved_reference"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [
+     "unresolved_reference"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "workspace-unresolved",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 3576,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "unresolved_reference"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "unresolved_reference"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [
+     "unresolved_reference"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "workspace-unresolved",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 3557,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "specialist",
+    "reason": "specialist_triggered",
+    "triggers": [
+     "unresolved_reference"
+    ],
+    "complexity": "medium",
+    "reasoning_required": true,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "unresolved_reference"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [
+     "unresolved_reference"
+    ],
+    "expected_execution_plan": "specialist",
+    "observed_execution_plan": "specialist"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "quality-evidence",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2465,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-quality"
+    ],
+    "observed_evidence": [
+     "f-quality"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "quality-evidence",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2468,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-quality"
+    ],
+    "observed_evidence": [
+     "f-quality"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "quality-evidence",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2453,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "no_deterministic_basis",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-quality"
+    ],
+    "observed_evidence": [
+     "f-quality"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "authority-conflict",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 3634,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "authority_conflict"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "authority_conflict"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-authority"
+    ],
+    "observed_evidence": [
+     "f-authority"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "authority_conflict"
+    ],
+    "observed_triggers": [
+     "authority_conflict"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "authority-conflict",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 3638,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "authority_conflict"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "authority_conflict"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-authority"
+    ],
+    "observed_evidence": [
+     "f-authority"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "authority_conflict"
+    ],
+    "observed_triggers": [
+     "authority_conflict"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "authority-conflict",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 3612,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "debate",
+    "reason": "escalation_triggered",
+    "triggers": [
+     "authority_conflict"
+    ],
+    "complexity": "high",
+    "reasoning_required": true,
+    "parallelism_useful": true,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "authority_conflict"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-authority"
+    ],
+    "observed_evidence": [
+     "f-authority"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "authority_conflict"
+    ],
+    "observed_triggers": [
+     "authority_conflict"
+    ],
+    "expected_execution_plan": "debate",
+    "observed_execution_plan": "debate"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "risk-and-confidence",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2770,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "observed_evidence": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [
+     "finding-risk"
+    ],
+    "observed_findings": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "observed_triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.5,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "risk-and-confidence",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2774,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "observed_evidence": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [
+     "finding-risk"
+    ],
+    "observed_findings": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "observed_triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.5,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "risk-and-confidence",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2747,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "reviewer",
+    "reason": "review_triggered",
+    "triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "complexity": "high",
+    "reasoning_required": true,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "observed_evidence": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [
+     "finding-risk"
+    ],
+    "observed_findings": [
+     "f-risk",
+     "finding-risk"
+    ],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "observed_triggers": [
+     "confidence_gap",
+     "high_risk_change"
+    ],
+    "expected_execution_plan": "reviewer",
+    "observed_execution_plan": "reviewer"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.5,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "unresolved-reference",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2504,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "unresolved_reference"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "unresolved_reference"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [
+     "unresolved_reference"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "unresolved-reference",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2508,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "unresolved_reference"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "unresolved_reference"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [
+     "unresolved_reference"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "unresolved-reference",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2489,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "specialist",
+    "reason": "specialist_triggered",
+    "triggers": [
+     "unresolved_reference"
+    ],
+    "complexity": "medium",
+    "reasoning_required": true,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "unresolved_reference"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [
+     "unresolved_reference"
+    ],
+    "expected_execution_plan": "specialist",
+    "observed_execution_plan": "specialist"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "confidence-gap",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 3099,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "confidence_gap"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "confidence_gap"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-low-confidence"
+    ],
+    "observed_evidence": [
+     "f-low-confidence"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "confidence_gap"
+    ],
+    "observed_triggers": [
+     "confidence_gap"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "confidence-gap",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 3103,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "confidence_gap"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "confidence_gap"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-low-confidence"
+    ],
+    "observed_evidence": [
+     "f-low-confidence"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "confidence_gap"
+    ],
+    "observed_triggers": [
+     "confidence_gap"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "confidence-gap",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 3076,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "reviewer",
+    "reason": "review_triggered",
+    "triggers": [
+     "confidence_gap"
+    ],
+    "complexity": "high",
+    "reasoning_required": true,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "confidence_gap"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-low-confidence"
+    ],
+    "observed_evidence": [
+     "f-low-confidence"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "confidence_gap"
+    ],
+    "observed_triggers": [
+     "confidence_gap"
+    ],
+    "expected_execution_plan": "reviewer",
+    "observed_execution_plan": "reviewer"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "critical-knowledge",
+   "profile": "economy",
+   "status": "refused",
+   "payload_bytes": 564,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": null,
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [
+     "budget_unresolved"
+    ],
+    "observed_unresolved": [
+     "budget_unresolved"
+    ],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": null,
+    "observed_execution_plan": null
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": "budget_unresolved",
+   "unresolved": [
+    "budget_unresolved"
+   ]
+  },
+  {
+   "schema_version": 1,
+   "case_id": "critical-knowledge",
+   "profile": "balanced",
+   "status": "refused",
+   "payload_bytes": 565,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": null,
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [
+     "budget_unresolved"
+    ],
+    "observed_unresolved": [
+     "budget_unresolved"
+    ],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": null,
+    "observed_execution_plan": null
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": "budget_unresolved",
+   "unresolved": [
+    "budget_unresolved"
+   ]
+  },
+  {
+   "schema_version": 1,
+   "case_id": "critical-knowledge",
+   "profile": "deep",
+   "status": "refused",
+   "payload_bytes": 561,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": null,
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [
+     "budget_unresolved"
+    ],
+    "observed_unresolved": [
+     "budget_unresolved"
+    ],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": null,
+    "observed_execution_plan": null
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": "budget_unresolved",
+   "unresolved": [
+    "budget_unresolved"
+   ]
+  },
+  {
+   "schema_version": 1,
+   "case_id": "code-and-knowledge",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2668,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "code-and-knowledge",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2672,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "code-and-knowledge",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2657,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "no_deterministic_basis",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "planner-debate",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2687,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-conflict"
+    ],
+    "observed_evidence": [
+     "f-conflict"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "partial",
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "observed_triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "planner-debate",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2691,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-conflict"
+    ],
+    "observed_evidence": [
+     "f-conflict"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "partial",
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "observed_triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "planner-debate",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2665,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "debate",
+    "reason": "escalation_triggered",
+    "triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "complexity": "high",
+    "reasoning_required": true,
+    "parallelism_useful": true,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-conflict"
+    ],
+    "observed_evidence": [
+     "f-conflict"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "partial",
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "observed_triggers": [
+     "authority_conflict",
+     "conflicting_rules"
+    ],
+    "expected_execution_plan": "debate",
+    "observed_execution_plan": "debate"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "explicit-unavailable",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2007,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "answer_unavailable",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "unavailable",
+    "reasons": [
+     "catalog evidence unavailable"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "unavailable",
+    "observed_answer_status": "unavailable",
+    "expected_answer_reasons": [
+     "catalog evidence unavailable"
+    ],
+    "observed_answer_reasons": [
+     "catalog evidence unavailable"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "explicit-unavailable",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2011,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "answer_unavailable",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "unavailable",
+    "reasons": [
+     "catalog evidence unavailable"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "unavailable",
+    "observed_answer_status": "unavailable",
+    "expected_answer_reasons": [
+     "catalog evidence unavailable"
+    ],
+    "observed_answer_reasons": [
+     "catalog evidence unavailable"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "explicit-unavailable",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2008,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "answer_unavailable",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "unavailable",
+    "reasons": [
+     "catalog evidence unavailable"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": "unavailable",
+    "observed_answer_status": "unavailable",
+    "expected_answer_reasons": [
+     "catalog evidence unavailable"
+    ],
+    "observed_answer_reasons": [
+     "catalog evidence unavailable"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "bounded-payload",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2150,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "bounded-payload",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2153,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "bounded-payload",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2138,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "no_deterministic_basis",
+    "triggers": [],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": []
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [],
+    "observed_evidence": [],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [],
+    "observed_triggers": [],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": null,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "missing-evidence",
+   "profile": "economy",
+   "status": "ok",
+   "payload_bytes": 2733,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "missing_evidence"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "missing_evidence"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-missing"
+    ],
+    "observed_evidence": [
+     "f-missing"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "missing_evidence"
+    ],
+    "observed_triggers": [
+     "missing_evidence"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "missing-evidence",
+   "profile": "balanced",
+   "status": "ok",
+   "payload_bytes": 2737,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "unresolved",
+    "reason": "partial_answer_escalation_disabled",
+    "triggers": [
+     "missing_evidence"
+    ],
+    "complexity": "unknown",
+    "reasoning_required": false,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "missing_evidence"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-missing"
+    ],
+    "observed_evidence": [
+     "f-missing"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "missing_evidence"
+    ],
+    "observed_triggers": [
+     "missing_evidence"
+    ],
+    "expected_execution_plan": "unresolved",
+    "observed_execution_plan": "unresolved"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  },
+  {
+   "schema_version": 1,
+   "case_id": "missing-evidence",
+   "profile": "deep",
+   "status": "ok",
+   "payload_bytes": 2718,
+   "provider_tokens": null,
+   "tokens_unresolved": true,
+   "execution_plan": {
+    "kind": "specialist",
+    "reason": "specialist_triggered",
+    "triggers": [
+     "missing_evidence"
+    ],
+    "complexity": "medium",
+    "reasoning_required": true,
+    "parallelism_useful": false,
+    "provider_hint": null
+   },
+   "answer_state": {
+    "status": "partial",
+    "reasons": [
+     "answer_state_not_declared"
+    ],
+    "triggers": [
+     "missing_evidence"
+    ]
+   },
+   "passed": true,
+   "baseline_id": "local-deterministic-v1",
+   "suite_id": "token-efficient-matrix",
+   "quality": {
+    "expected_evidence": [
+     "f-missing"
+    ],
+    "observed_evidence": [
+     "f-missing"
+    ],
+    "expected_unresolved": [],
+    "observed_unresolved": [],
+    "expected_findings": [],
+    "observed_findings": [],
+    "expected_answer_status": null,
+    "observed_answer_status": "partial",
+    "expected_answer_reasons": [],
+    "observed_answer_reasons": [
+     "answer_state_not_declared"
+    ],
+    "expected_triggers": [
+     "missing_evidence"
+    ],
+    "observed_triggers": [
+     "missing_evidence"
+    ],
+    "expected_execution_plan": "specialist",
+    "observed_execution_plan": "specialist"
+   },
+   "evidence_recall": 1.0,
+   "false_positive_rate": 0.0,
+   "refusal_reason": null,
+   "unresolved": []
+  }
+ ],
+ "summary": {
+  "economy": {
+   "cases": 15,
+   "passed": 15,
+   "failed": 0,
+   "status": {
+    "ok": 13,
+    "refused": 2
+   },
+   "execution_plan": {
+    "None": 2,
+    "deterministic": 1,
+    "unresolved": 12
+   },
+   "payload_bytes": {
+    "median_low": 2687,
+    "max": 3634
+   },
+   "evidence_recall": {
+    "median_low": 1.0,
+    "max": 1.0
+   },
+   "false_positive_rate": {
+    "median_low": 0.0,
+    "max": 0.5
+   },
+   "tokens_unresolved": 15
+  },
+  "balanced": {
+   "cases": 15,
+   "passed": 15,
+   "failed": 0,
+   "status": {
+    "ok": 13,
+    "refused": 2
+   },
+   "execution_plan": {
+    "None": 2,
+    "deterministic": 1,
+    "unresolved": 12
+   },
+   "payload_bytes": {
+    "median_low": 2691,
+    "max": 3638
+   },
+   "evidence_recall": {
+    "median_low": 1.0,
+    "max": 1.0
+   },
+   "false_positive_rate": {
+    "median_low": 0.0,
+    "max": 0.5
+   },
+   "tokens_unresolved": 15
+  },
+  "deep": {
+   "cases": 15,
+   "passed": 15,
+   "failed": 0,
+   "status": {
+    "ok": 13,
+    "refused": 2
+   },
+   "execution_plan": {
+    "None": 2,
+    "debate": 2,
+    "deterministic": 1,
+    "reviewer": 3,
+    "specialist": 3,
+    "unresolved": 4
+   },
+   "payload_bytes": {
+    "median_low": 2665,
+    "max": 3612
+   },
+   "evidence_recall": {
+    "median_low": 1.0,
+    "max": 1.0
+   },
+   "false_positive_rate": {
+    "median_low": 0.0,
+    "max": 0.5
+   },
+   "tokens_unresolved": 15
+  }
+ }
+}

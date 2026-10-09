@@ -69,7 +69,7 @@ Portability: `COPY_SAFE` · `ADAPT` · `REFERENCE_ONLY` · `PROVIDER_SPECIFIC` �
 | decision replay | MATURE | MATURE | EQUIVALENT | — | `evals/decision_replay.py` both sides |
 | evidence bundles + resolver + lifecycle | MATURE | MATURE | EQUIVALENT | — | `evals/evidence*.py`, `evals/lifecycle.py` both sides |
 | candidate policy / promotion / rollback | MATURE | MATURE | EQUIVALENT | — | `evals/policy.py`, `evals/evolution.py`, `decision/authority.py` both sides |
-| token benchmark (Gateway profiles) | MATURE | **ABSENT** | **AWS_AHEAD** | ADAPT | `evals/token_benchmark.py` (AWS only); Azure has the `evals/token_efficient/` suite + fixtures it consumes — W3 |
+| token benchmark (Gateway profiles) | MATURE | **MATURE** | EQUIVALENT | ADAPT | `evals/token_benchmark.py` ported this cycle; Azure `benchmark_cases.yaml` gabarito (15 cases × 3 profiles, 45/45 cells pass); `scripts/check_token_efficient_bench.py` gate |
 | agent runtime eval (A/B value vector) | ABSENT | **EVALUATED** | **AZURE_AHEAD** | — | `evals/agent_runtime/` + `agentic/agent_eval.py`; 4 real host runs, `$2.79` measured (cycle 10) |
 | host replay | MATURE | MATURE | EQUIVALENT | — | `evals/token_efficient/fixtures/host_replay.yaml` both sides |
 
