@@ -145,6 +145,12 @@ _PATH_OWNERS = {
     # máquina (persiste entre projetos) — anterior ao contrato portátil,
     # deliberado e fora do escopo por-projeto.
     "sparkforge_azure/evals/cli.py",
+    # install --scope user escreve assets de host sob ~; update lê o
+    # manifesto ~/.forge/installations do bootstrap — home é o contrato.
+    "sparkforge_azure/install/service.py",
+    # installkit vendored (byte-identical ao canonical the-forge): home do
+    # registry ~/.forge e resolve_scope user fazem parte do contrato forge/*.
+    "sparkforge_azure/_installkit.py",
 }
 
 
@@ -249,7 +255,7 @@ def check_current_state(errors: list[str]) -> None:
     fresh = gen_current_state.render(gen_current_state.collect())
     diff = [
         f"{a!r} != {b!r}"
-        for a, b in zip(body_rows(existing), body_rows(fresh))
+        for a, b in zip(body_rows(existing), body_rows(fresh), strict=False)
         if a != b
     ]
     if diff or len(body_rows(existing)) != len(body_rows(fresh)):

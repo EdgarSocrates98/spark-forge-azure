@@ -25,6 +25,22 @@ FAILURE_KINDS: frozenset[str] = frozenset(
         "config_invalid",
         "path_outside_root",
         "unsupported",
+        # forge/* install contract kinds (shared with every sibling Forge —
+        # the installkit raises InstallError carrying these strings; they
+        # join the closed vocabulary here, never at a call site).
+        "FORGE-INSTALL-SCOPE-UNKNOWN",
+        "FORGE-INSTALL-HOST-UNKNOWN",
+        "FORGE-INSTALL-PROFILE-UNKNOWN",
+        "FORGE-INSTALL-PERMISSION-DENIED",
+        "FORGE-INSTALL-PYTHON-INCOMPATIBLE",
+        "FORGE-INSTALL-NOT-A-REPO",
+        "FORGE-INSTALL-PLAN-NOT-APPROVED",
+        "FORGE-INSTALL-LOCKED",
+        "FORGE-INSTALL-NOT-INSTALLED",
+        "FORGE-INSTALL-DRIFT-UNREPAIRABLE",
+        "FORGE-INSTALL-UNSUPPORTED",
+        "FORGE-INSTALL-SPAWN-DISABLED",
+        "FORGE-INSTALL-VERIFY-FAILED",
     }
 )
 
