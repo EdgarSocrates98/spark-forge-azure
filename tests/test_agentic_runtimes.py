@@ -1,6 +1,8 @@
 """Runtime adapters — SDD AGENT_RUNTIME_ADAPTERS (§11-22)."""
 from __future__ import annotations
 
+from pathlib import Path
+
 import pytest
 
 from sparkforge_azure.agentic.runtime import RuntimeName
@@ -50,15 +52,20 @@ def test_registry_status_honesty() -> None:
             assert entry["proof"], (
                 f"{name}: host_proven exige prova (§9)"
             )
-    # sem transcript/teste de host, nada pode ser host_proven hoje
+    # host_proven so com transcript gravado em evals/host_proof/
     host_runtimes = {
         RuntimeName.CLAUDE_CODE, RuntimeName.DEVIN_CLI,
         RuntimeName.DEVIN_DESKTOP, RuntimeName.CODEX,
     }
     for name in host_runtimes:
-        assert registry[name]["status"] in {
-            "declared", "adapter_implemented", "unavailable",
-        }
+        st = registry[name]["status"]
+        if st == "host_proven":
+            proof = registry[name]["proof"]
+            assert proof and Path(proof).is_file(), (
+                f"{name}: host_proven sem artefato de prova"
+            )
+        else:
+            assert st in {"declared", "adapter_implemented", "unavailable"}
 
 
 def test_playbook_executes_deterministic_role() -> None:

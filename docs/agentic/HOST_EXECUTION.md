@@ -26,8 +26,20 @@ case -> deterministic core -> route() -> plan_pipeline -> spawn gate
 ## Host real
 
 `HostCLIAdapter._run_host` so roda com binario no PATH e
-`SPARKFORGE_AZURE_HOST_EXECUTION=1`. Sem prova, todo host permanece
+`SPARKFORGE_AZURE_HOST_EXECUTION=1`. Sem prova, o host permanece
 `adapter_implemented` — nunca `host_proven` (§9, §154).
+
+## Prova gravada (cycle 10)
+
+`claude_code` tem transcript real: `evals/host_proof/claude_code.json` —
+ping minimo via `claude -p --output-format json`, `status=completed`,
+`trace_ref sha256:1d1c…`, usage **measured** (cost_usd=0.66). O adapter
+deriva `status`/`proof` do artefato: transcript valido promove a
+`host_proven`; ausente/invalido nunca promove. `ClaudeCodeAdapter.
+postprocess` extrai `result` e usage do envelope JSON — tokens e custo
+passam a ser `measured`, nao `unresolved`. Os 4 evals host de specialist
+(config B) gravaram `evals/agent_runtime/reports/<case>.host.json` —
+$2.79 total medido, necessity USEFUL x4.
 
 ## Reprodutibilidade §93
 

@@ -1,0 +1,128 @@
+{
+  "case_id": "migration",
+  "runtime": "claude_code",
+  "specialist": "fabric-specialist",
+  "spawn": {
+    "agent_id": "fabric-specialist",
+    "spawn_id": "sp-fabric-specialist-5bc882402b9c",
+    "runtime": "claude_code",
+    "execution_mode": "subagent",
+    "status": "completed",
+    "started": 1791509634.4060462,
+    "completed": 1791509664.497989,
+    "duration_s": 30.092,
+    "output": "{\"kind\":\"specialist_result\",\"hypotheses\":[\"ADF pipelines contain mixed blocker classes for Fabric Data Factory migration: some activities have no direct Fabric equivalent (e.g. SSIS Execute Package, Mapping Data Flow, HDInsight/Custom activities), while others are portable but depend on unsupported constructs (self-hosted IR linked services, global parameters, ADF-specific expressions or triggers).\",\"The migration:blocked-activity-remediation item stays unresolved because no per-activity remediation mapping (activity type -> Fabric target such as Dataflow Gen2, Notebook, Copy job, or on-prem data gateway) has been produced from the pipeline inventory.\"],\"evidence_refs\":[\"No pipeline JSON, ARM export, or activity inventory was provided in this specialist invocation; the hypotheses come only from the task statement 'adf to fabric migration mixed blockers on pipelines'.\",\"Known unresolved item supplied by coordinator: migration:blocked-activity-remediation\"],\"proposed_findings\":[\"fabric:adf-migration-mixed-blockers - pipeline set contains both hard blockers (activity type has no Fabric equivalent) and soft blockers (connectivity, IR, parameter, or trigger constructs that need rework); these need separate remediation tracks.\",\"fabric:blocked-activity-remediation-unmapped - there is no activity-level remediation plan, so the migration cannot be scoped or sequenced.\"],\"unresolved\":[\"migration:blocked-activity-remediation - exact blocked activity types and their counts per pipeline are unknown without the pipeline JSON or ARM export.\",\"Whether self-hosted IR dependencies exist and can be replaced by an on-premises data gateway or VNet data gateway.\",\"Whether Mapping Data Flows are present, and how complex they are to rewrite as Dataflow Gen2 or Spark notebooks.\",\"Trigger types in use (tumbling window, storage event, custom event) and whether Fabric scheduling or Activator covers them.\"],\"recommendations\":[\"Hand off to sparkforge-azure-extractor to export ADF pipelines (ARM template or pipeline JSON) and emit typed facts per activity, covering activity type, linked service, IR type, and trigger type.\",\"Hand off to sparkforge-azure-adf-specialist to classify each activity as portable, needs rework, or blocked, using the extracted facts.\",\"Build the remediation matrix: Mapping Data Flow -> Dataflow Gen2 or Fabric Notebook; SSIS -> keep in ADF/SSIS-IR or rewrite; self-hosted IR -> on-premises data gateway; Custom/HDInsight -> Fabric Spark job definition.\",\"Evaluate the Fabric 'mount ADF' option for pipelines with hard blockers so that portable pipelines can migrate first.\",\"Send the resulting matrix to sparkforge-azure-migration-reviewer for parity and cutover risk review before closing migration:blocked-activity-remediation.\"]}",
+    "structured_output": null,
+    "error": null,
+    "usage": {
+      "status": "measured",
+      "input_tokens": 2,
+      "output_tokens": 1144,
+      "cache_creation_input_tokens": 82218,
+      "cost_usd": 0.6846728,
+      "model": "claude-opus-5-5[1m]"
+    },
+    "trace_ref": "sha256:e8b3a429232398bc24fee68615037de8a12ed7038e7a5e5290b7e0dfc1b95984"
+  },
+  "host_usage_measured": true,
+  "schema_violations": [],
+  "result": {
+    "case_id": "migration",
+    "configuration": "B",
+    "runtime": "claude_code",
+    "agents": [
+      "fabric-specialist"
+    ],
+    "quality": {
+      "required_findings_hit": 0,
+      "required_findings_total": 0,
+      "forbidden_findings_hit": 0,
+      "forbidden_findings": [],
+      "known_unresolved_preserved": 1,
+      "known_unresolved_total": 1,
+      "provisional_findings": 2
+    },
+    "evidence": [
+      "No pipeline JSON, ARM export, or activity inventory was provided in this specialist invocation; the hypotheses come only from the task statement 'adf to fabric migration mixed blockers on pipelines'.",
+      "Known unresolved item supplied by coordinator: migration:blocked-activity-remediation"
+    ],
+    "unresolved": [
+      "migration:blocked-activity-remediation - exact blocked activity types and their counts per pipeline are unknown without the pipeline JSON or ARM export.",
+      "Whether self-hosted IR dependencies exist and can be replaced by an on-premises data gateway or VNet data gateway.",
+      "Whether Mapping Data Flows are present, and how complex they are to rewrite as Dataflow Gen2 or Spark notebooks.",
+      "Trigger types in use (tumbling window, storage event, custom event) and whether Fabric scheduling or Activator covers them."
+    ],
+    "tokens": {
+      "status": "measured",
+      "input": 2,
+      "output": 1144,
+      "cache_creation_input": 82218
+    },
+    "cost": {
+      "status": "measured",
+      "usd": 0.6846728
+    },
+    "latency_s": 30.107,
+    "tool_calls": 0,
+    "context_bytes": 0,
+    "degraded": false
+  },
+  "value_vector_vs_A": {
+    "information_gain": 0,
+    "evidence_gain": 0,
+    "uncertainty_reduction": 4,
+    "decision_impact": "unresolved",
+    "quality_delta": 0,
+    "cost": {
+      "status": "unresolved"
+    },
+    "latency_delta_s": 29.6527
+  },
+  "necessity": "USEFUL",
+  "baseline_A": {
+    "case_id": "migration",
+    "configuration": "A",
+    "runtime": "generic",
+    "agents": [
+      "coordinator",
+      "inventory",
+      "extractor",
+      "analyzer",
+      "judge",
+      "synthesizer"
+    ],
+    "quality": {
+      "required_findings_hit": 0,
+      "required_findings_total": 0,
+      "forbidden_findings_hit": 0,
+      "forbidden_findings": [],
+      "known_unresolved_preserved": 1,
+      "known_unresolved_total": 1,
+      "provisional_findings": 2
+    },
+    "evidence": [
+      "extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}",
+      "synthesizer:extractor:{'id': 'fact-0', 'ref': '3 activities unsupported in fabric data factory', 'kind': 'provisional'}"
+    ],
+    "unresolved": [
+      "migration:blocked-activity-remediation",
+      "coordinator:requires_probabilistic_reasoning",
+      "analyzer:requires_probabilistic_reasoning",
+      "judge:no_claims_provided",
+      "synthesizer:migration:blocked-activity-remediation",
+      "synthesizer:coordinator:requires_probabilistic_reasoning",
+      "synthesizer:analyzer:requires_probabilistic_reasoning",
+      "synthesizer:judge:no_claims_provided"
+    ],
+    "tokens": {
+      "status": "unresolved"
+    },
+    "cost": {
+      "status": "unresolved"
+    },
+    "latency_s": 0.4543,
+    "tool_calls": 0,
+    "context_bytes": 89,
+    "degraded": true
+  }
+}

@@ -36,7 +36,7 @@ DECLARED → ADAPTER_IMPLEMENTED → INTEGRATION_TESTED → HOST_PROVEN → EVAL
 
 | Runtime | Capabilities (parity.yaml) | Adapter | Status inicial | Prova |
 |---|---|---|---|---|
-| `claude_code` | subagent + mcp declarados | — | `DECLARED_UNPROVEN` | nenhuma — sem transcript/teste de host |
+| `claude_code` | subagent + mcp declarados | `ClaudeCodeAdapter` | `HOST_PROVEN` (cycle 10) | `evals/host_proof/claude_code.json` — `claude -p` real, `trace_ref sha256:1d1c…`, custo medido |
 | `devin_cli` | subagent + mcp declarados | — | `DECLARED_UNPROVEN` | nenhuma |
 | `devin_desktop` | subagent + mcp declarados | — | `DECLARED_UNPROVEN` | nenhuma |
 | `copilot_ci` | `playbook` apenas | — | `DECLARED` | floor playbook — não multi-agent (§16) |

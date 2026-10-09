@@ -1,0 +1,132 @@
+{
+  "case_id": "databricks-access",
+  "runtime": "claude_code",
+  "specialist": "azure-databricks-specialist",
+  "spawn": {
+    "agent_id": "azure-databricks-specialist",
+    "spawn_id": "sp-azure-databricks-specialist-0705256a4e91",
+    "runtime": "claude_code",
+    "execution_mode": "subagent",
+    "status": "completed",
+    "started": 1791509559.797267,
+    "completed": 1791509592.9152453,
+    "duration_s": 33.118,
+    "output": "{\n\"kind\": \"specialist_result\",\n\"hypotheses\": [\n\"The job's run-as identity (owner user or service principal) lacks USE CATALOG, USE SCHEMA, or READ FILES/SELECT on the governed securable, or lacks READ FILES on the external location that covers the ADLS path\",\n\"The Azure Databricks Access Connector managed identity behind the UC storage credential lacks Storage Blob Data Reader or Contributor on the ADLS Gen2 account or container\",\n\"The job cluster uses an access mode without Unity Catalog support (No Isolation Shared or legacy passthrough), so UC grants are not enforced and the path cannot be reached through UC\",\n\"The job reads the abfss:// path directly, but no external location covers that path, or the path overlaps a managed storage location, so UC denies the direct path access\",\n\"The workspace is not bound to the catalog or external location (isolation mode ISOLATED), so the securable is not visible from this workspace\"\n],\n\"evidence_refs\": [\n\"task-statement: 'databricks job cannot access unity catalog governed path in ADLS' (the only input received)\",\n\"known-unresolved: unity-catalog:which-principal-lacks-grant (passed in by the pipeline)\",\n\"none: no job definition, cluster spec, run error text, SHOW GRANTS output, external location config, or Azure RBAC assignment was provided, so no hypothesis has direct evidence\"\n],\n\"proposed_findings\": [\n\"candidate: databricks.job.uc_access_denied â€” unverified; the exact error class must be confirmed from the run output (PERMISSION_DENIED, INSUFFICIENT_PERMISSIONS, or a 403 AuthorizationPermissionMismatch from storage)\",\n\"candidate: databricks.cluster.access_mode_not_uc â€” check data_security_mode is SINGLE_USER or USER_ISOLATION in the job cluster spec\",\n\"candidate: unity_catalog.external_location.missing_or_uncovered_path â€” check that an external location URL is a prefix of the accessed abfss:// path\"\n],\n\"unresolved\": [\n\"unity-catalog:which-principal-lacks-grant â€” the job's run_as identity is unknown (job owner or service principal)\",\n\"Exact error message and error class from the failed run, which separate a UC grant failure from a storage RBAC 403\",\n\"Job cluster data_security_mode and Databricks Runtime version\",\n\"Whether access goes through a table name (catalog.schema.table) or a raw abfss:// path\",\n\"Storage credential and Access Connector identity, and their Azure RBAC role assignments on the storage account\",\n\"Workspace-catalog binding and isolation mode\",\n\"Network path from the Access Connector to storage (firewall or private endpoint) â€” hand off to networking-specialist if the error is a 403 with no UC message\"\n],\n\"recommendations\": [\n\"Get the run_as identity: `databricks jobs get <job_id>` and read run_as / creator_user_name\",\n\"Collect the full error from the failed run output: `databricks jobs get-run-output <run_id>`\",\n\"Run SHOW GRANTS ON CATALOG <c>; SHOW GRANTS ON SCHEMA <c>.<s>; SHOW GRANTS ON TABLE <c>.<s>.<t> (or SHOW GRANTS ON EXTERNAL LOCATION <loc>) and check the run_as principal or its groups\",\n\"Run DESCRIBE EXTERNAL LOCATION <loc> and confirm the URL covers the accessed path and points to the expected storage credential\",\n\"Confirm the job cluster spec has data_security_mode SINGLE_USER (with single_user_name set to the run_as principal) or USER_ISOLATION\",\n\"Check Azure RBAC on the storage account or container: the Access Connector managed identity needs Storage Blob Data Contributor (or Reader for read-only access)\",\n\"Hand off to unity-catalog-specialist for grant resolution, and to adls-specialist or entra-specialist if the error is a storage-level 403\"\n]\n}",
+    "structured_output": null,
+    "error": null,
+    "usage": {
+      "status": "measured",
+      "input_tokens": 2,
+      "output_tokens": 1493,
+      "cache_creation_input_tokens": 82170,
+      "cost_usd": 0.6912688,
+      "model": "claude-opus-5-5[1m]"
+    },
+    "trace_ref": "sha256:d4e404984136b98a8e932989052754880c50cf044c8a6d3e1546a278fe4bf513"
+  },
+  "host_usage_measured": true,
+  "schema_violations": [],
+  "result": {
+    "case_id": "databricks-access",
+    "configuration": "B",
+    "runtime": "claude_code",
+    "agents": [
+      "azure-databricks-specialist"
+    ],
+    "quality": {
+      "required_findings_hit": 0,
+      "required_findings_total": 0,
+      "forbidden_findings_hit": 0,
+      "forbidden_findings": [],
+      "known_unresolved_preserved": 1,
+      "known_unresolved_total": 1,
+      "provisional_findings": 3
+    },
+    "evidence": [
+      "task-statement: 'databricks job cannot access unity catalog governed path in ADLS' (the only input received)",
+      "known-unresolved: unity-catalog:which-principal-lacks-grant (passed in by the pipeline)",
+      "none: no job definition, cluster spec, run error text, SHOW GRANTS output, external location config, or Azure RBAC assignment was provided, so no hypothesis has direct evidence"
+    ],
+    "unresolved": [
+      "unity-catalog:which-principal-lacks-grant â€” the job's run_as identity is unknown (job owner or service principal)",
+      "Exact error message and error class from the failed run, which separate a UC grant failure from a storage RBAC 403",
+      "Job cluster data_security_mode and Databricks Runtime version",
+      "Whether access goes through a table name (catalog.schema.table) or a raw abfss:// path",
+      "Storage credential and Access Connector identity, and their Azure RBAC role assignments on the storage account",
+      "Workspace-catalog binding and isolation mode",
+      "Network path from the Access Connector to storage (firewall or private endpoint) â€” hand off to networking-specialist if the error is a 403 with no UC message"
+    ],
+    "tokens": {
+      "status": "measured",
+      "input": 2,
+      "output": 1493,
+      "cache_creation_input": 82170
+    },
+    "cost": {
+      "status": "measured",
+      "usd": 0.6912688
+    },
+    "latency_s": 33.131,
+    "tool_calls": 0,
+    "context_bytes": 0,
+    "degraded": false
+  },
+  "value_vector_vs_A": {
+    "information_gain": 0,
+    "evidence_gain": 1,
+    "uncertainty_reduction": 1,
+    "decision_impact": "unresolved",
+    "quality_delta": 0,
+    "cost": {
+      "status": "unresolved"
+    },
+    "latency_delta_s": 32.5532
+  },
+  "necessity": "USEFUL",
+  "baseline_A": {
+    "case_id": "databricks-access",
+    "configuration": "A",
+    "runtime": "generic",
+    "agents": [
+      "coordinator",
+      "inventory",
+      "extractor",
+      "analyzer",
+      "judge",
+      "synthesizer"
+    ],
+    "quality": {
+      "required_findings_hit": 0,
+      "required_findings_total": 0,
+      "forbidden_findings_hit": 0,
+      "forbidden_findings": [],
+      "known_unresolved_preserved": 1,
+      "known_unresolved_total": 1,
+      "provisional_findings": 2
+    },
+    "evidence": [
+      "extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}",
+      "synthesizer:extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}"
+    ],
+    "unresolved": [
+      "unity-catalog:which-principal-lacks-grant",
+      "coordinator:requires_probabilistic_reasoning",
+      "analyzer:requires_probabilistic_reasoning",
+      "judge:no_claims_provided",
+      "synthesizer:unity-catalog:which-principal-lacks-grant",
+      "synthesizer:coordinator:requires_probabilistic_reasoning",
+      "synthesizer:analyzer:requires_probabilistic_reasoning",
+      "synthesizer:judge:no_claims_provided"
+    ],
+    "tokens": {
+      "status": "unresolved"
+    },
+    "cost": {
+      "status": "unresolved"
+    },
+    "latency_s": 0.5778,
+    "tool_calls": 0,
+    "context_bytes": 86,
+    "degraded": true
+  }
+}

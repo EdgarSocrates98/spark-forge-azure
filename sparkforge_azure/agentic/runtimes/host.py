@@ -12,10 +12,12 @@ nomeado — nunca finge sucesso (§79).
 
 from __future__ import annotations
 
+import json
 import os
 import shutil
 import subprocess
 import time
+from pathlib import Path
 
 from sparkforge_azure.agentic.runtime import RuntimeName
 
@@ -30,9 +32,21 @@ from .base import (
 
 _OPT_IN = "SPARKFORGE_AZURE_HOST_EXECUTION"
 
+#: repo root a partir deste modulo (sparkforge_azure/agentic/runtimes/).
+_REPO_ROOT = Path(__file__).resolve().parents[3]
+
 
 def _opted_in() -> bool:
     return os.environ.get(_OPT_IN) == "1"
+
+
+def _valid_proof(record: dict) -> bool:
+    """§9 — prova = transcript real: completed + trace_ref sha256."""
+    return (
+        isinstance(record, dict)
+        and record.get("status") == "completed"
+        and str(record.get("trace_ref") or "").startswith("sha256:")
+    )
 
 
 class HostCLIAdapter(BaseAdapter):
@@ -40,11 +54,37 @@ class HostCLIAdapter(BaseAdapter):
 
     Subclasses definem ``binary`` e ``argv_for``. O subprocesso recebe a
     task materializada e um timeout — sem retry automatico (§206).
+
+    ``status`` deriva de ``evals/host_proof/<runtime>.json``: transcript
+    valido promove a ``host_proven``; ausente/invalido nunca promove (§9).
     """
 
-    status = "adapter_implemented"
     binary = ""
     execution_mode = "subagent"
+
+    def _proof_dir(self) -> Path:
+        return _REPO_ROOT / "evals" / "host_proof"
+
+    def _proof_artifact(self) -> dict | None:
+        path = self._proof_dir() / f"{self.name.value}.json"
+        if not path.is_file():
+            return None
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+
+    @property
+    def status(self) -> str:
+        rec = self._proof_artifact()
+        return "host_proven" if _valid_proof(rec) else "adapter_implemented"
+
+    @property
+    def proof(self) -> str | None:
+        rec = self._proof_artifact()
+        if not _valid_proof(rec):
+            return None
+        return f"evals/host_proof/{self.name.value}.json"
 
     def argv_for(self, request: AgentSpawnRequestV2) -> list[str]:
         return [self.binary, "--print", request.task]
@@ -117,6 +157,7 @@ class HostCLIAdapter(BaseAdapter):
                 structured_output={"failure_kind": "spawn_failed"},
                 trace_ref=trace,
             )
+        output, usage = self.postprocess(proc.stdout)
         # Output de host e DATA_ONLY — o caller valida o schema (§29-31).
         return AgentSpawnResultV2(
             agent_id=request.agent_id,
@@ -126,10 +167,19 @@ class HostCLIAdapter(BaseAdapter):
             status="completed",
             started=started,
             completed=time.time(),
-            output=proc.stdout,
-            usage={"status": "unresolved"},
+            output=output,
+            usage=usage,
             trace_ref=trace,
         )
+
+    def postprocess(self, stdout: str) -> tuple[str, dict]:
+        """Extrai o texto do modelo e o uso observado do stdout do host.
+
+        Default: stdout cru + usage ``unresolved``. Adapters com envelope
+        estruturado (claude --output-format json) sobrescrevem e medem
+        de verdade — ``measured`` so quando o envelope informa.
+        """
+        return stdout, {"status": "unresolved"}
 
 
 class ClaudeCodeAdapter(HostCLIAdapter):
@@ -141,6 +191,26 @@ class ClaudeCodeAdapter(HostCLIAdapter):
             self.binary, "-p", request.task,
             "--output-format", "json",
         ]
+
+    def postprocess(self, stdout: str) -> tuple[str, dict]:
+        """Envelope `claude --output-format json`: result + usage reais."""
+        try:
+            env = json.loads(stdout)
+        except json.JSONDecodeError:
+            return stdout, {"status": "unresolved"}
+        usage_raw = env.get("usage") or {}
+        usage: dict = {"status": "unresolved"}
+        if "input_tokens" in usage_raw or env.get("total_cost_usd") is not None:
+            usage = {
+                "status": "measured",
+                "input_tokens": usage_raw.get("input_tokens"),
+                "output_tokens": usage_raw.get("output_tokens"),
+                "cache_creation_input_tokens": usage_raw.get(
+                    "cache_creation_input_tokens"),
+                "cost_usd": env.get("total_cost_usd"),
+                "model": next(iter(env.get("modelUsage") or {}), None),
+            }
+        return str(env.get("result") or stdout), usage
 
 
 class DevinCLIAdapter(HostCLIAdapter):

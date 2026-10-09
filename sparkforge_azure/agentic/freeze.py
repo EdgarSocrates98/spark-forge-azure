@@ -8,6 +8,7 @@ Cada condicao §180 declara sua prova: sem prova -> ``unmet`` ou
 
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -49,6 +50,15 @@ def evaluate_freeze(root: Path | str = ".") -> dict[str, Any]:
     frontier_ok = eval_reports.is_dir() and any(
         p.suffix == ".json" for p in eval_reports.iterdir()
     )
+    # host evals: um report *.host.json por vertical, com custo medido
+    host_reports = sorted(
+        p for p in eval_reports.iterdir() if p.name.endswith(".host.json")
+    ) if eval_reports.is_dir() else []
+    host_eval_ok = len(host_reports) >= 4 and all(
+        json.loads(p.read_text(encoding="utf-8")).get(
+            "host_usage_measured") is True
+        for p in host_reports
+    )
     security_test = root / "tests" / "test_agent_runtime_security.py"
     security_ok = security_test.is_file()
 
@@ -61,14 +71,22 @@ def evaluate_freeze(root: Path | str = ".") -> dict[str, Any]:
         ConditionResult(
             "host_execution_proven",
             "met" if host_proven else "unmet",
-            "nenhum runtime com status host_proven (sem transcript de host)",
+            (
+                f"host_proven: {[n for n, s in statuses.items() if s == 'host_proven']}"
+                if host_proven else
+                "nenhum runtime com status host_proven (sem transcript de host)"
+            ),
             None if host_proven else "host_proof_missing",
         ),
         ConditionResult(
             "critical_specialists_evaluated",
-            "unresolved",
-            "evals de roteamento existem; value eval empirica exige host",
-            "value_eval_unresolved_without_host",
+            "met" if host_eval_ok else "unresolved",
+            (
+                f"host evals medidos: {sorted(p.name for p in host_reports)}"
+                if host_eval_ok else
+                "evals de roteamento existem; value eval empirica exige host"
+            ),
+            None if host_eval_ok else "value_eval_unresolved_without_host",
         ),
         ConditionResult(
             "security_labs_green",

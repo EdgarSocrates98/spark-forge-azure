@@ -31,3 +31,22 @@ Sem host: todas as configs produzem a mesma fronteira — specialist
 resolve `unresolved` nomeado, ganho de informacao = 0 medido -> necessity
 `UNRESOLVED`/`NEUTRAL`. Isso e a resposta correta de §243: nao ha prova
 de valor de agente sem execucao de host, e o sistema diz isso.
+
+## Resultado medido em host (cycle 10)
+
+Com `claude_code` `host_proven`, `run_agent_host_eval.py` rodou config B
+real — 1 specialist spawn por vertical. Custo/tokens **measured** do
+envelope `claude --output-format json`:
+
+| Case | Specialist | Status | Cost (medido) | Necessity |
+|---|---|---|---|---|
+| databricks-access | azure-databricks-specialist | completed | $0.69 | USEFUL |
+| fabric-onelake | onelake-specialist | completed | $0.70 | USEFUL |
+| migration | fabric-specialist | completed | $0.68 | USEFUL |
+| streaming-lag | event-hubs-specialist | completed | $0.71 | USEFUL |
+
+Total: **$2.79 medido** (~$0.70/spawn — dominado por cache-creation de
+~101k tokens do `claude -p`). Zero violacoes de schema; forbidden
+findings = 0. Reports: `evals/agent_runtime/reports/<case>.host.json`.
+Follow-up registrado: sessao reutilizada ou modelo menor reduz o custo
+fixo do envelope.
