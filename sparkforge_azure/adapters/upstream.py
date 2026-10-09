@@ -42,6 +42,13 @@ from pathlib import Path
 from typing import Any, cast
 
 UPSTREAM_SCHEMA = "sparkforge_azure/upstream-facts/v1"
+# Envelope do irmao AWS (sparkforge_aws/adapters/upstream.py): mesma
+# estrutura, mesmo vocabulario proibido, mesmo extractor. §118 do prompt de
+# paridade pede envelope de handoff COMUM — o intake aceita os dois nomes de
+# schema porque o formato e identico e a proveniencia (`attrs.upstream.
+# provider`) e o que distingue origem, nao o rotulo do envelope.
+UPSTREAM_SCHEMA_AWS = "sparkforge_aws/upstream-facts/v1"
+ACCEPTED_UPSTREAM_SCHEMAS = frozenset({UPSTREAM_SCHEMA, UPSTREAM_SCHEMA_AWS})
 UPSTREAM_EXTRACTOR = "theforge/handoff"
 UPSTREAM_ID_PREFIX = "upstream:"
 UPSTREAM_KIND_PREFIX = "upstream."
@@ -182,9 +189,10 @@ def read_upstream_facts(path: str | Path) -> list[dict[str, Any]]:
         data = json.loads(raw)
     except ValueError as exc:
         raise UpstreamError(f"upstream: {document.name}: JSON invalido: {exc}") from exc
-    if not isinstance(data, Mapping) or data.get("schema") != UPSTREAM_SCHEMA:
+    if not isinstance(data, Mapping) or data.get("schema") not in ACCEPTED_UPSTREAM_SCHEMAS:
         raise UpstreamError(
-            f"upstream: {document.name}: schema precisa ser {UPSTREAM_SCHEMA!r}"
+            f"upstream: {document.name}: schema precisa ser um de "
+            f"{sorted(ACCEPTED_UPSTREAM_SCHEMAS)!r}"
         )
     facts = data.get("facts")
     if not isinstance(facts, list):
@@ -206,7 +214,87 @@ def read_upstream_facts(path: str | Path) -> list[dict[str, Any]]:
     return stamped
 
 
+def write_upstream_facts(
+    facts: list[Mapping[str, Any]],
+    *,
+    provider: str = "azure",
+    run_id: str,
+    node: str,
+    consumer_schema: str = UPSTREAM_SCHEMA_AWS,
+) -> dict[str, Any]:
+    """Emite evidencia local no envelope comum de handoff (§118).
+
+    O outro lado do contrato: The Forge coleta facts Azure e entrega ao
+    intake do irmao. Cada fact local e EMIBRULHADO — nunca passa como nativo:
+
+    - `id` entra sob `upstream:` (o id nativo `f_<sha>` vira suffixo);
+    - `kind` entra sob `upstream.` (nenhuma regra nativa do consumidor casa);
+    - `provenance.extractor` vira `theforge/handoff` — nunca o extrator real;
+    - `attrs.upstream` carrega provider/run_id/node/item de quem emitiu.
+
+    `consumer_schema` escolhe o envelope que o consumidor valida: o irmao AWS
+    so aceita o proprio rotulo (`sparkforge_aws/upstream-facts/v1`), entao o
+    default aponta para la — a proveniencia `provider: azure` e o que mantem
+    a origem visivel dentro do envelope. Emitir para consumo proprio passe
+    `consumer_schema=UPSTREAM_SCHEMA`.
+
+    Recusa (UpstreamError) fact sem `id`/`kind` string, bounds iguais aos do
+    intake, e payload que ja carregue chave de instrucao — quem emite nao
+    pode empacotar o que o intake recusaria.
+    """
+    if not provider.strip() or not run_id.strip() or not node.strip():
+        raise UpstreamError("write_upstream_facts: provider, run_id e node nao podem ser vazios")
+    if consumer_schema not in ACCEPTED_UPSTREAM_SCHEMAS:
+        raise UpstreamError(
+            f"write_upstream_facts: consumer_schema desconhecido {consumer_schema!r} — "
+            f"aceitos: {sorted(ACCEPTED_UPSTREAM_SCHEMAS)!r}"
+        )
+    if len(facts) > MAX_UPSTREAM_FACTS:
+        raise UpstreamError(
+            f"write_upstream_facts: {len(facts)} facts excede o limite de {MAX_UPSTREAM_FACTS}"
+        )
+    out: list[dict[str, Any]] = []
+    for index, fact in enumerate(facts):
+        fact_id = fact.get("id")
+        kind = fact.get("kind")
+        if not isinstance(fact_id, str) or not fact_id.strip():
+            raise UpstreamError(f"write_upstream_facts: fact {index} sem id")
+        if not isinstance(kind, str) or not kind.strip():
+            raise UpstreamError(f"write_upstream_facts: fact {index} ({fact_id}) sem kind")
+        subject = fact.get("subject") if isinstance(fact.get("subject"), Mapping) else {}
+        measures = fact.get("measures") if isinstance(fact.get("measures"), Mapping) else {}
+        attrs = dict(fact.get("attrs") or {})
+        for field_name, payload in (
+            ("subject", subject), ("measures", measures), ("attrs", attrs),
+        ):
+            bad = _forbidden_key(payload)
+            if bad is not None:
+                raise UpstreamError(
+                    f"write_upstream_facts: fact {index} ({fact_id}): {field_name} "
+                    f"carrega a chave {bad!r} — emissor nao empacota instrucao"
+                )
+        attrs["upstream"] = {
+            "provider": provider,
+            "run_id": run_id,
+            "node": node,
+            "item": str(fact_id),
+        }
+        out.append(
+            {
+                "id": f"{UPSTREAM_ID_PREFIX}{fact_id}",
+                "schema_version": fact.get("schema_version", 1),
+                "kind": f"{UPSTREAM_KIND_PREFIX}{kind}",
+                "subject": dict(subject),
+                "measures": dict(measures),
+                "attrs": attrs,
+                "provenance": {"extractor": UPSTREAM_EXTRACTOR},
+            }
+        )
+    return {"schema": consumer_schema, "facts": out}
+
+
 __all__ = [
+    "ACCEPTED_UPSTREAM_SCHEMAS",
     "MAX_UPSTREAM_BYTES",
     "MAX_UPSTREAM_FACTS",
     "UPSTREAM_ARTIFACT",
@@ -214,6 +302,8 @@ __all__ = [
     "UPSTREAM_ID_PREFIX",
     "UPSTREAM_KIND_PREFIX",
     "UPSTREAM_SCHEMA",
+    "UPSTREAM_SCHEMA_AWS",
     "UpstreamError",
     "read_upstream_facts",
+    "write_upstream_facts",
 ]

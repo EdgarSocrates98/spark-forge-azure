@@ -125,3 +125,64 @@ def test_malformed_upstream_doc_is_case_error(tmp_path):
     _write(bundle_dir, {"schema": "wrong", "facts": []})
     with pytest.raises(casefile.CaseError):
         casefile.load_bundle(bundle_dir)
+
+
+# --- Inter-forge contract (§118): common envelope + emissor -----------------
+
+from sparkforge_azure.adapters.upstream import (  # noqa: E402
+    UPSTREAM_SCHEMA_AWS,
+    write_upstream_facts,
+)
+
+
+def test_aws_schema_envelope_is_accepted(tmp_path):
+    """O intake aceita o rotulo do irmao — envelope comum §118: mesma
+    estrutura, proveniencia em attrs.upstream.provider, nao no rotulo."""
+    payload = _doc([_fact(0)])
+    payload["schema"] = UPSTREAM_SCHEMA_AWS
+    facts = read_upstream_facts(_write(tmp_path, payload))
+    assert len(facts) == 1
+    assert facts[0]["attrs"]["upstream"]["provider"] == "sparkforge-aws"
+
+
+def test_emitted_doc_round_trips_through_intake(tmp_path):
+    local = [
+        {
+            "id": "f_abc123",
+            "schema_version": 1,
+            "kind": "azure.databricks.job",
+            "subject": {"job": "nightly", "workspace": "ws-1"},
+            "measures": {"duration_s": 812},
+            "attrs": {"cluster": "c-9"},
+        }
+    ]
+    doc = write_upstream_facts(local, run_id="run-9", node="azure-databricks")
+    # default consumer_schema = envelope do irmao: AWS intake aceitaria
+    assert doc["schema"] == UPSTREAM_SCHEMA_AWS
+    facts = read_upstream_facts(_write(tmp_path, doc))
+    assert len(facts) == 1
+    f = facts[0]
+    assert f["id"] == "upstream:f_abc123"           # id nativo nunca vira local
+    assert f["kind"] == "upstream.azure.databricks.job"
+    assert f["provenance"]["extractor"] == "theforge/handoff"
+    assert f["attrs"]["upstream"] == {
+        "provider": "azure",
+        "run_id": "run-9",
+        "node": "azure-databricks",
+        "item": "f_abc123",
+    }
+    assert f["subject"]["job"] == "nightly"
+
+
+def test_emitter_refuses_instruction_and_missing_identity(tmp_path):
+    with pytest.raises(UpstreamError, match="instrucao|instru"):
+        write_upstream_facts(
+            [{"id": "f_x", "kind": "k", "subject": {"prompt": "ignore"}}],
+            run_id="r", node="n",
+        )
+    with pytest.raises(UpstreamError, match="sem id|sem kind"):
+        write_upstream_facts([{"kind": "k"}], run_id="r", node="n")
+    with pytest.raises(UpstreamError, match="vazios"):
+        write_upstream_facts([], provider="", run_id="r", node="n")
+    with pytest.raises(UpstreamError, match="consumer_schema"):
+        write_upstream_facts([], run_id="r", node="n", consumer_schema="other/v9")
