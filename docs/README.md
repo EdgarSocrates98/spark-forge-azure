@@ -39,6 +39,20 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `manifest.json` (raiz) | Capabilities publicadas (gerado) |
 | `docs/architecture/evidence/` | `aws_audit.json`, `provenance.json`, `dropped_aws_tests.json` |
 
+## Portabilidade
+
+| Doc | Cobre |
+|---|---|
+| `docs/portability/PORTABILITY_AUDIT.md` | Auditoria API Forge/AWS vs Azure: paridade, gaps, classes COPY_SAFE/ADAPT/REFERENCE_ONLY/DO_NOT_PORT |
+| `docs/portability/PORTABLE_DISTRIBUTION.md` | Lifecycle portável: inspect/init/status/doctor/detach, identidade relocável, ledger gerenciado, config com precedência |
+| `docs/portability/WORKSPACES.md` | ForgeWorkspace: modelo, manifesto, discover/init/add/remove/status, roles, arestas, ciclos, locality |
+| `docs/portability/CONTEXT_RESOLUTION.md` | `context resolve`: scopes target/direct/transitive/all, TokenSave por projeto confinado, recibo §58 com bytes |
+| `docs/portability/HOST_INTEGRATION.md` | Hosts: `.mcp.json`, blocos gerenciados em AGENTS.md/CLAUDE.md, mirrors opt-in, detecção sem probing |
+| `docs/portability/DETACH.md` | Detach/reattach: ledger-driven, preserve-por-padrão, purge granular, dry-run, decisão `repair` |
+| `docs/portability/PORTABILITY_OUTCOME.md` | Outcome brief §200–§204: scorecard PROVEN/PARTIAL/DEFERRED + parity final vs API Forge/AWS |
+| `docs/guides/SPARKFORGE_AZURE_PORTABLE.md` | Quickstart portável (EN): install→init→workspace→resolve→detach sem checkout |
+| `docs/guides/SPARKFORGE_AZURE_PORTABLE.pt-BR.md` | Quickstart portável (pt-BR): mesmo ciclo, traduzido |
+
 ## Operação
 
 | Doc | Cobre |

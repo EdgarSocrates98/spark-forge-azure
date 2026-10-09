@@ -1,0 +1,18 @@
+{
+ "suite": "portability",
+ "tier": "T1-T2",
+ "results": [
+  {
+   "case": "detach-reattach",
+   "status": "ok",
+   "observed": {
+    "user_content_preserved": true,
+    "mirrors_gone": true,
+    "same_id_after_reattach": true
+   },
+   "failures": []
+  }
+ ],
+ "status": "ok",
+ "failed": 0
+}

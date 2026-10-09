@@ -234,6 +234,64 @@ quando há findings.
 |---|---|
 | `select` | `--domain` (pack sob `knowledge/azure` ou `knowledge`) + `--query`/`--limit` — claims ranqueados; cache sob o state dir |
 
+## `sparkforge-azure distribution <op>` — lifecycle portável
+
+Camada de produto portável (prompt_evo_portable.md): identidade de projeto
+relocável, paths centralizados, assets empacotados, hosts detectados,
+detach reversível. Todos aceitam `--root` (default: cwd). Recusas são
+documentos `{"status":"refused","error":{"kind":...}}` — `kind` do vocabulário
+fechado em `distribution/errors.py`.
+
+| Op | Uso |
+|---|---|
+| `inspect` | resolve e reporta paths (`value`+`source` por path), identidades, config efetivo com proveniência, assets com sha256, hosts detectados — sem mutação |
+| `init` | cria `.sparkforge-azure/project.yaml` + entrada gerenciada em `.mcp.json` (`mcpServers.sparkforge-azure` → `sparkforge-azure mcp serve`) + bloco gerenciado em `AGENTS.md`/`CLAUDE.md`; idempotente; `--name`, `--regen-id` (nova identidade p/ cópia), `--with-mirrors` (materializa `.claude/agents/custom/` + `.agents/agents/`) |
+| `status` | `uninitialized`/`initialized`/`partial`/`drifted`/`broken` + drift por asset gerenciado |
+| `doctor` | saúde offline — assets, state/cache dirs, identidade, workspace, ledger, hosts (`unavailable`/`unproven` nunca falham), runtime MCP |
+| `detach` | remove só assets gerenciados (ledger); `--dry-run`, `--purge-state`, `--purge-cache`; state preservado por default; `init` religa |
+
+Estado e cache: `.sparkforge-azure/` (projeto), override por
+`SPARKFORGE_AZURE_STATE_DIR` / `SPARKFORGE_AZURE_CACHE`. Nada é escrito fora
+do projeto ou dos overrides explícitos.
+
+## `sparkforge-azure workspace <op>` — ForgeWorkspace
+
+Agrupamento lógico de projetos — **não** é Azure/Databricks/Fabric
+Workspace. Manifesto em `.sparkforge-azure/workspace.yaml`, data-only,
+determinístico e offline. Todos aceitam `--root` (default: cwd).
+
+| Op | Uso |
+|---|---|
+| `discover` | sugere candidatos (cwd, ancestrais limitados, filhos declarados e do root) — nunca escreve; `workspace add` confirma |
+| `init` | cria `workspace.yaml` (`workspace_id` `sfw-*`) + registra o projeto hospedeiro como `default_target`; idempotente; `--name` |
+| `add <path>` | declara repo membro: relativo ao root ou absoluto (externo = declarado explicitamente); cria a identidade portátil do alvo se ausente (`initialized_target`); `--role`, `--depends-on ID...`, `--optional ID...` |
+| `remove <id>` | remove só a declaração e as arestas de entrada — nunca deleta o repositório |
+| `status` | projetos declarados × resolução + `dependency_cycles`; estados `ok`/`degraded`/`dependency_cycle` |
+
+Roles: `application|data|infra|shared|tests|docs`. Dependências declaradas
+são `direct` ou `optional`; `transitive` é derivado na leitura. Identidade
+nunca vem de path — `workspace add` usa o `project.yaml` do alvo.
+
+## `sparkforge-azure context resolve` — contexto com escopo
+
+Responde "qual contexto deste workspace é relevante para este target?".
+Requer `workspace.yaml`; recusa `workspace_not_found` sem ele.
+
+| Flag | Uso |
+|---|---|
+| `--target` | id ou path do projeto (default: `default_target` do workspace) |
+| `--scope` | `target` (default) \| `direct` \| `transitive` \| `all` — o workspace inteiro nunca é lido por omissão; `all` é só explícito |
+| `--profile` | `economy` (default) \| `balanced` \| `deep` — orçamento TokenSave |
+| `--task` | texto da tarefa — engaja a escada L0→L6 por projeto; sem task, resolve só o conjunto de projetos |
+
+Saída = recibo §58 persistido em `.sparkforge-azure/receipt-context.json`:
+`projects_considered`, `projects_selected`, `files_considered`,
+`files_materialized`, `bytes_read`, `bytes_avoided`, `stop_reason`
+(`scope_complete`/`sufficient`/`partial`) e `unresolved`. Um projeto nunca
+recebe arquivos de outro sem aresta declarada ou `all` explícito — cada
+TokenSave é confinado por `resolve_within` à própria raiz. Ciclos recusam
+`dependency_cycle`.
+
 ## Exit codes
 
 | Código | Significado |

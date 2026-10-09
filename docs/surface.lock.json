@@ -25,8 +25,14 @@
    "collect resource-graph",
    "collect unity-catalog",
    "collect workspace-graph",
+   "context resolve",
    "diagnose fabric",
    "diagnose stream",
+   "distribution detach",
+   "distribution doctor",
+   "distribution init",
+   "distribution inspect",
+   "distribution status",
    "doctor",
    "governance diagnose",
    "graph build",
@@ -69,7 +75,12 @@
    "tokensave refs",
    "tokensave search",
    "tokensave symbols",
-   "version"
+   "version",
+   "workspace add",
+   "workspace discover",
+   "workspace init",
+   "workspace remove",
+   "workspace status"
   ]
  },
  "knowledge": {
@@ -322,6 +333,6 @@
  "schema_version": 2,
  "skills": {
   "count": 22,
-  "total_bytes": 95136
+  "total_bytes": 97766
  }
 }
