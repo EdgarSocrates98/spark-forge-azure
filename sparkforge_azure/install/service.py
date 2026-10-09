@@ -46,6 +46,7 @@ def _spec() -> kit.ForgeSpec:
         state_dir=".sparkforge-azure",
         mcp_command=("sparkforge-azure", "mcp", "serve"),
         mcp_server_name="sparkforge-azure",
+        mcp_verify_tool="sfa_version",
         version_cmd=("--version",),
         render_assets=None,
         marker_files=("AGENTS.md", "CLAUDE.md"),
