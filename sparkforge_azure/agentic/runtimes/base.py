@@ -43,6 +43,7 @@ FAILURE_KINDS = {
     "runtime_unavailable",
     "spawn_failed",
     "timeout",
+    "rate_limit",
     "tool_unavailable",
     "invalid_structured_output",
     "budget_exceeded",
