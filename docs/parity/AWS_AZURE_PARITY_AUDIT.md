@@ -160,3 +160,19 @@ Portability: `COPY_SAFE` · `ADAPT` · `REFERENCE_ONLY` · `PROVIDER_SPECIFIC` �
 - **Model router activation** — stays `SHADOW` on both; no real consumer justifies activation. Parity = same deferred state, not forced activation.
 - **A2A beyond EXPERIMENTAL** — no interoperable proof exists on either side.
 - **Raw cloud-latency comparison** — forbidden by the parity contract; only Forge overhead is compared.
+
+## Wave verification log (cycle 11)
+
+Measured by normalizing `sparkforge_aws` → `sparkforge_azure` and diffing
+file contents; "identical" = byte-equal after namespace normalization.
+
+### W4 — evaluation / replay / receipts (§44–58)
+
+| package | shared files | identical after ns | differing |
+|---|---|---|---|
+| `evals/` | 18 | 14 | `cli.py`, `evidence_adapters.py`, `evolution.py`, `token_benchmark.py` (new this cycle) |
+| `receipt/` | 4 | 2 | `build.py`, `verify.py` (Azure-side evolutions) |
+
+All four diffs are Azure-side deltas, not gaps — no AWS eval capability is
+missing. Control-plane fixture carries 50 labeled tasks (§45 floor met).
+P0-C: **EQUIVALENT**, no code gap.
