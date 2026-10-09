@@ -176,3 +176,13 @@ file contents; "identical" = byte-equal after namespace normalization.
 All four diffs are Azure-side deltas, not gaps — no AWS eval capability is
 missing. Control-plane fixture carries 50 labeled tasks (§45 floor met).
 P0-C: **EQUIVALENT**, no code gap.
+
+### W5 — agentic runtime (§61–73)
+
+`sparkforge_aws/agentic/` is a strict subset: zero AWS-only files.
+Azure adds the runtime layer AWS never shipped — `runtimes/` adapters,
+`execution.py`, `schemas.py`, `freeze.py`, `agent_eval.py`, `spans.py`,
+`teams.py`, `inventory.py`, `impact.py`, `pipeline.py`, `fingerprint.py`.
+Empirical proof exists only on this side: `evals/host_proof/claude_code.json`
+transcript + 4 real host evals ($2.79 measured) + `FREEZE_STATUS=frozen`.
+P0-D: **AZURE_AHEAD** — parity does not mean backporting Azure-only value.
