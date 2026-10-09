@@ -18,7 +18,9 @@ from pathlib import Path
 from typing import Any
 
 from sparkforge_azure.agentic.autonomy import autonomy_for
+from sparkforge_azure.agentic.handoff import admit_handoff
 from sparkforge_azure.agentic.pipeline import plan_pipeline
+from sparkforge_azure.agentic.role_plans import role_plan_for
 from sparkforge_azure.agentic.runtime import RuntimeName
 from sparkforge_azure.agentic.runtimes import (
     AgentSpawnRequestV2,
@@ -28,6 +30,7 @@ from sparkforge_azure.agentic.runtimes import (
 from sparkforge_azure.agentic.runtimes.base import fingerprint_of
 from sparkforge_azure.agentic.schemas import parse_freeform, validate_output
 from sparkforge_azure.agentic.spawn import SpawnContext, decide_spawn
+from sparkforge_azure.agentic.trust import AgentHandoff
 from sparkforge_azure.agentmanifest.model import parse_manifest
 from sparkforge_azure.agentmanifest.routing import route
 
@@ -45,6 +48,7 @@ class AgentExecutionRecord:
     spawn_result: AgentSpawnResultV2 | None
     schema_violations: tuple[str, ...] = ()
     duration_s: float | None = None
+    stage_fingerprint: str = ""
 
     @property
     def executed(self) -> bool:
@@ -95,6 +99,7 @@ class AgentExecutionReceipt:
                 "agents_spawned": self.state.agents_spawned,
                 "agents_completed": self.state.agents_completed,
                 "agents_degraded": self.state.agents_degraded,
+                "handoffs": list(self.state.handoffs),
                 "provisional_findings": self.state.provisional_findings,
                 "verified_findings": self.state.verified_findings,
                 "conflicts": self.state.conflicts,
@@ -111,6 +116,7 @@ class AgentExecutionReceipt:
                     ),
                     "schema_violations": list(s.schema_violations),
                     "duration_s": s.duration_s,
+                    "stage_fingerprint": s.stage_fingerprint,
                 }
                 for s in self.stages
             ],
@@ -137,12 +143,64 @@ def _spawn_request(
     )
 
 
+def stage_fingerprint(
+    agent_id: str, case: dict[str, Any], runtime: RuntimeName,
+    root: Path | str,
+) -> str:
+    """§48 — fp do estagio: manifest + role plan + contexto + runtime."""
+    data = parse_manifest(Path(root) / "agents" / f"{agent_id}.md").data
+    plan = role_plan_for(agent_id, root)
+    return fingerprint_of({
+        "agent": agent_id,
+        "manifest_evals": tuple(data.get("evals") or ()),
+        "manifest_autonomy": str(data.get("autonomy")),
+        "role_plan": repr(plan) if plan else "",
+        "context": str(sorted((case.get("context") or {}).items())),
+        "unresolved": tuple(sorted(case.get("unresolved") or ())),
+        "runtime": runtime.value,
+    })
+
+
+def _emit_handoff(
+    sender: str, receiver: str, out: dict[str, Any],
+    state: CaseState, root: Path | str,
+) -> None:
+    """Estagio completado -> AgentHandoff admitido pelo plano do receptor.
+
+    §41: o receptor re-filtra — a admissao aplica o RoleContextPlan do
+    receiver; §42: authority fica DATA_ONLY, remetente nao sobe privilegio.
+    """
+    handoff = AgentHandoff(
+        sender_role=sender,
+        recipient_role=receiver,
+        facts=tuple(str(f) for f in out.get("proposed_findings") or ()),
+        hypotheses=tuple(str(h) for h in out.get("hypotheses") or ()),
+        unresolved=tuple(str(u) for u in out.get("unresolved") or ()),
+        evidence_refs=tuple(str(e) for e in out.get("evidence_refs") or ()),
+        recommendations=tuple(str(r) for r in out.get("recommendations") or ()),
+        requested_action=str(out.get("requested_action") or ""),
+        origin=f"agent:{sender}",
+    )
+    admission = admit_handoff(
+        handoff,
+        plan=role_plan_for(receiver, root),
+    )
+    state.handoffs.append({
+        "sender": sender,
+        "receiver": receiver,
+        "decision": admission.decision.value,
+        "reasons": list(admission.reasons),
+        "id": admission.id,
+    })
+
+
 def run_case(
     case: dict[str, Any],
     *,
     runtime: RuntimeName | str = RuntimeName.GENERIC,
     root: Path | str = ".",
     max_specialists: int = 2,
+    prior: AgentExecutionReceipt | None = None,
 ) -> AgentExecutionReceipt:
     """Executa o fluxo canonico §24 sobre um case.
 
@@ -184,14 +242,32 @@ def run_case(
         gate_requested=bool(case.get("gate_requested")),
     )
 
+    prior_by_agent = {
+        s.agent_id: s for s in prior.stages
+    } if prior is not None else {}
+
     records: list[AgentExecutionRecord] = []
     degraded_reasons: list[str] = []
-    for agent_id in pipeline:
+    for idx, agent_id in enumerate(pipeline):
         state.agents_considered.append(agent_id)
+        sfp = stage_fingerprint(agent_id, case, rt, root)
+        prev = prior_by_agent.get(agent_id)
+        # §47 — resume: fingerprint identico nao re-executa
+        if prev is not None and prev.stage_fingerprint == sfp:
+            records.append(AgentExecutionRecord(
+                agent_id, "SKIP", "resume_unchanged_fingerprint",
+                prev.spawn_result, prev.schema_violations,
+                prev.duration_s, sfp))
+            if prev.spawn_result and prev.spawn_result.status == "completed":
+                state.agents_completed.append(agent_id)
+                if prev.spawn_result.structured_output:
+                    _absorb(agent_id, prev.spawn_result.structured_output, state)
+            continue
         decision = decide_spawn(agent_id, ctx, root=root)
         if decision.decision != "SPAWN":
             records.append(AgentExecutionRecord(
-                agent_id, decision.decision, decision.reason, None))
+                agent_id, decision.decision, decision.reason, None,
+                stage_fingerprint=sfp))
             continue
         request = _spawn_request(agent_id, case, root)
         state.agents_spawned.append(agent_id)
@@ -209,6 +285,11 @@ def run_case(
             else:
                 state.agents_completed.append(agent_id)
                 _absorb(agent_id, result.structured_output, state)
+                if idx + 1 < len(pipeline):
+                    _emit_handoff(
+                        agent_id, pipeline[idx + 1],
+                        result.structured_output, state, root,
+                    )
         elif result.status == "unresolved":
             state.agents_completed.append(agent_id)
             state.agents_degraded.append(agent_id)
@@ -229,6 +310,7 @@ def run_case(
             result,
             tuple(violations),
             result.duration_s,
+            sfp,
         ))
 
     return AgentExecutionReceipt(
