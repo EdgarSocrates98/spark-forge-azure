@@ -165,7 +165,9 @@ def register(sub: argparse._SubParsersAction) -> None:
         "--graph",
         help="saved graph JSON (default: .sparkforge-azure/graph/graph.json)",
     )
-    u.add_argument("--no-browser", action="store_true", help="serve without opening a browser (SSH)")
+    u.add_argument(
+        "--no-browser", action="store_true",
+        help="serve without opening a browser (SSH)")
     u.add_argument("--port", type=int, default=0, help="port to bind (default ephemeral)")
     u.set_defaults(func=_ui)
 

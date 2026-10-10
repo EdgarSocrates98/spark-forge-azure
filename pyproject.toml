@@ -102,7 +102,14 @@ markers = [
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-exclude = ["fixtures", "tests/fixtures", "evals/token_efficient"]
+exclude = [
+    "fixtures",
+    "tests/fixtures",
+    "evals/token_efficient",
+    # Retained generation script for SDD cycle 6 — provenance artifact,
+    # not maintained source; recorded for how docs/sdd/cycle6 was built.
+    ".gen_sdd_cycle6.py",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "S"]
