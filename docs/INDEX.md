@@ -66,6 +66,12 @@ _Task-oriented guides and workflows._
 
 - [Forge Lab / Digital Twin](../labs/forge-lab/README.md)
 
+### learn/
+
+- [Spark Forge Azure — trilha de aprendizado](learn/README.md)
+- [Receita — fatos determinísticos de código PySpark](learn/recipes/analyze-pyspark.md)
+- [Receita — assessment de migração ADF/Synapse → Fabric](learn/recipes/migration-assessment.md)
+
 ### superpowers/
 
 - [Superpowers — congelado neste repositório](superpowers/README.md)
@@ -145,6 +151,10 @@ _Troubleshooting, doctor/repair, observability._
 
 - [Observabilidade de dados no Azure](../knowledge/azure/observability/monitor-log-analytics.md)
 - [Troubleshooting de external locations (UC → ADLS Gen2)](../knowledge/azure/unity-catalog/troubleshooting-external-locations.md)
+
+### learn/
+
+- [Receita — minha instalação está íntegra?](learn/recipes/doctor.md)
 
 ### operations/
 
