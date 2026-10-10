@@ -41,9 +41,14 @@ def _root(args: argparse.Namespace) -> Path | None:
 def _install(args: argparse.Namespace) -> dict[str, Any]:
     from sparkforge_azure.install import service
 
+    comps = (
+        tuple(c.strip() for c in args.components.split(",") if c.strip())
+        if getattr(args, "components", None) else None
+    )
     return service.install(
         scope=args.scope, root=_root(args), host=args.host,
-        profile=args.profile, yes=args.yes, dry_run=args.dry_run)
+        profile=args.profile, yes=args.yes, dry_run=args.dry_run,
+        components=comps)
 
 
 def _status(args: argparse.Namespace) -> dict[str, Any]:
@@ -127,6 +132,8 @@ def register(sub: argparse._SubParsersAction) -> None:
                    choices=("minimal", "recommended", "full"))
     p.add_argument("--yes", "-y", action="store_true",
                    help="explicit approval — required for any write")
+    p.add_argument("--components", default=None,
+                   help="optional components csv: skills,agents,mcp,tui,graph-studio")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--purge", action="store_true",
                    help="uninstall: also delete .sparkforge-azure state")
