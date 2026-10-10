@@ -16,4 +16,6 @@
 | "Minha instalação está íntegra?" | [doctor](recipes/doctor.md) |
 | "Vale migrar do ADF/Synapse pro Fabric?" | [migration-assessment](recipes/migration-assessment.md) |
 
+Hub do ecossistema (descoberta cross-forge): `the-forge/docs/hub/` — install, which-forge, hosts, MCP, troubleshooting.
+
 Índice gerado: [../INDEX.md](../INDEX.md).
