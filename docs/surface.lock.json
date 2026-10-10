@@ -19,6 +19,7 @@
    "agents route",
    "agents runtime-inspect",
    "agents runtimes",
+   "ai",
    "analyze pyspark",
    "collect adls-meta",
    "collect azure-rbac",
@@ -96,6 +97,7 @@
    "sfa_agents_explain_route",
    "sfa_agents_list",
    "sfa_agents_runtimes",
+   "sfa_ai",
    "sfa_assess_migration",
    "sfa_diagnose_access",
    "sfa_diagnose_fabric",
@@ -106,8 +108,8 @@
    "sfa_tokensave_search",
    "sfa_version"
   ],
-  "compact_bytes": 14674,
-  "tool_count": 17,
+  "compact_bytes": 15771,
+  "tool_count": 18,
   "tools": {
    "sfa_agents_execution_explain": {
     "compact": true,
@@ -160,6 +162,19 @@
      "security_impact": false
     },
     "schema_sha256": "d867baee0cdfe381ec9c738290f405dccbd503f820bff20586f8fe87dd32a526"
+   },
+   "sfa_ai": {
+    "compact": true,
+    "domain": "core",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "7f7cdb40c82204b38fef0e373dba6e12ef43f9bb4cf12b5b12e477218b0e8fd1"
    },
    "sfa_assess_migration": {
     "compact": true,
@@ -331,7 +346,7 @@
     "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
    }
   },
-  "total_bytes": 18048
+  "total_bytes": 19145
  },
  "schema_version": 2,
  "skills": {

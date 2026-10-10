@@ -153,6 +153,21 @@ lock, claims, extras opcionais, credenciais (só presença — nunca autentica),
 traces, Forge Lab.
 `network_calls: 0` sempre; `cloud_mutation: none`.
 
+## `sparkforge-azure ai [host]`
+
+Mede cada host de IA — binário no PATH, versão via `--version`, login pelo
+subcomando oficial de status (`devin auth status`, `claude auth status`,
+`codex login status`) e a integração do repo (`install status`). O recibo
+carrega só o booleano `logged_in` — a saída de auth pode listar caminhos de
+credencial e nunca entra no JSON. Estados: `NOT_DETECTED`, `SUPPORTED`,
+`NEEDS_LOGIN` (com `login_hint`), `READY`, `INTEGRATION_*`.
+
+`sparkforge-azure ai` sem argumento mede todos (`all` é o seletor implícito).
+`--launch` abre o CLI do host no diretório do repo — exige um host nomeado e
+TTY: sem TTY ou com `all`, o recibo traz `launch_refused` e `launch_command`
+para o operador colar. Lançar é fronteira humana: o MCP expõe só o painel
+read-only (`sfa_ai`).
+
 ## `sparkforge-azure graph <op>` — Graphfy (offline)
 
 | Op | Uso |

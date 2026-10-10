@@ -82,5 +82,9 @@
   "workspace": {
     "why": "ForgeWorkspace: discover/init/add/remove/status de projetos declarados",
     "when": "operar multi-projeto dentro de um workspace declarado"
+  },
+  "ai": {
+    "why": "mede o host de IA (binario, versao, auth, integracao) e abre quando suportado",
+    "when": "antes de delegar para devin/claude/codex; conferir login e integracao antes do launch (CLI+TTY)"
   }
 }

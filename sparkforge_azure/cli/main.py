@@ -27,6 +27,7 @@ PROG = "sparkforge-azure"
 
 COMMAND_MODULES: tuple[str, ...] = (
     "sparkforge_azure.cli.cmd_core",
+    "sparkforge_azure.cli.cmd_ai",
     "sparkforge_azure.cli.cmd_tokensave",
     "sparkforge_azure.cli.cmd_governance",
     "sparkforge_azure.cli.cmd_doctor",

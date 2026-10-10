@@ -2,9 +2,9 @@
   "schema": "forge/CommandInventory/v1",
   "forge_id": "spark-forge-azure",
   "cli": "sparkforge-azure",
-  "generated_at": "2026-10-10T10:34:12Z",
+  "generated_at": "2026-10-10T22:26:01Z",
   "generated_by": "doc_inventory.py/1",
-  "command_count": 95,
+  "command_count": 96,
   "commands": [
     {
       "path": "version",
@@ -21,6 +21,49 @@
           "choices": null,
           "positional": false,
           "help": "show this help message and exit"
+        }
+      ]
+    },
+    {
+      "path": "ai",
+      "help": "observe AI host state (binary/version/auth/integration); --launch opens it (CLI+TTY only, never via MCP)",
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "host",
+          "flags": [],
+          "required": false,
+          "default": "all",
+          "choices": [
+            "claude",
+            "devin",
+            "codex",
+            "all"
+          ],
+          "positional": true,
+          "help": "host to observe (default: all)"
+        },
+        {
+          "name": "launch",
+          "flags": [
+            "--launch"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "launch the host CLI in this repo — requires a single host and a TTY"
         }
       ]
     },
