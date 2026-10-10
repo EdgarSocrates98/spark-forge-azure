@@ -2,9 +2,9 @@
   "schema": "forge/CommandInventory/v1",
   "forge_id": "spark-forge-azure",
   "cli": "sparkforge-azure",
-  "generated_at": "2026-10-09T22:45:17Z",
+  "generated_at": "2026-10-10T01:11:08Z",
   "generated_by": "doc_inventory.py/1",
-  "command_count": 93,
+  "command_count": 95,
   "commands": [
     {
       "path": "version",
@@ -1057,6 +1057,86 @@
           "choices": null,
           "positional": false,
           "help": null
+        }
+      ]
+    },
+    {
+      "path": "graph view",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "graph",
+          "flags": [
+            "--graph"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "saved graph JSON (default: .sparkforge-azure/graph/graph.json)"
+        }
+      ]
+    },
+    {
+      "path": "graph ui",
+      "help": null,
+      "arguments": [
+        {
+          "name": "help",
+          "flags": [
+            "-h",
+            "--help"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "show this help message and exit"
+        },
+        {
+          "name": "graph",
+          "flags": [
+            "--graph"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "saved graph JSON (default: .sparkforge-azure/graph/graph.json)"
+        },
+        {
+          "name": "no_browser",
+          "flags": [
+            "--no-browser"
+          ],
+          "required": false,
+          "default": "False",
+          "choices": null,
+          "positional": false,
+          "help": "serve without opening a browser (SSH)"
+        },
+        {
+          "name": "port",
+          "flags": [
+            "--port"
+          ],
+          "required": false,
+          "default": "0",
+          "choices": null,
+          "positional": false,
+          "help": "port to bind (default ephemeral)"
         }
       ]
     },
@@ -3953,6 +4033,17 @@
           "choices": null,
           "positional": false,
           "help": "explicit approval — required for any write"
+        },
+        {
+          "name": "components",
+          "flags": [
+            "--components"
+          ],
+          "required": false,
+          "default": null,
+          "choices": null,
+          "positional": false,
+          "help": "optional components csv: skills,agents,mcp,tui,graph-studio"
         },
         {
           "name": "dry_run",

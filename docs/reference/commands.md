@@ -13,7 +13,7 @@ Generated from the real CLI parser by `doc_inventory.py` + `doc_reference.py`. D
 - [`distribution`](#distribution) — 6 command(s)
 - [`doctor`](#doctor) — 1 command(s)
 - [`governance`](#governance) — 2 command(s)
-- [`graph`](#graph) — 5 command(s)
+- [`graph`](#graph) — 7 command(s)
 - [`install`](#install) — 1 command(s)
 - [`judge`](#judge) — 1 command(s)
 - [`knowledge`](#knowledge) — 2 command(s)
@@ -815,6 +815,42 @@ sparkforge-azure graph query [help] <graph> [kind] [layer] [NODE_ID] [['FROM', '
 _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
+### `graph ui`
+
+**Syntax**
+
+```text
+sparkforge-azure graph ui [help] [graph] [no_browser] [port]
+```
+
+| argument/flag | required | default | description |
+|---|---|---|---|
+| `help` | no | — | show this help message and exit |
+| `graph` | no | — | saved graph JSON (default: .sparkforge-azure/graph/graph.json) |
+| `no_browser` | no | — | serve without opening a browser (SSH) |
+| `port` | no | — | port to bind (default ephemeral) |
+
+<!-- keep:start -->
+_free notes — errors, examples, next steps (hand-written, preserved)_
+<!-- keep:end -->
+
+### `graph view`
+
+**Syntax**
+
+```text
+sparkforge-azure graph view [help] [graph]
+```
+
+| argument/flag | required | default | description |
+|---|---|---|---|
+| `help` | no | — | show this help message and exit |
+| `graph` | no | — | saved graph JSON (default: .sparkforge-azure/graph/graph.json) |
+
+<!-- keep:start -->
+_free notes — errors, examples, next steps (hand-written, preserved)_
+<!-- keep:end -->
+
 ## install
 
 ### `install`
@@ -822,7 +858,7 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 **Syntax**
 
 ```text
-sparkforge-azure install [help] [op] [scope] [root] [host] [profile] [yes] [dry_run] [purge] [to] [repo]
+sparkforge-azure install [help] [op] [scope] [root] [host] [profile] [yes] [components] [dry_run] [purge] [to] [repo]
 ```
 
 | argument/flag | required | default | description |
@@ -834,6 +870,7 @@ sparkforge-azure install [help] [op] [scope] [root] [host] [profile] [yes] [dry_
 | `host` | no | — | — |
 | `profile` | no | — | — |
 | `yes` | no | — | explicit approval — required for any write |
+| `components` | no | — | optional components csv: skills,agents,mcp,tui,graph-studio |
 | `dry_run` | no | — | — |
 | `purge` | no | — | uninstall: also delete .sparkforge-azure state |
 | `to` | no | — | update: pinned version — never 'latest' |
