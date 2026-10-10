@@ -73,6 +73,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/experience/themes.md` | Temas e identidade visual da TUI |
 | `docs/experience/accessibility.md` | Acessibilidade da interface |
 | `docs/economy.md` | Economia de tokens e contexto: o que é medido vs. estimado |
+| `docs/experience/fase3-report.md` | FASE 3 — fechamento: host experience `ai`/`sfa_ai`, E2E instalado, gates |
 | `docs/reports/experience-3.md` | Forge Experience 3.0 — relatório da onda de UX |
 
 ## Knowledge program
