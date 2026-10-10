@@ -150,7 +150,15 @@ def _emit(result: Result, fmt: str) -> None:
     sys.stdout.write(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2) + "\n")
 
 
+def _stdio_utf8() -> None:
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8", errors="replace")
+
+
 def main(argv: Sequence[str] | None = None) -> int:
+    _stdio_utf8()
     parser = build_parser()
     argv = list(sys.argv[1:] if argv is None else argv)
     if not argv:

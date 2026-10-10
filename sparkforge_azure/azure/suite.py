@@ -68,7 +68,12 @@ def run_suite(root: str | Path, *, profile: str = "balanced") -> dict[str, Any]:
 
 def _main(argv: list[str] | None = None) -> int:  # pragma: no cover - debug helper
     import argparse
+    import sys
 
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is not None:
+            reconfigure(encoding="utf-8", errors="replace")
     p = argparse.ArgumentParser()
     p.add_argument("root")
     a = p.parse_args(argv)
