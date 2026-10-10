@@ -29,3 +29,9 @@ tools MCP (`docs/reference/mcp-tools.md`), mapa de modulos
 (`docs/architecture/MODULE-MAP.md`) e runbook (`docs/operations/runbook.md`).
 
 Work in progress (v0.1.0 foundation). See docs/ROADMAP.md.
+
+## Graph Studio
+
+`sparkforge-azure graph view|ui` projects `graph.json` through
+`forge/ForgeGraphView/v1` and serves the embedded local explorer (declinable at
+install via `--components`). Full docs: `the-forge/docs/graph-studio/`.
