@@ -111,6 +111,8 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+# Vendored Forge UI kit (canonical: the-forge/src/theforge/ui)
+"sparkforge_azure/ui/**/*.py" = ["ALL"]
 "tests/*" = ["S603", "S607", "S108"]
 "scripts/*" = ["S603", "S607"]
 # Vendored engine (canonical: the-forge/scripts/installkit) — kept
