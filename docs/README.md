@@ -49,6 +49,19 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/learn/recipes/doctor.md` | Receita: "minha instalação está íntegra?" |
 | `docs/learn/recipes/analyze-pyspark.md` | Receita: facts determinísticos de código PySpark |
 | `docs/learn/recipes/migration-assessment.md` | Receita: assessment ADF/Synapse → Fabric |
+| `docs/learn/recipes/instalacao.md` | Receita: instalar o forge no projeto (scopes, hosts, recibo) |
+| `docs/learn/recipes/primeiro-uso.md` | Receita: menor caminho real (install→doctor→analyze→judge) |
+| `docs/learn/recipes/analise-azure.md` | Receita: diagnóstico de acesso multicamada (UC/RBAC/ACL/rede) |
+| `docs/learn/recipes/fabric.md` | Receita: vertical Fabric (workspace/OneLake/shortcut/capacity) |
+| `docs/learn/recipes/adf.md` | Receita: Azure Data Factory (inventory/assess de migração) |
+| `docs/learn/recipes/synapse.md` | Receita: Synapse (pools, pipelines, migração p/ Fabric) |
+| `docs/learn/recipes/streaming.md` | Receita: Event Hubs + Structured Streaming + Fabric RTI |
+| `docs/learn/recipes/usar-agents.md` | Receita: frota de 40 agents — list/inspect/route/execute |
+| `docs/learn/recipes/usar-skills.md` | Receita: as 22 skills e o contrato de fronteira |
+| `docs/learn/recipes/verificar-mcp.md` | Receita: handshake MCP real + painel `ai` |
+| `docs/learn/recipes/graphfy.md` | Receita: `graph build/query/impact/view/ui` (ForgeGraphView/v1) |
+| `docs/learn/recipes/economia.md` | Receita: tokensave L0–L6, bytes medidos vs tokens |
+| `docs/learn/recipes/abrir-host.md` | Receita: `sparkforge-azure ai` — medir e abrir o host |
 
 ## Experiência
 

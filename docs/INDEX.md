@@ -69,8 +69,21 @@ _Task-oriented guides and workflows._
 ### learn/
 
 - [Spark Forge Azure — trilha de aprendizado](learn/README.md)
+- [Receita — abrir o host de IA (`sparkforge-azure ai`)](learn/recipes/abrir-host.md)
+- [Receita — Azure Data Factory](learn/recipes/adf.md)
+- [Receita — diagnóstico de acesso/governança Azure](learn/recipes/analise-azure.md)
 - [Receita — fatos determinísticos de código PySpark](learn/recipes/analyze-pyspark.md)
+- [Receita — economia de contexto honesta](learn/recipes/economia.md)
+- [Receita — diagnóstico Microsoft Fabric](learn/recipes/fabric.md)
+- [Receita — Graphfy: o grafo do workspace](learn/recipes/graphfy.md)
+- [Receita — instalar o spark-forge-azure num projeto](learn/recipes/instalacao.md)
 - [Receita — assessment de migração ADF/Synapse → Fabric](learn/recipes/migration-assessment.md)
+- [Receita — primeiro uso do spark-forge-azure](learn/recipes/primeiro-uso.md)
+- [Receita — Streaming: Event Hubs e Fabric RTI](learn/recipes/streaming.md)
+- [Receita — Azure Synapse](learn/recipes/synapse.md)
+- [Receita — usar os agents do spark-forge-azure](learn/recipes/usar-agents.md)
+- [Receita — usar as skills do spark-forge-azure](learn/recipes/usar-skills.md)
+- [Receita — verificar a integração MCP](learn/recipes/verificar-mcp.md)
 
 ### superpowers/
 

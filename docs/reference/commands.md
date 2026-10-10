@@ -2,7 +2,7 @@
 
 Generated from the real CLI parser by `doc_inventory.py` + `doc_reference.py`. Do not hand-edit generated sections — write between `keep:start`/`keep:end` markers. `por que`/`quando` lines come from the curated `command-rationale.json` — edit rationale there, never here. Status vocabulary: `available` unless marked otherwise.
 
-Rationale coverage: **21/22** first-level groups curated in `command-rationale.json`.
+Rationale coverage: **22/22** first-level groups curated in `command-rationale.json`.
 
 ## Groups
 
@@ -363,6 +363,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 ### `ai`
 
 **para que:** observe AI host state (binary/version/auth/integration); --launch opens it (CLI+TTY only, never via MCP)
+
+- **por que:** mede o host de IA (binario, versao, auth, integracao) e abre quando suportado
+- **quando usar:** antes de delegar para devin/claude/codex; conferir login e integracao antes do launch (CLI+TTY)
 
 **Syntax**
 

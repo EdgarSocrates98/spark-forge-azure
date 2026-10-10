@@ -2,8 +2,6 @@
   "schema": "forge/DocDivergence/v1",
   "cli": "sparkforge-azure",
   "documented_missing": [],
-  "undocumented_commands": [
-    "ai"
-  ],
-  "generated_at": "2026-10-10T22:26:03Z"
+  "undocumented_commands": [],
+  "generated_at": "2026-10-10T22:37:03Z"
 }
