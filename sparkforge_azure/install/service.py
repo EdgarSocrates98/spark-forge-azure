@@ -175,7 +175,8 @@ def _receipt(operation: str, scope: str, target: Path, *,
 
 def install(*, scope: str = "project", root: Path | None = None,
             host: str = "all", profile: str = "recommended",
-            yes: bool = False, dry_run: bool = False) -> dict[str, Any]:
+            yes: bool = False, dry_run: bool = False,
+            components: tuple[str, ...] | None = None) -> dict[str, Any]:
     """``sparkforge-azure install`` — governed apply over ``initialize``."""
     from sparkforge_azure.distribution import service as dist
     from sparkforge_azure.distribution.errors import PortableError
@@ -188,6 +189,7 @@ def install(*, scope: str = "project", root: Path | None = None,
         raise PortableError(kit.E_HOST, f"host {host!r}; expected {HOSTS} + all")
     target = _resolve(scope, root)
     state = _state_dir(scope, target)
+    opts = kit.component_options("recommended", components)
 
     if dry_run:
         return _receipt(
@@ -196,6 +198,7 @@ def install(*, scope: str = "project", root: Path | None = None,
                      "detail": "dry-run — nothing written"}],
             managed_files=[],
             extra={"dry_run": True,
+                   "components": opts or None,
                    "planned_files": _planned_files(target, scope, hosts,
                                                    profile)})
     if not yes:
@@ -221,13 +224,18 @@ def install(*, scope: str = "project", root: Path | None = None,
                 doc["managed_files"] = [f["path"] for f in ledger["files"]]
         # `initialize` may report a refusal doc instead of raising.
         ok = doc.get("status") == "ok"
+    if opts:
+        state.mkdir(parents=True, exist_ok=True)
+        (state / "components.json").write_text(
+            json.dumps(opts, indent=2), encoding="utf-8")
     return _receipt(
         "install", scope, target,
         status="completed" if ok else "failed",
         checks=[{"id": "apply", "status": "PASS" if ok else "FAIL",
                  "detail": f"{len(doc.get('managed_files', []))} managed files"}],
         managed_files=doc.get("managed_files", []),
-        extra={"distribution": {k: v for k, v in doc.items()
+        extra={"components": opts or None,
+               "distribution": {k: v for k, v in doc.items()
                                 if k not in ("managed_files",)}})
 
 

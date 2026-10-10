@@ -152,3 +152,62 @@ def register(sub: argparse._SubParsersAction) -> None:
     f.add_argument("--out")
     f.add_argument("--limit", type=int, default=100)
     f.set_defaults(func=_federate)
+
+    v = s.add_parser("view", help="emit the ForgeGraphView/v1 document (Graph Studio)")
+    v.add_argument(
+        "--graph",
+        help="saved graph JSON (default: .sparkforge-azure/graph/graph.json)",
+    )
+    v.set_defaults(func=_view)
+
+    u = s.add_parser("ui", help="open the local Graph Studio explorer for a graph")
+    u.add_argument(
+        "--graph",
+        help="saved graph JSON (default: .sparkforge-azure/graph/graph.json)",
+    )
+    u.add_argument("--no-browser", action="store_true", help="serve without opening a browser (SSH)")
+    u.add_argument("--port", type=int, default=0, help="port to bind (default ephemeral)")
+    u.set_defaults(func=_ui)
+
+
+def _graph_path(args: argparse.Namespace) -> Path:
+    if args.graph:
+        return Path(args.graph)
+    from sparkforge_azure.graph.store import default_state_dir
+
+    return default_state_dir(Path.cwd()) / "graph.json"
+
+
+def _view(args: argparse.Namespace) -> dict[str, Any]:
+    from sparkforge_azure.graphview import build_view
+
+    path = _graph_path(args)
+    view = build_view(path)
+    if view is None:
+        raise CliError(
+            f"no readable graph at {path} — run `graph build` first"
+        )
+    return view.to_dict()
+
+
+def _ui(args: argparse.Namespace) -> dict[str, Any]:
+    from sparkforge_azure._graphstudio import graph_studio_enabled, open_studio
+    from sparkforge_azure.graphview import build_view
+
+    if not graph_studio_enabled(
+        Path.cwd(),
+        state_rel=".sparkforge-azure",
+        user_state_rel="~/.sparkforge-azure",
+    ):
+        raise CliError(
+            "Graph Studio declined at install (components.json: "
+            "graph_studio=false) — reinstall with the graph-studio component"
+        )
+    path = _graph_path(args)
+    view = build_view(path)
+    if view is None:
+        raise CliError(
+            f"no readable graph at {path} — run `graph build` first"
+        )
+    rc = open_studio([view], open_browser=not args.no_browser, port=args.port)
+    return {"status": "completed" if rc == 0 else "failed", "served": rc == 0}
