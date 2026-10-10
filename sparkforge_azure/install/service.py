@@ -13,6 +13,7 @@ mirrors; ``full`` = + agent mirrors. Scopes: ``project`` / ``workspace``
 
 from __future__ import annotations
 
+import json
 import subprocess  # noqa: S404 — bounded argv to the installed venv pip
 import sys
 from pathlib import Path
