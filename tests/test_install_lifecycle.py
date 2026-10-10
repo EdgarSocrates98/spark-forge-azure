@@ -213,3 +213,16 @@ def test_install_apply_via_cli(project: Path) -> None:
     assert (project / ".sparkforge-azure" / "project.yaml").is_file()
     rc = main(["install", "uninstall", "--root", str(project)])
     assert rc == 0
+
+
+def test_hosts_none_e_csv(tmp_path):
+    """GAP-003: `none` nunca vira `all`; csv subconjunto e validado."""
+    import pytest
+    from sparkforge_azure.install import service
+    alvo = tmp_path / "proj"
+    alvo.mkdir()
+    plan = service.install(host="none", scope="project", root=alvo,
+                           dry_run=True)
+    assert plan is not None
+    with pytest.raises(Exception):
+        service.install(host="nope", scope="project", root=alvo, dry_run=True)

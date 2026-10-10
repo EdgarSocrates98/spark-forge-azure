@@ -185,9 +185,17 @@ def install(*, scope: str = "project", root: Path | None = None,
     if profile not in PROFILES:
         raise PortableError(
             kit.E_PROFILE, f"profile {profile!r}; expected {PROFILES}")
-    hosts = HOSTS if host == "all" else (host,)
-    if host != "all" and host not in HOSTS:
-        raise PortableError(kit.E_HOST, f"host {host!r}; expected {HOSTS} + all")
+    if host == "all":
+        hosts = list(HOSTS)
+    elif not host or host == "none":
+        hosts = []  # opt-out explícito — zero hosts nunca vira "all" (GAP-003)
+    else:
+        nomes = [h.strip() for h in host.split(",") if h.strip()]
+        desconhecidos = [h for h in nomes if h not in HOSTS]
+        if desconhecidos:
+            raise PortableError(
+                kit.E_HOST, f"host {desconhecidos[0]!r}; expected {HOSTS} + all,none")
+        hosts = list(dict.fromkeys(nomes))
     target = _resolve(scope, root)
     state = _state_dir(scope, target)
     opts = kit.component_options("recommended", components)
