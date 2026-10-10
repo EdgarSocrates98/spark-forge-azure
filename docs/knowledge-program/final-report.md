@@ -3,8 +3,8 @@
 | Campo | Valor |
 |---|---|
 | repository | `spark-forge-azure` |
-| branch | `feat/docs-evolution` |
-| commit | `4ccc5a3` |
+| branch | `main` |
+| commit | `651fa65` |
 | docs inventoried | 622 (excl. GENERATED mirrors: 490; vendored upstream: 0) |
 
 ## Review levels (honest)

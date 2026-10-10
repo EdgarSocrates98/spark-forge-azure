@@ -1,6 +1,8 @@
 # `sparkforge-azure` command reference
 
-Generated from the real CLI parser by `doc_inventory.py` + `doc_reference.py`. Do not hand-edit generated sections — write between `keep:start`/`keep:end` markers. Status vocabulary: `available` unless marked otherwise.
+Generated from the real CLI parser by `doc_inventory.py` + `doc_reference.py`. Do not hand-edit generated sections — write between `keep:start`/`keep:end` markers. `por que`/`quando` lines come from the curated `command-rationale.json` — edit rationale there, never here. Status vocabulary: `available` unless marked otherwise.
+
+Rationale coverage: **21/21** first-level groups curated in `command-rationale.json`.
 
 ## Groups
 
@@ -30,6 +32,11 @@ Generated from the real CLI parser by `doc_inventory.py` + `doc_reference.py`. D
 
 ### `agentops`
 
+**para que:** inspect recorded runs: runs/inspect/timeline/critical-path
+
+- **por que:** inspeciona runs gravadas: runs/inspect/timeline/critical-path
+- **quando usar:** auditar uma execução agêntica já persistida — o que aconteceu e o caminho crítico
+
 **Syntax**
 
 ```text
@@ -46,6 +53,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `agentops critical-path`
+
+- **por que:** inspeciona runs gravadas: runs/inspect/timeline/critical-path
+- **quando usar:** auditar uma execução agêntica já persistida — o que aconteceu e o caminho crítico
 
 **Syntax**
 
@@ -64,6 +74,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `agentops inspect`
 
+- **por que:** inspeciona runs gravadas: runs/inspect/timeline/critical-path
+- **quando usar:** auditar uma execução agêntica já persistida — o que aconteceu e o caminho crítico
+
 **Syntax**
 
 ```text
@@ -81,6 +94,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `agentops runs`
 
+**para que:** list recorded runs
+
+- **por que:** inspeciona runs gravadas: runs/inspect/timeline/critical-path
+- **quando usar:** auditar uma execução agêntica já persistida — o que aconteceu e o caminho crítico
+
 **Syntax**
 
 ```text
@@ -97,6 +115,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `agentops timeline`
+
+- **por que:** inspeciona runs gravadas: runs/inspect/timeline/critical-path
+- **quando usar:** auditar uma execução agêntica já persistida — o que aconteceu e o caminho crítico
 
 **Syntax**
 
@@ -117,6 +138,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `agents`
 
+**para que:** agent fleet — list status, inspect one contract, explain a route
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
+
 **Syntax**
 
 ```text
@@ -132,6 +158,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `agents compare`
+
+**para que:** A/B configs A-D over a case file -> frontier
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
 
 **Syntax**
 
@@ -149,6 +180,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `agents execute`
+
+**para que:** dry-run do plano de execucao (nunca executa host)
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
 
 **Syntax**
 
@@ -170,6 +206,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `agents fingerprint`
 
+**para que:** deterministic hash over the fleet's contract surface
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
+
 **Syntax**
 
 ```text
@@ -185,6 +226,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `agents impact`
+
+**para que:** agents + test surfaces a changed path invalidates
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
 
 **Syntax**
 
@@ -203,6 +249,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `agents inspect`
 
+**para que:** full contract report for one agent
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
+
 **Syntax**
 
 ```text
@@ -220,6 +271,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `agents list`
 
+**para que:** status of every agent in the taxonomy
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
+
 **Syntax**
 
 ```text
@@ -235,6 +291,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `agents route`
+
+**para que:** deterministic route explanation + spawn gate per candidate
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
 
 **Syntax**
 
@@ -255,6 +316,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `agents runtime-inspect`
 
+**para que:** full registry entry for one runtime
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
+
 **Syntax**
 
 ```text
@@ -271,6 +337,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `agents runtimes`
+
+**para que:** runtime registry: adapter, status, proof
+
+- **por que:** frota de agentes: status, contrato individual, explicação de rota
+- **quando usar:** entender quem pode executar antes de delegar uma rota
 
 **Syntax**
 
@@ -290,6 +361,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `analyze`
 
+**para que:** extract facts offline (only kinds with an extractor)
+
+- **por que:** extrai facts offline — só os kinds que têm extrator implementado
+- **quando usar:** inventário factual antes de judge/diagnose; nada roda nem assume
+
 **Syntax**
 
 ```text
@@ -305,6 +381,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `analyze pyspark`
+
+**para que:** PySpark AST facts from a .py file or directory
+
+- **por que:** extrai facts offline — só os kinds que têm extrator implementado
+- **quando usar:** inventário factual antes de judge/diagnose; nada roda nem assume
 
 **Syntax**
 
@@ -326,6 +407,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `collect`
 
+**para que:** read-only Azure collectors (offline exports by default)
+
+- **por que:** coletores Azure somente-leitura; exports offline por padrão
+- **quando usar:** trazer evidência do ambiente Azure para análise local
+
 **Syntax**
 
 ```text
@@ -341,6 +427,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `collect adls-meta`
+
+**para que:** ADLS account posture + ACLs
+
+- **por que:** coletores Azure somente-leitura; exports offline por padrão
+- **quando usar:** trazer evidência do ambiente Azure para análise local
 
 **Syntax**
 
@@ -365,6 +456,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `collect azure-rbac`
 
+**para que:** role assignments at a scope
+
+- **por que:** coletores Azure somente-leitura; exports offline por padrão
+- **quando usar:** trazer evidência do ambiente Azure para análise local
+
 **Syntax**
 
 ```text
@@ -387,6 +483,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `collect resource-graph`
 
+**para que:** ingest an Azure Resource Graph export
+
+- **por que:** coletores Azure somente-leitura; exports offline por padrão
+- **quando usar:** trazer evidência do ambiente Azure para análise local
+
 **Syntax**
 
 ```text
@@ -406,6 +507,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `collect unity-catalog`
+
+**para que:** UC credentials/locations/catalogs/grants
+
+- **por que:** coletores Azure somente-leitura; exports offline por padrão
+- **quando usar:** trazer evidência do ambiente Azure para análise local
 
 **Syntax**
 
@@ -428,6 +534,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `collect workspace-graph`
+
+**para que:** live workspace graph for a manifest
+
+- **por que:** coletores Azure somente-leitura; exports offline por padrão
+- **quando usar:** trazer evidência do ambiente Azure para análise local
 
 **Syntax**
 
@@ -452,6 +563,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `context`
 
+**para que:** workspace-scoped context resolution (target|direct|transitive|all)
+
+- **por que:** resolução de contexto por workspace (target|direct|transitive|all)
+- **quando usar:** montar o contexto certo sob escopo declarado
+
 **Syntax**
 
 ```text
@@ -467,6 +583,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `context resolve`
+
+**para que:** resolve the relevant project set + bounded context pack for a target
+
+- **por que:** resolução de contexto por workspace (target|direct|transitive|all)
+- **quando usar:** montar o contexto certo sob escopo declarado
 
 **Syntax**
 
@@ -491,6 +612,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `diagnose`
 
+**para que:** offline access diagnosis on a case bundle
+
+- **por que:** diagnóstico de acesso offline sobre um case bundle
+- **quando usar:** AccessDenied/permissão falhando sem motivo claro — sem chamar Azure
+
 **Syntax**
 
 ```text
@@ -510,6 +636,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `diagnose fabric`
 
+**para que:** Microsoft Fabric vertical: workspace/OneLake/shortcut/Spark/capacity/pipeline diagnosis
+
+- **por que:** diagnóstico de acesso offline sobre um case bundle
+- **quando usar:** AccessDenied/permissão falhando sem motivo claro — sem chamar Azure
+
 **Syntax**
 
 ```text
@@ -528,6 +659,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `diagnose stream`
+
+**para que:** Streaming vertical: Event Hubs/consumer groups/checkpoints/Structured Streaming + Fabric RTI (Eventstream/Eventhouse/Activator) diagnosis
+
+- **por que:** diagnóstico de acesso offline sobre um case bundle
+- **quando usar:** AccessDenied/permissão falhando sem motivo claro — sem chamar Azure
 
 **Syntax**
 
@@ -550,6 +686,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `distribution`
 
+**para que:** portable distribution lifecycle: inspect/init/status/doctor/detach
+
+- **por que:** ciclo de vida de distribuição portátil: inspect/init/status/doctor/detach
+- **quando usar:** empacotar e operar a forja em ambiente sem rede
+
 **Syntax**
 
 ```text
@@ -565,6 +706,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `distribution detach`
+
+**para que:** remove managed integration assets (reversible)
+
+- **por que:** ciclo de vida de distribuição portátil: inspect/init/status/doctor/detach
+- **quando usar:** empacotar e operar a forja em ambiente sem rede
 
 **Syntax**
 
@@ -586,6 +732,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `distribution doctor`
 
+**para que:** offline portable health (no Azure auth)
+
+- **por que:** ciclo de vida de distribuição portátil: inspect/init/status/doctor/detach
+- **quando usar:** empacotar e operar a forja em ambiente sem rede
+
 **Syntax**
 
 ```text
@@ -602,6 +753,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `distribution init`
+
+**para que:** initialize portable identity + local integration
+
+- **por que:** ciclo de vida de distribuição portátil: inspect/init/status/doctor/detach
+- **quando usar:** empacotar e operar a forja em ambiente sem rede
 
 **Syntax**
 
@@ -623,6 +779,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `distribution inspect`
 
+**para que:** show resolved paths, assets, hosts and identities
+
+- **por que:** ciclo de vida de distribuição portátil: inspect/init/status/doctor/detach
+- **quando usar:** empacotar e operar a forja em ambiente sem rede
+
 **Syntax**
 
 ```text
@@ -639,6 +800,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `distribution status`
+
+**para que:** initialization state + managed-asset drift
+
+- **por que:** ciclo de vida de distribuição portátil: inspect/init/status/doctor/detach
+- **quando usar:** empacotar e operar a forja em ambiente sem rede
 
 **Syntax**
 
@@ -659,6 +825,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `doctor`
 
+**para que:** installation and capability health (no cloud access)
+
+- **por que:** saúde de instalação e capabilities — sem acesso à nuvem
+- **quando usar:** primeira linha pós-install ou quando algo falha localmente
+
 **Syntax**
 
 ```text
@@ -678,6 +849,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `governance`
 
+**para que:** multi-layer governance (Entra/RBAC/ACL/UC/network)
+
+- **por que:** governança multi-camada (Entra/RBAC/ACL/UC/network)
+- **quando usar:** avaliar camadas de controle de acesso do lakehouse
+
 **Syntax**
 
 ```text
@@ -693,6 +869,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `governance diagnose`
+
+**para que:** diagnose an access scenario offline
+
+- **por que:** governança multi-camada (Entra/RBAC/ACL/UC/network)
+- **quando usar:** avaliar camadas de controle de acesso do lakehouse
 
 **Syntax**
 
@@ -713,6 +894,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `graph`
 
+**para que:** Graphfy: semantic/workspace graph (offline)
+
+- **por que:** Graphfy: grafo semântico/workspace offline
+- **quando usar:** navegar relações declaradas e observadas do workspace
+
 **Syntax**
 
 ```text
@@ -728,6 +914,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `graph build`
+
+**para que:** build the static workspace/code graph
+
+- **por que:** Graphfy: grafo semântico/workspace offline
+- **quando usar:** navegar relações declaradas e observadas do workspace
 
 **Syntax**
 
@@ -751,6 +942,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `graph federate`
 
+**para que:** compose static+live+artifact+knowledge by explicit ids
+
+- **por que:** Graphfy: grafo semântico/workspace offline
+- **quando usar:** navegar relações declaradas e observadas do workspace
+
 **Syntax**
 
 ```text
@@ -773,6 +969,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `graph impact`
 
+**para que:** change impact of files/symbols/knowledge ids
+
+- **por que:** Graphfy: grafo semântico/workspace offline
+- **quando usar:** navegar relações declaradas e observadas do workspace
+
 **Syntax**
 
 ```text
@@ -791,6 +992,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `graph query`
+
+**para que:** query a graph by kind/layer, neighbors or path
+
+- **por que:** Graphfy: grafo semântico/workspace offline
+- **quando usar:** navegar relações declaradas e observadas do workspace
 
 **Syntax**
 
@@ -817,6 +1023,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `graph ui`
 
+**para que:** open the local Graph Studio explorer for a graph
+
+- **por que:** Graphfy: grafo semântico/workspace offline
+- **quando usar:** navegar relações declaradas e observadas do workspace
+
 **Syntax**
 
 ```text
@@ -836,6 +1047,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `graph view`
 
+**para que:** emit the ForgeGraphView/v1 document (Graph Studio)
+
+- **por que:** Graphfy: grafo semântico/workspace offline
+- **quando usar:** navegar relações declaradas e observadas do workspace
+
 **Syntax**
 
 ```text
@@ -854,6 +1070,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 ## install
 
 ### `install`
+
+**para que:** forge/* install lifecycle: apply/status/doctor/repair/uninstall/update/mcp-verify
+
+- **por que:** ciclo de vida forge/*: apply/status/doctor/repair/uninstall/update/mcp-verify
+- **quando usar:** instalar, reparar ou remover a integração governada
 
 **Syntax**
 
@@ -884,6 +1105,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `judge`
 
+**para que:** apply the versioned rule catalogue to facts
+
+- **por que:** aplica o catálogo de regras versionado sobre facts
+- **quando usar:** depois do analyze/collect: facts viram findings com rule_id
+
 **Syntax**
 
 ```text
@@ -904,6 +1130,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `knowledge`
 
+**para que:** dated knowledge packs
+
+- **por que:** knowledge packs datados
+- **quando usar:** consultar a fonte versionada de regras e matrizes
+
 **Syntax**
 
 ```text
@@ -919,6 +1150,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `knowledge select`
+
+**para que:** bounded claims from one knowledge pack
+
+- **por que:** knowledge packs datados
+- **quando usar:** consultar a fonte versionada de regras e matrizes
 
 **Syntax**
 
@@ -941,6 +1177,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab`
 
+**para que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -957,6 +1198,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `lab analyze`
+
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
 
 **Syntax**
 
@@ -975,6 +1219,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab compare`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -992,6 +1239,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `lab describe`
+
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
 
 **Syntax**
 
@@ -1014,6 +1264,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab doctor`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -1029,6 +1282,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `lab down`
+
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
 
 **Syntax**
 
@@ -1051,6 +1307,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab gc`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -1072,6 +1331,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab inspect`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -1088,6 +1350,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `lab plan`
+
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
 
 **Syntax**
 
@@ -1110,6 +1375,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab profiles`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -1125,6 +1393,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `lab promote-fixture`
+
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
 
 **Syntax**
 
@@ -1145,6 +1416,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab reproduce`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -1161,6 +1435,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `lab run`
+
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
 
 **Syntax**
 
@@ -1183,6 +1460,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab scenarios`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -1198,6 +1478,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `lab shell`
+
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
 
 **Syntax**
 
@@ -1220,6 +1503,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab up`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -1241,6 +1527,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `lab verify`
 
+- **por que:** Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle
+- **quando usar:** cenários reproduzíveis sem tocar o ambiente real
+
 **Syntax**
 
 ```text
@@ -1259,6 +1548,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `mcp`
 
+**para que:** MCP runtime: catalog inspection and server
+
+- **por que:** runtime MCP: inspeção de catálogo e servidor
+- **quando usar:** servir a forja via MCP ou conferir o que está exposto
+
 **Syntax**
 
 ```text
@@ -1274,6 +1568,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `mcp catalog`
+
+**para que:** print the sfa_* tool catalog as JSON (offline)
+
+- **por que:** runtime MCP: inspeção de catálogo e servidor
+- **quando usar:** servir a forja via MCP ou conferir o que está exposto
 
 **Syntax**
 
@@ -1291,6 +1590,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `mcp serve`
+
+**para que:** run the MCP server (stdio or streamable http)
+
+- **por que:** runtime MCP: inspeção de catálogo e servidor
+- **quando usar:** servir a forja via MCP ou conferir o que está exposto
 
 **Syntax**
 
@@ -1318,6 +1622,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `migration`
 
+**para que:** ADF/Synapse -> Fabric migration assessment (offline)
+
+- **por que:** avaliação de migração ADF/Synapse -> Fabric, offline
+- **quando usar:** avaliar esforço/risco de migração com evidência declarada
+
 **Syntax**
 
 ```text
@@ -1333,6 +1642,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `migration assess`
+
+**para que:** full assessment (readiness+recs+waves+validation)
+
+- **por que:** avaliação de migração ADF/Synapse -> Fabric, offline
+- **quando usar:** avaliar esforço/risco de migração com evidência declarada
 
 **Syntax**
 
@@ -1353,6 +1667,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `migration inventory`
 
+**para que:** estate summary + readiness census
+
+- **por que:** avaliação de migração ADF/Synapse -> Fabric, offline
+- **quando usar:** avaliar esforço/risco de migração com evidência declarada
+
 **Syntax**
 
 ```text
@@ -1371,6 +1690,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `migration plan`
 
+**para que:** migration waves + rollback + upstream blockers
+
+- **por que:** avaliação de migração ADF/Synapse -> Fabric, offline
+- **quando usar:** avaliar esforço/risco de migração com evidência declarada
+
 **Syntax**
 
 ```text
@@ -1388,6 +1712,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `migration validate`
+
+**para que:** post-migration validation dimensions
+
+- **por que:** avaliação de migração ADF/Synapse -> Fabric, offline
+- **quando usar:** avaliar esforço/risco de migração com evidência declarada
 
 **Syntax**
 
@@ -1409,6 +1738,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `offline-bundle`
 
+**para que:** redacted evidence bundle (no secrets, no raw dumps)
+
+- **por que:** bundle de evidência redigido — sem segredos nem dumps crus
+- **quando usar:** compartilhar o case entre hosts/forjas com segurança
+
 **Syntax**
 
 ```text
@@ -1424,6 +1758,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `offline-bundle build`
+
+- **por que:** bundle de evidência redigido — sem segredos nem dumps crus
+- **quando usar:** compartilhar o case entre hosts/forjas com segurança
 
 **Syntax**
 
@@ -1449,6 +1786,9 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `offline-bundle verify`
 
+- **por que:** bundle de evidência redigido — sem segredos nem dumps crus
+- **quando usar:** compartilhar o case entre hosts/forjas com segurança
+
 **Syntax**
 
 ```text
@@ -1468,6 +1808,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `sdd`
 
+**para que:** SDD gate — spec artifact chain check/status
+
+- **por que:** gate SDD: checa a cadeia de artefatos de spec
+- **quando usar:** conferir spec→design→plan antes de construir ou entregar
+
 **Syntax**
 
 ```text
@@ -1483,6 +1828,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `sdd check`
+
+**para que:** validate the SDD artifact chain (all features or --feature)
+
+- **por que:** gate SDD: checa a cadeia de artefatos de spec
+- **quando usar:** conferir spec→design→plan antes de construir ou entregar
 
 **Syntax**
 
@@ -1500,6 +1850,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `sdd status`
+
+**para que:** phase/status of every feature under docs/sdd
+
+- **por que:** gate SDD: checa a cadeia de artefatos de spec
+- **quando usar:** conferir spec→design→plan antes de construir ou entregar
 
 **Syntax**
 
@@ -1519,6 +1874,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `tokensave`
 
+**para que:** economical retrieval ladder (L0-L6)
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
+
 **Syntax**
 
 ```text
@@ -1534,6 +1894,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `tokensave benchmark`
+
+**para que:** baseline vs profiles on a case corpus
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
 
 **Syntax**
 
@@ -1554,6 +1919,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `tokensave context`
+
+**para que:** walk the ladder until sufficient
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
 
 **Syntax**
 
@@ -1576,6 +1946,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `tokensave diff`
 
+**para que:** bounded git diff
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
+
 **Syntax**
 
 ```text
@@ -1597,6 +1972,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `tokensave expand`
 
+**para que:** L3 graph expansion (needs --index)
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
+
 **Syntax**
 
 ```text
@@ -1617,6 +1997,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `tokensave read`
+
+**para que:** L5 bounded slice
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
 
 **Syntax**
 
@@ -1640,6 +2025,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `tokensave refs`
 
+**para que:** L2 references of a symbol
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
+
 **Syntax**
 
 ```text
@@ -1659,6 +2049,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `tokensave search`
+
+**para que:** L1 literal search
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
 
 **Syntax**
 
@@ -1680,6 +2075,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `tokensave symbols`
+
+**para que:** L2 symbols of a file
+
+- **por que:** escada de retrieval econômica L0-L6
+- **quando usar:** buscar contexto pagando só o nível necessário
 
 **Syntax**
 
@@ -1703,6 +2103,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `version`
 
+**para que:** print engine identity and version
+
+- **por que:** imprime identidade e versão do engine
+- **quando usar:** confirmar qual build está rodando
+
 **Syntax**
 
 ```text
@@ -1721,6 +2126,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `workspace`
 
+**para que:** ForgeWorkspace: discover/init/add/remove/status of declared projects
+
+- **por que:** ForgeWorkspace: discover/init/add/remove/status de projetos declarados
+- **quando usar:** operar multi-projeto dentro de um workspace declarado
+
 **Syntax**
 
 ```text
@@ -1736,6 +2146,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `workspace add`
+
+**para que:** declare a repository as a workspace member
+
+- **por que:** ForgeWorkspace: discover/init/add/remove/status de projetos declarados
+- **quando usar:** operar multi-projeto dentro de um workspace declarado
 
 **Syntax**
 
@@ -1759,6 +2174,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `workspace discover`
 
+**para que:** suggest candidate projects — reads, never writes
+
+- **por que:** ForgeWorkspace: discover/init/add/remove/status de projetos declarados
+- **quando usar:** operar multi-projeto dentro de um workspace declarado
+
 **Syntax**
 
 ```text
@@ -1775,6 +2195,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `workspace init`
+
+**para que:** create workspace.yaml + register the host project
+
+- **por que:** ForgeWorkspace: discover/init/add/remove/status de projetos declarados
+- **quando usar:** operar multi-projeto dentro de um workspace declarado
 
 **Syntax**
 
@@ -1794,6 +2219,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 
 ### `workspace remove`
 
+**para que:** drop a project declaration (the repository is never deleted)
+
+- **por que:** ForgeWorkspace: discover/init/add/remove/status de projetos declarados
+- **quando usar:** operar multi-projeto dentro de um workspace declarado
+
 **Syntax**
 
 ```text
@@ -1811,6 +2241,11 @@ _free notes — errors, examples, next steps (hand-written, preserved)_
 <!-- keep:end -->
 
 ### `workspace status`
+
+**para que:** declared projects, resolution and cycles
+
+- **por que:** ForgeWorkspace: discover/init/add/remove/status de projetos declarados
+- **quando usar:** operar multi-projeto dentro de um workspace declarado
 
 **Syntax**
 

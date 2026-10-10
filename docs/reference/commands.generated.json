@@ -2,13 +2,13 @@
   "schema": "forge/CommandInventory/v1",
   "forge_id": "spark-forge-azure",
   "cli": "sparkforge-azure",
-  "generated_at": "2026-10-10T10:22:30Z",
+  "generated_at": "2026-10-10T10:34:12Z",
   "generated_by": "doc_inventory.py/1",
   "command_count": 95,
   "commands": [
     {
       "path": "version",
-      "help": null,
+      "help": "print engine identity and version",
       "arguments": [
         {
           "name": "help",
@@ -26,7 +26,7 @@
     },
     {
       "path": "tokensave",
-      "help": null,
+      "help": "economical retrieval ladder (L0-L6)",
       "arguments": [
         {
           "name": "help",
@@ -45,7 +45,7 @@
     },
     {
       "path": "tokensave search",
-      "help": null,
+      "help": "L1 literal search",
       "arguments": [
         {
           "name": "help",
@@ -120,7 +120,7 @@
     },
     {
       "path": "tokensave read",
-      "help": null,
+      "help": "L5 bounded slice",
       "arguments": [
         {
           "name": "help",
@@ -206,7 +206,7 @@
     },
     {
       "path": "tokensave symbols",
-      "help": null,
+      "help": "L2 symbols of a file",
       "arguments": [
         {
           "name": "help",
@@ -270,7 +270,7 @@
     },
     {
       "path": "tokensave refs",
-      "help": null,
+      "help": "L2 references of a symbol",
       "arguments": [
         {
           "name": "help",
@@ -334,7 +334,7 @@
     },
     {
       "path": "tokensave diff",
-      "help": null,
+      "help": "bounded git diff",
       "arguments": [
         {
           "name": "help",
@@ -411,7 +411,7 @@
     },
     {
       "path": "tokensave expand",
-      "help": null,
+      "help": "L3 graph expansion (needs --index)",
       "arguments": [
         {
           "name": "help",
@@ -486,7 +486,7 @@
     },
     {
       "path": "tokensave context",
-      "help": null,
+      "help": "walk the ladder until sufficient",
       "arguments": [
         {
           "name": "help",
@@ -561,7 +561,7 @@
     },
     {
       "path": "tokensave benchmark",
-      "help": null,
+      "help": "baseline vs profiles on a case corpus",
       "arguments": [
         {
           "name": "help",
@@ -623,7 +623,7 @@
     },
     {
       "path": "governance",
-      "help": null,
+      "help": "multi-layer governance (Entra/RBAC/ACL/UC/network)",
       "arguments": [
         {
           "name": "help",
@@ -642,7 +642,7 @@
     },
     {
       "path": "governance diagnose",
-      "help": null,
+      "help": "diagnose an access scenario offline",
       "arguments": [
         {
           "name": "help",
@@ -671,7 +671,7 @@
     },
     {
       "path": "doctor",
-      "help": null,
+      "help": "installation and capability health (no cloud access)",
       "arguments": [
         {
           "name": "help",
@@ -700,7 +700,7 @@
     },
     {
       "path": "graph",
-      "help": null,
+      "help": "Graphfy: semantic/workspace graph (offline)",
       "arguments": [
         {
           "name": "help",
@@ -719,7 +719,7 @@
     },
     {
       "path": "graph build",
-      "help": null,
+      "help": "build the static workspace/code graph",
       "arguments": [
         {
           "name": "help",
@@ -803,7 +803,7 @@
     },
     {
       "path": "graph query",
-      "help": null,
+      "help": "query a graph by kind/layer, neighbors or path",
       "arguments": [
         {
           "name": "help",
@@ -927,7 +927,7 @@
     },
     {
       "path": "graph impact",
-      "help": null,
+      "help": "change impact of files/symbols/knowledge ids",
       "arguments": [
         {
           "name": "help",
@@ -978,7 +978,7 @@
     },
     {
       "path": "graph federate",
-      "help": null,
+      "help": "compose static+live+artifact+knowledge by explicit ids",
       "arguments": [
         {
           "name": "help",
@@ -1062,7 +1062,7 @@
     },
     {
       "path": "graph view",
-      "help": null,
+      "help": "emit the ForgeGraphView/v1 document (Graph Studio)",
       "arguments": [
         {
           "name": "help",
@@ -1091,7 +1091,7 @@
     },
     {
       "path": "graph ui",
-      "help": null,
+      "help": "open the local Graph Studio explorer for a graph",
       "arguments": [
         {
           "name": "help",
@@ -1142,7 +1142,7 @@
     },
     {
       "path": "collect",
-      "help": null,
+      "help": "read-only Azure collectors (offline exports by default)",
       "arguments": [
         {
           "name": "help",
@@ -1161,7 +1161,7 @@
     },
     {
       "path": "collect workspace-graph",
-      "help": null,
+      "help": "live workspace graph for a manifest",
       "arguments": [
         {
           "name": "help",
@@ -1234,7 +1234,7 @@
     },
     {
       "path": "collect resource-graph",
-      "help": null,
+      "help": "ingest an Azure Resource Graph export",
       "arguments": [
         {
           "name": "help",
@@ -1296,7 +1296,7 @@
     },
     {
       "path": "collect unity-catalog",
-      "help": null,
+      "help": "UC credentials/locations/catalogs/grants",
       "arguments": [
         {
           "name": "help",
@@ -1380,7 +1380,7 @@
     },
     {
       "path": "collect azure-rbac",
-      "help": null,
+      "help": "role assignments at a scope",
       "arguments": [
         {
           "name": "help",
@@ -1464,7 +1464,7 @@
     },
     {
       "path": "collect adls-meta",
-      "help": null,
+      "help": "ADLS account posture + ACLs",
       "arguments": [
         {
           "name": "help",
@@ -1559,7 +1559,7 @@
     },
     {
       "path": "offline-bundle",
-      "help": null,
+      "help": "redacted evidence bundle (no secrets, no raw dumps)",
       "arguments": [
         {
           "name": "help",
@@ -1711,7 +1711,7 @@
     },
     {
       "path": "lab",
-      "help": null,
+      "help": "Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle",
       "arguments": [
         {
           "name": "help",
@@ -2501,7 +2501,7 @@
     },
     {
       "path": "mcp",
-      "help": null,
+      "help": "MCP runtime: catalog inspection and server",
       "arguments": [
         {
           "name": "help",
@@ -2520,7 +2520,7 @@
     },
     {
       "path": "mcp catalog",
-      "help": null,
+      "help": "print the sfa_* tool catalog as JSON (offline)",
       "arguments": [
         {
           "name": "help",
@@ -2549,7 +2549,7 @@
     },
     {
       "path": "mcp serve",
-      "help": null,
+      "help": "run the MCP server (stdio or streamable http)",
       "arguments": [
         {
           "name": "help",
@@ -2658,7 +2658,7 @@
     },
     {
       "path": "diagnose",
-      "help": null,
+      "help": "offline access diagnosis on a case bundle",
       "arguments": [
         {
           "name": "help",
@@ -2714,7 +2714,7 @@
     },
     {
       "path": "diagnose fabric",
-      "help": null,
+      "help": "Microsoft Fabric vertical: workspace/OneLake/shortcut/Spark/capacity/pipeline diagnosis",
       "arguments": [
         {
           "name": "help",
@@ -2769,7 +2769,7 @@
     },
     {
       "path": "diagnose stream",
-      "help": null,
+      "help": "Streaming vertical: Event Hubs/consumer groups/checkpoints/Structured Streaming + Fabric RTI (Eventstream/Eventhouse/Activator) diagnosis",
       "arguments": [
         {
           "name": "help",
@@ -2824,7 +2824,7 @@
     },
     {
       "path": "migration",
-      "help": null,
+      "help": "ADF/Synapse -> Fabric migration assessment (offline)",
       "arguments": [
         {
           "name": "help",
@@ -2843,7 +2843,7 @@
     },
     {
       "path": "migration inventory",
-      "help": null,
+      "help": "estate summary + readiness census",
       "arguments": [
         {
           "name": "help",
@@ -2887,7 +2887,7 @@
     },
     {
       "path": "migration assess",
-      "help": null,
+      "help": "full assessment (readiness+recs+waves+validation)",
       "arguments": [
         {
           "name": "help",
@@ -2942,7 +2942,7 @@
     },
     {
       "path": "migration plan",
-      "help": null,
+      "help": "migration waves + rollback + upstream blockers",
       "arguments": [
         {
           "name": "help",
@@ -2986,7 +2986,7 @@
     },
     {
       "path": "migration validate",
-      "help": null,
+      "help": "post-migration validation dimensions",
       "arguments": [
         {
           "name": "help",
@@ -3030,7 +3030,7 @@
     },
     {
       "path": "sdd",
-      "help": null,
+      "help": "SDD gate — spec artifact chain check/status",
       "arguments": [
         {
           "name": "help",
@@ -3049,7 +3049,7 @@
     },
     {
       "path": "sdd check",
-      "help": null,
+      "help": "validate the SDD artifact chain (all features or --feature)",
       "arguments": [
         {
           "name": "help",
@@ -3078,7 +3078,7 @@
     },
     {
       "path": "sdd status",
-      "help": null,
+      "help": "phase/status of every feature under docs/sdd",
       "arguments": [
         {
           "name": "help",
@@ -3096,7 +3096,7 @@
     },
     {
       "path": "agents",
-      "help": null,
+      "help": "agent fleet — list status, inspect one contract, explain a route",
       "arguments": [
         {
           "name": "help",
@@ -3115,7 +3115,7 @@
     },
     {
       "path": "agents list",
-      "help": null,
+      "help": "status of every agent in the taxonomy",
       "arguments": [
         {
           "name": "help",
@@ -3133,7 +3133,7 @@
     },
     {
       "path": "agents inspect",
-      "help": null,
+      "help": "full contract report for one agent",
       "arguments": [
         {
           "name": "help",
@@ -3160,7 +3160,7 @@
     },
     {
       "path": "agents route",
-      "help": null,
+      "help": "deterministic route explanation + spawn gate per candidate",
       "arguments": [
         {
           "name": "help",
@@ -3209,7 +3209,7 @@
     },
     {
       "path": "agents fingerprint",
-      "help": null,
+      "help": "deterministic hash over the fleet's contract surface",
       "arguments": [
         {
           "name": "help",
@@ -3227,7 +3227,7 @@
     },
     {
       "path": "agents impact",
-      "help": null,
+      "help": "agents + test surfaces a changed path invalidates",
       "arguments": [
         {
           "name": "help",
@@ -3256,7 +3256,7 @@
     },
     {
       "path": "agents runtimes",
-      "help": null,
+      "help": "runtime registry: adapter, status, proof",
       "arguments": [
         {
           "name": "help",
@@ -3274,7 +3274,7 @@
     },
     {
       "path": "agents runtime-inspect",
-      "help": null,
+      "help": "full registry entry for one runtime",
       "arguments": [
         {
           "name": "help",
@@ -3301,7 +3301,7 @@
     },
     {
       "path": "agents execute",
-      "help": null,
+      "help": "dry-run do plano de execucao (nunca executa host)",
       "arguments": [
         {
           "name": "help",
@@ -3361,7 +3361,7 @@
     },
     {
       "path": "agents compare",
-      "help": null,
+      "help": "A/B configs A-D over a case file -> frontier",
       "arguments": [
         {
           "name": "help",
@@ -3388,7 +3388,7 @@
     },
     {
       "path": "agentops",
-      "help": null,
+      "help": "inspect recorded runs: runs/inspect/timeline/critical-path",
       "arguments": [
         {
           "name": "help",
@@ -3418,7 +3418,7 @@
     },
     {
       "path": "agentops runs",
-      "help": null,
+      "help": "list recorded runs",
       "arguments": [
         {
           "name": "help",
@@ -3534,7 +3534,7 @@
     },
     {
       "path": "analyze",
-      "help": null,
+      "help": "extract facts offline (only kinds with an extractor)",
       "arguments": [
         {
           "name": "help",
@@ -3553,7 +3553,7 @@
     },
     {
       "path": "analyze pyspark",
-      "help": null,
+      "help": "PySpark AST facts from a .py file or directory",
       "arguments": [
         {
           "name": "help",
@@ -3593,7 +3593,7 @@
     },
     {
       "path": "judge",
-      "help": null,
+      "help": "apply the versioned rule catalogue to facts",
       "arguments": [
         {
           "name": "help",
@@ -3633,7 +3633,7 @@
     },
     {
       "path": "knowledge",
-      "help": null,
+      "help": "dated knowledge packs",
       "arguments": [
         {
           "name": "help",
@@ -3652,7 +3652,7 @@
     },
     {
       "path": "knowledge select",
-      "help": null,
+      "help": "bounded claims from one knowledge pack",
       "arguments": [
         {
           "name": "help",
@@ -3703,7 +3703,7 @@
     },
     {
       "path": "distribution",
-      "help": null,
+      "help": "portable distribution lifecycle: inspect/init/status/doctor/detach",
       "arguments": [
         {
           "name": "help",
@@ -3722,7 +3722,7 @@
     },
     {
       "path": "distribution inspect",
-      "help": null,
+      "help": "show resolved paths, assets, hosts and identities",
       "arguments": [
         {
           "name": "help",
@@ -3751,7 +3751,7 @@
     },
     {
       "path": "distribution init",
-      "help": null,
+      "help": "initialize portable identity + local integration",
       "arguments": [
         {
           "name": "help",
@@ -3813,7 +3813,7 @@
     },
     {
       "path": "distribution status",
-      "help": null,
+      "help": "initialization state + managed-asset drift",
       "arguments": [
         {
           "name": "help",
@@ -3842,7 +3842,7 @@
     },
     {
       "path": "distribution doctor",
-      "help": null,
+      "help": "offline portable health (no Azure auth)",
       "arguments": [
         {
           "name": "help",
@@ -3871,7 +3871,7 @@
     },
     {
       "path": "distribution detach",
-      "help": null,
+      "help": "remove managed integration assets (reversible)",
       "arguments": [
         {
           "name": "help",
@@ -3933,7 +3933,7 @@
     },
     {
       "path": "install",
-      "help": null,
+      "help": "forge/* install lifecycle: apply/status/doctor/repair/uninstall/update/mcp-verify",
       "arguments": [
         {
           "name": "help",
@@ -4093,7 +4093,7 @@
     },
     {
       "path": "workspace",
-      "help": null,
+      "help": "ForgeWorkspace: discover/init/add/remove/status of declared projects",
       "arguments": [
         {
           "name": "help",
@@ -4112,7 +4112,7 @@
     },
     {
       "path": "workspace discover",
-      "help": null,
+      "help": "suggest candidate projects — reads, never writes",
       "arguments": [
         {
           "name": "help",
@@ -4141,7 +4141,7 @@
     },
     {
       "path": "workspace init",
-      "help": null,
+      "help": "create workspace.yaml + register the host project",
       "arguments": [
         {
           "name": "help",
@@ -4181,7 +4181,7 @@
     },
     {
       "path": "workspace add",
-      "help": null,
+      "help": "declare a repository as a workspace member",
       "arguments": [
         {
           "name": "help",
@@ -4270,7 +4270,7 @@
     },
     {
       "path": "workspace remove",
-      "help": null,
+      "help": "drop a project declaration (the repository is never deleted)",
       "arguments": [
         {
           "name": "help",
@@ -4308,7 +4308,7 @@
     },
     {
       "path": "workspace status",
-      "help": null,
+      "help": "declared projects, resolution and cycles",
       "arguments": [
         {
           "name": "help",
@@ -4337,7 +4337,7 @@
     },
     {
       "path": "context",
-      "help": null,
+      "help": "workspace-scoped context resolution (target|direct|transitive|all)",
       "arguments": [
         {
           "name": "help",
@@ -4356,7 +4356,7 @@
     },
     {
       "path": "context resolve",
-      "help": null,
+      "help": "resolve the relevant project set + bounded context pack for a target",
       "arguments": [
         {
           "name": "help",
