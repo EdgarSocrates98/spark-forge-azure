@@ -4,7 +4,7 @@
 |---|---|
 | repository | `spark-forge-azure` |
 | branch | `feat/docs-evolution` |
-| commit | `75d3937` |
+| commit | `4ccc5a3` |
 | docs inventoried | 622 (excl. GENERATED mirrors: 490; vendored upstream: 0) |
 
 ## Review levels (honest)
