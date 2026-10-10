@@ -266,6 +266,17 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("receipt", "findings"): "recibo registra findings da execucao",
     ("rules", "findings"): "regra julgada vira Finding",
     ("rules", "paths"): "catalogo carregado de caminho confinado",
+    ("cli", "_graphstudio"): "verbo graph --ui hospeda o studio vendored",
+    ("cli", "graphview"): "verbo graph view emite ForgeGraphView/v1",
+    ("cli", "install"): "verbos install/doctor/repair/mcp-verify do lifecycle",
+    ("cli", "ui"): "CLI nua abre a home interativa (wizard de instalacao)",
+    ("graphview", "_graphview"): "projecao delega o render ao kit vendored",
+    ("graphview", "graph"): "projecao le o grafo persistido em graph.store",
+    ("install", "agentmanifest"): "install --with-mirrors renderiza espelhos de agents",
+    ("install", "distribution"): "install reusa hosts managed do lifecycle portavel",
+    ("install", "durable"): "receipts/manifests da instalacao sao escritas atomicas",
+    ("install", "skills"): "install renderiza os espelhos de skills",
+    ("ui", "install"): "wizard da home dirige o service de instalacao",
 }
 
 

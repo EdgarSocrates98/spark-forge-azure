@@ -39,6 +39,8 @@
    "graph federate",
    "graph impact",
    "graph query",
+   "graph ui",
+   "graph view",
    "install",
    "judge",
    "knowledge select",
