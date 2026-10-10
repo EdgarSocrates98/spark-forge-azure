@@ -44,6 +44,23 @@ def test_cli_dry_run() -> None:
     assert out["execution_mode"] == "inline"
 
 
+def test_agents_verbs_resolve_fleet_outside_repo(tmp_path, monkeypatch) -> None:
+    """Regressão: num projeto instalado o cwd não tem `agents/` — os verbos
+    `agents` leem a frota via `fleet_root()` (repo ou `_data` empacotado),
+    nunca o diretório do usuário."""
+    monkeypatch.chdir(tmp_path)
+    listed = cmd_agents._list(_args())
+    assert listed["counts"].get("broken", 0) == 0
+    assert len(listed["agents"]) > 0
+    fp = cmd_agents._fingerprint(_args())
+    assert fp["status"] == "ok"
+    out = cmd_agents._execute(_args(
+        task="adf copy activity lenta", runtime="generic", max_agents=3))
+    assert out["stage_fingerprints"]
+    assert all(v.startswith("sha256:") for v in
+               out["stage_fingerprints"].values())
+
+
 def test_mcp_tools_readonly() -> None:
     assert "sfa_agents_runtimes" in TOOLS
     assert "sfa_agents_execution_explain" in TOOLS

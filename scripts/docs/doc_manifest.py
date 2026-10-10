@@ -238,8 +238,8 @@ def build_manifest(repo: Path, forge_id: str, cli: str) -> tuple[list[dict], dic
         cp = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=repo,
                             capture_output=True, text=True, timeout=10, check=False)
         head_commit = cp.stdout.strip()
-    except Exception:
-        pass
+    except Exception:  # noqa: S110 - sem git no ambiente -> head_commit fica ""
+        head_commit = ""
 
     rows: list[dict] = []
     all_links: list[dict] = []

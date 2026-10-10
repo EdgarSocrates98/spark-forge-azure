@@ -53,6 +53,27 @@ DEFAULT_DENY_FILES = frozenset({".env", ".env.local", "credentials", "id_rsa"})
 
 STATE_DIR_ENV = "SPARKFORGE_AZURE_STATE_DIR"
 
+PKG = Path(__file__).resolve().parent
+REPO = PKG.parent
+
+
+def data_root(name: str) -> Path:
+    """Repo-root asset dir when running from source; packaged ``_data`` from a wheel."""
+    src = REPO / name
+    if src.is_dir() and (REPO / "pyproject.toml").is_file():
+        return src
+    return PKG / "_data" / name
+
+
+def fleet_root() -> Path:
+    """Root the agent fleet resolves under — ``<root>/agents/<id>.md``.
+
+    Source checkout -> the repo; installed project -> the packaged
+    ``sparkforge_azure/_data``. The fleet is the forge's own taxonomy, so the
+    caller's cwd must never be used here.
+    """
+    return data_root("agents").parent
+
 
 def state_dir() -> Path:
     """Diretorio de estado local (traces.db, cache, journals).

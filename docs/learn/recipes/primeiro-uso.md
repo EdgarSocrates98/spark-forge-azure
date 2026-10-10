@@ -13,8 +13,8 @@ precisar de Azure.
 ```bash
 sparkforge-azure install --yes          # grava ativos gerenciados
 sparkforge-azure doctor                 # saúde local, offline
-sparkforge-azure analyze pyspark <seu_job.py>   # facts determinísticos (AST)
-sparkforge-azure judge                  # aplica o catálogo de regras
+sparkforge-azure analyze pyspark --path <seu_job.py> --out facts.json  # facts determinísticos (AST)
+sparkforge-azure judge --facts facts.json   # aplica o catálogo de regras
 ```
 
 `analyze pyspark` aceita arquivo ou diretório; cada fact sai com âncora

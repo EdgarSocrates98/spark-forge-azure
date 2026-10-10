@@ -15,9 +15,9 @@ o caminho determinístico e o spawn gate de cada candidato.
 ```bash
 sparkforge-azure agents list                    # status de cada agent
 sparkforge-azure agents inspect <id>            # contrato completo de um agent
-sparkforge-azure agents route --prompt "<tarefa>"   # rota + spawn gate explicados
+sparkforge-azure agents route "<tarefa>"        # rota + spawn gate explicados
 sparkforge-azure agents runtimes                # adapters de runtime + prova
-sparkforge-azure agents execute --prompt "<tarefa>" # dry-run do plano (nunca executa o host)
+sparkforge-azure agents execute "<tarefa>"      # dry-run do plano (nunca executa o host)
 ```
 
 `execute` é sempre dry-run do plano — o dispatch real é do host (Devin,

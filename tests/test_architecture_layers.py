@@ -103,6 +103,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("agentic", "durable"): "checkpoint do executor e escrita duravel",
     ("agentic", "agentmanifest"): "inventory/role_plans leem o contrato v2 dos manifests",
     ("agentic", "observability"): "AgentSpan adapta-se ao TraceSpan persistido (lane agent)",
+    ("agentic", "paths"): "fleet_root resolve os manifests da frota empacotada",
     ("agentmanifest", "mcp"): "tool registry mede nomes sfa_* contra o catalogo vivo",
     ("cli", "agentic"): "cmd_agents e a superficie L7 do inventario da frota",
     ("cli", "agentmanifest"): "cmd_agents expoe explain_route + a taxonomia fechada",
@@ -276,6 +277,8 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("install", "distribution"): "install reusa hosts managed do lifecycle portavel",
     ("install", "durable"): "receipts/manifests da instalacao sao escritas atomicas",
     ("install", "skills"): "install renderiza os espelhos de skills",
+    ("distribution", "install"): "ai le a saude da integracao via install.service",
+    ("mcp", "distribution"): "sfa_ai reusa o fluxo read-only de distribution.ai",
     ("ui", "install"): "wizard da home dirige o service de instalacao",
 }
 

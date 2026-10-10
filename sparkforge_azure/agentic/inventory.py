@@ -135,7 +135,9 @@ def _tool_catalog() -> set[str]:
     return known_tools()
 
 
-def _has_role_plan(agent_id: str, manifest_ok: bool) -> bool | None:
+def _has_role_plan(
+    agent_id: str, manifest_ok: bool, root: Path | str = ".",
+) -> bool | None:
     """RoleContextPlan resolvable for this agent.
 
     Plans are DERIVED from the manifest (single source) — see
@@ -148,7 +150,7 @@ def _has_role_plan(agent_id: str, manifest_ok: bool) -> bool | None:
     try:
         from sparkforge_azure.agentic.role_plans import role_plan_for
 
-        return role_plan_for(agent_id) is not None
+        return role_plan_for(agent_id, root) is not None
     except Exception:  # noqa: BLE001
         return None
 
@@ -226,7 +228,8 @@ def _dim_reports(
         return tuple(dims + [DimensionReport(n, None, "not measured: manifest broken")
                              for n in DIMENSIONS[1:]])
 
-    dims.append(DimensionReport("role_plan", _has_role_plan(agent_id, manifest_ok)))
+    dims.append(DimensionReport(
+        "role_plan", _has_role_plan(agent_id, manifest_ok, root)))
 
     tools = [str(t) for t in (data.get("allowed_tools") or [])]
     if not tools:

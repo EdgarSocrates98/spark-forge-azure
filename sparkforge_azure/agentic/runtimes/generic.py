@@ -43,9 +43,10 @@ def _exec_extractor(request: AgentSpawnRequestV2) -> dict[str, Any]:
 
 def _exec_inventory(request: AgentSpawnRequestV2) -> dict[str, Any]:
     from sparkforge_azure.agentic.inventory import inventory
+    from sparkforge_azure.paths import fleet_root
 
-    root = request.context.get("root", ".")
-    inv = inventory(Path(root))
+    root = request.context.get("root")
+    inv = inventory(Path(root) if root else fleet_root())
     return {
         "kind": "inventory_result",
         "status_counts": dict(inv.counts),
