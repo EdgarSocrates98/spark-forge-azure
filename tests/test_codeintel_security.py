@@ -518,20 +518,23 @@ def setrlimit(recurso, valores):
 '''
 
 SCRIPT_LIMITES = '''
+import importlib.util
 import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, sys.argv[1])
-from sparkforge_azure.codeintel.security import apply_resource_limits  # noqa: E402
+# `apply_resource_limits` faz `import resource` na hora da chamada e o
+# BuiltinImporter precede o sys.path: nos builds standalone do uv o `resource`
+# real e estatico — um `resource.py` no sys.path nunca o sombreia. Injeta o
+# falso em sys.modules diretamente, quando ele existir no dir passado.
+_falso = Path(sys.argv[1]) / "resource.py"
+if _falso.is_file():
+    _spec = importlib.util.spec_from_file_location("resource", _falso)
+    _mod = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_mod)
+    sys.modules["resource"] = _mod
 
-# `apply_resource_limits` faz `import resource` na hora da chamada: se a
-# cadeia de imports do pacote (ou o proprio site init, conforme a versao do
-# CPython) ja tiver carregado o modulo real em sys.modules, o falso nunca e
-# consultado. Dropa o cache e pre-importa — com o dir falso em sys.path[0],
-# este bind resolve o `resource.py` de mentira; num dir vazio, cai no real.
-sys.modules.pop("resource", None)
-import resource  # noqa: E402,F401
+from sparkforge_azure.codeintel.security import apply_resource_limits  # noqa: E402
 
 limites = apply_resource_limits(
     memoria_bytes=int(sys.argv[2]),
