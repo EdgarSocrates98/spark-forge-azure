@@ -180,15 +180,25 @@ def _graph_path(args: argparse.Namespace) -> Path:
     return default_state_dir(Path.cwd()) / "graph.json"
 
 
+def _no_graph_refusal(path: Path) -> dict[str, Any]:
+    # forge-protocol refusal envelope: federation (`theforge graph
+    # --federated`) names the code; `status: refused` keeps the nonzero
+    # exit and the human message on `detail`
+    return {
+        "refusal": "SFA-GRAPH-NO-GRAPH",
+        "status": "refused",
+        "detail": f"no readable graph at {path} — run `graph build` first",
+        "unlock": "sparkforge-azure graph build --root <repo>",
+    }
+
+
 def _view(args: argparse.Namespace) -> dict[str, Any]:
     from sparkforge_azure.graphview import build_view
 
     path = _graph_path(args)
     view = build_view(path)
     if view is None:
-        raise CliError(
-            f"no readable graph at {path} — run `graph build` first"
-        )
+        return _no_graph_refusal(path)
     return view.to_dict()
 
 
@@ -201,15 +211,16 @@ def _ui(args: argparse.Namespace) -> dict[str, Any]:
         state_rel=".sparkforge-azure",
         user_state_rel="~/.sparkforge-azure",
     ):
-        raise CliError(
-            "Graph Studio declined at install (components.json: "
-            "graph_studio=false) — reinstall with the graph-studio component"
-        )
+        return {
+            "refusal": "SFA-GRAPH-STUDIO-DISABLED",
+            "status": "refused",
+            "detail": "Graph Studio declined at install "
+            "(components.json: graph_studio=false)",
+            "unlock": "reinstall with the graph-studio component",
+        }
     path = _graph_path(args)
     view = build_view(path)
     if view is None:
-        raise CliError(
-            f"no readable graph at {path} — run `graph build` first"
-        )
+        return _no_graph_refusal(path)
     rc = open_studio([view], open_browser=not args.no_browser, port=args.port)
     return {"status": "completed" if rc == 0 else "failed", "served": rc == 0}
