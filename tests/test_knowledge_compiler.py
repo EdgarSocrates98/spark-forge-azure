@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from sparkforge_azure.codeintel.query_expansion import expand_query
@@ -61,4 +62,9 @@ def test_descriptors_reuse_unchanged_manifest_without_reading_pack_bodies(
 
     monkeypatch.undo()
     source.write_text("# Runtime\nGlue 6.0.\n", encoding="utf-8")
+    # O cache de assinatura usa (size, mtime_ns) — a reescrita tem o MESMO
+    # tamanho, entao so o mtime delata a mudanca. No Windows o tick do NTFS
+    # pode nao avancar entre dois writes seguidos; fixa um mtime distinto
+    # para o teste ser deterministico em qualquer filesystem.
+    os.utime(source, ns=(1_000_000_000, 1_000_000_000))
     assert registry.descriptors()[0].source_hash != first[0].source_hash
