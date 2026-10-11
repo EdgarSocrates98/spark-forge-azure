@@ -143,6 +143,24 @@ def command_paths(parser: argparse.ArgumentParser | None = None) -> list[str]:
 
 
 def _emit(result: Result, fmt: str) -> None:
+    # forge/* install docs render through the shared kit when the caller
+    # asked for text — explicitly (--format text) or via the TUI seam
+    # (FORGE_TEXT_OUTPUT in a captured subprocess). Other results keep
+    # the flat key: value dump; JSON stays the contract default.
+    import os
+
+    forge_doc = isinstance(result, dict) and (
+        str(result.get("schema", "")).startswith("forge/")
+        or "checks" in result
+        or "drift" in result
+    )
+    if (fmt == "text" or os.environ.get("FORGE_TEXT_OUTPUT")) and forge_doc:
+        try:
+            from sparkforge_azure.ui.kit import UIContext, format_status_doc
+            sys.stdout.write(format_status_doc(result, ctx=UIContext.detect()) + "\n")
+            return
+        except ImportError:
+            pass
     if fmt == "text":
         for key, value in result.items():
             if isinstance(value, (dict, list)):

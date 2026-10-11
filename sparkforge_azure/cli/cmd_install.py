@@ -38,6 +38,12 @@ def _root(args: argparse.Namespace) -> Path | None:
     return Path(args.root) if args.root else None
 
 
+def _tty() -> bool:
+    import sys
+
+    return sys.stdin.isatty() and sys.stdout.isatty()
+
+
 def _install(args: argparse.Namespace) -> dict[str, Any]:
     from sparkforge_azure.install import service
 
@@ -45,10 +51,26 @@ def _install(args: argparse.Namespace) -> dict[str, Any]:
         tuple(c.strip() for c in args.components.split(",") if c.strip())
         if getattr(args, "components", None) else None
     )
-    return service.install(
+    call = lambda **kw: service.install(  # noqa: E731
         scope=args.scope, root=_root(args), host=args.host,
-        profile=args.profile, yes=args.yes, dry_run=args.dry_run,
-        components=comps)
+        profile=args.profile, components=comps, **kw)
+    if not args.yes and not args.dry_run and _tty():
+        # Interactive approval: render the plan, confirm once, apply.
+        from sparkforge_azure.ui.kit import NonInteractive, approve_plan
+        plan = call(yes=False, dry_run=True)
+        try:
+            approved = approve_plan(plan)
+        except NonInteractive:
+            approved = False
+        if not approved:
+            return {"schema": "forge/InstallReceipt/v1",
+                    "forge_id": "spark-forge-azure", "operation": "install",
+                    "status": "declined", "checks": [], "managed_files": [],
+                    "verification": {"status": "UNVERIFIED"},
+                    "error": {"kind": "SFA-INSTALL-DECLINED",
+                              "detail": "declined — nothing written"}}
+        return call(yes=True, dry_run=False)
+    return call(yes=args.yes, dry_run=args.dry_run)
 
 
 def _status(args: argparse.Namespace) -> dict[str, Any]:
