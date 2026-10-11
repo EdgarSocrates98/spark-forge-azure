@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
       - run: uv venv --python 3.12 && uv pip install -e ".[dev]"
-      - run: uv run pytest -q tests/redteam
+      - run: uv run pytest -q tests/test_redteam_security.py
       - name: dependency audit (offline lock check + online advisory)
         run: |
           uv run python scripts/supply_chain.py verify-lock
