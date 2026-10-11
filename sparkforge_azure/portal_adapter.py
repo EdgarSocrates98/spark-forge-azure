@@ -659,9 +659,9 @@ class SparkAzurePortal(fp.PortalAdapter):
 
 
 def _now() -> str:
-    from datetime import UTC, datetime
+    from datetime import datetime, timezone
 
-    return datetime.now(UTC).isoformat(timespec="seconds").replace("+00:00", "Z")
+    return datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
 def build_server(workspace: Path | None = None, *, quiet: bool = True) -> fp.PortalServer:

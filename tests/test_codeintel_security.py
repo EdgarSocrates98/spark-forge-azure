@@ -518,11 +518,22 @@ def setrlimit(recurso, valores):
 '''
 
 SCRIPT_LIMITES = '''
+import importlib.util
 import json
 import sys
 from pathlib import Path
 
-sys.path.insert(0, sys.argv[1])
+# `apply_resource_limits` faz `import resource` na hora da chamada e o
+# BuiltinImporter precede o sys.path: nos builds standalone do uv o `resource`
+# real e estatico — um `resource.py` no sys.path nunca o sombreia. Injeta o
+# falso em sys.modules diretamente, quando ele existir no dir passado.
+_falso = Path(sys.argv[1]) / "resource.py"
+if _falso.is_file():
+    _spec = importlib.util.spec_from_file_location("resource", _falso)
+    _mod = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_mod)
+    sys.modules["resource"] = _mod
+
 from sparkforge_azure.codeintel.security import apply_resource_limits  # noqa: E402
 
 limites = apply_resource_limits(

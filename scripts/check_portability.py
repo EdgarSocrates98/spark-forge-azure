@@ -151,6 +151,9 @@ _PATH_OWNERS = {
     # installkit vendored (byte-identical ao canonical the-forge): home do
     # registry ~/.forge e resolve_scope user fazem parte do contrato forge/*.
     "sparkforge_azure/_installkit.py",
+    # portal adapter vendored (byte-identical ao canonical the-forge): lê o
+    # registry ~/.forge/installations/forge-portal.json — home é o contrato.
+    "sparkforge_azure/_forge_portal.py",
 }
 
 
