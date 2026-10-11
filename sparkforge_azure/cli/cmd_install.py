@@ -44,6 +44,20 @@ def _tty() -> bool:
     return sys.stdin.isatty() and sys.stdout.isatty()
 
 
+def run_guided_install() -> int:
+    """Run guided install through the shared wizard and real service."""
+    from sparkforge_azure.install import service
+    from sparkforge_azure.ui.kit import UIContext
+    from sparkforge_azure.ui.wizard import run_wizard
+
+    return run_wizard(
+        forge_name="spark-forge-azure",
+        install_fn=lambda **kw: service.install(root=None, **kw),
+        doctor_fn=lambda **kw: service.doctor(**kw),
+        ctx=UIContext.detect(),
+    )
+
+
 def _install(args: argparse.Namespace) -> dict[str, Any]:
     from sparkforge_azure.install import service
 

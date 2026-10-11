@@ -196,6 +196,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         return _bare_summary(parser)
     if argv[0] == "help":
         return _help_for(parser, argv)
+    if argv == ["install"] and sys.stdin.isatty() and sys.stdout.isatty():
+        from sparkforge_azure.cli.cmd_install import run_guided_install
+
+        return run_guided_install()
     args = parser.parse_args(argv)
     func: Callable[[argparse.Namespace], Result] | None = getattr(args, "func", None)
     if func is None:
