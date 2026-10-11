@@ -47,7 +47,12 @@ def freshness_state(record: Mapping[str, Any], *, now: str | None = None) -> str
     expires = record.get("expires_at")
     if expires:
         try:
-            if datetime.fromisoformat(str(expires)) < datetime.fromisoformat(now or _now()):
+            # `fromisoformat` so aceita o sufixo "Z" a partir do Python 3.11;
+            # o piso do projeto e 3.10 — normalize para "+00:00" (otlp.py).
+            if (
+                datetime.fromisoformat(str(expires).replace("Z", "+00:00"))
+                < datetime.fromisoformat((now or _now()).replace("Z", "+00:00"))
+            ):
                 return "expired"
         except (TypeError, ValueError):
             # Prazo gravado num formato que nao se le: nao se afirma expirado

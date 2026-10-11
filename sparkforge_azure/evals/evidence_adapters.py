@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import subprocess
+import sys
 import tempfile
 import time
 from collections.abc import Mapping, Sequence
@@ -145,10 +147,20 @@ class AuthorizedCommandAdapter:
                 encoding="utf-8",
             )
             with stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
+                env = {
+                    "PATH": str(executable_path.parent),
+                    "PYTHONIOENCODING": "utf-8",
+                }
+                if sys.platform == "win32":
+                    # Sem SystemRoot o CPython <=3.10 morre em
+                    # _Py_HashRandomization_Init ("failed to get random
+                    # numbers") — o env hermetico nao pode omitir esta chave
+                    # no Windows, senao todo comando autorizado sai com exit 1.
+                    env["SystemRoot"] = os.environ.get("SystemRoot", r"C:\Windows")
                 process = subprocess.Popen(  # noqa: S603
                     (*command, "--input", str(input_path)),
                     cwd=self.repo,
-                    env={"PATH": str(executable_path.parent), "PYTHONIOENCODING": "utf-8"},
+                    env=env,
                     stdout=stdout,
                     stderr=stderr,
                     shell=False,

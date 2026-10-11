@@ -525,6 +525,14 @@ from pathlib import Path
 sys.path.insert(0, sys.argv[1])
 from sparkforge_azure.codeintel.security import apply_resource_limits  # noqa: E402
 
+# `apply_resource_limits` faz `import resource` na hora da chamada: se a
+# cadeia de imports do pacote (ou o proprio site init, conforme a versao do
+# CPython) ja tiver carregado o modulo real em sys.modules, o falso nunca e
+# consultado. Dropa o cache e pre-importa — com o dir falso em sys.path[0],
+# este bind resolve o `resource.py` de mentira; num dir vazio, cai no real.
+sys.modules.pop("resource", None)
+import resource  # noqa: E402,F401
+
 limites = apply_resource_limits(
     memoria_bytes=int(sys.argv[2]),
     cpu_segundos=int(sys.argv[3]),

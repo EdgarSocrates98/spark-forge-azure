@@ -37,6 +37,10 @@ jobs:
         python: ["3.10", "3.12", "3.14"]
     steps:
       - uses: actions/checkout@v4
+        with:
+          # check_claims exige que o sha de prova seja ancestral de HEAD —
+          # o checkout raso padrao (depth 1) nao tem o historico.
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@v6
       - run: uv venv --python ${{ matrix.python }} && uv pip install -e ".[dev]"
       - name: full suite (MCP, Lab, knowledge, surface, claims)
