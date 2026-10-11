@@ -44,6 +44,7 @@ COMMAND_MODULES: tuple[str, ...] = (
     "sparkforge_azure.cli.cmd_analyze",
     "sparkforge_azure.cli.cmd_distribution",
     "sparkforge_azure.cli.cmd_install",
+    "sparkforge_azure.cli.cmd_portal",
     "sparkforge_azure.cli.cmd_workspace",
     "sparkforge_azure.cli.cmd_context",
 )

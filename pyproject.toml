@@ -76,6 +76,11 @@ packages = ["sparkforge_azure"]
 "skills" = "sparkforge_azure/_data/skills"
 "agents" = "sparkforge_azure/_data/agents"
 "lab/scenarios" = "sparkforge_azure/_data/lab/scenarios"
+# Portal web local: os assets vendored (`portal/assets/` na raiz do clone) vão
+# para dentro do pacote, e o adapter os resolve nos dois layouts — igual ao
+# _data bundle. Sem isto `sparkforge-azure portal` num pip install cairia na
+# recusa SFA-PORTAL-NO-ASSETS.
+"portal/assets" = "sparkforge_azure/portal_assets"
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -85,6 +90,7 @@ include = [
     "skills",
     "agents",
     "lab/scenarios",
+    "portal/assets",
     "README.md",
     "LICENSE",
     "pyproject.toml",
@@ -130,3 +136,6 @@ ignore = [
 "sparkforge_azure/_installkit.py" = ["ALL"]
 "scripts/forge_bootstrap.py" = ["ALL"]
 "scripts/forge_installkit.py" = ["ALL"]
+# Vendored portal server (canonical: forge-portal/portal_core) — byte-identical
+# to the shared source, linted in the canonical repo.
+"sparkforge_azure/_forge_portal.py" = ["ALL"]
