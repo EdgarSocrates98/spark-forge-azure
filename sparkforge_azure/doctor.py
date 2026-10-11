@@ -19,22 +19,10 @@ import shutil
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Any
 
 from sparkforge_azure import __version__
-from sparkforge_azure.paths import state_dir
-
-PKG = Path(__file__).resolve().parent
-REPO = PKG.parent
-
-
-def data_root(name: str) -> Path:
-    """Repo-root asset dir when running from source; packaged ``_data`` from a wheel."""
-    src = REPO / name
-    if src.is_dir() and (REPO / "pyproject.toml").is_file():
-        return src
-    return PKG / "_data" / name
+from sparkforge_azure.paths import PKG, REPO, data_root, state_dir
 
 
 @dataclass(frozen=True, slots=True)

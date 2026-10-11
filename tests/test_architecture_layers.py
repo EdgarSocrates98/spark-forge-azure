@@ -103,6 +103,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("agentic", "durable"): "checkpoint do executor e escrita duravel",
     ("agentic", "agentmanifest"): "inventory/role_plans leem o contrato v2 dos manifests",
     ("agentic", "observability"): "AgentSpan adapta-se ao TraceSpan persistido (lane agent)",
+    ("agentic", "paths"): "fleet_root resolve os manifests da frota empacotada",
     ("agentmanifest", "mcp"): "tool registry mede nomes sfa_* contra o catalogo vivo",
     ("cli", "agentic"): "cmd_agents e a superficie L7 do inventario da frota",
     ("cli", "agentmanifest"): "cmd_agents expoe explain_route + a taxonomia fechada",
@@ -135,6 +136,11 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("cli", "collectors"): "superficie L7 dispara coletores read-only",
     ("cli", "observability"): "cmd_agentops le spans/runs do store de observabilidade",
     ("cli", "sdd"): "cmd_sdd e a superficie L7 do gate de specs (check/status)",
+    ("portal_adapter", "distribution"): "portal e a superficie L7 do host-flow ai (observe)",
+    ("portal_adapter", "graph"): "portal e a superficie L7 do graph service",
+    ("portal_adapter", "graphview"): "portal e a superficie L7 das views de grafo",
+    ("portal_adapter", "install"): "portal e a superficie L7 do lifecycle forge/*",
+    ("portal_adapter", "registry"): "portal e a superficie L7 do catalogo de skills/agents",
     ("mcp", "azure"): "superficie MCP alcanca o dominio",
     ("mcp", "collectors"): "tool sfa_collect_* dispara o coletor",
     ("bundle", "collectors"): "offline-bundle embute coleta redigida",
@@ -276,6 +282,8 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("install", "distribution"): "install reusa hosts managed do lifecycle portavel",
     ("install", "durable"): "receipts/manifests da instalacao sao escritas atomicas",
     ("install", "skills"): "install renderiza os espelhos de skills",
+    ("distribution", "install"): "ai le a saude da integracao via install.service",
+    ("mcp", "distribution"): "sfa_ai reusa o fluxo read-only de distribution.ai",
     ("ui", "install"): "wizard da home dirige o service de instalacao",
 }
 

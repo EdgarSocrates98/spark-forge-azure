@@ -13,6 +13,24 @@ def test_menu_well_formed():
         assert argv is None or argv == "__wizard__" or isinstance(argv, list)
 
 
+def test_menu_argvs_parse_in_real_parser():
+    """Every menu argv must parse in the real CLI parser — the menu is a
+    shell over the real surface, and a broken path fails at select time."""
+    from sparkforge_azure.cli.main import build_parser
+    from sparkforge_azure.ui import home
+
+    parser = build_parser()
+    broken = []
+    for label, argv in home._MENU:
+        if argv is None or argv == "__wizard__":
+            continue
+        try:
+            parser.parse_args(list(argv))
+        except SystemExit:
+            broken.append((label, argv))
+    assert not broken, f"menu argvs the real parser rejects: {broken}"
+
+
 def test_tui_entries_real():
     from sparkforge_azure.ui import tui
     entries = tui.entries()

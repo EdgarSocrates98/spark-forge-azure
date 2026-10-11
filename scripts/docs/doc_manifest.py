@@ -31,7 +31,7 @@ EXCLUDE_DIRS = {
     ".sparkforge-azure", ".apiforge", ".platformforge", ".forge-doctor-data",
     ".forge-doctor-api", ".pytest-tmp", ".pytest_tmp", "site",
 }
-_EXCLUDE_PREFIXES = (".venv",)  # .venv, .venv-verify, .venv-*
+_EXCLUDE_PREFIXES = (".venv", ".pytest_tmp", ".pytest-tmp")  # .venv, .venv-verify, .venv-*
 
 CATEGORIES = [
     "USER_GUIDE", "GETTING_STARTED", "TUTORIAL", "HOW_TO", "REFERENCE",
@@ -238,8 +238,8 @@ def build_manifest(repo: Path, forge_id: str, cli: str) -> tuple[list[dict], dic
         cp = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=repo,
                             capture_output=True, text=True, timeout=10, check=False)
         head_commit = cp.stdout.strip()
-    except Exception:
-        pass
+    except Exception:  # noqa: S110 - sem git no ambiente -> head_commit fica ""
+        head_commit = ""
 
     rows: list[dict] = []
     all_links: list[dict] = []

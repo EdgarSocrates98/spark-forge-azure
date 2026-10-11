@@ -18,11 +18,12 @@ Dimensões de risco: `read_only`, `local_write`, `cloud_read`, `cloud_write`,
 `security_impact`, `production_impact`. Annotations MCP derivadas: `readOnlyHint`,
 `destructiveHint` (cloud_write|production_impact), `idempotentHint`, `openWorldHint`.
 
-## Catálogo (17 tools)
+## Catálogo (18 tools)
 
 | Tool | Domínio | Risco | Params |
 |---|---|---|---|
 | `sfa_version` | core | read_only | — |
+| `sfa_ai` | core | read_only | `host`, `repo` — só observa; lançar é `sparkforge-azure ai <host> --launch` (CLI+TTY) |
 | `sfa_tokensave_context` | tokensave | read_only | `task*` (+ `root`, `profile`, `index`, `terms`) |
 | `sfa_tokensave_search` | tokensave | read_only | `query*` (+ `root`, `profile`, `limit`) |
 | `sfa_tokensave_read` | tokensave | read_only | `path*` (+ `start`, `end`, `root`, `profile`) |

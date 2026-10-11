@@ -23,10 +23,11 @@ from sparkforge_azure.agentic.inventory import get_agent, inventory
 from sparkforge_azure.agentic.spawn import SpawnContext, decide_spawn
 from sparkforge_azure.agentmanifest.routing import explain_route
 from sparkforge_azure.cli import CliError
+from sparkforge_azure.paths import fleet_root
 
 
 def _list(args: argparse.Namespace) -> dict[str, Any]:
-    rep = inventory(".")
+    rep = inventory(fleet_root())
     return {
         "status": "ok",
         "counts": rep.counts,
@@ -38,7 +39,7 @@ def _list(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _inspect(args: argparse.Namespace) -> dict[str, Any]:
-    rep = get_agent(".", args.agent_id)
+    rep = get_agent(fleet_root(), args.agent_id)
     if rep is None:
         raise CliError(f"agent desconhecido: {args.agent_id}")
     return {"status": "ok", "agent": rep.to_dict()}
@@ -55,7 +56,10 @@ def _route(args: argparse.Namespace) -> dict[str, Any]:
     spawn = {
         d.agent_id: {"decision": d.decision, "reason": d.reason,
                      "expected_gain": d.expected_gain}
-        for d in (decide_spawn(r["specialist"], ctx) for r in explained)
+        for d in (
+            decide_spawn(r["specialist"], ctx, root=fleet_root())
+            for r in explained
+        )
     }
     return {
         "status": "ok",
@@ -67,7 +71,7 @@ def _route(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _fingerprint(args: argparse.Namespace) -> dict[str, Any]:
-    return {"status": "ok", **fleet_fingerprint(".")}
+    return {"status": "ok", **fleet_fingerprint(fleet_root())}
 
 
 def _impact(args: argparse.Namespace) -> dict[str, Any]:
@@ -133,7 +137,8 @@ def _execute(args: argparse.Namespace) -> dict[str, Any]:
         "route": routed,
         "planned_stages": sorted(set(stages)),
         "stage_fingerprints": {
-            s: stage_fingerprint(s, case, rt, ".") for s in sorted(set(stages))
+            s: stage_fingerprint(s, case, rt, fleet_root())
+            for s in sorted(set(stages))
         },
         "note": "dry-run — nenhum host executado (§149)",
     }

@@ -3,14 +3,14 @@
 | Campo | Valor |
 |---|---|
 | repository | `spark-forge-azure` |
-| branch | `main` |
-| commit | `651fa65` |
-| docs inventoried | 622 (excl. GENERATED mirrors: 490; vendored upstream: 0) |
+| branch | `feat/ultimate-completion` |
+| commit | `56fbf51` |
+| docs inventoried | 635 (excl. GENERATED mirrors: 503; vendored upstream: 0) |
 
 ## Review levels (honest)
 
 - `INVENTORIED`: 0
-- `AUTOMATICALLY_CHECKED`: 622
+- `AUTOMATICALLY_CHECKED`: 635
 - `TECHNICALLY_VERIFIED`: 0
 - `SEMANTICALLY_REVIEWED`: 0
 - `USER_JOURNEY_VALIDATED`: 0
@@ -24,8 +24,8 @@ Automatic checks ran on every row; semantic review is recorded only where a huma
 - `UNKNOWN`: 119
 - `USER_GUIDE`: 24
 - `SKILL`: 22
+- `HOW_TO`: 18
 - `ARCHITECTURE`: 10
-- `HOW_TO`: 5
 - `REFERENCE`: 4
 - `TEST_EVIDENCE`: 3
 - `ADR`: 3
@@ -47,7 +47,7 @@ Automatic checks ran on every row; semantic review is recorded only where a huma
 ## Educational layer delivered
 
 - first-run/quickstart docs: 3
-- docs/learn/ entries: 4
+- docs/learn/ entries: 17
 - docs/hub/ entries: 0
 
 ## Documentation changes this program

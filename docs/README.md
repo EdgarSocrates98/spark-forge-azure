@@ -20,6 +20,74 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/reference/cli.md` | Toda a CLI `sparkforge-azure`: verbos, flags, saída JSON, exit codes |
 | `docs/reference/mcp-tools.md` | As tools `sfa_*` (fonte canônica: `docs/surface.lock.json`): risco, parâmetros, envelope |
 | `docs/reference/skills.md` | Catálogo gerado das 22 skills (contrato v1): scope, triggers, handoffs, evals por kind — `gen_skills_doc.py` |
+| `docs/reference/commands.md` | Referência gerada por comando (`doc_inventory`+`doc_reference`): rationale por grupo |
+
+## Instalação
+
+| Doc | Cobre |
+|---|---|
+| `docs/installation/quickstart.md` | Quickstart pt-BR: install → doctor → primeiro analyze |
+| `docs/installation/quickstart.en.md` | Mesmo quickstart em EN |
+| `docs/installation/global-installation.md` | Instalação global (escopo user): quando usar, e o que muda |
+| `docs/installation/workspace-installation.md` | Instalação em workspace multi-projeto |
+| `docs/installation/portable-installation.md` | Instalação portável sem checkout |
+| `docs/installation/mcp.md` | O servidor MCP: `mcp serve`, handshake, configuração por host |
+| `docs/installation/claude-code.md` | Integração com Claude Code: escopo, mirrors, aprovação |
+| `docs/installation/devin-cli.md` | Integração com Devin CLI: skills/agents nativas |
+| `docs/installation/codex-cli.md` | Integração com Codex CLI — MCP só em escopo user (limitação do host) |
+| `docs/installation/copilot-cli.md` | Integração com GitHub Copilot CLI |
+| `docs/installation/update-and-repair.md` | `install update|repair`: drift → correção |
+| `docs/installation/uninstall.md` | `install uninstall`: detach limpo e `--purge` |
+| `docs/installation/troubleshooting.md` | Falhas comuns de instalação e unlock |
+| `docs/installation/troubleshooting.en.md` | Mesmo troubleshooting em EN |
+
+## Aprendizado
+
+| Doc | Cobre |
+|---|---|
+| `docs/tutorials/first-run.md` | Tutorial: primeira execução real ponta a ponta |
+| `docs/learn/recipes/doctor.md` | Receita: "minha instalação está íntegra?" |
+| `docs/learn/recipes/analyze-pyspark.md` | Receita: facts determinísticos de código PySpark |
+| `docs/learn/recipes/migration-assessment.md` | Receita: assessment ADF/Synapse → Fabric |
+| `docs/learn/recipes/instalacao.md` | Receita: instalar o forge no projeto (scopes, hosts, recibo) |
+| `docs/learn/recipes/primeiro-uso.md` | Receita: menor caminho real (install→doctor→analyze→judge) |
+| `docs/learn/recipes/analise-azure.md` | Receita: diagnóstico de acesso multicamada (UC/RBAC/ACL/rede) |
+| `docs/learn/recipes/fabric.md` | Receita: vertical Fabric (workspace/OneLake/shortcut/capacity) |
+| `docs/learn/recipes/adf.md` | Receita: Azure Data Factory (inventory/assess de migração) |
+| `docs/learn/recipes/synapse.md` | Receita: Synapse (pools, pipelines, migração p/ Fabric) |
+| `docs/learn/recipes/streaming.md` | Receita: Event Hubs + Structured Streaming + Fabric RTI |
+| `docs/learn/recipes/usar-agents.md` | Receita: frota de 40 agents — list/inspect/route/execute |
+| `docs/learn/recipes/usar-skills.md` | Receita: as 22 skills e o contrato de fronteira |
+| `docs/learn/recipes/verificar-mcp.md` | Receita: handshake MCP real + painel `ai` |
+| `docs/learn/recipes/graphfy.md` | Receita: `graph build/query/impact/view/ui` (ForgeGraphView/v1) |
+| `docs/learn/recipes/economia.md` | Receita: tokensave L0–L6, bytes medidos vs tokens |
+| `docs/learn/recipes/abrir-host.md` | Receita: `sparkforge-azure ai` — medir e abrir o host |
+
+## Experiência
+
+| Doc | Cobre |
+|---|---|
+| `docs/experience/interactive-cli.md` | CLI interativo: home, navegação, comportamento sem TTY |
+| `docs/experience/installation-wizard.md` | Wizard de instalação guiada |
+| `docs/experience/automation-mode.md` | Modo automação: saída JSON, flags não-interativas |
+| `docs/experience/themes.md` | Temas e identidade visual da TUI |
+| `docs/experience/accessibility.md` | Acessibilidade da interface |
+| `docs/economy.md` | Economia de tokens e contexto: o que é medido vs. estimado |
+| `docs/experience/fase3-report.md` | FASE 3 — fechamento: host experience `ai`/`sfa_ai`, E2E instalado, gates |
+| `docs/reports/experience-3.md` | Forge Experience 3.0 — relatório da onda de UX |
+
+## Knowledge program
+
+| Doc | Cobre |
+|---|---|
+| `docs/knowledge-program/final-report.md` | Relatório final do programa de knowledge |
+| `docs/knowledge-program/classification-report.md` | Classificação do corpus |
+| `docs/knowledge-program/documentation-quality-report.md` | Qualidade da documentação medida |
+| `docs/knowledge-program/broken-link-report.md` | Links quebrados detectados |
+| `docs/knowledge-program/duplicate-content-report.md` | Conteúdo duplicado detectado |
+| `docs/knowledge-program/obsolete-document-report.md` | Documentos obsoletos detectados |
+| `docs/knowledge-program/command-drift-report.md` | Drift doc↔comando |
+| `docs/knowledge-program/tutorial-coverage-report.md` | Cobertura de tutoriais |
 
 ## Arquitetura
 
@@ -123,6 +191,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 
 ## Locks gerados (não editar à mão)
 
+- `docs/INDEX.md` — inventário completo de docs (`doc_index.py` via `regen_docs.py`)
 - `docs/surface.lock.json` — superfície CLI/MCP/skills/knowledge (`check_surface_lock.py`)
 - `docs/claims.lock.json` — claims públicos com prova executável (`check_claims.py`)
 - `knowledge/INDEX.md`, `knowledge/offline-manifest.json`, `knowledge/sources.lock.json`

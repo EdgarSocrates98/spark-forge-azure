@@ -153,6 +153,21 @@ lock, claims, extras opcionais, credenciais (só presença — nunca autentica),
 traces, Forge Lab.
 `network_calls: 0` sempre; `cloud_mutation: none`.
 
+## `sparkforge-azure ai [host]`
+
+Mede cada host de IA — binário no PATH, versão via `--version`, login pelo
+subcomando oficial de status (`devin auth status`, `claude auth status`,
+`codex login status`) e a integração do repo (`install status`). O recibo
+carrega só o booleano `logged_in` — a saída de auth pode listar caminhos de
+credencial e nunca entra no JSON. Estados: `NOT_DETECTED`, `SUPPORTED`,
+`NEEDS_LOGIN` (com `login_hint`), `READY`, `INTEGRATION_*`.
+
+`sparkforge-azure ai` sem argumento mede todos (`all` é o seletor implícito).
+`--launch` abre o CLI do host no diretório do repo — exige um host nomeado e
+TTY: sem TTY ou com `all`, o recibo traz `launch_refused` e `launch_command`
+para o operador colar. Lançar é fronteira humana: o MCP expõe só o painel
+read-only (`sfa_ai`).
+
 ## `sparkforge-azure graph <op>` — Graphfy (offline)
 
 | Op | Uso |
@@ -282,6 +297,29 @@ recommended = + espelhos de skills; full = + espelhos de agents).
 Recibos `forge/InstallReceipt/v1` com `status`
 `completed`/`planned`/`failed`; recusas `PortableError` → documento
 `refused` com `kind` (`FORGE-INSTALL-*`).
+
+## `sparkforge-azure portal` — UI web local opcional
+
+Portal web local-first sobre os mesmos serviços do CLI/MCP — jornada
+"instalar → configurar hosts → verificar MCP → primeira tarefa" numa SPA,
+sem substituir CLI/TUI/MCP (que seguem funcionando sozinhos).
+
+| Flag | Uso |
+|---|---|
+| `--port` | porta TCP fixa (default `0` = porta livre do sistema) |
+| `--root` | workspace inspecionado (default: cwd) |
+| `--no-browser` | só imprime a URL com o token — SSH/headless ou abertura manual |
+
+O bind é sempre `127.0.0.1` (loopback only — o portal é local-first e
+não expõe interface de rede).
+
+**Por que:** quem prefere UI a CLI executa a mesma jornada com a mesma
+segurança — sessão `X-Forge-Session` obrigatória, mutações exigem
+`confirm` + `plan_token` assinado, hosts nunca são lançados
+implicitamente (boundary TTY/humano). **Quando usar:** primeira
+instalação da forja, revisão visual de saúde/skills/agents/grafos/docs,
+e tarefas seguras com recibo. **Quando não usar:** automação/CI (use o
+CLI/MCP direto — o portal é um cliente, não um serviço).
 
 ## `sparkforge-azure workspace <op>` — ForgeWorkspace
 

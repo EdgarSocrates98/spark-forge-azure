@@ -8,12 +8,12 @@ Both handlers call the same engines as the CLI (``inventory()`` and
 from __future__ import annotations
 
 from collections.abc import Mapping
-from pathlib import Path
 from typing import Any
 
 from sparkforge_azure.agentic.inventory import inventory
 from sparkforge_azure.agentmanifest.routing import explain_route
 from sparkforge_azure.mcp.tools import READ_ONLY, tool
+from sparkforge_azure.paths import fleet_root
 
 _EMPTY = {"type": "object", "properties": {}, "additionalProperties": False}
 
@@ -57,7 +57,7 @@ _ROUTE_ENTRY = {
     },
 )
 def agents_list(_: Mapping[str, Any]) -> dict[str, Any]:
-    rep = inventory(Path.cwd())
+    rep = inventory(fleet_root())
     return {
         "agents": [
             {"agent_id": a.agent_id, "kind": a.kind, "status": a.status}

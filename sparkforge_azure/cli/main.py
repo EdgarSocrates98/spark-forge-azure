@@ -27,6 +27,7 @@ PROG = "sparkforge-azure"
 
 COMMAND_MODULES: tuple[str, ...] = (
     "sparkforge_azure.cli.cmd_core",
+    "sparkforge_azure.cli.cmd_ai",
     "sparkforge_azure.cli.cmd_tokensave",
     "sparkforge_azure.cli.cmd_governance",
     "sparkforge_azure.cli.cmd_doctor",
@@ -43,6 +44,7 @@ COMMAND_MODULES: tuple[str, ...] = (
     "sparkforge_azure.cli.cmd_analyze",
     "sparkforge_azure.cli.cmd_distribution",
     "sparkforge_azure.cli.cmd_install",
+    "sparkforge_azure.cli.cmd_portal",
     "sparkforge_azure.cli.cmd_workspace",
     "sparkforge_azure.cli.cmd_context",
 )
@@ -189,9 +191,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     _emit(result, args.format)
     status = result.get("status", "ok")
     # forge/* receipts add: completed/planned/healthy/unverified (success
-    # family) — every other non-ok status stays a failure exit.
-    return 0 if status in {"ok", "pass", "sufficient", "completed",
-                           "planned", "healthy", "unverified"} else 1
+    # family) — every other non-ok status stays a failure exit. Kit checks
+    # report uppercase PASS/FAIL — normalize before comparing.
+    return 0 if str(status).lower() in {"ok", "pass", "sufficient", "completed",
+                                        "planned", "healthy", "unverified"} else 1
 
 
 if __name__ == "__main__":
