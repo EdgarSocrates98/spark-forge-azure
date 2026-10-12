@@ -76,6 +76,12 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/experience/fase3-report.md` | FASE 3 — fechamento: host experience `ai`/`sfa_ai`, E2E instalado, gates |
 | `docs/reports/experience-3.md` | Forge Experience 3.0 — relatório da onda de UX |
 
+## Engineering excellence
+
+| Doc | Cobre |
+|---|---|
+| `docs/engineering-excellence/context-and-planning.md` | Context pointers, bounded context, handoff e planejamento proporcional |
+
 ## Knowledge program
 
 | Doc | Cobre |
