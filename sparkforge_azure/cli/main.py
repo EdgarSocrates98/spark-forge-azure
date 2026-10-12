@@ -157,6 +157,7 @@ def _emit(result: Result, fmt: str) -> None:
     if (fmt == "text" or os.environ.get("FORGE_TEXT_OUTPUT")) and forge_doc:
         try:
             from sparkforge_azure.ui.kit import UIContext, format_status_doc
+
             sys.stdout.write(format_status_doc(result, ctx=UIContext.detect()) + "\n")
             return
         except ImportError:
@@ -184,9 +185,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not argv:
         try:
             import sys as _sys
+
             if _sys.stdin.isatty() and _sys.stdout.isatty():
                 from sparkforge_azure.ui.home import run_home
                 from sparkforge_azure.ui.kit import NonInteractive
+
                 try:
                     return run_home()
                 except NonInteractive:
@@ -215,8 +218,12 @@ def main(argv: Sequence[str] | None = None) -> int:
     # forge/* receipts add: completed/planned/healthy/unverified (success
     # family) — every other non-ok status stays a failure exit. Kit checks
     # report uppercase PASS/FAIL — normalize before comparing.
-    return 0 if str(status).lower() in {"ok", "pass", "sufficient", "completed",
-                                        "planned", "healthy", "unverified"} else 1
+    return (
+        0
+        if str(status).lower()
+        in {"ok", "pass", "sufficient", "completed", "planned", "healthy", "unverified"}
+        else 1
+    )
 
 
 if __name__ == "__main__":
