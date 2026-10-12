@@ -22,7 +22,7 @@
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "3041 passed",
+   "text": "3047 passed",
    "proof": {
     "cmd": [
      "python",
@@ -33,10 +33,10 @@
     "timeout": 600,
     "expect": {
      "kind": "regex",
-     "pattern": "\n3041 passed"
+     "pattern": "\n3047 passed"
     }
    },
-   "sha": "841a76fac6b546029de8892230fc154c5dc36c52"
+   "sha": "41d2f7cd818e49080b1daa62dc0a0987146a7bc2"
   },
   {
    "id": "surface-lock",
