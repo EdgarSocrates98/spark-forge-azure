@@ -17,12 +17,12 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "suite-green",
    "doc": "docs/ROADMAP.md",
-   "text": "3050 passed",
+   "text": "3052 passed",
    "proof": {
     "cmd": [
      "python",
@@ -30,13 +30,13 @@
      "pytest",
      "-q"
     ],
-    "timeout": 600,
+    "timeout": 900,
     "expect": {
      "kind": "regex",
-     "pattern": "\n3050 passed"
+     "pattern": "\n3052 passed"
     }
    },
-   "sha": "41d2f7cd818e49080b1daa62dc0a0987146a7bc2"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "surface-lock",
@@ -51,7 +51,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "skills-catalogue-22",
@@ -69,7 +69,7 @@
      "value": 22
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "mcp-tools-18",
@@ -88,7 +88,7 @@
      "value": 18
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "knowledge-check",
@@ -103,7 +103,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "lab-verify",
@@ -122,7 +122,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "access-suite-10",
@@ -144,7 +144,7 @@
      "value": 10
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -167,7 +167,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "security-vertical-green",
@@ -187,7 +187,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "fabric-suite-green",
@@ -210,7 +210,7 @@
      "value": 16
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -226,7 +226,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "fabric-mcp-surface",
@@ -242,7 +242,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "docs-surface",
@@ -258,7 +258,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "stream-suite-green",
@@ -274,7 +274,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "stream-mcp-surface",
@@ -290,7 +290,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "migration-suite-green",
@@ -306,7 +306,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "migration-mcp-surface",
@@ -322,7 +322,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "docs-index",
@@ -338,7 +338,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "agentic-fleet-40",
@@ -358,7 +358,7 @@
      "value": 40
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "agentic-fingerprint",
@@ -377,7 +377,7 @@
      "pattern": "\"fingerprint\":\\s*\"sha256:[0-9a-f]{64}\""
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "sdd-gate-green",
@@ -397,7 +397,7 @@
      "value": true
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "freeze-frozen",
@@ -416,7 +416,7 @@
      "value": "frozen"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "host-proof-claude",
@@ -435,7 +435,7 @@
      "value": "host_proven"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "portable-distribution-wheel",
@@ -453,7 +453,7 @@
      "pattern": "portability gate: ok"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "workspace-relocation",
@@ -471,7 +471,7 @@
      "pattern": "ok\\s+relocated-repo"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "multi-repo-context",
@@ -489,7 +489,7 @@
      "pattern": "ok\\s+transitive-deps"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   },
   {
    "id": "detach-safe",
@@ -507,7 +507,7 @@
      "pattern": "ok\\s+detach-reattach"
     }
    },
-   "sha": "66c4f8081bd809bc63fd26bec69a363d7cb34328"
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
   }
  ]
 }

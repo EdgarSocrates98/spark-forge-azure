@@ -28,6 +28,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 |---|---|
 | `docs/installation/quickstart.md` | Quickstart pt-BR: install → doctor → primeiro analyze |
 | `docs/installation/quickstart.en.md` | Mesmo quickstart em EN |
+| `docs/installation/account-installation.md` | Runtime account-scoped: venv central, editable CLI e variáveis persistentes |
 | `docs/installation/global-installation.md` | Instalação global (escopo user): quando usar, e o que muda |
 | `docs/installation/workspace-installation.md` | Instalação em workspace multi-projeto |
 | `docs/installation/portable-installation.md` | Instalação portável sem checkout |
