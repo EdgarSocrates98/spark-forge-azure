@@ -81,11 +81,11 @@ def test_suite_green_pattern_rejects_failed_prefix() -> None:
         .read_text(encoding="utf-8"))
     pattern = next(c["proof"]["expect"]["pattern"] for c in lock["claims"]
                    if c["id"] == "suite-green")
-    n = re.search(r"(\d+) passed", pattern).group(1)
-    assert re.search(pattern, f"\n{n} passed, 9 skipped in 10.00s\n")
-    assert not re.search(pattern, f"1 failed, {n} passed, 9 skipped\n")
-    assert not re.search(pattern, f"3 errors, {n} passed\n")
-    assert not re.search(pattern, f"{n} passed, 9 skipped, 1 error\n")
+    sample = pattern.replace(r"\d+", "3052").replace("[0-9]+", "3052")
+    assert re.search(pattern, f"\n{sample} passed, 9 skipped in 10.00s\n")
+    assert not re.search(pattern, f"1 failed, {sample} passed, 9 skipped\n")
+    assert not re.search(pattern, f"3 errors, {sample} passed\n")
+    assert not re.search(pattern, f"{sample} passed, 9 skipped, 1 error\n")
 
 
 def test_state_dir_env_override(tmp_path, monkeypatch) -> None:
