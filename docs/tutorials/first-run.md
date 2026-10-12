@@ -44,9 +44,12 @@ extração de facts de artefatos Azure.
 ```bash
 sparkforge-azure install --dry-run     # plano: nada é escrito
 sparkforge-azure install --yes         # aplica após aprovar o plano
+sparkforge-azure install --gateway-profile economy --dry-run  # menor custo
 ```
 
 instala a integração nos hosts. `--dry-run` antes de `--yes` é o padrão do ecossistema.
+Use `balanced` (padrão) para uso geral ou `deep` para tarefas complexas; perfil
+fica registrado no recibo e é preservado pelo roteamento do The Forge.
 
 ## 6. Verificar (offline)
 
