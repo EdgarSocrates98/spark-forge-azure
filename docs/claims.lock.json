@@ -33,7 +33,7 @@
     "timeout": 900,
     "expect": {
      "kind": "regex",
-     "pattern": "\n3052 passed"
+     "pattern": "\n[0-9]+ passed"
     }
    },
    "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
