@@ -70,6 +70,7 @@ def _install(args: argparse.Namespace) -> dict[str, Any]:
         root=_root(args),
         host=args.host,
         profile=args.profile,
+        gateway_profile=args.gateway_profile,
         components=comps,
         **kw,
     )
@@ -173,6 +174,10 @@ def register(sub: argparse._SubParsersAction) -> None:
     p.add_argument("--root", default=None, help="explicit target root (default: resolved from cwd)")
     p.add_argument("--host", default="all", choices=("claude", "devin", "codex", "copilot", "all"))
     p.add_argument("--profile", default="recommended", choices=("minimal", "recommended", "full"))
+    p.add_argument(
+        "--gateway-profile", default="balanced", choices=("economy", "balanced", "deep"),
+        help="execution profile: economy|balanced|deep",
+    )
     p.add_argument(
         "--yes", "-y", action="store_true", help="explicit approval — required for any write"
     )
