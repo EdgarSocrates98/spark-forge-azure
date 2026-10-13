@@ -8,7 +8,8 @@ Explicit flags keep the deterministic contract.
 
 1. **Environment check** — real evidence: Python version, git, host
    binaries on PATH.
-2. **Scope** — `project` / `workspace` / `user`.
+2. **Scope** — `project` / `workspace` / `user`. Em diretório sem VCS,
+   `project` é ocultado; `workspace` usa diretório atual.
 3. **Profile** — Balanced (recommended), Economy (minimal), Full.
 4. **Optional components** — multi-select with profile defaults:
    `skills`, `agents`, `mcp`, `tui`, `graph-studio`. Unchecked components

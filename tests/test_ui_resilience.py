@@ -1,4 +1,7 @@
-from sparkforge_azure.ui import screen, tui
+from pathlib import Path
+from tempfile import TemporaryDirectory
+
+from sparkforge_azure.ui import screen, tui, wizard
 from sparkforge_azure.ui.app import ActionData, Entry, ForgeApp, TextData
 from sparkforge_azure.ui.kit import UIContext
 from sparkforge_azure.ui.screen import Buffer, Column, Theme, key_bar, table
@@ -13,6 +16,15 @@ def _ctx(width=60, height=16):
         height=height,
         ansi=False,
     )
+
+
+def test_fresh_directory_hides_repository_scope(monkeypatch, capsys):
+    original = Path.cwd()
+    with TemporaryDirectory() as fresh:
+        monkeypatch.chdir(fresh)
+        assert wizard._scope_choices(_ctx()) == ["workspace", "user"]
+        monkeypatch.chdir(original)
+    assert "No repository detected" in capsys.readouterr().out
 
 
 def test_narrow_table_keeps_flexible_column_visible():
