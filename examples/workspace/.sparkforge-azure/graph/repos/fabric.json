@@ -1,0 +1,36 @@
+{
+ "edges": [],
+ "fingerprint": "8b9e4bff159a65ea5c7fd772b28f03a82b57b1094429433963beefec5dd77d40",
+ "meta": {
+  "engine": "ast",
+  "repo": "fabric",
+  "skipped": 0
+ },
+ "nodes": [
+  {
+   "attrs": {
+    "format": "json",
+    "path": "lakehouse.json",
+    "repo": "fabric"
+   },
+   "id": "code:config:fabric/lakehouse.json",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:fabric"
+   }
+  }
+ ],
+ "schema_version": 1,
+ "stats": {
+  "edges": 0,
+  "layers": {
+   "code": 1
+  },
+  "nodes": 1,
+  "unresolved": 0
+ },
+ "unresolved": []
+}

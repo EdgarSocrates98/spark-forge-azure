@@ -1,0 +1,121 @@
+{
+ "edges": [
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   },
+   "relation": "defines",
+   "source": "code:config:terraform/main.tf",
+   "target": "code:symbol:terraform/azurerm_databricks_workspace.analytics"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   },
+   "relation": "defines",
+   "source": "code:config:terraform/main.tf",
+   "target": "code:symbol:terraform/azurerm_storage_account.lake"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   },
+   "relation": "defines",
+   "source": "code:config:terraform/main.tf",
+   "target": "code:symbol:terraform/azurerm_storage_account.stshared"
+  }
+ ],
+ "fingerprint": "d9d354ee1b04e4ecf080a94834c04c6df56f0551cad7b88a6a4d2737acd18d13",
+ "meta": {
+  "engine": "ast",
+  "repo": "terraform",
+  "skipped": 0
+ },
+ "nodes": [
+  {
+   "attrs": {
+    "iac": "terraform",
+    "path": "main.tf",
+    "repo": "terraform"
+   },
+   "id": "code:config:terraform/main.tf",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   }
+  },
+  {
+   "attrs": {
+    "address": "azurerm_databricks_workspace.analytics",
+    "iac": "terraform",
+    "path": "main.tf",
+    "repo": "terraform",
+    "resource_type": "azurerm_databricks_workspace"
+   },
+   "id": "code:symbol:terraform/azurerm_databricks_workspace.analytics",
+   "kind": "symbol",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   }
+  },
+  {
+   "attrs": {
+    "address": "azurerm_storage_account.lake",
+    "iac": "terraform",
+    "path": "main.tf",
+    "repo": "terraform",
+    "resource_type": "azurerm_storage_account"
+   },
+   "id": "code:symbol:terraform/azurerm_storage_account.lake",
+   "kind": "symbol",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   }
+  },
+  {
+   "attrs": {
+    "address": "azurerm_storage_account.stshared",
+    "iac": "terraform",
+    "path": "main.tf",
+    "repo": "terraform",
+    "resource_type": "azurerm_storage_account"
+   },
+   "id": "code:symbol:terraform/azurerm_storage_account.stshared",
+   "kind": "symbol",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   }
+  }
+ ],
+ "schema_version": 1,
+ "stats": {
+  "edges": 3,
+  "layers": {
+   "code": 4
+  },
+  "nodes": 4,
+  "unresolved": 0
+ },
+ "unresolved": []
+}
