@@ -1,0 +1,16 @@
+name: f11_slow_spark_healthy_capacity
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: execute
+target:
+  kind: item
+  workspace_id: ws-1111
+  item_id: nb-0001
+job:
+  id: nb-0001
+  kind: Notebook
+  environment_id: env-0001
+expect:
+  status: findings
+  failure_layer: null

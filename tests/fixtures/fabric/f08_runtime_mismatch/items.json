@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "id": "lh-aaaa",
+      "type": "Lakehouse",
+      "workspace_id": "ws-1111",
+      "display_name": "lake_sales"
+    },
+    {
+      "id": "sjd-0001",
+      "type": "SparkJobDefinition",
+      "workspace_id": "ws-1111",
+      "display_name": "job-daily",
+      "default_lakehouse_id": "lh-aaaa",
+      "environment_id": "env-0001",
+      "runtime": "2.0"
+    }
+  ]
+}

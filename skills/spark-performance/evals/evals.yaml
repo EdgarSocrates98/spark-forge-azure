@@ -1,0 +1,50 @@
+skill: spark-performance
+version: 1
+cases:
+- id: spark-performance-skew
+  prompt: Um stage demora 2h e as outras tasks 1 min
+  must_include:
+  - p99
+  - lab verify
+  must_not_include:
+  - otimizado
+  - vai ficar 10x mais rápido
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sparkforge-azure lab verify
+- id: spark-performance-no-eventlog
+  prompt: Meu job está lento, aqui está o código
+  must_include:
+  - Sem event log
+  - unresolved
+  must_not_include:
+  - a causa é o shuffle
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sfa_analyze
+- id: spark-performance-memory
+  prompt: Aumento a memória do executor?
+  must_include:
+  - spill
+  must_not_include:
+  - sim, aumente a memória
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+- id: spark-performance-delta-layout-negative
+  kind: negative
+  prompt: A tabela Delta acumulou 500 mil arquivos pequenos
+  must_include:
+  - delta-lake
+  must_not_include:
+  - e skew de particao
+  expected_tools:
+  - sfa_analyze
+- id: spark-performance-streaming-boundary
+  kind: boundary
+  prompt: Job streaming gerando small files a cada micro-batch
+  must_include:
+  - spark-streaming
+  must_not_include:
+  - aumente o paralelismo e pronto
+  expected_tools:
+  - sparkforge-azure analyze pyspark

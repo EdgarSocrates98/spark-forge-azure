@@ -1,0 +1,16 @@
+{
+ "id": "eh-01",
+ "name": "rti-house",
+ "databases": [
+  {
+   "name": "db",
+   "tables": [
+    {
+     "name": "telemetry",
+     "last_ingestion_at": "2026-10-08T10:00Z",
+     "row_count": 5000
+    }
+   ]
+  }
+ ]
+}

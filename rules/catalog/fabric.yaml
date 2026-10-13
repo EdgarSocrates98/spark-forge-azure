@@ -1,0 +1,82 @@
+# Catálogo de regras — vertical Microsoft Fabric (SF-FAB).
+# Avaliado pelo rules engine sobre os Facts de fabric/extract.py. Findings
+# estruturais (SF-FAB-002 capacity-overload, SF-FAB-013 cross-environment)
+# saem de fabric/pipeline.py porque correlacionam o conjunto inteiro.
+
+catalog_version: 1
+schema_version: 1
+area: SF-FAB
+retrieved: 2026-10-08
+
+rules:
+
+  - id: SF-FAB-001
+    category: fabric-shortcut
+    title: Shortcut sem metadados de target
+    requires_facts: [fabric.shortcut]
+    when:
+      all:
+        - fact: fabric.shortcut
+          where: {attrs.target_kind: ""}
+    status: structural
+    severity_default: P2
+    runtime_scope: {}
+    explanation: >
+      O shortcut existe mas o target (kind/item/url) não está no artifact —
+      a autorização na origem não pode ser avaliada. source_access fica
+      unresolved até o export incluir o target.
+    proposed_change:
+      - Re-coletar shortcuts com target completo (kind, workspace/item id ou URL).
+    validation:
+      - Novo diagnose mostra shortcut_auth e source_access avaliados.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.onelake-shortcuts
+
+  - id: SF-FAB-003
+    category: fabric-spark-job
+    title: SparkJobDefinition com retry sem evidência de idempotência
+    requires_facts: [fabric.spark_job]
+    when:
+      all:
+        - fact: fabric.spark_job
+          where: {attrs.retry_policy_enabled: true,
+                  attrs.retry_idempotent_evidence: false}
+    status: structural
+    severity_default: P2
+    runtime_scope: {}
+    explanation: >
+      Retry policy ativa num job cujo código tem side effects não evidenciados
+      como idempotentes — reruns podem duplicar writes/merge.
+    proposed_change:
+      - Desativar retry ou tornar o write idempotente (chave de merge, replaceWhere).
+    validation:
+      - Re-diagnose com retry desligado ou evidência de idempotência no job.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.data-engineering-spark
+
+  - id: SF-FAB-011
+    category: fabric-data-factory
+    title: Pipeline activity referencia item fora do workspace do pipeline
+    requires_facts: [fabric.pipeline_activity]
+    when:
+      all:
+        - fact: fabric.pipeline_activity
+          expr: "attrs.reference_workspace_id"
+    status: structural
+    severity_default: P1
+    runtime_scope: {}
+    explanation: >
+      Uma activity invoca um item de outro workspace — legítimo, mas se o
+      workspace não é o esperado é data_factory/cross_environment.
+    proposed_change:
+      - Conferir reference_workspace_id da activity; alinhar com o workspace do caso.
+    validation:
+      - Re-diagnose com activity apontando ao workspace esperado.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.fabric.data-factory

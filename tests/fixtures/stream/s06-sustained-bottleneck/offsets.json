@@ -1,0 +1,22 @@
+{
+ "source": {
+  "ns-01/telemetry": {
+   "0": {
+    "latest_sequence": 2000,
+    "enqueue_time": "2026-10-08T10:06Z"
+   },
+   "1": {
+    "latest_sequence": 2000,
+    "enqueue_time": "2026-10-08T10:06Z"
+   },
+   "2": {
+    "latest_sequence": 2000,
+    "enqueue_time": "2026-10-08T10:06Z"
+   },
+   "3": {
+    "latest_sequence": 2000,
+    "enqueue_time": "2026-10-08T10:06Z"
+   }
+  }
+ }
+}

@@ -1,0 +1,53 @@
+skill: fabric-data-engineering
+version: 1
+cases:
+- id: fabric-data-engineering-fabric-vs-synapse
+  prompt: No Fabric funciona igual ao Synapse pipeline?
+  must_include:
+  - Fabric não é Synapse
+  - azure-synapse
+  must_not_include:
+  - fabric e synapse são o mesmo
+  expected_tools:
+  - sparkforge-azure graph build
+- id: fabric-data-engineering-fdf-vs-adf
+  prompt: Meu pipeline do Fabric Data Factory falha, aplico a regra do ADF?
+  must_include:
+  - Data Factory do Fabric
+  - azure-data-factory
+  must_not_include:
+  - é o mesmo que adf
+  expected_tools:
+  - sparkforge-azure graph build
+  - sfa_analyze
+- id: fabric-data-engineering-env-lib
+  prompt: Notebook falha por biblioteca no Fabric environment
+  must_include:
+  - environment
+  - unresolved
+  must_not_include:
+  - a biblioteca está instalada
+  expected_tools:
+  - sparkforge-azure graph build
+  - sparkforge-azure analyze pyspark
+- id: fabric-data-engineering-databricks-negative
+  kind: negative
+  prompt: Meu notebook no Azure Databricks falha com PERMISSION_DENIED no abfss
+  must_include:
+  - azure-databricks
+  - unity-catalog
+  must_not_include:
+  - fabric capacity
+  - workspace do fabric
+  expected_tools:
+  - sfa_analyze
+- id: fabric-data-engineering-classic-spark-boundary
+  kind: boundary
+  prompt: O job Fabric Spark roda mas está lento no F64
+  must_include:
+  - spark-performance
+  - capacity
+  must_not_include:
+  - é o mesmo tuning do synapse spark
+  expected_tools:
+  - sparkforge-azure graph build

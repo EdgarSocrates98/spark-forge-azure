@@ -1,0 +1,15 @@
+{
+ "id": "act-01",
+ "name": "kpi-alert",
+ "rules": [
+  {
+   "id": "r-01",
+   "source_type": "kql_queryset",
+   "source_ref": "qs-01",
+   "mapping_valid": true,
+   "condition": "avg(temp) > 80",
+   "query_stale": true,
+   "evaluation_mode": "periodic"
+  }
+ ]
+}

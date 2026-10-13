@@ -1,0 +1,31 @@
+{
+ "synapse_workspaces": [
+  {
+   "id": "syn-1",
+   "name": "syn-prod",
+   "spark_configs": [
+    {
+     "key": "spark.synapse.linkedService",
+     "value": "ls1"
+    },
+    {
+     "key": "spark.sql.shuffle.partitions",
+     "value": "200"
+    }
+   ]
+  }
+ ],
+ "fabric_workspaces": [
+  {
+   "id": "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb",
+   "name": "ws-analytics",
+   "items": [
+    {
+     "id": "lh-1",
+     "type": "Lakehouse",
+     "name": "lh"
+    }
+   ]
+  }
+ ]
+}

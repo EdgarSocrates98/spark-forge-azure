@@ -1,0 +1,140 @@
+{
+  "_comment": "SYNTHETIC fixture. Not real Azure data. Contains NO secret material: tests inject runtime-generated fake secrets into a temporary copy to prove redaction.",
+  "observed_at": "2026-10-01T12:00:00+00:00",
+  "count": 9,
+  "skip_token": null,
+  "data": [
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stlakehouse",
+      "name": "stlakehouse",
+      "type": "microsoft.storage/storageaccounts",
+      "location": "brazilsouth",
+      "resourceGroup": "rg-data",
+      "subscriptionId": "00000000-0000-4000-8000-00000000aaaa",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "isHnsEnabled": true,
+        "allowSharedKeyAccess": false,
+        "publicNetworkAccess": "Disabled",
+        "minimumTlsVersion": "TLS1_2"
+      }
+    },
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Databricks/workspaces/dbw-analytics",
+      "name": "dbw-analytics",
+      "type": "microsoft.databricks/workspaces",
+      "location": "brazilsouth",
+      "resourceGroup": "rg-data",
+      "subscriptionId": "00000000-0000-4000-8000-00000000aaaa",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "workspaceId": "1234567890123456",
+        "workspaceUrl": "adb-1234567890123456.6.azuredatabricks.net",
+        "publicNetworkAccess": "Disabled",
+        "accessConnector": {
+          "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Databricks/accessConnectors/ac-dbw-analytics",
+          "identityType": "SystemAssigned"
+        }
+      }
+    },
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Databricks/accessConnectors/ac-dbw-analytics",
+      "name": "ac-dbw-analytics",
+      "type": "microsoft.databricks/accessconnectors",
+      "location": "brazilsouth",
+      "resourceGroup": "rg-data",
+      "subscriptionId": "00000000-0000-4000-8000-00000000aaaa",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "principalId": "22222222-2222-4222-8222-222222222222",
+        "provisioningState": "Succeeded"
+      }
+    },
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-stream/providers/Microsoft.EventHub/namespaces/evhns-ingest",
+      "name": "evhns-ingest",
+      "type": "microsoft.eventhub/namespaces",
+      "location": "brazilsouth",
+      "resourceGroup": "rg-stream",
+      "subscriptionId": "00000000-0000-4000-8000-00000000aaaa",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "kafkaEnabled": true,
+        "disableLocalAuth": true,
+        "serviceBusEndpoint": "https://evhns-ingest.servicebus.windows.net:443/"
+      }
+    },
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-fabric/providers/Microsoft.Fabric/capacities/fabcapprod",
+      "name": "fabcapprod",
+      "type": "microsoft.fabric/capacities",
+      "location": "brazilsouth",
+      "resourceGroup": "rg-fabric",
+      "subscriptionId": "00000000-0000-4000-8000-00000000aaaa",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "state": "Active",
+        "sku": "F8"
+      }
+    },
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-net/providers/Microsoft.Network/privateEndpoints/pe-stlakehouse-dfs",
+      "name": "pe-stlakehouse-dfs",
+      "type": "microsoft.network/privateendpoints",
+      "location": "brazilsouth",
+      "resourceGroup": "rg-net",
+      "subscriptionId": "00000000-0000-4000-8000-00000000aaaa",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "privateLinkServiceConnections": [
+          {
+            "name": "dfs",
+            "properties": {
+              "privateLinkServiceId": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stlakehouse",
+              "groupIds": [
+                "dfs"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-sec/providers/Microsoft.KeyVault/vaults/kv-platform",
+      "name": "kv-platform",
+      "type": "microsoft.keyvault/vaults",
+      "location": "brazilsouth",
+      "resourceGroup": "rg-sec",
+      "subscriptionId": "00000000-0000-4000-8000-00000000aaaa",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "enableRbacAuthorization": true,
+        "vaultUri": "https://kv-platform.vault.azure.net/"
+      }
+    },
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stshared",
+      "name": "stshared",
+      "type": "microsoft.storage/storageaccounts",
+      "location": "brazilsouth",
+      "resourceGroup": "rg-data",
+      "subscriptionId": "00000000-0000-4000-8000-00000000aaaa",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "isHnsEnabled": true
+      }
+    },
+    {
+      "id": "/subscriptions/00000000-0000-4000-8000-00000000bbbb/resourceGroups/rg-other/providers/Microsoft.Storage/storageAccounts/stshared",
+      "name": "stshared",
+      "type": "microsoft.storage/storageaccounts",
+      "location": "eastus2",
+      "resourceGroup": "rg-other",
+      "subscriptionId": "00000000-0000-4000-8000-00000000bbbb",
+      "tenantId": "11111111-1111-4111-8111-111111111111",
+      "properties": {
+        "isHnsEnabled": false
+      }
+    }
+  ]
+}

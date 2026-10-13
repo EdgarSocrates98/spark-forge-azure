@@ -1,0 +1,50 @@
+skill: azure-observability
+version: 1
+cases:
+- id: azure-observability-healthy
+  prompt: O pipeline está saudável?
+  must_include:
+  - janela
+  - unresolved
+  must_not_include:
+  - está saudável
+  - sem incidentes
+  expected_tools:
+  - sparkforge-azure collect workspace-graph
+- id: azure-observability-no-logs
+  prompt: Não temos logs do workspace Databricks
+  must_include:
+  - diagnostic setting
+  must_not_include:
+  - logs estão completos
+  expected_tools:
+  - sparkforge-azure collect workspace-graph
+  - sfa_analyze
+- id: azure-observability-alert
+  prompt: Esse alerta funciona?
+  must_include:
+  - histórico de disparo
+  must_not_include:
+  - o alerta funciona
+  expected_tools:
+  - sparkforge-azure collect workspace-graph
+- id: azure-observability-cost-negative
+  kind: negative
+  prompt: Por que a fatura do Log Analytics dobrou esse mês?
+  must_include:
+  - azure-finops
+  must_not_include:
+  - o cluster está saudável
+  expected_tools:
+  - sparkforge-azure collect workspace-graph
+- id: azure-observability-no-evidence-boundary
+  kind: boundary
+  prompt: Parece tudo saudável, mas não tenho diagnostic settings nem logs — posso
+    afirmar?
+  must_include:
+  - unresolved
+  - evidência
+  must_not_include:
+  - está saudável
+  expected_tools:
+  - sparkforge-azure collect workspace-graph

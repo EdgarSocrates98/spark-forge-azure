@@ -1,0 +1,15 @@
+# Curated offline security floors (section 198: offline audit when possible).
+# Each entry cites where the floor came from. The ONLINE advisory scan (pip-audit in CI)
+# remains the authority; this file only makes the audit runnable without network.
+schema_version: 1
+advisories:
+  - id: CVE-2026-45409
+    package: idna
+    fixed: "3.15"
+    summary: ReDoS (transitive via starlette -> anyio when the mcp extra is installed)
+    source: "spark-forge-aws pyproject.toml @ 6b1b97a (internal authority, measured by its SCA scan)"
+  - id: CVE-2026-28684
+    package: python-dotenv
+    fixed: "1.2.2"
+    summary: symlink handling (transitive via mcp -> pydantic-settings)
+    source: "spark-forge-aws pyproject.toml @ 6b1b97a (internal authority, measured by its SCA scan)"

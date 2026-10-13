@@ -1,0 +1,21 @@
+{
+ "storage_credentials": {
+  "cred_lake": {
+   "identity_id": "mi-1",
+   "access_connector_id": "/subscriptions/s1/resourceGroups/rg/providers/Microsoft.Databricks/accessConnectors/ac1"
+  }
+ },
+ "external_locations": [
+  {
+   "name": "loc_finance",
+   "url": "abfss://lake@stg.dfs.core.windows.net/finance",
+   "credential": "cred_lake"
+  }
+ ],
+ "catalogs": {
+  "prod": {
+   "isolation_mode": "OPEN"
+  }
+ },
+ "grants": []
+}

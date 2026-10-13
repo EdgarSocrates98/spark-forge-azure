@@ -1,0 +1,9 @@
+agent: finops-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: custo finops dbu capacity units billing reservation
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: structured streaming foreachbatch checkpoint watermark

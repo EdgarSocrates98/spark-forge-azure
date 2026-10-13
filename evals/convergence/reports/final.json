@@ -1,0 +1,155 @@
+{
+  "cases": {
+    "access-s01": {
+      "economy": {
+        "status": "denied",
+        "findings": 1,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      },
+      "balanced": {
+        "status": "denied",
+        "findings": 1,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      },
+      "deep": {
+        "status": "denied",
+        "findings": 1,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      },
+      "deterministic-only": {
+        "status": "denied",
+        "findings": 1,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      },
+      "agent-assisted": {
+        "status": "denied",
+        "findings": 1,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      }
+    },
+    "fabric-f05": {
+      "economy": {
+        "status": "unresolved",
+        "findings": 1,
+        "unresolved": 2,
+        "ok": true,
+        "violacoes": []
+      },
+      "balanced": {
+        "status": "unresolved",
+        "findings": 1,
+        "unresolved": 2,
+        "ok": true,
+        "violacoes": []
+      },
+      "deep": {
+        "status": "unresolved",
+        "findings": 1,
+        "unresolved": 2,
+        "ok": true,
+        "violacoes": []
+      },
+      "deterministic-only": {
+        "status": "unresolved",
+        "findings": 1,
+        "unresolved": 2,
+        "ok": true,
+        "violacoes": []
+      },
+      "agent-assisted": {
+        "status": "unresolved",
+        "findings": 1,
+        "unresolved": 2,
+        "ok": true,
+        "violacoes": []
+      }
+    },
+    "migration-m02": {
+      "economy": {
+        "status": "blocked",
+        "findings": 1,
+        "unresolved": 5,
+        "ok": true,
+        "violacoes": []
+      },
+      "balanced": {
+        "status": "blocked",
+        "findings": 1,
+        "unresolved": 5,
+        "ok": true,
+        "violacoes": []
+      },
+      "deep": {
+        "status": "blocked",
+        "findings": 1,
+        "unresolved": 5,
+        "ok": true,
+        "violacoes": []
+      },
+      "deterministic-only": {
+        "status": "blocked",
+        "findings": 1,
+        "unresolved": 5,
+        "ok": true,
+        "violacoes": []
+      },
+      "agent-assisted": {
+        "status": "blocked",
+        "findings": 1,
+        "unresolved": 5,
+        "ok": true,
+        "violacoes": []
+      }
+    },
+    "stream-s08": {
+      "economy": {
+        "status": "denied",
+        "findings": 2,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      },
+      "balanced": {
+        "status": "denied",
+        "findings": 2,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      },
+      "deep": {
+        "status": "denied",
+        "findings": 2,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      },
+      "deterministic-only": {
+        "status": "denied",
+        "findings": 2,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      },
+      "agent-assisted": {
+        "status": "denied",
+        "findings": 2,
+        "unresolved": 0,
+        "ok": true,
+        "violacoes": []
+      }
+    }
+  },
+  "cells": 20,
+  "violacoes": [],
+  "ok": true
+}

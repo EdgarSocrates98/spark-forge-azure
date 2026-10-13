@@ -1,0 +1,43 @@
+{
+ "adf_factories": [
+  {
+   "id": "adf-1",
+   "name": "adf-prod",
+   "pipelines": [
+    {
+     "id": "adf-1/pl/pl_gp",
+     "name": "pl_gp",
+     "activities": [
+      {
+       "name": "c",
+       "type": "Copy"
+      }
+     ],
+     "global_parameters": [
+      {
+       "name": "env",
+       "type": "string"
+      },
+      {
+       "name": "batch",
+       "type": "int"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "fabric_workspaces": [
+  {
+   "id": "aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb",
+   "name": "ws-analytics",
+   "items": [
+    {
+     "id": "lh-1",
+     "type": "Lakehouse",
+     "name": "lh"
+    }
+   ]
+  }
+ ]
+}

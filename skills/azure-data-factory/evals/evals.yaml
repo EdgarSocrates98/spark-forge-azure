@@ -1,0 +1,51 @@
+skill: azure-data-factory
+version: 1
+cases:
+- id: azure-data-factory-inline-secret
+  prompt: Revise este linked service do ADF
+  must_include:
+  - Key Vault
+  - azure-entra
+  must_not_include:
+  - linked service seguro
+  expected_tools:
+  - sparkforge-azure graph build
+- id: azure-data-factory-impact
+  prompt: Se eu mudar este dataset, o que quebra?
+  must_include:
+  - graph impact
+  - unresolved
+  must_not_include:
+  - nenhum impacto
+  expected_tools:
+  - sparkforge-azure graph impact
+  - sfa_graph_impact
+- id: azure-data-factory-fabric-df
+  prompt: Esse pipeline do Fabric Data Factory segue as regras do ADF?
+  must_include:
+  - fabric-data-engineering
+  must_not_include:
+  - mesmas regras do adf
+  expected_tools:
+  - sparkforge-azure graph build
+- id: azure-data-factory-fabric-negative
+  kind: negative
+  prompt: O item de pipeline do workspace Fabric falhou no run de ontem
+  must_include:
+  - fabric-data-engineering
+  must_not_include:
+  - linked service do adf
+  expected_tools:
+  - sfa_analyze
+- id: azure-data-factory-migration-boundary
+  kind: boundary
+  prompt: Esse pipeline ADF com SHIR migra direto para o Fabric Data Factory?
+  must_include:
+  - azure-networking
+  - unresolved
+  must_not_include:
+  - migra automaticamente
+  - equivalente direto
+  expected_tools:
+  - sparkforge-azure graph build
+  - sfa_graph_impact

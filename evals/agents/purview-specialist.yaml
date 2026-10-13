@@ -1,0 +1,9 @@
+agent: purview-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: microsoft purview lineage data map classification sensitivity label glossary
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: terraform plan azurerm tfstate hcl

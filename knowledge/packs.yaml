@@ -1,0 +1,139 @@
+# Knowledge packs do vertical de acesso Databricks/UC/ADLS (secao 151).
+# Escopo deterministico: um caso so carrega os packs cujo failure_layer
+# corresponde ao do caso — um caso UC nunca carrega fabric/synapse/adf.
+# `domains` sao os dominios do indice (knowledge/INDEX.md); a uniao dos
+# packs e o escopo maximo do vertical. `governance` e crosscut: entra em
+# qualquer selecao porque conflitos multicamada atravessam camadas.
+schema_version: 1
+crosscut_domains: [governance]
+packs:
+  databricks-runtime:
+    vertical: access
+    purpose: DBR/Spark runtime, compute policy, access mode (legacy vs UC)
+    domains: [azure-databricks]
+    failure_layers: [runtime]
+  unity-catalog-storage:
+    vertical: access
+    purpose: securable model, grants, storage credentials, external locations, bindings
+    domains: [unity-catalog]
+    failure_layers: [unity_catalog, storage_credential, external_location, workspace_binding]
+  adls-access:
+    vertical: access
+    purpose: data-plane RBAC + POSIX ACLs + hierarquia de filesystems ADLS Gen2
+    domains: [azure-adls]
+    failure_layers: [azure_rbac, adls_acl]
+  azure-identity:
+    vertical: access
+    purpose: managed identities, service principals, Key Vault, env mismatch
+    domains: [azure-entra, azure-keyvault]
+    failure_layers: [entra, cross_environment]
+  azure-network:
+    vertical: access
+    purpose: private link, DNS zones, firewall, managed vnet
+    domains: [azure-networking]
+    failure_layers: [network]
+  delta-performance:
+    vertical: access
+    purpose: Delta layout, MERGE, small files, Photon/AQE
+    domains: [delta-lake, spark-performance]
+    failure_layers: [delta_perf]
+  # --- Cycle 3: Fabric deep vertical (prompt_evo_cycle3) -------------------
+  fabric-core:
+    vertical: fabric
+    purpose: Tenant→Capacity→Workspace→Item topology, REST item model, ids
+    domains: [fabric-onelake]
+    failure_layers: [fabric_workspace, item_permission, lakehouse]
+  fabric-spark:
+    vertical: fabric
+    purpose: Fabric runtime matrix (1.3 EOSA / 2.0 GA), environments, SJD,
+      default lakehouse, retry
+    domains: [fabric-data-engineering]
+    failure_layers: [spark_runtime, spark_job, delta_perf]
+  onelake-security:
+    vertical: fabric
+    purpose: control-plane vs data-plane, grant-only roles, scopes, RLS/CLS
+    domains: [fabric-onelake, fabric-identity]
+    failure_layers: [onelake_security]
+  onelake-shortcuts:
+    vertical: fabric
+    purpose: passthrough vs delegated auth, connections, workspace identity,
+      source access
+    domains: [fabric-onelake, fabric-identity]
+    failure_layers: [shortcut, shortcut_auth, source_access]
+  fabric-capacity:
+    vertical: fabric
+    purpose: capacity states, bursting/smoothing, throttling evidence
+      (CapacityLimitExceeded, 429)
+    domains: [azure-finops]
+    failure_layers: [capacity]
+  fabric-data-factory:
+    vertical: fabric
+    purpose: pipelines, activities, notebook invocation seams
+    domains: [fabric-data-factory]
+    failure_layers: [data_factory, cross_environment]
+  # --- Cycle 4: Streaming / RTI deep vertical (prompt_evo_cycle4) ----------
+  eventhubs-core:
+    vertical: stream
+    purpose: Event Hubs namespace/hub/partitions/consumer groups, TU/PU/CU
+      capacity, AMQP+Kafka endpoint, auth, Capture, networking
+    domains: [azure-event-hubs, azure-networking, azure-entra]
+    failure_layers: [event_hubs_auth, event_hubs_network,
+      event_hubs_capacity, partitioning, consumer_group, cross_environment]
+  spark-structured-streaming:
+    vertical: stream
+    purpose: checkpoint ownership/recoverability, progress+lag, watermark,
+      state store, output modes, sink idempotency
+    domains: [spark-streaming]
+    failure_layers: [consumer_progress, checkpoint, state_store,
+      spark_processing, sink]
+  stream-correctness:
+    vertical: stream
+    purpose: delivery semantics (at-least/effectively-once), schema drift,
+      poison events — nunca claimar exactly-once sem evidencia
+    domains: [spark-streaming, data-quality]
+    failure_layers: [schema]
+  fabric-rti:
+    vertical: stream
+    purpose: Real-Time Hub, Eventstream source/transform/destination/publish,
+      Eventhouse/KQL ingestion+query, Activator mapping/evaluation
+    domains: [fabric-realtime, fabric-identity]
+    failure_layers: [eventstream_source, eventstream_transform,
+      eventstream_destination, eventstream_publish, eventhouse_ingestion,
+      kql, activator_mapping, activator_evaluation]
+  stream-economy:
+    vertical: stream
+    purpose: TU/PU/CU capacity economics, throughput evidence vs marketing
+    domains: [azure-finops]
+    failure_layers: [event_hubs_capacity]
+  # --- Cycle 5: ADF/Synapse -> Fabric migration vertical -----------------
+  migration-inventory:
+    vertical: migration
+    purpose: estate discovery, canonical ids, dependency edges,
+      official assessment como evidencia (nunca autoridade)
+    domains: [azure-data-factory, azure-synapse, migration]
+    failure_layers: [inventory]
+  migration-adf:
+    vertical: migration
+    purpose: "ADF/Synapse pipelines -> Fabric Data Factory: activities,
+      linked services->connections, SHIR->gateway, global parameters->
+      variable library, triggers"
+    domains: [azure-data-factory, fabric-data-factory]
+    failure_layers: [pipelines, compatibility]
+  migration-spark:
+    vertical: migration
+    purpose: "Synapse Spark -> Fabric: mssparkutils->notebookutils,
+      synapsesql->Delta, catalog APIs, pools->environments, libs/configs"
+    domains: [azure-synapse, fabric-data-engineering]
+    failure_layers: [spark]
+  migration-data:
+    vertical: migration
+    purpose: "ADLS/HMS -> OneLake/Lakehouse: retain/shortcut/copy/hybrid,
+      managed vs external tables"
+    domains: [fabric-onelake, migration]
+    failure_layers: [data]
+  migration-plan:
+    vertical: migration
+    purpose: "waves topologicas, ciclo->REVIEW, rollback, freeze,
+      post-migration validation dims"
+    domains: [migration]
+    failure_layers: [plan, validation]

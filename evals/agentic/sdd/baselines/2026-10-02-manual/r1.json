@@ -1,0 +1,47 @@
+{
+  "suite": {
+    "id": "sdd",
+    "sha256": "f71f5c00bfaa263f41e4b5b8383a1611fa9b77e34aa6f6c5ebbe47b63865c5b1"
+  },
+  "runner": "sparkforge_azure.adapters.tools",
+  "run_id": "manual-seed-2026-10-02",
+  "repeat": 1,
+  "questions": [
+    {
+      "id": "sdd-01",
+      "verdict": "pass",
+      "answer": "upstream_stale",
+      "latency_ms": 0
+    },
+    {
+      "id": "sdd-02",
+      "verdict": "pass",
+      "answer": "docs/sdd/IMPORTACAO/design.md",
+      "latency_ms": 0
+    },
+    {
+      "id": "sdd-03",
+      "verdict": "pass",
+      "answer": "AC2",
+      "latency_ms": 0
+    },
+    {
+      "id": "sdd-04",
+      "verdict": "pass",
+      "answer": "red_not_declared",
+      "latency_ms": 0
+    },
+    {
+      "id": "sdd-05",
+      "verdict": "pass",
+      "answer": "ship",
+      "latency_ms": 0
+    },
+    {
+      "id": "sdd-06",
+      "verdict": "pass",
+      "answer": "change_missing",
+      "latency_ms": 0
+    }
+  ]
+}

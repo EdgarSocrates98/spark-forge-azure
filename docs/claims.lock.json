@@ -1,0 +1,513 @@
+{
+ "version": 1,
+ "claims": [
+  {
+   "id": "cli-version-json",
+   "doc": "README.md",
+   "text": "uma saida JSON por comando",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "version"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"provider\":\\s*\"azure\""
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "suite-green",
+   "doc": "docs/ROADMAP.md",
+   "text": "3052 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "pytest",
+     "-q"
+    ],
+    "timeout": 900,
+    "expect": {
+     "kind": "regex",
+     "pattern": "\n[0-9]+ passed"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "surface-lock",
+   "doc": "docs/ROADMAP.md",
+   "text": "`check_surface_lock`",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_surface_lock.py"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "skills-catalogue-22",
+   "doc": "docs/ROADMAP.md",
+   "text": "**22 catalogadas**",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_skills_agents.py"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "skills",
+     "op": "==",
+     "value": 22
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "mcp-tools-18",
+   "doc": "docs/reference/mcp-tools.md",
+   "text": "18 tools",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.mcp.tools import load_all; import json; print(json.dumps({'tools': len(load_all())}))"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "tools",
+     "op": "==",
+     "value": 18
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "knowledge-check",
+   "doc": "docs/ROADMAP.md",
+   "text": "`check_knowledge`",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_knowledge.py"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "lab-verify",
+   "doc": "docs/reference/cli.md",
+   "text": "exit 1 se inválido",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "lab",
+     "verify"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"valid\":\\s*true"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "access-suite-10",
+   "doc": "docs/labs/access.md",
+   "text": "10 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "diagnose",
+     "--suite",
+     "tests/fixtures/access"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "passed",
+     "op": "==",
+     "value": 10
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "tokensave-benchmark-honest",
+   "doc": "docs/tokensave/benchmark.md",
+   "text": "Tokens: `unresolved`",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "tokensave",
+     "benchmark",
+     "--case",
+     "evals/token_efficient/access_case"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "benchmark.tokens",
+     "op": "==",
+     "value": "unresolved"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "security-vertical-green",
+   "doc": "docs/labs/access.md",
+   "text": "REDACTED:*",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "pytest",
+     "tests/test_security_taint.py",
+     "tests/test_cycle2_closing.py",
+     "-q"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "[0-9]+ passed"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "fabric-suite-green",
+   "doc": "docs/labs/fabric.md",
+   "text": "16 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "diagnose",
+     "fabric",
+     "--suite",
+     "tests/fixtures/fabric"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "passed",
+     "op": "==",
+     "value": 16
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "fabric-sdd-gate-green",
+   "doc": "docs/cycle3/OUTCOME_BRIEF.md",
+   "text": "11 features, 0 refused",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "import pathlib,sys;from sparkforge_azure.sdd.checks import check;sys.exit(0 if check(pathlib.Path('.'))['ok'] else 1)"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "fabric-mcp-surface",
+   "doc": "docs/reference/mcp-tools.md",
+   "text": "sfa_diagnose_fabric",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.mcp.tools import full_catalog as c;assert 'sfa_diagnose_fabric' in c()"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "docs-surface",
+   "doc": "docs/operations/runbook.md",
+   "text": "docs cobrem toda a superfície travada",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_docs_surface.py"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"ok\":\\s*true"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "stream-suite-green",
+   "doc": "docs/labs/stream.md",
+   "text": "22 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.stream.suite import run_stream_suite as s;r=s('tests/fixtures/stream');assert r['passed']>=22 and r['failed']==0, r['failed']"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "stream-mcp-surface",
+   "doc": "docs/reference/mcp-tools.md",
+   "text": "sfa_diagnose_stream",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.mcp.tools import full_catalog as c;assert 'sfa_diagnose_stream' in c()"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "migration-suite-green",
+   "doc": "docs/labs/migration.md",
+   "text": "22 passed",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.migration.suite import run_migration_suite as s;r=s('tests/fixtures/migration');assert r['passed']>=22 and r['failed']==0, r['failed']"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "migration-mcp-surface",
+   "doc": "docs/reference/mcp-tools.md",
+   "text": "sfa_assess_migration",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.mcp.tools import full_catalog as c;assert 'sfa_assess_migration' in c()"
+    ],
+    "expect": {
+     "kind": "exit0"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "docs-index",
+   "doc": "docs/operations/runbook.md",
+   "text": "check_docs_index.py",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_docs_index.py"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"ok\":\\s*true"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "agentic-fleet-40",
+   "doc": "docs/ROADMAP.md",
+   "text": "40/40 `ready`",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "agents",
+     "list"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "counts.ready",
+     "value": 40
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "agentic-fingerprint",
+   "doc": "docs/cycle6/OUTCOME_BRIEF.md",
+   "text": "sha256:c58f94b8",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "agents",
+     "fingerprint"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "\"fingerprint\":\\s*\"sha256:[0-9a-f]{64}\""
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "sdd-gate-green",
+   "doc": "docs/cycle6/OUTCOME_BRIEF.md",
+   "text": "0 refused",
+   "proof": {
+    "cmd": [
+     "python",
+     "-m",
+     "sparkforge_azure.cli.main",
+     "sdd",
+     "check"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "ok",
+     "value": true
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "freeze-frozen",
+   "doc": "docs/agentic/AGENTIC_ARCHITECTURE_FREEZE.md",
+   "text": "FREEZE_STATUS = frozen",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.agentic.freeze import evaluate_freeze; import json; print(json.dumps({\"s\": evaluate_freeze()[\"freeze_status\"]}))"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "s",
+     "op": "==",
+     "value": "frozen"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "host-proof-claude",
+   "doc": "docs/agentic/HOST_EXECUTION.md",
+   "text": "claude_code host_proven via evals/host_proof/claude_code.json",
+   "proof": {
+    "cmd": [
+     "python",
+     "-c",
+     "from sparkforge_azure.agentic.runtimes import get_adapter,runtime_registry; from sparkforge_azure.agentic.runtime import RuntimeName; import json; e=runtime_registry()[RuntimeName.CLAUDE_CODE]; print(json.dumps({\"s\":e[\"status\"]}))"
+    ],
+    "expect": {
+     "kind": "json",
+     "path": "s",
+     "op": "==",
+     "value": "host_proven"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "portable-distribution-wheel",
+   "doc": "docs/portability/PORTABILITY_OUTCOME.md",
+   "text": "portable lifecycle verified from installed wheel in clean temp workspace",
+   "proof": {
+    "cmd": [
+     "python",
+     "scripts/check_portability.py",
+     "--wheel"
+    ],
+    "timeout": 300,
+    "expect": {
+     "kind": "regex",
+     "pattern": "portability gate: ok"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "workspace-relocation",
+   "doc": "docs/portability/PORTABILITY_OUTCOME.md",
+   "text": "mover o projeto preserva project_id; copiar exige --regen-id",
+   "proof": {
+    "cmd": [
+     "python",
+     "evals/portability/runner.py",
+     "--case",
+     "relocated-repo"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "ok\\s+relocated-repo"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "multi-repo-context",
+   "doc": "docs/portability/PORTABILITY_OUTCOME.md",
+   "text": "scopes direct/transitive resolvem o grafo declarado com recibo de bytes",
+   "proof": {
+    "cmd": [
+     "python",
+     "evals/portability/runner.py",
+     "--case",
+     "transitive-deps"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "ok\\s+transitive-deps"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  },
+  {
+   "id": "detach-safe",
+   "doc": "docs/portability/PORTABILITY_OUTCOME.md",
+   "text": "detach remove só o ledger, preserva trabalho do usuário e estado por padrão",
+   "proof": {
+    "cmd": [
+     "python",
+     "evals/portability/runner.py",
+     "--case",
+     "detach-reattach"
+    ],
+    "expect": {
+     "kind": "regex",
+     "pattern": "ok\\s+detach-reattach"
+    }
+   },
+   "sha": "039e3c31c97e6bec40543f525a88dc50020b7f2a"
+  }
+ ]
+}

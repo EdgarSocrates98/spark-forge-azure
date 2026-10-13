@@ -1,0 +1,53 @@
+skill: spark-streaming
+version: 1
+cases:
+- id: spark-streaming-exactly-once
+  prompt: Meu stream é exactly-once?
+  must_include:
+  - checkpoint exclusivo
+  - sink idempotente
+  must_not_include:
+  - exactly-once garantido
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+- id: spark-streaming-dup-restart
+  prompt: Após restart apareceram duplicatas
+  must_include:
+  - foreachBatch
+  - lab verify
+  must_not_include:
+  - sem perda de dados garantida
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sparkforge-azure lab verify
+- id: spark-streaming-shared-ckpt
+  prompt: Duas queries usam o mesmo checkpoint
+  must_include:
+  - checkpoint
+  - unresolved
+  must_not_include:
+  - não há problema
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sfa_analyze
+- id: spark-streaming-namespace-negative
+  kind: negative
+  prompt: Como configurar throughput units e Kafka endpoint do meu Event Hubs namespace?
+  must_include:
+  - azure-event-hubs
+  must_not_include:
+  - watermark
+  - state store
+  expected_tools:
+  - sfa_analyze
+- id: spark-streaming-slow-batch-boundary
+  kind: boundary
+  prompt: O micro-batch está lento — é o state store do streaming ou o job Spark em si?
+  must_include:
+  - spark-performance
+  - unresolved
+  must_not_include:
+  - é certamente o watermark
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+  - sfa_analyze

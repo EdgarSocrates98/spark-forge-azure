@@ -1,0 +1,51 @@
+skill: azure-event-hubs
+version: 1
+cases:
+- id: azure-event-hubs-exactly-once
+  prompt: Event Hubs garante exactly-once no meu job?
+  must_include:
+  - spark-streaming
+  must_not_include:
+  - exactly-once garantido
+  expected_tools:
+  - sparkforge-azure judge
+- id: azure-event-hubs-partitions
+  prompt: Tenho 4 partições e 32 executores
+  must_include:
+  - partições
+  - unresolved
+  must_not_include:
+  - mais partições resolvem
+  expected_tools:
+  - sparkforge-azure judge
+  - sfa_analyze
+- id: azure-event-hubs-sas-code
+  prompt: Revise a conexão Kafka do meu consumidor
+  must_include:
+  - analyze pyspark
+  - azure-entra
+  must_not_include:
+  - conexão segura
+  expected_tools:
+  - sparkforge-azure analyze pyspark
+- id: azure-event-hubs-eventstream-negative
+  kind: negative
+  prompt: Meu Eventstream do Fabric não entrega eventos no Eventhouse
+  must_include:
+  - fabric-realtime
+  must_not_include:
+  - throttled_requests
+  - partições do namespace
+  expected_tools:
+  - sfa_analyze
+- id: azure-event-hubs-lag-boundary
+  kind: boundary
+  prompt: O lag cresce — é a capacidade do hub ou o checkpoint do consumidor Spark?
+  must_include:
+  - spark-streaming
+  - métrica
+  must_not_include:
+  - é certamente a partição
+  expected_tools:
+  - sparkforge-azure judge
+  - sfa_analyze

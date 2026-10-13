@@ -1,0 +1,51 @@
+skill: azure-databricks
+version: 1
+cases:
+- id: azure-databricks-dbr-outdated
+  prompt: O cluster do job usa DBR 10.4, está ok?
+  must_include:
+  - spark_version
+  - knowledge
+  must_not_include:
+  - está ok sem verificar
+  expected_tools:
+  - sparkforge-azure collect workspace-graph
+- id: azure-databricks-photon-savings
+  prompt: Ligar Photon vai economizar 40%?
+  must_include:
+  - baseline
+  - azure-finops
+  must_not_include:
+  - vai economizar 40%
+  expected_tools:
+  - sparkforge-azure collect workspace-graph
+- id: azure-databricks-dab-review
+  prompt: Revise meu databricks.yml antes do deploy
+  must_include:
+  - databricks.yml
+  - unresolved
+  must_not_include:
+  - deploy aprovado
+  expected_tools:
+  - sparkforge-azure collect workspace-graph
+- id: azure-databricks-uc-grant-negative
+  kind: negative
+  prompt: Por que falta o grant SELECT nesta tabela do Unity Catalog?
+  must_include:
+  - unity-catalog
+  - unresolved
+  must_not_include:
+  - o cluster esta mal configurado
+  expected_tools:
+  - sfa_analyze
+- id: azure-databricks-access-mode-boundary
+  kind: boundary
+  prompt: PERMISSION_DENIED na tabela UC — e o cluster legado, o grant ou os dois?
+  must_include:
+  - unity-catalog
+  - evidência
+  must_not_include:
+  - e so reiniciar o cluster
+  expected_tools:
+  - sparkforge-azure collect workspace-graph
+  - sparkforge-azure collect workspace-graph

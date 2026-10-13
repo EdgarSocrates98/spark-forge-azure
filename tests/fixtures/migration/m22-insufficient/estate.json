@@ -1,0 +1,20 @@
+{
+ "adf_factories": [
+  {
+   "id": "adf-1",
+   "name": "adf-prod",
+   "pipelines": [
+    {
+     "id": "adf-1/pl/pl_x",
+     "name": "pl_x",
+     "activities": [
+      {
+       "name": "exotic",
+       "type": "NewFabricThing2077"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

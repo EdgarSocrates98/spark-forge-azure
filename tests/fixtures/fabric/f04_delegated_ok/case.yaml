@@ -1,0 +1,13 @@
+name: f04_delegated_source_denied
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: read
+target:
+  kind: path
+  workspace_id: ws-1111
+  lakehouse_id: lh-aaaa
+  path: Files/adls/raw
+expect:
+  status: denied
+  failure_layer: source_access

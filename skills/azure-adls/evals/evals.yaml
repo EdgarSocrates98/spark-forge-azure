@@ -1,0 +1,50 @@
+skill: azure-adls
+version: 1
+cases:
+- id: azure-adls-acl-parent
+  prompt: Tenho ACL rwx no arquivo mas recebo 403
+  must_include:
+  - execute
+  - diretórios pais
+  must_not_include:
+  - acesso está correto
+  expected_tools:
+  - sparkforge-azure collect adls-meta
+- id: azure-adls-rbac-vs-acl
+  prompt: RBAC deu Reader no account, por que não leio?
+  must_include:
+  - RBAC
+  - unresolved
+  must_not_include:
+  - reader garante leitura
+  expected_tools:
+  - sparkforge-azure governance diagnose
+  - sfa_governance_diagnose
+- id: azure-adls-secure
+  prompt: Meu storage está seguro?
+  must_include:
+  - casos de ameaça declarados passaram
+  must_not_include:
+  - está 100% seguro
+  expected_tools:
+  - sparkforge-azure governance diagnose
+- id: azure-adls-uc-grant-negative
+  kind: negative
+  prompt: O usuario nao tem SELECT na tabela gerenciada pelo Unity Catalog
+  must_include:
+  - unity-catalog
+  - unresolved
+  must_not_include:
+  - a acl do adls esta errada
+  expected_tools:
+  - sparkforge-azure governance diagnose
+- id: azure-adls-rbac-ok-acl-boundary
+  kind: boundary
+  prompt: Tenho Storage Blob Data Contributor e ainda recebo AuthorizationPermissionMismatch
+  must_include:
+  - ACL
+  - execute
+  must_not_include:
+  - o rbac ja garante acesso
+  expected_tools:
+  - sparkforge-azure collect adls-meta

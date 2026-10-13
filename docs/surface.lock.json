@@ -1,0 +1,357 @@
+{
+ "basis": "sha256(json.dumps(obj, sort_keys=True, separators=(\",\", \":\")))",
+ "capabilities": {
+  "count": 68,
+  "sha256": "4dd6334b3598f5ef0bcf5dc64e4c6bb3c29e144a547d486efaa91bc257cb1952"
+ },
+ "cli": {
+  "commands": [
+   "agentops critical-path",
+   "agentops inspect",
+   "agentops runs",
+   "agentops timeline",
+   "agents compare",
+   "agents execute",
+   "agents fingerprint",
+   "agents impact",
+   "agents inspect",
+   "agents list",
+   "agents route",
+   "agents runtime-inspect",
+   "agents runtimes",
+   "ai",
+   "analyze pyspark",
+   "collect adls-meta",
+   "collect azure-rbac",
+   "collect resource-graph",
+   "collect unity-catalog",
+   "collect workspace-graph",
+   "context resolve",
+   "diagnose fabric",
+   "diagnose stream",
+   "distribution detach",
+   "distribution doctor",
+   "distribution init",
+   "distribution inspect",
+   "distribution status",
+   "doctor",
+   "governance diagnose",
+   "graph build",
+   "graph federate",
+   "graph impact",
+   "graph query",
+   "graph ui",
+   "graph view",
+   "install",
+   "judge",
+   "knowledge select",
+   "lab analyze",
+   "lab compare",
+   "lab describe",
+   "lab doctor",
+   "lab down",
+   "lab gc",
+   "lab inspect",
+   "lab plan",
+   "lab profiles",
+   "lab promote-fixture",
+   "lab reproduce",
+   "lab run",
+   "lab scenarios",
+   "lab shell",
+   "lab up",
+   "lab verify",
+   "mcp catalog",
+   "mcp serve",
+   "migration assess",
+   "migration inventory",
+   "migration plan",
+   "migration validate",
+   "offline-bundle build",
+   "offline-bundle verify",
+   "portal",
+   "sdd check",
+   "sdd status",
+   "tokensave benchmark",
+   "tokensave context",
+   "tokensave diff",
+   "tokensave expand",
+   "tokensave read",
+   "tokensave refs",
+   "tokensave search",
+   "tokensave symbols",
+   "version",
+   "workspace add",
+   "workspace discover",
+   "workspace init",
+   "workspace remove",
+   "workspace status"
+  ]
+ },
+ "knowledge": {
+  "count": 38,
+  "total_bytes": 173920
+ },
+ "mcp": {
+  "compact": [
+   "sfa_agents_execution_explain",
+   "sfa_agents_explain_route",
+   "sfa_agents_list",
+   "sfa_agents_runtimes",
+   "sfa_ai",
+   "sfa_assess_migration",
+   "sfa_diagnose_access",
+   "sfa_diagnose_fabric",
+   "sfa_diagnose_stream",
+   "sfa_governance_diagnose",
+   "sfa_graph_impact",
+   "sfa_tokensave_context",
+   "sfa_tokensave_search",
+   "sfa_version"
+  ],
+  "compact_bytes": 15771,
+  "tool_count": 18,
+  "tools": {
+   "sfa_agents_execution_explain": {
+    "compact": true,
+    "domain": "agentic",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "79e2e721c6c3b3f8b1b1cca3eec1357da98b7401ea8a9d420966a01a195518b6"
+   },
+   "sfa_agents_explain_route": {
+    "compact": true,
+    "domain": "agentic",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "03a72671a41abc4f2c935363cd5d2c175d6eab556fce0c25f0d5d08e16ff0b15"
+   },
+   "sfa_agents_list": {
+    "compact": true,
+    "domain": "agentic",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "1dc3cac86bb1544a9b8ccfd797a4570a975b6228f7c0cc39bc848d41c02ba073"
+   },
+   "sfa_agents_runtimes": {
+    "compact": true,
+    "domain": "agentic",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "d867baee0cdfe381ec9c738290f405dccbd503f820bff20586f8fe87dd32a526"
+   },
+   "sfa_ai": {
+    "compact": true,
+    "domain": "core",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "7f7cdb40c82204b38fef0e373dba6e12ef43f9bb4cf12b5b12e477218b0e8fd1"
+   },
+   "sfa_assess_migration": {
+    "compact": true,
+    "domain": "migration",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "8cf1e0d5eca4e7fe3bc73199b83687aa6da505dee4004530d9d68e8f68c5a95c"
+   },
+   "sfa_collect_workspace_graph": {
+    "compact": false,
+    "domain": "graph",
+    "risk": {
+     "cloud_read": true,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "514a48b3d021367f04e551348793052305bfd5bebe977fead4aa01d6583335be"
+   },
+   "sfa_diagnose_access": {
+    "compact": true,
+    "domain": "access",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "ad78b12b65b5d94f2c0c5b356dca2d0dd705ebff9e2cc7665e87aa06078a6d66"
+   },
+   "sfa_diagnose_fabric": {
+    "compact": true,
+    "domain": "access",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "2abcc0703e57a6cf667538cb54d4908af84c4e73fdf9a2bf6087579f4b037dc8"
+   },
+   "sfa_diagnose_stream": {
+    "compact": true,
+    "domain": "stream",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "af6202ff3034e75385ce6b82e7799fdcdd1a72f698eab13579af92324de33323"
+   },
+   "sfa_governance_diagnose": {
+    "compact": true,
+    "domain": "governance",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "34241152b1ef6d957b9c1857eccde2d87ea164ea2504bdc0a773c767610036eb"
+   },
+   "sfa_graph_impact": {
+    "compact": true,
+    "domain": "graph",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "defb19773e601de7aadaa612532ea9bc4d8adb4ec09b58799e1e6e1a6b8627f6"
+   },
+   "sfa_graph_query": {
+    "compact": false,
+    "domain": "graph",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "0227f0e49202a920cda587312ff19ff5e2520fdf86ddfe46d3b7a437038efb40"
+   },
+   "sfa_tokensave_context": {
+    "compact": true,
+    "domain": "tokensave",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "a3fb10b6d36edefef27eb5535f77ddb623167b3826f78e11488010b369f6a3eb"
+   },
+   "sfa_tokensave_read": {
+    "compact": false,
+    "domain": "tokensave",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "aeff8014a1ce4bc2881f4c8ae750cebd74c43cffa9baefd7fd8341ddf4934ecd"
+   },
+   "sfa_tokensave_search": {
+    "compact": true,
+    "domain": "tokensave",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "168e5a8c2e37161e9aa79a90161003e4c67c71c5d30fb30262716c3d41958bec"
+   },
+   "sfa_tokensave_symbols": {
+    "compact": false,
+    "domain": "tokensave",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "5ace96d4df591fad3981bfb29d0b9bca114b97584cf591b581fafdaa6f45fb68"
+   },
+   "sfa_version": {
+    "compact": true,
+    "domain": "core",
+    "risk": {
+     "cloud_read": false,
+     "cloud_write": false,
+     "local_write": false,
+     "production_impact": false,
+     "read_only": true,
+     "security_impact": false
+    },
+    "schema_sha256": "8e98b81e36624657ce606ddf3c46b247748a774bd130dc393df4a8f1e994852b"
+   }
+  },
+  "total_bytes": 19145
+ },
+ "schema_version": 2,
+ "skills": {
+  "count": 22,
+  "total_bytes": 97766
+ }
+}

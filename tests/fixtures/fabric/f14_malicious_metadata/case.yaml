@@ -1,0 +1,13 @@
+name: f14_malicious_metadata
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: read
+target:
+  kind: table
+  workspace_id: ws-1111
+  lakehouse_id: lh-aaaa
+  table: Orders
+expect:
+  status: pass
+  failure_layer: null

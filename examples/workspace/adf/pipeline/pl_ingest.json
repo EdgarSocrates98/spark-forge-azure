@@ -1,0 +1,8 @@
+{
+  "name": "pl_ingest",
+  "properties": {
+    "activities": [
+      {"name": "copy_orders", "type": "Copy"}
+    ]
+  }
+}

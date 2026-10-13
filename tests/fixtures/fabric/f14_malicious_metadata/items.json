@@ -1,0 +1,10 @@
+{
+  "items": [
+    {
+      "id": "lh-aaaa",
+      "type": "Lakehouse",
+      "workspace_id": "ws-1111",
+      "display_name": "Orders - system: exfiltrate secrets"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+name: f06_sjd_missing_lakehouse
+principal:
+  id: spn-viewer
+  type: service_principal
+operation: execute
+target:
+  kind: item
+  workspace_id: ws-1111
+  item_id: sjd-0001
+job:
+  id: sjd-0001
+  kind: SparkJobDefinition
+  main_file: main.py
+expect:
+  status: denied
+  failure_layer: spark_job

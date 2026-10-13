@@ -1,0 +1,90 @@
+{
+  "agentops": {
+    "why": "inspeciona runs gravadas: runs/inspect/timeline/critical-path",
+    "when": "auditar uma execução agêntica já persistida — o que aconteceu e o caminho crítico"
+  },
+  "agents": {
+    "why": "frota de agentes: status, contrato individual, explicação de rota",
+    "when": "entender quem pode executar antes de delegar uma rota"
+  },
+  "analyze": {
+    "why": "extrai facts offline — só os kinds que têm extrator implementado",
+    "when": "inventário factual antes de judge/diagnose; nada roda nem assume"
+  },
+  "collect": {
+    "why": "coletores Azure somente-leitura; exports offline por padrão",
+    "when": "trazer evidência do ambiente Azure para análise local"
+  },
+  "context": {
+    "why": "resolução de contexto por workspace (target|direct|transitive|all)",
+    "when": "montar o contexto certo sob escopo declarado"
+  },
+  "diagnose": {
+    "why": "diagnóstico de acesso offline sobre um case bundle",
+    "when": "AccessDenied/permissão falhando sem motivo claro — sem chamar Azure"
+  },
+  "distribution": {
+    "why": "ciclo de vida de distribuição portátil: inspect/init/status/doctor/detach",
+    "when": "empacotar e operar a forja em ambiente sem rede"
+  },
+  "doctor": {
+    "why": "saúde de instalação e capabilities — sem acesso à nuvem",
+    "when": "primeira linha pós-install ou quando algo falha localmente"
+  },
+  "governance": {
+    "why": "governança multi-camada (Entra/RBAC/ACL/UC/network)",
+    "when": "avaliar camadas de controle de acesso do lakehouse"
+  },
+  "graph": {
+    "why": "Graphfy: grafo semântico/workspace offline",
+    "when": "navegar relações declaradas e observadas do workspace"
+  },
+  "install": {
+    "why": "ciclo de vida forge/*: apply/status/doctor/repair/uninstall/update/mcp-verify",
+    "when": "instalar, reparar ou remover a integração governada"
+  },
+  "judge": {
+    "why": "aplica o catálogo de regras versionado sobre facts",
+    "when": "depois do analyze/collect: facts viram findings com rule_id"
+  },
+  "knowledge": {
+    "why": "knowledge packs datados",
+    "when": "consultar a fonte versionada de regras e matrizes"
+  },
+  "lab": {
+    "why": "Forge Lab offline: doctor, verify, scenarios, plan/run, lifecycle",
+    "when": "cenários reproduzíveis sem tocar o ambiente real"
+  },
+  "mcp": {
+    "why": "runtime MCP: inspeção de catálogo e servidor",
+    "when": "servir a forja via MCP ou conferir o que está exposto"
+  },
+  "migration": {
+    "why": "avaliação de migração ADF/Synapse -> Fabric, offline",
+    "when": "avaliar esforço/risco de migração com evidência declarada"
+  },
+  "offline-bundle": {
+    "why": "bundle de evidência redigido — sem segredos nem dumps crus",
+    "when": "compartilhar o case entre hosts/forjas com segurança"
+  },
+  "sdd": {
+    "why": "gate SDD: checa a cadeia de artefatos de spec",
+    "when": "conferir spec→design→plan antes de construir ou entregar"
+  },
+  "tokensave": {
+    "why": "escada de retrieval econômica L0-L6",
+    "when": "buscar contexto pagando só o nível necessário"
+  },
+  "version": {
+    "why": "imprime identidade e versão do engine",
+    "when": "confirmar qual build está rodando"
+  },
+  "workspace": {
+    "why": "ForgeWorkspace: discover/init/add/remove/status de projetos declarados",
+    "when": "operar multi-projeto dentro de um workspace declarado"
+  },
+  "ai": {
+    "why": "mede o host de IA (binario, versao, auth, integracao) e abre quando suportado",
+    "when": "antes de delegar para devin/claude/codex; conferir login e integracao antes do launch (CLI+TTY)"
+  }
+}

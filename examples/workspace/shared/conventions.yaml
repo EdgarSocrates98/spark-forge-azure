@@ -1,0 +1,4 @@
+# SYNTHETIC shared conventions.
+naming:
+  storage_prefix: st
+  databricks_prefix: dbw

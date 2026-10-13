@@ -1,0 +1,183 @@
+# Matriz com fonte por celula (secao 213). Base: docs/research/azure_sources_2026-10-06.md.
+schema_version: 1
+matrix: eventhubs-tiers
+verified_at: 2026-10-06
+rows:
+- key: basic
+  values:
+    max_message:
+      value: 256 KB
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    consumer_groups_per_hub:
+      value: 1
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    max_retention:
+      value: 1 day
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    partitions:
+      value: '32'
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    event_hubs_per_namespace:
+      value: '10'
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    max_scale:
+      value: 40 TU
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    capture:
+      value: false
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    kafka_endpoint:
+      value: false
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: VERIFIED
+- key: standard
+  values:
+    max_message:
+      value: 1 MB
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    consumer_groups_per_hub:
+      value: 20
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    max_retention:
+      value: 7 days
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    partitions:
+      value: '32'
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    event_hubs_per_namespace:
+      value: '10'
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    max_scale:
+      value: 40 TU
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    capture:
+      value: priced separately
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview
+      status: VERIFIED
+    kafka_endpoint:
+      value: true
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: VERIFIED
+- key: premium
+  values:
+    max_message:
+      value: 1 MB
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    consumer_groups_per_hub:
+      value: 100
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    max_retention:
+      value: 90 days
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    partitions:
+      value: 100 per hub (200 per PU per namespace)
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    event_hubs_per_namespace:
+      value: 100 per PU
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    max_scale:
+      value: 16 PU
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    capture:
+      value: included
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview
+      status: VERIFIED
+    kafka_endpoint:
+      value: true
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: VERIFIED
+- key: dedicated
+  values:
+    max_message:
+      value: 20 MB
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    consumer_groups_per_hub:
+      value: 1000
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    max_retention:
+      value: 90 days
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    partitions:
+      value: 1024 per hub (2000 per CU)
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    event_hubs_per_namespace:
+      value: '1000'
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    max_scale:
+      value: 10 CU (more via support)
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    capture:
+      value: included
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview
+      status: VERIFIED
+    kafka_endpoint:
+      value: true
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: VERIFIED
+- key: throughput-unit
+  values:
+    ingress:
+      value: 1 MB/s or 1000 events/s
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    egress:
+      value: 2 MB/s or 4096 events/s
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+    non_epoch_receivers_per_consumer_group:
+      value: 5
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas
+      status: VERIFIED
+- key: kafka-features
+  values:
+    endpoint_port:
+      value: 9093
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: VERIFIED
+    security_protocol:
+      value: SASL_SSL
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: VERIFIED
+    sasl_mechanisms:
+      value:
+      - OAUTHBEARER
+      - PLAIN
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: VERIFIED
+    kafka_streams:
+      value: Premium/Dedicated
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: PREVIEW
+    kafka_transactions:
+      value: Premium/Dedicated
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: PREVIEW
+    gzip_compression:
+      value: Premium/Dedicated
+      source: https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview
+      status: VERIFIED

@@ -1,0 +1,37 @@
+{
+ "producer": {
+  "version": "v2",
+  "fields": [
+   {
+    "name": "id",
+    "type": "string",
+    "nullable": false
+   },
+   {
+    "name": "ts",
+    "type": "timestamp",
+    "nullable": false
+   },
+   {
+    "name": "extra",
+    "type": "string",
+    "nullable": true
+   }
+  ]
+ },
+ "consumer": {
+  "version": "v1",
+  "fields": [
+   {
+    "name": "id",
+    "type": "string",
+    "nullable": false
+   },
+   {
+    "name": "ts",
+    "type": "timestamp",
+    "nullable": false
+   }
+  ]
+ }
+}

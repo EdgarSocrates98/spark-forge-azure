@@ -1,0 +1,14 @@
+{
+  "shortcuts": [
+    {
+      "id": "sc-0001",
+      "lakehouse_id": "lh-aaaa",
+      "path": "Files/ghost",
+      "auth": {
+        "mode": "delegated",
+        "connection_id": "conn-0001"
+      },
+      "target": {}
+    }
+  ]
+}

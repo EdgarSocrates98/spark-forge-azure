@@ -1,0 +1,184 @@
+# Casos offline de composicao federada de grafos — seis classes obrigatorias.
+#
+# Cada caso declara fragmentos EXPLICITOS (source_id, nodes, edges, provenance)
+# e a composicao esperada: nos sobreviventes, arestas, codigos unresolved e a
+# projecao de impacto a partir de `root_node` (max_depth=3). O compositor nunca
+# inventa aresta entre fragmentos: endpoint ausente vira `graph_edge_unresolved`
+# e conflito de no vira `graph_node_conflict`.
+schema_version: 1
+cases:
+  - case_id: graph-success
+    class: success
+    fragments:
+      - source_id: adf
+        current_fingerprint: fp-adf-v1
+        indexed_fingerprint: fp-adf-v1
+        nodes:
+          - {id: "job:pl_ingest", kind: job, name: pl_ingest}
+          - {id: "dataset:orders_raw", kind: dataset, store: adls}
+        edges:
+          - {source: "job:pl_ingest", relation: writes, target: "dataset:orders_raw"}
+        provenance:
+          - {source_id: adf, artifact: "pipeline/pl_ingest.json", line: 12}
+      - source_id: databricks
+        current_fingerprint: fp-dbx-v1
+        indexed_fingerprint: fp-dbx-v1
+        nodes:
+          - {id: "dataset:orders_raw", kind: dataset, store: adls}
+          - {id: "test:dq_orders", kind: test}
+          - {id: "cloud:dbx_cluster", kind: cloud_resource}
+        edges:
+          - {source: "dataset:orders_raw", relation: verified_by, target: "test:dq_orders"}
+          - {source: "job:pl_ingest", relation: runs_on, target: "cloud:dbx_cluster"}
+        provenance:
+          - {source_id: databricks, artifact: "job/dq_orders.json"}
+    bounds: {max_nodes: 100, max_edges: 100, max_provenance: 100, max_unresolved: 100}
+    expected_freshness: fresh
+    expected_nodes: ["cloud:dbx_cluster", "dataset:orders_raw", "job:pl_ingest", "test:dq_orders"]
+    expected_edges:
+      - ["job:pl_ingest", writes, "dataset:orders_raw"]
+      - ["dataset:orders_raw", verified_by, "test:dq_orders"]
+      - ["job:pl_ingest", runs_on, "cloud:dbx_cluster"]
+    expected_unresolved: []
+    root_node: "job:pl_ingest"
+    expected_impact:
+      affected_jobs: []
+      affected_datasets: ["dataset:orders_raw"]
+      affected_tests: ["test:dq_orders"]
+      affected_cloud_resources: ["cloud:dbx_cluster"]
+
+  - case_id: graph-conflict
+    class: conflict
+    fragments:
+      - source_id: catalog-finance
+        current_fingerprint: fp-fin-v1
+        indexed_fingerprint: fp-fin-v1
+        nodes:
+          - {id: "dataset:sales", kind: dataset, owner: finance}
+          - {id: "job:report_daily", kind: job}
+        edges:
+          - {source: "dataset:sales", relation: read_by, target: "job:report_daily"}
+        provenance:
+          - {source_id: catalog-finance, artifact: "uc/tables/sales.json"}
+      - source_id: catalog-ops
+        current_fingerprint: fp-ops-v1
+        indexed_fingerprint: fp-ops-v1
+        nodes:
+          - {id: "dataset:sales", kind: dataset, owner: sales_ops}
+        edges: []
+        provenance:
+          - {source_id: catalog-ops, artifact: "export/tables.json"}
+    bounds: {max_nodes: 100, max_edges: 100, max_provenance: 100, max_unresolved: 100}
+    expected_freshness: fresh
+    expected_nodes: ["dataset:sales", "job:report_daily"]
+    expected_edges:
+      - ["dataset:sales", read_by, "job:report_daily"]
+    expected_unresolved: [graph_node_conflict]
+    root_node: "dataset:sales"
+    expected_impact:
+      affected_jobs: ["job:report_daily"]
+      affected_datasets: []
+      affected_tests: []
+      affected_cloud_resources: []
+
+  - case_id: graph-endpoint-absent
+    class: endpoint_absent
+    fragments:
+      - source_id: lineage-partial
+        nodes:
+          - {id: "job:j1", kind: job}
+        edges:
+          - {source: "job:j1", relation: reads, target: "dataset:ghost"}
+        provenance:
+          - {source_id: lineage-partial, artifact: "run/abc.json"}
+    bounds: {max_nodes: 100, max_edges: 100, max_provenance: 100, max_unresolved: 100}
+    expected_freshness: unknown
+    expected_nodes: ["job:j1"]
+    expected_edges: []
+    expected_unresolved: [graph_edge_unresolved]
+    root_node: "job:j1"
+    expected_impact:
+      affected_jobs: []
+      affected_datasets: []
+      affected_tests: []
+      affected_cloud_resources: []
+
+  - case_id: graph-truncation
+    class: truncation
+    fragments:
+      - source_id: bulk-scan
+        nodes:
+          - {id: "dataset:t1", kind: dataset}
+          - {id: "dataset:t2", kind: dataset}
+          - {id: "dataset:t3", kind: dataset}
+          - {id: "dataset:t4", kind: dataset}
+          - {id: "dataset:t5", kind: dataset}
+          - {id: "dataset:t6", kind: dataset}
+        edges:
+          - {source: "dataset:t1", relation: feeds, target: "dataset:t2"}
+          - {source: "dataset:t2", relation: feeds, target: "dataset:t3"}
+          - {source: "dataset:t3", relation: feeds, target: "dataset:t4"}
+        provenance:
+          - {source_id: bulk-scan, artifact: "scan/1.json"}
+          - {source_id: bulk-scan, artifact: "scan/2.json"}
+          - {source_id: bulk-scan, artifact: "scan/3.json"}
+    bounds: {max_nodes: 3, max_edges: 2, max_provenance: 2, max_unresolved: 50}
+    expected_freshness: unknown
+    expected_truncated: true
+    expected_nodes: []
+    expected_edges: []
+    expected_unresolved:
+      - graph_nodes_truncated
+      - graph_edge_unresolved
+      - graph_provenance_truncated
+    root_node: "dataset:t1"
+    expected_impact:
+      affected_jobs: []
+      affected_datasets: []
+      affected_tests: []
+      affected_cloud_resources: []
+
+  - case_id: graph-freshness-stale
+    class: freshness
+    fragments:
+      - source_id: codeintel-index
+        current_fingerprint: tree-new-2026-10-01
+        indexed_fingerprint: tree-old-2026-09-20
+        nodes:
+          - {id: "job:etl_night", kind: job}
+        edges: []
+        provenance:
+          - {source_id: codeintel-index, artifact: "index/metadata"}
+    bounds: {max_nodes: 100, max_edges: 100, max_provenance: 100, max_unresolved: 100}
+    expected_freshness: stale
+    expected_nodes: ["job:etl_night"]
+    expected_edges: []
+    expected_unresolved: []
+    root_node: "job:etl_night"
+    expected_impact:
+      affected_jobs: []
+      affected_datasets: []
+      affected_tests: []
+      affected_cloud_resources: []
+
+  - case_id: graph-freshness-unknown
+    class: freshness
+    fragments:
+      - source_id: partial-index
+        current_fingerprint: tree-cur-2026-10-01
+        nodes:
+          - {id: "job:etl_unknown", kind: job}
+        edges: []
+        provenance:
+          - {source_id: partial-index, artifact: "index/metadata"}
+    bounds: {max_nodes: 100, max_edges: 100, max_provenance: 100, max_unresolved: 100}
+    expected_freshness: unknown
+    expected_nodes: ["job:etl_unknown"]
+    expected_edges: []
+    expected_unresolved: []
+    root_node: "job:etl_unknown"
+    expected_impact:
+      affected_jobs: []
+      affected_datasets: []
+      affected_tests: []
+      affected_cloud_resources: []

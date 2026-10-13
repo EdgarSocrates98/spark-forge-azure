@@ -1,0 +1,11 @@
+{
+  "id": "cap-0001",
+  "sku": "F4",
+  "state": "Active",
+  "workspaces": [
+    "ws-1111"
+  ],
+  "metrics": {
+    "utilization_percent": 55
+  }
+}

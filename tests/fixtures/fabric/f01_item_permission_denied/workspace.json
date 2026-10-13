@@ -1,0 +1,9 @@
+{
+  "id": "ws-1111",
+  "name": "ws-analytics",
+  "capacity_id": "cap-0001",
+  "tenant_id": "tenant-aaaa",
+  "roles": {
+    "spn-admin": "Admin"
+  }
+}

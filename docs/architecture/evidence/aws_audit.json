@@ -1,0 +1,6329 @@
+{
+ "marker_set": [
+  "arn",
+  "athena",
+  "cloudwatch",
+  "emr",
+  "glue",
+  "iam",
+  "kinesis_msk",
+  "lakeformation",
+  "s3",
+  "sdk"
+ ],
+ "modules": [
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 3,
+   "module": "sparkforge.__init__",
+   "subsystem": "__init__"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 1,
+   "module": "sparkforge.adapters.__init__",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 313,
+   "aws_markers": {
+    "athena": 47,
+    "cloudwatch": 29,
+    "emr": 107,
+    "glue": 79,
+    "iam": 2,
+    "kinesis_msk": 8,
+    "lakeformation": 33,
+    "s3": 2,
+    "sdk": 6
+   },
+   "imports_external": [
+    "boto3"
+   ],
+   "imports_internal": [
+    "sparkforge",
+    "sparkforge.adapters",
+    "sparkforge.adapters.mcp",
+    "sparkforge.adapters.tools",
+    "sparkforge.agentic.executor",
+    "sparkforge.agentic.executor.digest",
+    "sparkforge.agentic.referee",
+    "sparkforge.agents.autonomy",
+    "sparkforge.analytics.dbt",
+    "sparkforge.analytics.duckdb",
+    "sparkforge.capacity",
+    "sparkforge.case",
+    "sparkforge.case.playbook",
+    "sparkforge.case.resume",
+    "sparkforge.catalog.contract",
+    "sparkforge.change",
+    "sparkforge.change.refusals",
+    "sparkforge.codeintel",
+    "sparkforge.collect",
+    "sparkforge.collect.base",
+    "sparkforge.context.gateway",
+    "sparkforge.context.gateway_models",
+    "sparkforge.context.quality",
+    "sparkforge.controlm",
+    "sparkforge.controlm.descriptor",
+    "sparkforge.controlm.matrix",
+    "sparkforge.decision",
+    "sparkforge.decision.contracts",
+    "sparkforge.decision.state",
+    "sparkforge.diagnosis",
+    "sparkforge.diagnosis.root_cause",
+    "sparkforge.dq_ai.assessment",
+    "sparkforge.dqdl.validator",
+    "sparkforge.economy.cache",
+    "sparkforge.economy.provider_cost",
+    "sparkforge.economy.report",
+    "sparkforge.errors.matcher",
+    "sparkforge.facts",
+    "sparkforge.facts.airflow_dag",
+    "sparkforge.facts.athena_cost",
+    "sparkforge.facts.athena_workgroup",
+    "sparkforge.facts.benchmark",
+    "sparkforge.facts.call_graph",
+    "sparkforge.facts.catalog_schema",
+    "sparkforge.facts.cdc",
+    "sparkforge.facts.cloudwatch",
+    "sparkforge.facts.cloudwatch_logs",
+    "sparkforge.facts.consumers",
+    "sparkforge.facts.controlm_jobs",
+    "sparkforge.facts.data_quality",
+    "sparkforge.facts.emr_cluster",
+    "sparkforge.facts.emr_eks",
+    "sparkforge.facts.emr_serverless",
+    "sparkforge.facts.event_driven",
+    "sparkforge.facts.event_log",
+    "sparkforge.facts.flink",
+    "sparkforge.facts.funcval",
+    "sparkforge.facts.fusion",
+    "sparkforge.facts.glue_dq_advanced",
+    "sparkforge.facts.glue_job_run",
+    "sparkforge.facts.glue_resource_link",
+    "sparkforge.facts.glue_streaming",
+    "sparkforge.facts.graph",
+    "sparkforge.facts.host_transcript",
+    "sparkforge.facts.iam_access",
+    "sparkforge.facts.iceberg_metadata",
+    "sparkforge.facts.lakeformation_grants",
+    "sparkforge.facts.parquet_footer",
+    "sparkforge.facts.pyspark_ast",
+    "sparkforge.facts.runtime_detect",
+    "sparkforge.facts.s3_listing",
+    "sparkforge.facts.schema_registry",
+    "sparkforge.facts.sfn_history",
+    "sparkforge.facts.spark_plan",
+    "sparkforge.facts.sql_literal",
+    "sparkforge.facts.sql_metrics",
+    "sparkforge.facts.stepfunctions",
+    "sparkforge.facts.streaming",
+    "sparkforge.facts.streaming_composition",
+    "sparkforge.facts.streaming_integrations",
+    "sparkforge.facts.streaming_ops",
+    "sparkforge.facts.terraform",
+    "sparkforge.facts.transport",
+    "sparkforge.facts.workload",
+    "sparkforge.findings",
+    "sparkforge.findings.models",
+    "sparkforge.findings.signature",
+    "sparkforge.findings.validate",
+    "sparkforge.finops",
+    "sparkforge.finops.realized",
+    "sparkforge.integrate",
+    "sparkforge.journal.read",
+    "sparkforge.knowledge_freshness",
+    "sparkforge.knowledge_ref",
+    "sparkforge.lab.spec",
+    "sparkforge.lakeformation.architecture",
+    "sparkforge.lakeformation.graph",
+    "sparkforge.migration.assessment",
+    "sparkforge.migration.collect",
+    "sparkforge.migration.release_descriptor",
+    "sparkforge.migration.release_diff",
+    "sparkforge.migration.version_path",
+    "sparkforge.observability.agentops",
+    "sparkforge.observability.context_ledger",
+    "sparkforge.observability.otlp",
+    "sparkforge.observability.sre",
+    "sparkforge.orchestration.topology",
+    "sparkforge.packs",
+    "sparkforge.packs.check",
+    "sparkforge.packs.manifest",
+    "sparkforge.platform.ecosystem",
+    "sparkforge.platform.graph",
+    "sparkforge.policy.decide",
+    "sparkforge.policy.load",
+    "sparkforge.policy.mcp",
+    "sparkforge.policy.settings",
+    "sparkforge.proof",
+    "sparkforge.receipt",
+    "sparkforge.reporting.dq_ai",
+    "sparkforge.reporting.github",
+    "sparkforge.rules.engine",
+    "sparkforge.rules.loader",
+    "sparkforge.scan",
+    "sparkforge.sdd.checks",
+    "sparkforge.sdd.stamp",
+    "sparkforge.sdd.status",
+    "sparkforge.simulate",
+    "sparkforge.storage.upgrade",
+    "sparkforge.tuning",
+    "sparkforge.workload",
+    "sparkforge.workspace.manifest"
+   ],
+   "loc": 9732,
+   "module": "sparkforge.adapters._core",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 279,
+   "aws_markers": {
+    "athena": 36,
+    "cloudwatch": 27,
+    "emr": 69,
+    "glue": 89,
+    "iam": 1,
+    "kinesis_msk": 17,
+    "lakeformation": 32,
+    "s3": 8
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge",
+    "sparkforge.adapters",
+    "sparkforge.adapters.tools",
+    "sparkforge.agentic",
+    "sparkforge.agentic.autonomy",
+    "sparkforge.agentic.blackboard",
+    "sparkforge.agentic.budget",
+    "sparkforge.agentic.memory",
+    "sparkforge.architecture.streaming",
+    "sparkforge.case.store",
+    "sparkforge.economy.decision_compare",
+    "sparkforge.economy.decision_contracts",
+    "sparkforge.economy.decision_evaluation",
+    "sparkforge.economy.decision_models",
+    "sparkforge.economy.decision_plane",
+    "sparkforge.economy.decision_receipts",
+    "sparkforge.integrate",
+    "sparkforge.journal",
+    "sparkforge.journal.record",
+    "sparkforge.lab.cli",
+    "sparkforge.lab.contract"
+   ],
+   "loc": 6336,
+   "module": "sparkforge.adapters.cli",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "anyio",
+    "mcp",
+    "starlette",
+    "uvicorn"
+   ],
+   "imports_internal": [
+    "sparkforge.adapters.mcp_compact",
+    "sparkforge.adapters.mcp_envelope",
+    "sparkforge.adapters.tools",
+    "sparkforge.economy.cache",
+    "sparkforge.policy.load",
+    "sparkforge.policy.mcp"
+   ],
+   "loc": 366,
+   "module": "sparkforge.adapters.mcp",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.mcp_envelope",
+    "sparkforge.adapters.tools",
+    "sparkforge.context.gateway_capabilities",
+    "sparkforge.context.gateway_models",
+    "sparkforge.context.gateway_refs",
+    "sparkforge.economy.cache"
+   ],
+   "loc": 437,
+   "module": "sparkforge.adapters.mcp_compact",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "jsonschema"
+   ],
+   "imports_internal": [],
+   "loc": 141,
+   "module": "sparkforge.adapters.mcp_envelope",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.platforms.antigravity",
+    "sparkforge.adapters.platforms.base",
+    "sparkforge.adapters.platforms.claude",
+    "sparkforge.adapters.platforms.compiler",
+    "sparkforge.adapters.platforms.cursor",
+    "sparkforge.adapters.platforms.targets"
+   ],
+   "loc": 27,
+   "module": "sparkforge.adapters.platforms.__init__",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.platforms.base",
+    "sparkforge.registry.loader"
+   ],
+   "loc": 54,
+   "module": "sparkforge.adapters.platforms.antigravity",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.registry.loader"
+   ],
+   "loc": 29,
+   "module": "sparkforge.adapters.platforms.base",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.platforms.base",
+    "sparkforge.registry.loader"
+   ],
+   "loc": 31,
+   "module": "sparkforge.adapters.platforms.claude",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.platforms.antigravity",
+    "sparkforge.adapters.platforms.base",
+    "sparkforge.adapters.platforms.claude",
+    "sparkforge.adapters.platforms.cursor",
+    "sparkforge.adapters.platforms.targets",
+    "sparkforge.registry.loader"
+   ],
+   "loc": 50,
+   "module": "sparkforge.adapters.platforms.compiler",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.platforms.base",
+    "sparkforge.registry.loader"
+   ],
+   "loc": 39,
+   "module": "sparkforge.adapters.platforms.cursor",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.platforms.base",
+    "sparkforge.registry.loader"
+   ],
+   "loc": 83,
+   "module": "sparkforge.adapters.platforms.targets",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 320,
+   "aws_markers": {
+    "athena": 39,
+    "cloudwatch": 27,
+    "emr": 87,
+    "glue": 100,
+    "iam": 7,
+    "kinesis_msk": 11,
+    "lakeformation": 31,
+    "s3": 15,
+    "sdk": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters",
+    "sparkforge.agentic.trust",
+    "sparkforge.agents.autonomy",
+    "sparkforge.change.refusals",
+    "sparkforge.journal.record",
+    "sparkforge.observability.context_ledger"
+   ],
+   "loc": 12723,
+   "module": "sparkforge.adapters.tools",
+   "subsystem": "adapters"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.checkpoint",
+    "sparkforge.agentic.governor",
+    "sparkforge.agentic.handoff",
+    "sparkforge.agentic.models",
+    "sparkforge.agentic.recovery",
+    "sparkforge.agentic.stop",
+    "sparkforge.agentic.trust"
+   ],
+   "loc": 129,
+   "module": "sparkforge.agentic.__init__",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.evidence",
+    "sparkforge.agentic.models"
+   ],
+   "loc": 380,
+   "module": "sparkforge.agentic.arbitration",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 253,
+   "module": "sparkforge.agentic.autonomy",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.models",
+    "sparkforge.case.store",
+    "sparkforge.durable"
+   ],
+   "loc": 328,
+   "module": "sparkforge.agentic.blackboard",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.debate"
+   ],
+   "loc": 576,
+   "module": "sparkforge.agentic.budget",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 123,
+   "module": "sparkforge.agentic.checkpoint",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.agentic.budget",
+    "sparkforge.agentic.governor",
+    "sparkforge.agentic.recovery",
+    "sparkforge.agentic.stop",
+    "sparkforge.decision.authority",
+    "sparkforge.decision.fingerprint",
+    "sparkforge.economy.decision_activation",
+    "sparkforge.economy.decision_contracts",
+    "sparkforge.economy.decision_models",
+    "sparkforge.economy.decision_plane"
+   ],
+   "loc": 382,
+   "module": "sparkforge.agentic.control",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.models"
+   ],
+   "loc": 265,
+   "module": "sparkforge.agentic.debate",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.models"
+   ],
+   "loc": 228,
+   "module": "sparkforge.agentic.decision",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.models"
+   ],
+   "loc": 285,
+   "module": "sparkforge.agentic.evidence",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.executor.run"
+   ],
+   "loc": 19,
+   "module": "sparkforge.agentic.executor.__init__",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 6,
+   "aws_markers": {
+    "glue": 6
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.agentic.models",
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 190,
+   "module": "sparkforge.agentic.executor.authority",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "glue": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.executor.authority",
+    "sparkforge.agentic.models"
+   ],
+   "loc": 314,
+   "module": "sparkforge.agentic.executor.claims",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "emr": 1
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 163,
+   "module": "sparkforge.agentic.executor.conflict",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 10,
+   "aws_markers": {
+    "athena": 1,
+    "cloudwatch": 1,
+    "emr": 3,
+    "glue": 1,
+    "lakeformation": 4
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.case.store",
+    "sparkforge.durable"
+   ],
+   "loc": 256,
+   "module": "sparkforge.agentic.executor.debate_evidence",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.blackboard",
+    "sparkforge.agentic.executor",
+    "sparkforge.agentic.executor.debate_evidence",
+    "sparkforge.agentic.executor.run",
+    "sparkforge.agentic.models",
+    "sparkforge.agentic.referee",
+    "sparkforge.case.store",
+    "sparkforge.durable"
+   ],
+   "loc": 1166,
+   "module": "sparkforge.agentic.executor.debate_run",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.executor.authority",
+    "sparkforge.agentic.executor.claims",
+    "sparkforge.agentic.executor.conflict",
+    "sparkforge.agentic.executor.ordering",
+    "sparkforge.agentic.executor.unknowns"
+   ],
+   "loc": 101,
+   "module": "sparkforge.agentic.executor.digest",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.agentic.executor.unknowns",
+    "sparkforge.rules.loader"
+   ],
+   "loc": 303,
+   "module": "sparkforge.agentic.executor.gate",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.rules.loader"
+   ],
+   "loc": 323,
+   "module": "sparkforge.agentic.executor.ordering",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.agentic.budget",
+    "sparkforge.rules.loader"
+   ],
+   "loc": 314,
+   "module": "sparkforge.agentic.executor.plan",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.arbitration",
+    "sparkforge.agentic.blackboard",
+    "sparkforge.agentic.decision",
+    "sparkforge.agentic.executor.authority",
+    "sparkforge.agentic.executor.claims",
+    "sparkforge.agentic.executor.conflict",
+    "sparkforge.agentic.executor.digest",
+    "sparkforge.agentic.executor.gate",
+    "sparkforge.agentic.executor.plan",
+    "sparkforge.agentic.executor.unknowns",
+    "sparkforge.agentic.models"
+   ],
+   "loc": 1117,
+   "module": "sparkforge.agentic.executor.run",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "glue": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.experiment",
+    "sparkforge.agentic.models"
+   ],
+   "loc": 306,
+   "module": "sparkforge.agentic.executor.unknowns",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.models"
+   ],
+   "loc": 189,
+   "module": "sparkforge.agentic.experiment",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.decision.fingerprint"
+   ],
+   "loc": 290,
+   "module": "sparkforge.agentic.governor",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 351,
+   "module": "sparkforge.agentic.graph",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.role_plans",
+    "sparkforge.agentic.security",
+    "sparkforge.agentic.trust"
+   ],
+   "loc": 518,
+   "module": "sparkforge.agentic.handoff",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.models",
+    "sparkforge.case.store"
+   ],
+   "loc": 716,
+   "module": "sparkforge.agentic.memory",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 646,
+   "module": "sparkforge.agentic.models",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 156,
+   "module": "sparkforge.agentic.recovery",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic",
+    "sparkforge.agentic.debate"
+   ],
+   "loc": 345,
+   "module": "sparkforge.agentic.referee",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.trust"
+   ],
+   "loc": 83,
+   "module": "sparkforge.agentic.role_plans",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 223,
+   "module": "sparkforge.agentic.runtime",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "glue": 1,
+    "s3": 1
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 340,
+   "module": "sparkforge.agentic.security",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.control",
+    "sparkforge.economy.decision_activation",
+    "sparkforge.economy.decision_contracts",
+    "sparkforge.economy.decision_models",
+    "sparkforge.economy.decision_plane",
+    "sparkforge.economy.model_router",
+    "sparkforge.economy.router",
+    "sparkforge.registry.models"
+   ],
+   "loc": 177,
+   "module": "sparkforge.agentic.shadow",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 166,
+   "module": "sparkforge.agentic.stop",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 323,
+   "module": "sparkforge.agentic.trust",
+   "subsystem": "agentic"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agents.autonomy",
+    "sparkforge.agents.budget",
+    "sparkforge.agents.observability",
+    "sparkforge.agents.room"
+   ],
+   "loc": 28,
+   "module": "sparkforge.agents.__init__",
+   "subsystem": "agents"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.tools",
+    "sparkforge.paths",
+    "sparkforge.registry.models"
+   ],
+   "loc": 535,
+   "module": "sparkforge.agents.autonomy",
+   "subsystem": "agents"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 99,
+   "module": "sparkforge.agents.budget",
+   "subsystem": "agents"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 79,
+   "module": "sparkforge.agents.observability",
+   "subsystem": "agents"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agents.budget",
+    "sparkforge.agents.observability"
+   ],
+   "loc": 130,
+   "module": "sparkforge.agents.room",
+   "subsystem": "agents"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.analytics.dbt",
+    "sparkforge.analytics.duckdb"
+   ],
+   "loc": 25,
+   "module": "sparkforge.analytics.__init__",
+   "subsystem": "analytics"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 245,
+   "module": "sparkforge.analytics.dbt",
+   "subsystem": "analytics"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 172,
+   "module": "sparkforge.analytics.duckdb",
+   "subsystem": "analytics"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.architecture.streaming"
+   ],
+   "loc": 5,
+   "module": "sparkforge.architecture.__init__",
+   "subsystem": "architecture"
+  },
+  {
+   "aws_marker_total": 7,
+   "aws_markers": {
+    "glue": 2,
+    "kinesis_msk": 5
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 364,
+   "module": "sparkforge.architecture.streaming",
+   "subsystem": "architecture"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.capacity.plan"
+   ],
+   "loc": 9,
+   "module": "sparkforge.capacity.__init__",
+   "subsystem": "capacity"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 328,
+   "module": "sparkforge.capacity.plan",
+   "subsystem": "capacity"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 1,
+   "module": "sparkforge.case.__init__",
+   "subsystem": "case"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.case.router"
+   ],
+   "loc": 119,
+   "module": "sparkforge.case.playbook",
+   "subsystem": "case"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.case.router",
+    "sparkforge.case.store",
+    "sparkforge.collect",
+    "sparkforge.findings.models"
+   ],
+   "loc": 334,
+   "module": "sparkforge.case.resume",
+   "subsystem": "case"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.findings.models",
+    "sparkforge.rules.loader"
+   ],
+   "loc": 384,
+   "module": "sparkforge.case.router",
+   "subsystem": "case"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.case.router",
+    "sparkforge.durable"
+   ],
+   "loc": 456,
+   "module": "sparkforge.case.store",
+   "subsystem": "case"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.catalog.contract"
+   ],
+   "loc": 19,
+   "module": "sparkforge.catalog.__init__",
+   "subsystem": "catalog"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "athena": 1,
+    "glue": 1,
+    "lakeformation": 1
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 237,
+   "module": "sparkforge.catalog.contract",
+   "subsystem": "catalog"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.change.apply",
+    "sparkforge.change.plan",
+    "sparkforge.change.proposal",
+    "sparkforge.change.refusals",
+    "sparkforge.change.sandbox"
+   ],
+   "loc": 42,
+   "module": "sparkforge.change.__init__",
+   "subsystem": "change"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.change.plan",
+    "sparkforge.change.refusals"
+   ],
+   "loc": 249,
+   "module": "sparkforge.change.apply",
+   "subsystem": "change"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.change.refusals",
+    "sparkforge.findings.models",
+    "sparkforge.paths"
+   ],
+   "loc": 269,
+   "module": "sparkforge.change.plan",
+   "subsystem": "change"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.change.apply",
+    "sparkforge.change.plan",
+    "sparkforge.change.refusals",
+    "sparkforge.change.sandbox",
+    "sparkforge.paths"
+   ],
+   "loc": 453,
+   "module": "sparkforge.change.proposal",
+   "subsystem": "change"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 113,
+   "module": "sparkforge.change.refusals",
+   "subsystem": "change"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.change.apply",
+    "sparkforge.change.refusals",
+    "sparkforge.facts.scan",
+    "sparkforge.paths",
+    "sparkforge.simulate.diff"
+   ],
+   "loc": 295,
+   "module": "sparkforge.change.sandbox",
+   "subsystem": "change"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.cli.forge"
+   ],
+   "loc": 6,
+   "module": "sparkforge.cli.__init__",
+   "subsystem": "cli"
+  },
+  {
+   "aws_marker_total": 13,
+   "aws_markers": {
+    "glue": 5,
+    "lakeformation": 8
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters",
+    "sparkforge.errors.matcher",
+    "sparkforge.iceberg.doctor",
+    "sparkforge.lakeformation.doctor",
+    "sparkforge.registry.loader",
+    "sparkforge.spark.eventlog_analyzer",
+    "sparkforge.terraform.plan_analyzer"
+   ],
+   "loc": 261,
+   "module": "sparkforge.cli.forge",
+   "subsystem": "cli"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.cloud.worker"
+   ],
+   "loc": 16,
+   "module": "sparkforge.cloud.__init__",
+   "subsystem": "cloud"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 46,
+   "module": "sparkforge.cloud.worker",
+   "subsystem": "cloud"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.db",
+    "sparkforge.codeintel.extract",
+    "sparkforge.codeintel.graph",
+    "sparkforge.codeintel.ids",
+    "sparkforge.codeintel.incremental",
+    "sparkforge.codeintel.index",
+    "sparkforge.codeintel.query_expansion",
+    "sparkforge.codeintel.refs",
+    "sparkforge.codeintel.search"
+   ],
+   "loc": 44,
+   "module": "sparkforge.codeintel.__init__",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 383,
+   "module": "sparkforge.codeintel.budget",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel",
+    "sparkforge.codeintel.db",
+    "sparkforge.codeintel.graph",
+    "sparkforge.codeintel.ranking",
+    "sparkforge.codeintel.search"
+   ],
+   "loc": 892,
+   "module": "sparkforge.codeintel.context",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge"
+   ],
+   "loc": 485,
+   "module": "sparkforge.codeintel.db",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.db",
+    "sparkforge.codeintel.graph"
+   ],
+   "loc": 208,
+   "module": "sparkforge.codeintel.export",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.ids"
+   ],
+   "loc": 278,
+   "module": "sparkforge.codeintel.extract",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.db"
+   ],
+   "loc": 946,
+   "module": "sparkforge.codeintel.graph",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 150,
+   "module": "sparkforge.codeintel.ids",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.staleness"
+   ],
+   "loc": 91,
+   "module": "sparkforge.codeintel.incremental",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.db",
+    "sparkforge.codeintel.extract",
+    "sparkforge.codeintel.ids",
+    "sparkforge.codeintel.lineage",
+    "sparkforge.codeintel.refs",
+    "sparkforge.codeintel.resolve",
+    "sparkforge.facts.scan"
+   ],
+   "loc": 572,
+   "module": "sparkforge.codeintel.index",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.extract",
+    "sparkforge.codeintel.ids",
+    "sparkforge.codeintel.resolve",
+    "sparkforge.facts.pyspark_ast"
+   ],
+   "loc": 1313,
+   "module": "sparkforge.codeintel.lineage",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 84,
+   "module": "sparkforge.codeintel.query_expansion",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.codeintel.search"
+   ],
+   "loc": 426,
+   "module": "sparkforge.codeintel.ranking",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.extract"
+   ],
+   "loc": 188,
+   "module": "sparkforge.codeintel.refs",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.refs"
+   ],
+   "loc": 494,
+   "module": "sparkforge.codeintel.resolve",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.db",
+    "sparkforge.codeintel.query_expansion"
+   ],
+   "loc": 225,
+   "module": "sparkforge.codeintel.search",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "sdk": 2
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 538,
+   "module": "sparkforge.codeintel.security",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.db",
+    "sparkforge.codeintel.extract",
+    "sparkforge.codeintel.index",
+    "sparkforge.codeintel.refs",
+    "sparkforge.codeintel.resolve",
+    "sparkforge.facts.scan"
+   ],
+   "loc": 1410,
+   "module": "sparkforge.codeintel.staleness",
+   "subsystem": "codeintel"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "cloudwatch": 1,
+    "s3": 1,
+    "sdk": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.base",
+    "sparkforge.collect.live_graph"
+   ],
+   "loc": 43,
+   "module": "sparkforge.collect.__init__",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 147,
+   "aws_markers": {
+    "athena": 29,
+    "cloudwatch": 10,
+    "emr": 26,
+    "glue": 42,
+    "iam": 5,
+    "s3": 6,
+    "sdk": 29
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.base",
+    "sparkforge.facts.cloudwatch_retention"
+   ],
+   "loc": 1103,
+   "module": "sparkforge.collect.aws",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 20,
+   "aws_markers": {
+    "cloudwatch": 4,
+    "glue": 1,
+    "lakeformation": 4,
+    "s3": 3,
+    "sdk": 8
+   },
+   "imports_external": [
+    "boto3"
+   ],
+   "imports_internal": [],
+   "loc": 228,
+   "module": "sparkforge.collect.base",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 22,
+   "aws_markers": {
+    "cloudwatch": 4,
+    "glue": 12,
+    "sdk": 6
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base"
+   ],
+   "loc": 316,
+   "module": "sparkforge.collect.cloudwatch_logs",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 16,
+   "aws_markers": {
+    "glue": 11,
+    "lakeformation": 3,
+    "sdk": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base"
+   ],
+   "loc": 358,
+   "module": "sparkforge.collect.glue_resource_link",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 184,
+   "module": "sparkforge.collect.host_usage",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 15,
+   "aws_markers": {
+    "glue": 9,
+    "iam": 1,
+    "lakeformation": 3,
+    "sdk": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base"
+   ],
+   "loc": 243,
+   "module": "sparkforge.collect.iam_access",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 22,
+   "aws_markers": {
+    "iam": 1,
+    "lakeformation": 16,
+    "s3": 3,
+    "sdk": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base"
+   ],
+   "loc": 309,
+   "module": "sparkforge.collect.lakeformation",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 36,
+   "aws_markers": {
+    "glue": 8,
+    "lakeformation": 15,
+    "s3": 2,
+    "sdk": 11
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base",
+    "sparkforge.workspace.manifest"
+   ],
+   "loc": 439,
+   "module": "sparkforge.collect.live_graph",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 12,
+   "aws_markers": {
+    "cloudwatch": 7,
+    "sdk": 5
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base"
+   ],
+   "loc": 443,
+   "module": "sparkforge.collect.managed_flink",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 9,
+   "aws_markers": {
+    "s3": 7,
+    "sdk": 2
+   },
+   "imports_external": [
+    "pyarrow"
+   ],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base",
+    "sparkforge.facts.scan"
+   ],
+   "loc": 339,
+   "module": "sparkforge.collect.parquet_footer",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 9,
+   "aws_markers": {
+    "glue": 6,
+    "sdk": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base"
+   ],
+   "loc": 263,
+   "module": "sparkforge.collect.schema_registry",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 37,
+   "aws_markers": {
+    "cloudwatch": 6,
+    "glue": 5,
+    "kinesis_msk": 13,
+    "s3": 3,
+    "sdk": 10
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.collect.base"
+   ],
+   "loc": 500,
+   "module": "sparkforge.collect.streaming",
+   "subsystem": "collect"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.context.context_tree",
+    "sparkforge.context.funnel",
+    "sparkforge.context.gateway",
+    "sparkforge.context.gateway_models",
+    "sparkforge.context.host_usage",
+    "sparkforge.context.knowledge_pack",
+    "sparkforge.context.planner",
+    "sparkforge.context.progressive",
+    "sparkforge.context.quality"
+   ],
+   "loc": 47,
+   "module": "sparkforge.context.__init__",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.context.gateway_budget",
+    "sparkforge.context.host_usage"
+   ],
+   "loc": 66,
+   "module": "sparkforge.context.context_tree",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agents.budget"
+   ],
+   "loc": 103,
+   "module": "sparkforge.context.funnel",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.role_plans",
+    "sparkforge.agentic.trust",
+    "sparkforge.codeintel.query_expansion",
+    "sparkforge.context.context_tree",
+    "sparkforge.context.gateway_budget",
+    "sparkforge.context.gateway_capabilities",
+    "sparkforge.context.gateway_models",
+    "sparkforge.context.gateway_refs",
+    "sparkforge.context.host_usage",
+    "sparkforge.context.planner",
+    "sparkforge.economy.cache"
+   ],
+   "loc": 427,
+   "module": "sparkforge.context.gateway",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 186,
+   "module": "sparkforge.context.gateway_budget",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.codeintel.query_expansion",
+    "sparkforge.context.gateway_models"
+   ],
+   "loc": 128,
+   "module": "sparkforge.context.gateway_capabilities",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.context.gateway_capabilities"
+   ],
+   "loc": 232,
+   "module": "sparkforge.context.gateway_models",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.context.gateway_budget",
+    "sparkforge.context.gateway_models",
+    "sparkforge.economy.cache",
+    "sparkforge.paths"
+   ],
+   "loc": 81,
+   "module": "sparkforge.context.gateway_refs",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 68,
+   "module": "sparkforge.context.host_usage",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.query_expansion",
+    "sparkforge.context.gateway_models"
+   ],
+   "loc": 132,
+   "module": "sparkforge.context.knowledge_pack",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 187,
+   "module": "sparkforge.context.planner",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 72,
+   "module": "sparkforge.context.progressive",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 288,
+   "module": "sparkforge.context.quality",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 15,
+   "module": "sparkforge.context.schemas.__init__",
+   "subsystem": "context"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "emr": 1
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 22,
+   "module": "sparkforge.controlm.__init__",
+   "subsystem": "controlm"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.controlm"
+   ],
+   "loc": 220,
+   "module": "sparkforge.controlm.descriptor",
+   "subsystem": "controlm"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "emr": 2
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 348,
+   "module": "sparkforge.controlm.matrix",
+   "subsystem": "controlm"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.controlm"
+   ],
+   "loc": 323,
+   "module": "sparkforge.controlm.migration",
+   "subsystem": "controlm"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.databases.dynamodb",
+    "sparkforge.databases.neptune"
+   ],
+   "loc": 12,
+   "module": "sparkforge.databases.__init__",
+   "subsystem": "databases"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 77,
+   "module": "sparkforge.databases.dynamodb",
+   "subsystem": "databases"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 57,
+   "module": "sparkforge.databases.neptune",
+   "subsystem": "databases"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.authority",
+    "sparkforge.decision.cache",
+    "sparkforge.decision.calibration",
+    "sparkforge.decision.contracts",
+    "sparkforge.decision.host",
+    "sparkforge.decision.host_adapters",
+    "sparkforge.decision.models",
+    "sparkforge.decision.receipts",
+    "sparkforge.decision.runtime",
+    "sparkforge.decision.state"
+   ],
+   "loc": 107,
+   "module": "sparkforge.decision.__init__",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 302,
+   "module": "sparkforge.decision.authority",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.models"
+   ],
+   "loc": 514,
+   "module": "sparkforge.decision.cache",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.fingerprint"
+   ],
+   "loc": 244,
+   "module": "sparkforge.decision.calibration",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 69,
+   "module": "sparkforge.decision.conditions",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.decision.conditions",
+    "sparkforge.decision.models"
+   ],
+   "loc": 428,
+   "module": "sparkforge.decision.contracts",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.contracts",
+    "sparkforge.decision.models"
+   ],
+   "loc": 43,
+   "module": "sparkforge.decision.fingerprint",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.contracts",
+    "sparkforge.decision.fingerprint",
+    "sparkforge.decision.models",
+    "sparkforge.decision.runtime"
+   ],
+   "loc": 330,
+   "module": "sparkforge.decision.host",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.fingerprint",
+    "sparkforge.decision.host"
+   ],
+   "loc": 135,
+   "module": "sparkforge.decision.host_adapters",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.models"
+   ],
+   "loc": 31,
+   "module": "sparkforge.decision.measurement",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 148,
+   "module": "sparkforge.decision.models",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.conditions",
+    "sparkforge.decision.contracts",
+    "sparkforge.decision.models"
+   ],
+   "loc": 181,
+   "module": "sparkforge.decision.primitives",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.fingerprint",
+    "sparkforge.decision.models"
+   ],
+   "loc": 206,
+   "module": "sparkforge.decision.receipts",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.authority",
+    "sparkforge.decision.cache",
+    "sparkforge.decision.contracts",
+    "sparkforge.decision.fingerprint",
+    "sparkforge.decision.measurement",
+    "sparkforge.decision.models",
+    "sparkforge.decision.primitives",
+    "sparkforge.decision.receipts",
+    "sparkforge.decision.state"
+   ],
+   "loc": 348,
+   "module": "sparkforge.decision.runtime",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.contracts",
+    "sparkforge.decision.models"
+   ],
+   "loc": 99,
+   "module": "sparkforge.decision.state",
+   "subsystem": "decision"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.diagnosis.root_cause"
+   ],
+   "loc": 19,
+   "module": "sparkforge.diagnosis.__init__",
+   "subsystem": "diagnosis"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "emr": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge",
+    "sparkforge.errors",
+    "sparkforge.findings.models",
+    "sparkforge.rules.loader"
+   ],
+   "loc": 434,
+   "module": "sparkforge.diagnosis.root_cause",
+   "subsystem": "diagnosis"
+  },
+  {
+   "aws_marker_total": 5,
+   "aws_markers": {
+    "sdk": 5
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.integrate.hosts"
+   ],
+   "loc": 251,
+   "module": "sparkforge.doctor",
+   "subsystem": "doctor"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.dq_ai.assessment"
+   ],
+   "loc": 5,
+   "module": "sparkforge.dq_ai.__init__",
+   "subsystem": "dq_ai"
+  },
+  {
+   "aws_marker_total": 11,
+   "aws_markers": {
+    "glue": 6,
+    "lakeformation": 5
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 250,
+   "module": "sparkforge.dq_ai.assessment",
+   "subsystem": "dq_ai"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.dqdl.validator"
+   ],
+   "loc": 5,
+   "module": "sparkforge.dqdl.__init__",
+   "subsystem": "dqdl"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 153,
+   "module": "sparkforge.dqdl.validator",
+   "subsystem": "dqdl"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 217,
+   "module": "sparkforge.durable",
+   "subsystem": "durable"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.economy.cache",
+    "sparkforge.economy.decision_activation",
+    "sparkforge.economy.decision_models",
+    "sparkforge.economy.decision_plane",
+    "sparkforge.economy.ledger",
+    "sparkforge.economy.model_router",
+    "sparkforge.economy.reconcile",
+    "sparkforge.economy.router",
+    "sparkforge.economy.waste_detector",
+    "sparkforge.registry.models"
+   ],
+   "loc": 79,
+   "module": "sparkforge.economy.__init__",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.cache"
+   ],
+   "loc": 5,
+   "module": "sparkforge.economy.cache",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 59,
+   "module": "sparkforge.economy.decision_activation",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.economy.decision_models"
+   ],
+   "loc": 70,
+   "module": "sparkforge.economy.decision_compare",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.economy.decision_models",
+    "sparkforge.receipt._hash"
+   ],
+   "loc": 233,
+   "module": "sparkforge.economy.decision_contracts",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.cache",
+    "sparkforge.economy.decision_contracts",
+    "sparkforge.economy.decision_kernel_bridge",
+    "sparkforge.economy.decision_models"
+   ],
+   "loc": 30,
+   "module": "sparkforge.economy.decision_engine",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.economy.decision_models",
+    "sparkforge.economy.decision_plane"
+   ],
+   "loc": 114,
+   "module": "sparkforge.economy.decision_evaluation",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision",
+    "sparkforge.decision.contracts",
+    "sparkforge.decision.models",
+    "sparkforge.economy.decision_contracts",
+    "sparkforge.economy.decision_models"
+   ],
+   "loc": 208,
+   "module": "sparkforge.economy.decision_kernel_bridge",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 431,
+   "module": "sparkforge.economy.decision_models",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.governor",
+    "sparkforge.decision.authority",
+    "sparkforge.decision.runtime",
+    "sparkforge.economy.decision_activation",
+    "sparkforge.economy.decision_compare",
+    "sparkforge.economy.decision_contracts",
+    "sparkforge.economy.decision_engine",
+    "sparkforge.economy.decision_kernel_bridge",
+    "sparkforge.economy.decision_models",
+    "sparkforge.economy.decision_receipts"
+   ],
+   "loc": 539,
+   "module": "sparkforge.economy.decision_plane",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.economy.decision_models",
+    "sparkforge.receipt._hash"
+   ],
+   "loc": 211,
+   "module": "sparkforge.economy.decision_receipts",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.rules.loader"
+   ],
+   "loc": 261,
+   "module": "sparkforge.economy.goldset",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 203,
+   "module": "sparkforge.economy.ledger",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 368,
+   "module": "sparkforge.economy.model_router",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.host_usage"
+   ],
+   "loc": 76,
+   "module": "sparkforge.economy.provider_cost",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel",
+    "sparkforge.codeintel.context",
+    "sparkforge.codeintel.index",
+    "sparkforge.economy.goldset"
+   ],
+   "loc": 318,
+   "module": "sparkforge.economy.recall",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.observability.tracer"
+   ],
+   "loc": 221,
+   "module": "sparkforge.economy.reconcile",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.host_usage",
+    "sparkforge.observability.context_ledger",
+    "sparkforge.observability.surface"
+   ],
+   "loc": 86,
+   "module": "sparkforge.economy.report",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "emr": 2,
+    "glue": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.registry.models"
+   ],
+   "loc": 132,
+   "module": "sparkforge.economy.router",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 136,
+   "module": "sparkforge.economy.waste_detector",
+   "subsystem": "economy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.errors.matcher"
+   ],
+   "loc": 6,
+   "module": "sparkforge.errors.__init__",
+   "subsystem": "errors"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "cloudwatch": 4
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models",
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 350,
+   "module": "sparkforge.errors.matcher",
+   "subsystem": "errors"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.evals.runner"
+   ],
+   "loc": 6,
+   "module": "sparkforge.evals.__init__",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.evals.cli"
+   ],
+   "loc": 8,
+   "module": "sparkforge.evals.__main__",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.evals.compare",
+    "sparkforge.evals.debate_grade",
+    "sparkforge.evals.evidence_adapters",
+    "sparkforge.evals.evolution",
+    "sparkforge.evals.grade",
+    "sparkforge.evals.suite",
+    "sparkforge.facts.host_transcript"
+   ],
+   "loc": 265,
+   "module": "sparkforge.evals.cli",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 250,
+   "module": "sparkforge.evals.compare",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.evals.grade",
+    "sparkforge.facts.host_transcript",
+    "sparkforge.findings.models"
+   ],
+   "loc": 333,
+   "module": "sparkforge.evals.debate_grade",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.economy.decision_evaluation"
+   ],
+   "loc": 5,
+   "module": "sparkforge.evals.decision_plane",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 613,
+   "module": "sparkforge.evals.decision_replay",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 258,
+   "module": "sparkforge.evals.evidence",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.evals.evidence"
+   ],
+   "loc": 309,
+   "module": "sparkforge.evals.evidence_adapters",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.evals.evidence",
+    "sparkforge.evals.evidence_adapters",
+    "sparkforge.evals.metric_compiler"
+   ],
+   "loc": 283,
+   "module": "sparkforge.evals.evidence_resolver",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.decision.authority",
+    "sparkforge.decision.fingerprint",
+    "sparkforge.economy.decision_contracts",
+    "sparkforge.evals.decision_replay",
+    "sparkforge.evals.evidence",
+    "sparkforge.evals.evidence_resolver",
+    "sparkforge.evals.lifecycle",
+    "sparkforge.evals.policy"
+   ],
+   "loc": 1808,
+   "module": "sparkforge.evals.evolution",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.evals.suite",
+    "sparkforge.findings.models"
+   ],
+   "loc": 268,
+   "module": "sparkforge.evals.grade",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.fingerprint"
+   ],
+   "loc": 205,
+   "module": "sparkforge.evals.lifecycle",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.evals.decision_replay"
+   ],
+   "loc": 103,
+   "module": "sparkforge.evals.metric_compiler",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.decision.fingerprint"
+   ],
+   "loc": 309,
+   "module": "sparkforge.evals.policy",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.context.gateway",
+    "sparkforge.context.gateway_models",
+    "sparkforge.economy.router",
+    "sparkforge.registry.models"
+   ],
+   "loc": 315,
+   "module": "sparkforge.evals.runner",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "glue": 2
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 308,
+   "module": "sparkforge.evals.suite",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.adapters.tools",
+    "sparkforge.context.gateway",
+    "sparkforge.context.gateway_models",
+    "sparkforge.evals.runner"
+   ],
+   "loc": 324,
+   "module": "sparkforge.evals.token_benchmark",
+   "subsystem": "evals"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 1,
+   "module": "sparkforge.facts.__init__",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "glue": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts",
+    "sparkforge.facts.glue_terraform",
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1035,
+   "module": "sparkforge.facts.airflow_dag",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 6,
+   "aws_markers": {
+    "athena": 6
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 82,
+   "module": "sparkforge.facts.athena_cost",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 28,
+   "aws_markers": {
+    "athena": 26,
+    "glue": 1,
+    "s3": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 280,
+   "module": "sparkforge.facts.athena_workgroup",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "emr": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 772,
+   "module": "sparkforge.facts.benchmark",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 248,
+   "module": "sparkforge.facts.bridge",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 470,
+   "module": "sparkforge.facts.call_graph",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 9,
+   "aws_markers": {
+    "athena": 2,
+    "glue": 7
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 374,
+   "module": "sparkforge.facts.catalog_schema",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 599,
+   "module": "sparkforge.facts.cdc",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 16,
+   "aws_markers": {
+    "cloudwatch": 5,
+    "glue": 11
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.aws",
+    "sparkforge.findings.models"
+   ],
+   "loc": 143,
+   "module": "sparkforge.facts.cloudwatch",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 24,
+   "aws_markers": {
+    "cloudwatch": 15,
+    "emr": 1,
+    "glue": 7,
+    "sdk": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.facts.secrets",
+    "sparkforge.findings.models"
+   ],
+   "loc": 235,
+   "module": "sparkforge.facts.cloudwatch_logs",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "cloudwatch": 2,
+    "glue": 2
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts.runtime_matrix",
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 85,
+   "module": "sparkforge.facts.cloudwatch_retention",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 22,
+   "aws_markers": {
+    "athena": 7,
+    "emr": 11,
+    "glue": 4
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 267,
+   "module": "sparkforge.facts.consumers",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "emr": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.controlm",
+    "sparkforge.facts.scan",
+    "sparkforge.facts.secrets",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1429,
+   "module": "sparkforge.facts.controlm_jobs",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 8,
+   "aws_markers": {
+    "emr": 3,
+    "glue": 5
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1764,
+   "module": "sparkforge.facts.data_quality",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 59,
+   "aws_markers": {
+    "emr": 56,
+    "s3": 2,
+    "sdk": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.facts.secrets",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1255,
+   "module": "sparkforge.facts.emr_cluster",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 46,
+   "aws_markers": {
+    "cloudwatch": 1,
+    "emr": 40,
+    "iam": 1,
+    "s3": 4
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.facts.secrets",
+    "sparkforge.findings.models"
+   ],
+   "loc": 823,
+   "module": "sparkforge.facts.emr_eks",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 43,
+   "aws_markers": {
+    "cloudwatch": 4,
+    "emr": 35,
+    "s3": 4
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.facts.secrets",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1005,
+   "module": "sparkforge.facts.emr_serverless",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 368,
+   "module": "sparkforge.facts.event_driven",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 8,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 5,
+    "s3": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.secrets",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1229,
+   "module": "sparkforge.facts.event_log",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 179,
+   "module": "sparkforge.facts.exception",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "cloudwatch": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 717,
+   "module": "sparkforge.facts.flink",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "glue": 1,
+    "s3": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 1204,
+   "module": "sparkforge.facts.funcval",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 25,
+   "aws_markers": {
+    "athena": 1,
+    "cloudwatch": 1,
+    "glue": 7,
+    "lakeformation": 16
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.airflow_dag",
+    "sparkforge.facts.lakeformation",
+    "sparkforge.facts.lakeformation_missing_grant",
+    "sparkforge.facts.runtime_matrix",
+    "sparkforge.facts.sfn_history",
+    "sparkforge.facts.stepfunctions",
+    "sparkforge.facts.streaming_glue_cross",
+    "sparkforge.facts.streaming_glue_runtime",
+    "sparkforge.facts.timeout_diagnosis",
+    "sparkforge.facts.utilization",
+    "sparkforge.findings.models"
+   ],
+   "loc": 689,
+   "module": "sparkforge.facts.fusion",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 7,
+   "aws_markers": {
+    "glue": 1,
+    "lakeformation": 6
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 420,
+   "module": "sparkforge.facts.glue_dq_advanced",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 23,
+   "aws_markers": {
+    "cloudwatch": 6,
+    "glue": 15,
+    "s3": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.cloudwatch",
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 503,
+   "module": "sparkforge.facts.glue_job_run",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 22,
+   "aws_markers": {
+    "glue": 16,
+    "lakeformation": 6
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 287,
+   "module": "sparkforge.facts.glue_resource_link",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 14,
+   "aws_markers": {
+    "glue": 14
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 370,
+   "module": "sparkforge.facts.glue_streaming",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 114,
+   "module": "sparkforge.facts.glue_terraform",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "emr": 2,
+    "glue": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1455,
+   "module": "sparkforge.facts.graph",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.host_usage",
+    "sparkforge.findings.models"
+   ],
+   "loc": 373,
+   "module": "sparkforge.facts.host_transcript",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "glue": 2,
+    "lakeformation": 1,
+    "s3": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 228,
+   "module": "sparkforge.facts.iam_access",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 8,
+   "aws_markers": {
+    "athena": 2,
+    "glue": 6
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 895,
+   "module": "sparkforge.facts.iceberg_metadata",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 48,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 5,
+    "iam": 1,
+    "lakeformation": 38,
+    "s3": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 457,
+   "module": "sparkforge.facts.lakeformation",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 39,
+   "aws_markers": {
+    "cloudwatch": 1,
+    "iam": 2,
+    "lakeformation": 34,
+    "s3": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 312,
+   "module": "sparkforge.facts.lakeformation_grants",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 9,
+   "aws_markers": {
+    "glue": 5,
+    "lakeformation": 3,
+    "s3": 1
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 167,
+   "module": "sparkforge.facts.lakeformation_matrix",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 80,
+   "aws_markers": {
+    "arn": 2,
+    "glue": 15,
+    "iam": 19,
+    "lakeformation": 40,
+    "s3": 4
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts",
+    "sparkforge.findings.models",
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 1064,
+   "module": "sparkforge.facts.lakeformation_missing_grant",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 7,
+   "aws_markers": {
+    "glue": 6,
+    "sdk": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 563,
+   "module": "sparkforge.facts.migration",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 433,
+   "module": "sparkforge.facts.parquet_footer",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "glue": 3
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts.runtime_matrix",
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 143,
+   "module": "sparkforge.facts.pricing",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "glue": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1583,
+   "module": "sparkforge.facts.pyspark_ast",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 8,
+   "aws_markers": {
+    "glue": 8
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.pricing",
+    "sparkforge.findings.models"
+   ],
+   "loc": 132,
+   "module": "sparkforge.facts.run_cost",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 73,
+   "aws_markers": {
+    "athena": 9,
+    "emr": 39,
+    "glue": 25
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts",
+    "sparkforge.findings.models"
+   ],
+   "loc": 850,
+   "module": "sparkforge.facts.runtime_detect",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 54,
+   "aws_markers": {
+    "emr": 37,
+    "glue": 17
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 628,
+   "module": "sparkforge.facts.runtime_matrix",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "s3": 2,
+    "sdk": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 345,
+   "module": "sparkforge.facts.s3_listing",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "s3": 2
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 532,
+   "module": "sparkforge.facts.scan",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 341,
+   "module": "sparkforge.facts.schema_registry",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "emr": 3,
+    "s3": 1
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 207,
+   "module": "sparkforge.facts.secrets",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 11,
+   "aws_markers": {
+    "cloudwatch": 1,
+    "glue": 10
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts",
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1409,
+   "module": "sparkforge.facts.sfn_history",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 1118,
+   "module": "sparkforge.facts.spark_plan",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "athena": 2,
+    "glue": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 504,
+   "module": "sparkforge.facts.sql_literal",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 76,
+   "module": "sparkforge.facts.sql_metric_names",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.secrets",
+    "sparkforge.facts.sql_metric_names",
+    "sparkforge.findings.models"
+   ],
+   "loc": 840,
+   "module": "sparkforge.facts.sql_metrics",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 17,
+   "aws_markers": {
+    "arn": 2,
+    "glue": 13,
+    "lakeformation": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts",
+    "sparkforge.facts.glue_terraform",
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 657,
+   "module": "sparkforge.facts.stepfunctions",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 608,
+   "module": "sparkforge.facts.streaming",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "kinesis_msk": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.streaming_iceberg_temporal",
+    "sparkforge.facts.streaming_pipeline",
+    "sparkforge.facts.streaming_slo",
+    "sparkforge.facts.streaming_temporal",
+    "sparkforge.findings.models"
+   ],
+   "loc": 366,
+   "module": "sparkforge.facts.streaming_composition",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 10,
+   "aws_markers": {
+    "glue": 10
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 322,
+   "module": "sparkforge.facts.streaming_glue_cross",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 13,
+   "aws_markers": {
+    "glue": 13
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 273,
+   "module": "sparkforge.facts.streaming_glue_runtime",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 246,
+   "module": "sparkforge.facts.streaming_iceberg_temporal",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 515,
+   "module": "sparkforge.facts.streaming_integrations",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 381,
+   "module": "sparkforge.facts.streaming_ops",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 307,
+   "module": "sparkforge.facts.streaming_pipeline",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 5,
+   "aws_markers": {
+    "cloudwatch": 1,
+    "kinesis_msk": 4
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 616,
+   "module": "sparkforge.facts.streaming_slo",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "kinesis_msk": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 360,
+   "module": "sparkforge.facts.streaming_temporal",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 9,
+   "aws_markers": {
+    "glue": 8,
+    "s3": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.facts.secrets",
+    "sparkforge.findings.models"
+   ],
+   "loc": 1097,
+   "module": "sparkforge.facts.terraform",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 8,
+   "aws_markers": {
+    "glue": 8
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 331,
+   "module": "sparkforge.facts.timeout_diagnosis",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 24,
+   "aws_markers": {
+    "cloudwatch": 1,
+    "kinesis_msk": 23
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 762,
+   "module": "sparkforge.facts.transport",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 17,
+   "aws_markers": {
+    "cloudwatch": 5,
+    "glue": 12
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 128,
+   "module": "sparkforge.facts.utilization",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 205,
+   "module": "sparkforge.facts.workload",
+   "subsystem": "facts"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 1,
+   "module": "sparkforge.findings.__init__",
+   "subsystem": "findings"
+  },
+  {
+   "aws_marker_total": 14,
+   "aws_markers": {
+    "athena": 4,
+    "emr": 5,
+    "glue": 5
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 211,
+   "module": "sparkforge.findings.models",
+   "subsystem": "findings"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 115,
+   "module": "sparkforge.findings.signature",
+   "subsystem": "findings"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "s3": 1
+   },
+   "imports_external": [
+    "jsonschema"
+   ],
+   "imports_internal": [],
+   "loc": 126,
+   "module": "sparkforge.findings.validate",
+   "subsystem": "findings"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.finops.report"
+   ],
+   "loc": 9,
+   "module": "sparkforge.finops.__init__",
+   "subsystem": "finops"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "athena": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 36,
+   "module": "sparkforge.finops.athena_observed",
+   "subsystem": "finops"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "glue": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.capacity.plan",
+    "sparkforge.findings.models"
+   ],
+   "loc": 171,
+   "module": "sparkforge.finops.realized",
+   "subsystem": "finops"
+  },
+  {
+   "aws_marker_total": 8,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 7
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.capacity.plan",
+    "sparkforge.facts.run_cost",
+    "sparkforge.findings.models"
+   ],
+   "loc": 357,
+   "module": "sparkforge.finops.report",
+   "subsystem": "finops"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.iceberg.doctor",
+    "sparkforge.iceberg.maintenance"
+   ],
+   "loc": 17,
+   "module": "sparkforge.iceberg.__init__",
+   "subsystem": "iceberg"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 100,
+   "module": "sparkforge.iceberg.doctor",
+   "subsystem": "iceberg"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 260,
+   "module": "sparkforge.iceberg.maintenance",
+   "subsystem": "iceberg"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge",
+    "sparkforge.integrate",
+    "sparkforge.integrate.hosts"
+   ],
+   "loc": 419,
+   "module": "sparkforge.integrate.__init__",
+   "subsystem": "integrate"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.integrate.hosts"
+   ],
+   "loc": 437,
+   "module": "sparkforge.integrate.claude",
+   "subsystem": "integrate"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.integrate",
+    "sparkforge.integrate.hosts"
+   ],
+   "loc": 435,
+   "module": "sparkforge.integrate.conflict",
+   "subsystem": "integrate"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 193,
+   "module": "sparkforge.integrate.hosts",
+   "subsystem": "integrate"
+  },
+  {
+   "aws_marker_total": 25,
+   "aws_markers": {
+    "cloudwatch": 1,
+    "emr": 4,
+    "glue": 9,
+    "iam": 2,
+    "kinesis_msk": 2,
+    "lakeformation": 3,
+    "s3": 2,
+    "sdk": 2
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 713,
+   "module": "sparkforge.integrate.render",
+   "subsystem": "integrate"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 94,
+   "module": "sparkforge.integrate.sources",
+   "subsystem": "integrate"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.integrate",
+    "sparkforge.integrate.hosts"
+   ],
+   "loc": 983,
+   "module": "sparkforge.integrate.writer",
+   "subsystem": "integrate"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.tools",
+    "sparkforge.case.store"
+   ],
+   "loc": 67,
+   "module": "sparkforge.journal.__init__",
+   "subsystem": "journal"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.case.store",
+    "sparkforge.journal",
+    "sparkforge.journal.record"
+   ],
+   "loc": 119,
+   "module": "sparkforge.journal.read",
+   "subsystem": "journal"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.case.store",
+    "sparkforge.durable",
+    "sparkforge.journal",
+    "sparkforge.paths"
+   ],
+   "loc": 253,
+   "module": "sparkforge.journal.record",
+   "subsystem": "journal"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.knowledge_freshness"
+   ],
+   "loc": 299,
+   "module": "sparkforge.knowledge_drift",
+   "subsystem": "knowledge_drift"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.knowledge_engine.compiler",
+    "sparkforge.knowledge_engine.packs"
+   ],
+   "loc": 12,
+   "module": "sparkforge.knowledge_engine.__init__",
+   "subsystem": "knowledge_engine"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 208,
+   "module": "sparkforge.knowledge_engine.compiler",
+   "subsystem": "knowledge_engine"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.query_expansion",
+    "sparkforge.knowledge_engine.compiler"
+   ],
+   "loc": 137,
+   "module": "sparkforge.knowledge_engine.packs",
+   "subsystem": "knowledge_engine"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.scan"
+   ],
+   "loc": 284,
+   "module": "sparkforge.knowledge_freshness",
+   "subsystem": "knowledge_freshness"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.paths"
+   ],
+   "loc": 72,
+   "module": "sparkforge.knowledge_ref",
+   "subsystem": "knowledge_ref"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lab.compatibility",
+    "sparkforge.lab.contract",
+    "sparkforge.lab.doctor",
+    "sparkforge.lab.evidence",
+    "sparkforge.lab.oracle",
+    "sparkforge.lab.runtime",
+    "sparkforge.lab.scenario",
+    "sparkforge.lab.spec"
+   ],
+   "loc": 95,
+   "module": "sparkforge.lab.__init__",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lab.contract"
+   ],
+   "loc": 55,
+   "module": "sparkforge.lab.aws",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lab.compatibility",
+    "sparkforge.lab.contract",
+    "sparkforge.lab.doctor",
+    "sparkforge.lab.evidence",
+    "sparkforge.lab.runtime",
+    "sparkforge.lab.scenario"
+   ],
+   "loc": 158,
+   "module": "sparkforge.lab.cli",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 74,
+   "module": "sparkforge.lab.compatibility",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 262,
+   "module": "sparkforge.lab.contract",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lab.contract"
+   ],
+   "loc": 103,
+   "module": "sparkforge.lab.doctor",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.lab.contract",
+    "sparkforge.lab.oracle"
+   ],
+   "loc": 238,
+   "module": "sparkforge.lab.evidence",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lab.contract"
+   ],
+   "loc": 51,
+   "module": "sparkforge.lab.faults",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lab.contract"
+   ],
+   "loc": 86,
+   "module": "sparkforge.lab.generators",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 123,
+   "module": "sparkforge.lab.oracle",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lab.contract",
+    "sparkforge.lab.scenario"
+   ],
+   "loc": 153,
+   "module": "sparkforge.lab.runtime",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.lab.contract",
+    "sparkforge.lab.faults",
+    "sparkforge.lab.generators",
+    "sparkforge.lab.workload"
+   ],
+   "loc": 280,
+   "module": "sparkforge.lab.scenario",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 267,
+   "module": "sparkforge.lab.spec",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 33,
+   "module": "sparkforge.lab.testcontainers_backend",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lab.contract"
+   ],
+   "loc": 47,
+   "module": "sparkforge.lab.workload",
+   "subsystem": "lab"
+  },
+  {
+   "aws_marker_total": 6,
+   "aws_markers": {
+    "lakeformation": 6
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lakeformation.doctor",
+    "sparkforge.lakeformation.graph"
+   ],
+   "loc": 17,
+   "module": "sparkforge.lakeformation.__init__",
+   "subsystem": "lakeformation"
+  },
+  {
+   "aws_marker_total": 95,
+   "aws_markers": {
+    "emr": 11,
+    "glue": 32,
+    "iam": 7,
+    "lakeformation": 41,
+    "s3": 4
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.lakeformation.capabilities",
+    "sparkforge.lakeformation.catalog_routing"
+   ],
+   "loc": 1584,
+   "module": "sparkforge.lakeformation.architecture",
+   "subsystem": "lakeformation"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "lakeformation": 1
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 96,
+   "module": "sparkforge.lakeformation.capabilities",
+   "subsystem": "lakeformation"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "glue": 2
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 92,
+   "module": "sparkforge.lakeformation.catalog_routing",
+   "subsystem": "lakeformation"
+  },
+  {
+   "aws_marker_total": 6,
+   "aws_markers": {
+    "glue": 4,
+    "lakeformation": 1,
+    "s3": 1
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 95,
+   "module": "sparkforge.lakeformation.doctor",
+   "subsystem": "lakeformation"
+  },
+  {
+   "aws_marker_total": 37,
+   "aws_markers": {
+    "glue": 13,
+    "iam": 4,
+    "lakeformation": 18,
+    "s3": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.lakeformation_missing_grant"
+   ],
+   "loc": 595,
+   "module": "sparkforge.lakeformation.graph",
+   "subsystem": "lakeformation"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "emr": 1,
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.migration"
+   ],
+   "loc": 33,
+   "module": "sparkforge.migration.__init__",
+   "subsystem": "migration"
+  },
+  {
+   "aws_marker_total": 38,
+   "aws_markers": {
+    "athena": 1,
+    "emr": 25,
+    "glue": 10,
+    "lakeformation": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts",
+    "sparkforge.findings.models",
+    "sparkforge.migration",
+    "sparkforge.rules.engine",
+    "sparkforge.rules.loader",
+    "sparkforge.rules.version_scope",
+    "sparkforge.storage"
+   ],
+   "loc": 925,
+   "module": "sparkforge.migration.assessment",
+   "subsystem": "migration"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.consumers",
+    "sparkforge.facts.iceberg_metadata",
+    "sparkforge.facts.migration",
+    "sparkforge.facts.scan",
+    "sparkforge.facts.terraform",
+    "sparkforge.findings.models"
+   ],
+   "loc": 102,
+   "module": "sparkforge.migration.collect",
+   "subsystem": "migration"
+  },
+  {
+   "aws_marker_total": 42,
+   "aws_markers": {
+    "emr": 21,
+    "glue": 20,
+    "s3": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts"
+   ],
+   "loc": 444,
+   "module": "sparkforge.migration.release_descriptor",
+   "subsystem": "migration"
+  },
+  {
+   "aws_marker_total": 22,
+   "aws_markers": {
+    "emr": 14,
+    "glue": 8
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.migration.release_descriptor"
+   ],
+   "loc": 317,
+   "module": "sparkforge.migration.release_diff",
+   "subsystem": "migration"
+  },
+  {
+   "aws_marker_total": 9,
+   "aws_markers": {
+    "emr": 6,
+    "glue": 3
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.migration"
+   ],
+   "loc": 147,
+   "module": "sparkforge.migration.version_path",
+   "subsystem": "migration"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.observability.agentops",
+    "sparkforge.observability.sre",
+    "sparkforge.observability.store",
+    "sparkforge.observability.tracer"
+   ],
+   "loc": 32,
+   "module": "sparkforge.observability.__init__",
+   "subsystem": "observability"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.economy.reconcile",
+    "sparkforge.observability.tracer"
+   ],
+   "loc": 437,
+   "module": "sparkforge.observability.agentops",
+   "subsystem": "observability"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.observability.store",
+    "sparkforge.observability.tracer"
+   ],
+   "loc": 364,
+   "module": "sparkforge.observability.context_ledger",
+   "subsystem": "observability"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 584,
+   "module": "sparkforge.observability.otlp",
+   "subsystem": "observability"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 240,
+   "module": "sparkforge.observability.sre",
+   "subsystem": "observability"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.observability.tracer"
+   ],
+   "loc": 207,
+   "module": "sparkforge.observability.store",
+   "subsystem": "observability"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "emr": 2,
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.mcp_compact",
+    "sparkforge.adapters.tools"
+   ],
+   "loc": 127,
+   "module": "sparkforge.observability.surface",
+   "subsystem": "observability"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 215,
+   "module": "sparkforge.observability.tracer",
+   "subsystem": "observability"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.orchestration.topology"
+   ],
+   "loc": 17,
+   "module": "sparkforge.orchestration.__init__",
+   "subsystem": "orchestration"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 189,
+   "module": "sparkforge.orchestration.topology",
+   "subsystem": "orchestration"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.packs.load",
+    "sparkforge.packs.manifest"
+   ],
+   "loc": 33,
+   "module": "sparkforge.packs.__init__",
+   "subsystem": "packs"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.packs.load",
+    "sparkforge.packs.manifest",
+    "sparkforge.paths"
+   ],
+   "loc": 71,
+   "module": "sparkforge.packs.check",
+   "subsystem": "packs"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.packs.manifest",
+    "sparkforge.paths",
+    "sparkforge.rules.loader"
+   ],
+   "loc": 193,
+   "module": "sparkforge.packs.load",
+   "subsystem": "packs"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.paths"
+   ],
+   "loc": 166,
+   "module": "sparkforge.packs.manifest",
+   "subsystem": "packs"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 167,
+   "module": "sparkforge.paths",
+   "subsystem": "paths"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.platform.ecosystem",
+    "sparkforge.platform.graph"
+   ],
+   "loc": 39,
+   "module": "sparkforge.platform.__init__",
+   "subsystem": "platform"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 241,
+   "module": "sparkforge.platform.ecosystem",
+   "subsystem": "platform"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [],
+   "loc": 489,
+   "module": "sparkforge.platform.graph",
+   "subsystem": "platform"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.policy.decide",
+    "sparkforge.policy.load"
+   ],
+   "loc": 25,
+   "module": "sparkforge.policy.__init__",
+   "subsystem": "policy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.policy.load"
+   ],
+   "loc": 154,
+   "module": "sparkforge.policy.decide",
+   "subsystem": "policy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.policy.decide",
+    "sparkforge.policy.load"
+   ],
+   "loc": 54,
+   "module": "sparkforge.policy.hook",
+   "subsystem": "policy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.paths",
+    "sparkforge.policy.schema"
+   ],
+   "loc": 93,
+   "module": "sparkforge.policy.load",
+   "subsystem": "policy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.adapters.tools",
+    "sparkforge.agents.autonomy",
+    "sparkforge.policy.load",
+    "sparkforge.registry.models"
+   ],
+   "loc": 44,
+   "module": "sparkforge.policy.mcp",
+   "subsystem": "policy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 124,
+   "module": "sparkforge.policy.schema",
+   "subsystem": "policy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.policy.decide",
+    "sparkforge.policy.load"
+   ],
+   "loc": 64,
+   "module": "sparkforge.policy.settings",
+   "subsystem": "policy"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.proof.axes",
+    "sparkforge.proof.keys",
+    "sparkforge.proof.prove"
+   ],
+   "loc": 27,
+   "module": "sparkforge.proof.__init__",
+   "subsystem": "proof"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.rules.loader"
+   ],
+   "loc": 91,
+   "module": "sparkforge.proof.axes",
+   "subsystem": "proof"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 99,
+   "module": "sparkforge.proof.axis",
+   "subsystem": "proof"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 22,
+   "module": "sparkforge.proof.keys",
+   "subsystem": "proof"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.proof.axis",
+    "sparkforge.proof.keys",
+    "sparkforge.proof.resolution"
+   ],
+   "loc": 152,
+   "module": "sparkforge.proof.prove",
+   "subsystem": "proof"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.proof.keys"
+   ],
+   "loc": 106,
+   "module": "sparkforge.proof.resolution",
+   "subsystem": "proof"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.protocols.forge"
+   ],
+   "loc": 25,
+   "module": "sparkforge.protocols.__init__",
+   "subsystem": "protocols"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.protocols.forge"
+   ],
+   "loc": 159,
+   "module": "sparkforge.protocols.a2a_adapter",
+   "subsystem": "protocols"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 154,
+   "module": "sparkforge.protocols.forge",
+   "subsystem": "protocols"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agents.budget"
+   ],
+   "loc": 24,
+   "module": "sparkforge.providers.mock",
+   "subsystem": "providers"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.receipt._hash",
+    "sparkforge.receipt.build",
+    "sparkforge.receipt.verify"
+   ],
+   "loc": 19,
+   "module": "sparkforge.receipt.__init__",
+   "subsystem": "receipt"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models"
+   ],
+   "loc": 39,
+   "module": "sparkforge.receipt._hash",
+   "subsystem": "receipt"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agentic.blackboard",
+    "sparkforge.agentic.executor.debate_run",
+    "sparkforge.agentic.executor.run",
+    "sparkforge.case.store",
+    "sparkforge.receipt._hash"
+   ],
+   "loc": 332,
+   "module": "sparkforge.receipt.build",
+   "subsystem": "receipt"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.receipt._hash",
+    "sparkforge.receipt.build"
+   ],
+   "loc": 224,
+   "module": "sparkforge.receipt.verify",
+   "subsystem": "receipt"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.registry.loader",
+    "sparkforge.registry.models",
+    "sparkforge.registry.validator"
+   ],
+   "loc": 50,
+   "module": "sparkforge.registry.__init__",
+   "subsystem": "registry"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.registry.models"
+   ],
+   "loc": 175,
+   "module": "sparkforge.registry.loader",
+   "subsystem": "registry"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "lakeformation": 2
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 303,
+   "module": "sparkforge.registry.models",
+   "subsystem": "registry"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "jsonschema"
+   ],
+   "imports_internal": [],
+   "loc": 104,
+   "module": "sparkforge.registry.validator",
+   "subsystem": "registry"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.reliability.rca"
+   ],
+   "loc": 10,
+   "module": "sparkforge.reliability.__init__",
+   "subsystem": "reliability"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "cloudwatch": 1,
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 95,
+   "module": "sparkforge.reliability.rca",
+   "subsystem": "reliability"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 7,
+   "module": "sparkforge.reporting.__init__",
+   "subsystem": "reporting"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "glue": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models",
+    "sparkforge.finops.athena_observed"
+   ],
+   "loc": 153,
+   "module": "sparkforge.reporting.dq_ai",
+   "subsystem": "reporting"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.reporting.locate"
+   ],
+   "loc": 394,
+   "module": "sparkforge.reporting.github",
+   "subsystem": "reporting"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "athena": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts.runtime_detect",
+    "sparkforge.rules.loader"
+   ],
+   "loc": 333,
+   "module": "sparkforge.reporting.locate",
+   "subsystem": "reporting"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 1,
+   "module": "sparkforge.rules.__init__",
+   "subsystem": "rules"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models",
+    "sparkforge.rules.expr",
+    "sparkforge.rules.version_scope"
+   ],
+   "loc": 341,
+   "module": "sparkforge.rules.engine",
+   "subsystem": "rules"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 128,
+   "module": "sparkforge.rules.expr",
+   "subsystem": "rules"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.packs.load",
+    "sparkforge.paths",
+    "sparkforge.rules.expr"
+   ],
+   "loc": 365,
+   "module": "sparkforge.rules.loader",
+   "subsystem": "rules"
+  },
+  {
+   "aws_marker_total": 5,
+   "aws_markers": {
+    "emr": 3,
+    "glue": 2
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 123,
+   "module": "sparkforge.rules.version_scope",
+   "subsystem": "rules"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.scan.plan",
+    "sparkforge.scan.summary"
+   ],
+   "loc": 23,
+   "module": "sparkforge.scan.__init__",
+   "subsystem": "scan"
+  },
+  {
+   "aws_marker_total": 16,
+   "aws_markers": {
+    "athena": 1,
+    "cloudwatch": 3,
+    "emr": 3,
+    "glue": 7,
+    "lakeformation": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.collect.base",
+    "sparkforge.facts.scan"
+   ],
+   "loc": 218,
+   "module": "sparkforge.scan.plan",
+   "subsystem": "scan"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.scan.plan"
+   ],
+   "loc": 50,
+   "module": "sparkforge.scan.summary",
+   "subsystem": "scan"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 11,
+   "module": "sparkforge.sdd.__init__",
+   "subsystem": "sdd"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "jsonschema",
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.case.store",
+    "sparkforge.change.proposal",
+    "sparkforge.change.sandbox",
+    "sparkforge.facts.scan",
+    "sparkforge.paths",
+    "sparkforge.receipt._hash",
+    "sparkforge.sdd",
+    "sparkforge.sdd.load"
+   ],
+   "loc": 869,
+   "module": "sparkforge.sdd.checks",
+   "subsystem": "sdd"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts.scan",
+    "sparkforge.sdd"
+   ],
+   "loc": 92,
+   "module": "sparkforge.sdd.load",
+   "subsystem": "sdd"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.durable",
+    "sparkforge.paths",
+    "sparkforge.receipt._hash",
+    "sparkforge.sdd",
+    "sparkforge.sdd.load"
+   ],
+   "loc": 209,
+   "module": "sparkforge.sdd.stamp",
+   "subsystem": "sdd"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.sdd",
+    "sparkforge.sdd.checks"
+   ],
+   "loc": 36,
+   "module": "sparkforge.sdd.status",
+   "subsystem": "sdd"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.simulate.diff",
+    "sparkforge.simulate.layers",
+    "sparkforge.simulate.patch"
+   ],
+   "loc": 30,
+   "module": "sparkforge.simulate.__init__",
+   "subsystem": "simulate"
+  },
+  {
+   "aws_marker_total": 6,
+   "aws_markers": {
+    "lakeformation": 6
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts",
+    "sparkforge.findings.models",
+    "sparkforge.proof.keys"
+   ],
+   "loc": 86,
+   "module": "sparkforge.simulate.diff",
+   "subsystem": "simulate"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "emr": 2
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 15,
+   "module": "sparkforge.simulate.layers",
+   "subsystem": "simulate"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "s3": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models",
+    "sparkforge.simulate.layers"
+   ],
+   "loc": 112,
+   "module": "sparkforge.simulate.patch",
+   "subsystem": "simulate"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.spark.eventlog_analyzer",
+    "sparkforge.spark.plan_profiler"
+   ],
+   "loc": 13,
+   "module": "sparkforge.spark.__init__",
+   "subsystem": "spark"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 98,
+   "module": "sparkforge.spark.eventlog_analyzer",
+   "subsystem": "spark"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 92,
+   "module": "sparkforge.spark.plan_profiler",
+   "subsystem": "spark"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 1,
+   "module": "sparkforge.storage.__init__",
+   "subsystem": "storage"
+  },
+  {
+   "aws_marker_total": 10,
+   "aws_markers": {
+    "athena": 3,
+    "emr": 4,
+    "glue": 3
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts.runtime_matrix",
+    "sparkforge.knowledge_ref"
+   ],
+   "loc": 338,
+   "module": "sparkforge.storage.feature_support",
+   "subsystem": "storage"
+  },
+  {
+   "aws_marker_total": 20,
+   "aws_markers": {
+    "athena": 1,
+    "emr": 17,
+    "glue": 2
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.facts",
+    "sparkforge.storage"
+   ],
+   "loc": 273,
+   "module": "sparkforge.storage.readiness",
+   "subsystem": "storage"
+  },
+  {
+   "aws_marker_total": 8,
+   "aws_markers": {
+    "athena": 3,
+    "emr": 5
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.storage"
+   ],
+   "loc": 297,
+   "module": "sparkforge.storage.upgrade",
+   "subsystem": "storage"
+  },
+  {
+   "aws_marker_total": 1,
+   "aws_markers": {
+    "kinesis_msk": 1
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.streaming.kafka",
+    "sparkforge.streaming.kinesis"
+   ],
+   "loc": 12,
+   "module": "sparkforge.streaming.__init__",
+   "subsystem": "streaming"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "kinesis_msk": 3
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 66,
+   "module": "sparkforge.streaming.kafka",
+   "subsystem": "streaming"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "kinesis_msk": 3
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 54,
+   "module": "sparkforge.streaming.kinesis",
+   "subsystem": "streaming"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.terraform.plan_analyzer"
+   ],
+   "loc": 14,
+   "module": "sparkforge.terraform.__init__",
+   "subsystem": "terraform"
+  },
+  {
+   "aws_marker_total": 3,
+   "aws_markers": {
+    "iam": 3
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 137,
+   "module": "sparkforge.terraform.plan_analyzer",
+   "subsystem": "terraform"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.tools.context",
+    "sparkforge.tools.cost",
+    "sparkforge.tools.evaluation",
+    "sparkforge.tools.lineage",
+    "sparkforge.tools.offline",
+    "sparkforge.tools.schema"
+   ],
+   "loc": 22,
+   "module": "sparkforge.tools.__init__",
+   "subsystem": "tools"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.tools.cost",
+    "sparkforge.tools.lineage",
+    "sparkforge.tools.offline"
+   ],
+   "loc": 47,
+   "module": "sparkforge.tools.cli",
+   "subsystem": "tools"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 31,
+   "module": "sparkforge.tools.context",
+   "subsystem": "tools"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.agents.budget"
+   ],
+   "loc": 26,
+   "module": "sparkforge.tools.cost",
+   "subsystem": "tools"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 29,
+   "module": "sparkforge.tools.evaluation",
+   "subsystem": "tools"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "s3": 2
+   },
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 28,
+   "module": "sparkforge.tools.lineage",
+   "subsystem": "tools"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 87,
+   "module": "sparkforge.tools.offline",
+   "subsystem": "tools"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 24,
+   "module": "sparkforge.tools.schema",
+   "subsystem": "tools"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.tuning.spark_conf"
+   ],
+   "loc": 13,
+   "module": "sparkforge.tuning.__init__",
+   "subsystem": "tuning"
+  },
+  {
+   "aws_marker_total": 8,
+   "aws_markers": {
+    "glue": 8
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.facts.timeout_diagnosis",
+    "sparkforge.findings.models",
+    "sparkforge.rules.loader"
+   ],
+   "loc": 848,
+   "module": "sparkforge.tuning.spark_conf",
+   "subsystem": "tuning"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.workflows.dag",
+    "sparkforge.workflows.handoff",
+    "sparkforge.workflows.spec"
+   ],
+   "loc": 13,
+   "module": "sparkforge.workflows.__init__",
+   "subsystem": "workflows"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 87,
+   "module": "sparkforge.workflows.dag",
+   "subsystem": "workflows"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 40,
+   "module": "sparkforge.workflows.handoff",
+   "subsystem": "workflows"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.registry.models"
+   ],
+   "loc": 54,
+   "module": "sparkforge.workflows.spec",
+   "subsystem": "workflows"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.workload.axis",
+    "sparkforge.workload.fingerprint"
+   ],
+   "loc": 11,
+   "module": "sparkforge.workload.__init__",
+   "subsystem": "workload"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 76,
+   "module": "sparkforge.workload.axis",
+   "subsystem": "workload"
+  },
+  {
+   "aws_marker_total": 4,
+   "aws_markers": {
+    "glue": 4
+   },
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.findings.models",
+    "sparkforge.workload.axis"
+   ],
+   "loc": 323,
+   "module": "sparkforge.workload.fingerprint",
+   "subsystem": "workload"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.workspace.adapters",
+    "sparkforge.workspace.federated",
+    "sparkforge.workspace.federation",
+    "sparkforge.workspace.freshness",
+    "sparkforge.workspace.graph",
+    "sparkforge.workspace.impact",
+    "sparkforge.workspace.manifest",
+    "sparkforge.workspace.semantic"
+   ],
+   "loc": 88,
+   "module": "sparkforge.workspace.__init__",
+   "subsystem": "workspace"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.workspace.federated"
+   ],
+   "loc": 69,
+   "module": "sparkforge.workspace.adapters",
+   "subsystem": "workspace"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.workspace.freshness"
+   ],
+   "loc": 530,
+   "module": "sparkforge.workspace.federated",
+   "subsystem": "workspace"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.workspace.adapters",
+    "sparkforge.workspace.federated",
+    "sparkforge.workspace.manifest",
+    "sparkforge.workspace.semantic"
+   ],
+   "loc": 89,
+   "module": "sparkforge.workspace.federation",
+   "subsystem": "workspace"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [],
+   "loc": 184,
+   "module": "sparkforge.workspace.freshness",
+   "subsystem": "workspace"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.workspace.freshness",
+    "sparkforge.workspace.manifest"
+   ],
+   "loc": 135,
+   "module": "sparkforge.workspace.graph",
+   "subsystem": "workspace"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.workspace.federated"
+   ],
+   "loc": 107,
+   "module": "sparkforge.workspace.impact",
+   "subsystem": "workspace"
+  },
+  {
+   "aws_marker_total": 2,
+   "aws_markers": {
+    "glue": 1,
+    "lakeformation": 1
+   },
+   "imports_external": [
+    "yaml"
+   ],
+   "imports_internal": [
+    "sparkforge.paths"
+   ],
+   "loc": 263,
+   "module": "sparkforge.workspace.manifest",
+   "subsystem": "workspace"
+  },
+  {
+   "aws_marker_total": 0,
+   "aws_markers": {},
+   "imports_external": [],
+   "imports_internal": [
+    "sparkforge.codeintel.db",
+    "sparkforge.paths",
+    "sparkforge.workspace.freshness",
+    "sparkforge.workspace.manifest"
+   ],
+   "loc": 343,
+   "module": "sparkforge.workspace.semantic",
+   "subsystem": "workspace"
+  }
+ ],
+ "reference_repo": "EdgarSocrates98/spark-forge-aws",
+ "reference_sha": "6b1b97a137d7397ff6c7a98f7fe7be100132983f",
+ "schema_version": 1,
+ "subsystems": {
+  "__init__": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 1,
+   "loc": 3
+  },
+  "adapters": {
+   "aws_files": 4,
+   "aws_marker_total": 914,
+   "depends_on": [
+    "agentic",
+    "agents",
+    "analytics",
+    "architecture",
+    "capacity",
+    "case",
+    "catalog",
+    "change",
+    "codeintel",
+    "collect",
+    "context",
+    "controlm",
+    "decision",
+    "diagnosis",
+    "dq_ai",
+    "dqdl",
+    "economy",
+    "errors",
+    "facts",
+    "findings",
+    "finops",
+    "integrate",
+    "journal",
+    "knowledge_freshness",
+    "knowledge_ref",
+    "lab",
+    "lakeformation",
+    "migration",
+    "observability",
+    "orchestration",
+    "packs",
+    "platform",
+    "policy",
+    "proof",
+    "receipt",
+    "registry",
+    "reporting",
+    "rules",
+    "scan",
+    "sdd",
+    "simulate",
+    "storage",
+    "tuning",
+    "workload",
+    "workspace"
+   ],
+   "files": 14,
+   "loc": 30049
+  },
+  "agentic": {
+   "aws_files": 10,
+   "aws_marker_total": 29,
+   "depends_on": [
+    "case",
+    "decision",
+    "durable",
+    "economy",
+    "knowledge_ref",
+    "registry",
+    "rules"
+   ],
+   "files": 36,
+   "loc": 12044
+  },
+  "agents": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "adapters",
+    "paths",
+    "registry"
+   ],
+   "files": 5,
+   "loc": 871
+  },
+  "analytics": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 3,
+   "loc": 442
+  },
+  "architecture": {
+   "aws_files": 1,
+   "aws_marker_total": 7,
+   "depends_on": [],
+   "files": 2,
+   "loc": 369
+  },
+  "capacity": {
+   "aws_files": 1,
+   "aws_marker_total": 1,
+   "depends_on": [
+    "findings"
+   ],
+   "files": 2,
+   "loc": 337
+  },
+  "case": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "collect",
+    "durable",
+    "findings",
+    "rules"
+   ],
+   "files": 5,
+   "loc": 1294
+  },
+  "catalog": {
+   "aws_files": 1,
+   "aws_marker_total": 3,
+   "depends_on": [],
+   "files": 2,
+   "loc": 256
+  },
+  "change": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "facts",
+    "findings",
+    "paths",
+    "simulate"
+   ],
+   "files": 6,
+   "loc": 1421
+  },
+  "cli": {
+   "aws_files": 1,
+   "aws_marker_total": 13,
+   "depends_on": [
+    "adapters",
+    "errors",
+    "iceberg",
+    "lakeformation",
+    "registry",
+    "spark",
+    "terraform"
+   ],
+   "files": 2,
+   "loc": 267
+  },
+  "cloud": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 2,
+   "loc": 62
+  },
+  "codeintel": {
+   "aws_files": 1,
+   "aws_marker_total": 2,
+   "depends_on": [
+    "facts"
+   ],
+   "files": 18,
+   "loc": 8727
+  },
+  "collect": {
+   "aws_files": 12,
+   "aws_marker_total": 348,
+   "depends_on": [
+    "facts",
+    "workspace"
+   ],
+   "files": 13,
+   "loc": 4768
+  },
+  "context": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "agentic",
+    "agents",
+    "codeintel",
+    "economy",
+    "paths"
+   ],
+   "files": 14,
+   "loc": 2032
+  },
+  "controlm": {
+   "aws_files": 3,
+   "aws_marker_total": 7,
+   "depends_on": [
+    "knowledge_ref"
+   ],
+   "files": 4,
+   "loc": 913
+  },
+  "databases": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 3,
+   "loc": 146
+  },
+  "decision": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 15,
+   "loc": 3185
+  },
+  "diagnosis": {
+   "aws_files": 1,
+   "aws_marker_total": 1,
+   "depends_on": [
+    "errors",
+    "findings",
+    "rules"
+   ],
+   "files": 2,
+   "loc": 453
+  },
+  "doctor": {
+   "aws_files": 1,
+   "aws_marker_total": 5,
+   "depends_on": [
+    "integrate"
+   ],
+   "files": 1,
+   "loc": 251
+  },
+  "dq_ai": {
+   "aws_files": 2,
+   "aws_marker_total": 12,
+   "depends_on": [
+    "findings"
+   ],
+   "files": 2,
+   "loc": 255
+  },
+  "dqdl": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "findings"
+   ],
+   "files": 2,
+   "loc": 158
+  },
+  "durable": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 1,
+   "loc": 217
+  },
+  "economy": {
+   "aws_files": 1,
+   "aws_marker_total": 4,
+   "depends_on": [
+    "agentic",
+    "codeintel",
+    "collect",
+    "decision",
+    "observability",
+    "receipt",
+    "registry",
+    "rules"
+   ],
+   "files": 20,
+   "loc": 3780
+  },
+  "errors": {
+   "aws_files": 1,
+   "aws_marker_total": 4,
+   "depends_on": [
+    "facts",
+    "findings",
+    "knowledge_ref"
+   ],
+   "files": 2,
+   "loc": 356
+  },
+  "evals": {
+   "aws_files": 1,
+   "aws_marker_total": 2,
+   "depends_on": [
+    "adapters",
+    "context",
+    "decision",
+    "economy",
+    "facts",
+    "findings",
+    "registry"
+   ],
+   "files": 18,
+   "loc": 5970
+  },
+  "facts": {
+   "aws_files": 53,
+   "aws_marker_total": 850,
+   "depends_on": [
+    "collect",
+    "controlm",
+    "findings",
+    "knowledge_ref"
+   ],
+   "files": 69,
+   "loc": 38776
+  },
+  "findings": {
+   "aws_files": 2,
+   "aws_marker_total": 15,
+   "depends_on": [],
+   "files": 4,
+   "loc": 453
+  },
+  "finops": {
+   "aws_files": 3,
+   "aws_marker_total": 13,
+   "depends_on": [
+    "capacity",
+    "facts",
+    "findings"
+   ],
+   "files": 4,
+   "loc": 573
+  },
+  "iceberg": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 3,
+   "loc": 377
+  },
+  "integrate": {
+   "aws_files": 2,
+   "aws_marker_total": 27,
+   "depends_on": [],
+   "files": 7,
+   "loc": 3274
+  },
+  "journal": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "adapters",
+    "case",
+    "durable",
+    "paths"
+   ],
+   "files": 3,
+   "loc": 439
+  },
+  "knowledge_drift": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "facts",
+    "knowledge_freshness"
+   ],
+   "files": 1,
+   "loc": 299
+  },
+  "knowledge_engine": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "codeintel"
+   ],
+   "files": 3,
+   "loc": 357
+  },
+  "knowledge_freshness": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "facts"
+   ],
+   "files": 1,
+   "loc": 284
+  },
+  "knowledge_ref": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "paths"
+   ],
+   "files": 1,
+   "loc": 72
+  },
+  "lab": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 15,
+   "loc": 2025
+  },
+  "lakeformation": {
+   "aws_files": 6,
+   "aws_marker_total": 147,
+   "depends_on": [
+    "facts",
+    "knowledge_ref"
+   ],
+   "files": 6,
+   "loc": 2479
+  },
+  "migration": {
+   "aws_files": 5,
+   "aws_marker_total": 113,
+   "depends_on": [
+    "facts",
+    "findings",
+    "rules",
+    "storage"
+   ],
+   "files": 6,
+   "loc": 1968
+  },
+  "observability": {
+   "aws_files": 1,
+   "aws_marker_total": 3,
+   "depends_on": [
+    "adapters",
+    "economy"
+   ],
+   "files": 8,
+   "loc": 2206
+  },
+  "orchestration": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 2,
+   "loc": 206
+  },
+  "packs": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "facts",
+    "paths",
+    "rules"
+   ],
+   "files": 4,
+   "loc": 463
+  },
+  "paths": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 1,
+   "loc": 167
+  },
+  "platform": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 3,
+   "loc": 769
+  },
+  "policy": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "adapters",
+    "agents",
+    "paths",
+    "registry"
+   ],
+   "files": 7,
+   "loc": 558
+  },
+  "proof": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "rules"
+   ],
+   "files": 6,
+   "loc": 497
+  },
+  "protocols": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 3,
+   "loc": 338
+  },
+  "providers": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "agents"
+   ],
+   "files": 1,
+   "loc": 24
+  },
+  "receipt": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "agentic",
+    "case",
+    "findings"
+   ],
+   "files": 4,
+   "loc": 614
+  },
+  "registry": {
+   "aws_files": 1,
+   "aws_marker_total": 2,
+   "depends_on": [],
+   "files": 4,
+   "loc": 632
+  },
+  "reliability": {
+   "aws_files": 1,
+   "aws_marker_total": 2,
+   "depends_on": [],
+   "files": 2,
+   "loc": 105
+  },
+  "reporting": {
+   "aws_files": 2,
+   "aws_marker_total": 2,
+   "depends_on": [
+    "facts",
+    "findings",
+    "finops",
+    "rules"
+   ],
+   "files": 4,
+   "loc": 887
+  },
+  "rules": {
+   "aws_files": 1,
+   "aws_marker_total": 5,
+   "depends_on": [
+    "findings",
+    "packs",
+    "paths"
+   ],
+   "files": 5,
+   "loc": 958
+  },
+  "scan": {
+   "aws_files": 1,
+   "aws_marker_total": 16,
+   "depends_on": [
+    "collect",
+    "facts"
+   ],
+   "files": 3,
+   "loc": 291
+  },
+  "sdd": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "case",
+    "change",
+    "durable",
+    "facts",
+    "paths",
+    "receipt"
+   ],
+   "files": 5,
+   "loc": 1217
+  },
+  "simulate": {
+   "aws_files": 3,
+   "aws_marker_total": 9,
+   "depends_on": [
+    "facts",
+    "findings",
+    "proof"
+   ],
+   "files": 4,
+   "loc": 243
+  },
+  "spark": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [],
+   "files": 3,
+   "loc": 203
+  },
+  "storage": {
+   "aws_files": 3,
+   "aws_marker_total": 38,
+   "depends_on": [
+    "facts",
+    "knowledge_ref"
+   ],
+   "files": 4,
+   "loc": 909
+  },
+  "streaming": {
+   "aws_files": 3,
+   "aws_marker_total": 7,
+   "depends_on": [],
+   "files": 3,
+   "loc": 132
+  },
+  "terraform": {
+   "aws_files": 1,
+   "aws_marker_total": 3,
+   "depends_on": [],
+   "files": 2,
+   "loc": 151
+  },
+  "tools": {
+   "aws_files": 1,
+   "aws_marker_total": 2,
+   "depends_on": [
+    "agents"
+   ],
+   "files": 8,
+   "loc": 294
+  },
+  "tuning": {
+   "aws_files": 1,
+   "aws_marker_total": 8,
+   "depends_on": [
+    "facts",
+    "findings",
+    "rules"
+   ],
+   "files": 2,
+   "loc": 861
+  },
+  "workflows": {
+   "aws_files": 0,
+   "aws_marker_total": 0,
+   "depends_on": [
+    "registry"
+   ],
+   "files": 4,
+   "loc": 194
+  },
+  "workload": {
+   "aws_files": 1,
+   "aws_marker_total": 4,
+   "depends_on": [
+    "findings"
+   ],
+   "files": 3,
+   "loc": 410
+  },
+  "workspace": {
+   "aws_files": 1,
+   "aws_marker_total": 2,
+   "depends_on": [
+    "codeintel",
+    "paths"
+   ],
+   "files": 9,
+   "loc": 1808
+  }
+ },
+ "totals": {
+  "loc": 145139,
+  "modules": 422,
+  "modules_with_aws_markers": 133
+ }
+}

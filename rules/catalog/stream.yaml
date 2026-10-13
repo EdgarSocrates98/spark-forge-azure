@@ -1,0 +1,88 @@
+# Catálogo de regras — vertical Streaming/Event Hubs (SF-STR).
+# Avaliado pelo rules engine sobre os Facts de stream/extract.py. Os
+# verdicts de camada saem de stream/diagnose.py; estas regras produzem
+# findings complementares (riscos/higiene), nunca claims sem evidência.
+
+catalog_version: 1
+schema_version: 1
+area: SF-STR
+retrieved: 2026-10-08
+
+rules:
+
+  - id: SF-STR-001
+    category: event-hubs-capacity
+    title: Throttling de ingress observado no namespace
+    requires_facts: [eh.throttle]
+    when:
+      all:
+        - fact: eh.throttle
+          where: {}
+    status: structural
+    severity_default: P1
+    runtime_scope: {}
+    explanation: >
+      Sinais de throttling (throttled_requests/server_busy) observados no
+      namespace — ingress acima da capacidade comprada (TU/PU/CU). Event
+      Hub availability não é consumer health; mas throttled Requests é
+      evidência concreta de source_capacity.
+    proposed_change:
+      - Escalar TU/PU ou revisar produtores; coletar a série para confirmar
+        janela.
+    validation:
+      - Nova diagnose classifica event_hubs_capacity como DENY.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.eventhubs.throughput
+
+  - id: SF-STR-002
+    category: consumer-group
+    title: Checkpoints de consumer group sem owner ativo
+    requires_facts: [consumer.checkpoint]
+    when:
+      all:
+        - fact: consumer.group
+          where: {attrs.owner_count: 0}
+    status: structural
+    severity_default: P2
+    runtime_scope: {}
+    explanation: >
+      Existem checkpoints persistidos mas nenhum owner declarado — o grupo
+      pode estar órfão (app desligada) ou o export não trouxe os owners.
+      consumer_progress fica unresolved sem evidência de progresso.
+    proposed_change:
+      - Coletar consumers ativos (list consumer groups + describe) e
+        confirmar se o grupo deveria estar ativo.
+    validation:
+      - consumer_progress avaliado como UNKNOWN sem owner, não DENY.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: azure.eventhubs.consumers
+
+  - id: SF-STR-003
+    category: checkpoint
+    title: failOnDataLoss=false silencia perda de dados no driver
+    requires_facts: [stream.config]
+    when:
+      all:
+        - fact: stream.config
+          where: {subject.key: "failOnDataLoss", attrs.value: false}
+    status: structural
+    severity_default: P2
+    runtime_scope: {}
+    explanation: >
+      Com failOnDataLoss=false, offsets fora da janela de retenção são
+      ignorados silenciosamente — possível perda sem erro. Nunca equivale a
+      "sem perda confirmada"; é um candidato de risco.
+    proposed_change:
+      - Reavaliar failOnDataLoss=false em produção; preferir true + tratar o
+        erro, ou aceitar explicitamente a perda na janela.
+    validation:
+      - Finding emitido com evidence da config; delivery classification
+        reflete at_most_once_possible quando aplicável.
+    rollback: []
+    sources:
+      - origin: knowledge
+        knowledge_id: spark.streaming.checkpoint

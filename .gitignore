@@ -1,0 +1,40 @@
+prompt_evo_*.md
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
+.pytest-tmp/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local state (never commit raw cloud data -- section 176)
+# `*` (not `/`) keeps the dir itself un-excluded so fixtures can re-include a
+# committed `case.yaml` — SDD fixtures need a live case store to gate-test
+# `case_missing` (operator define binds to an open case).
+.sparkforge-azure/*
+.sparkforge-azure/journal.jsonl
+!fixtures/**/.sparkforge-azure/case.yaml
+*.raw.json
+.env
+.env.*
+
+# AgentSpec-era local harness state (superseded by sparkforge_azure/sdd; SDD_MIGRATION)
+.claude/sdd/
+# `.claude/agents/custom/` carries generated host mirrors — tracked like
+# `.agents/agents/` (README describes the layout; `agents sync` renders it).
+.claude/agents/*
+!.claude/agents/README.md
+!.claude/agents/custom/
+
+# Tool indexes
+.tokensave/
+evals/portability/reports/case-*.json
+
+uv.lock

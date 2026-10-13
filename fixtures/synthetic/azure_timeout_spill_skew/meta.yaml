@@ -1,0 +1,8 @@
+name: azure_timeout_spill_skew
+synthetic: true
+derived_from: spark-forge-aws fixtures/timeout/timeout_com_spill_e_skew (Glue job run replaced by a Databricks job run; Spark facts unchanged)
+runtime:
+  databricks_runtime: '15.4'
+  spark: 3.5.0
+proves: 'Fixture sintetica para o digest do executor: um timeout de job Databricks com skew
+  (p95/p50 11.4) e spill (0.4 do input) medidos ao lado. Nao e saida de extrator Azure real.'

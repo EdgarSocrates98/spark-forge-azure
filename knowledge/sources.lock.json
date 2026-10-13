@@ -1,0 +1,714 @@
+{
+  "schema_version": 1,
+  "generated": "manual-offline",
+  "sources": {
+    "https://docs.delta.io/latest/delta-utility.html": {
+      "docs": [
+        "knowledge/lakehouse/delta-lake.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://github.com/Azure/bicep/releases": {
+      "docs": [
+        "knowledge/azure/iac/bicep.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://github.com/apache/iceberg/releases": {
+      "docs": [
+        "knowledge/lakehouse/iceberg.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://github.com/delta-io/delta/releases": {
+      "docs": [
+        "knowledge/lakehouse/delta-lake.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://iceberg.apache.org/docs/latest/spark-configuration/": {
+      "docs": [
+        "knowledge/lakehouse/iceberg.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://iceberg.apache.org/spec/": {
+      "docs": [
+        "knowledge/lakehouse/iceberg.md",
+        "knowledge/lakehouse/open-table-formats.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/diagnostic-settings": {
+      "docs": [
+        "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+        "knowledge/azure/iac/bicep.md",
+        "knowledge/azure/network/private-link-dns.md",
+        "knowledge/azure/observability/monitor-log-analytics.md",
+        "knowledge/azure/storage/adls-gen2.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/azure-resource-manager/bicep/overview": {
+      "docs": [
+        "knowledge/azure/iac/bicep.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/cost-management-billing/costs/manage-automation": {
+      "docs": [
+        "knowledge/azure/finops/cost-management-and-dbu.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/data-factory/concepts-integration-runtime": {
+      "docs": [
+        "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+        "knowledge/azure/fabric/data-factory.md",
+        "knowledge/azure/synapse/pipelines-and-linked-services.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/data-factory/concepts-pipeline-execution-triggers": {
+      "docs": [
+        "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+        "knowledge/azure/databricks/workflows.md",
+        "knowledge/azure/synapse/pipelines-and-linked-services.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/data-factory/how-to-upgrade-your-azure-synapse-analytics-pipelines-to-fabric-data-factory": {
+      "docs": [
+        "knowledge/migration/synapse-to-fabric.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/data-factory/managed-virtual-network-private-endpoint": {
+      "docs": [
+        "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+        "knowledge/azure/identity/keyvault.md",
+        "knowledge/azure/network/private-link-dns.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/admin/account-settings/audit-log-delivery": {
+      "docs": [
+        "knowledge/azure/databricks/runtime-and-compute.md",
+        "knowledge/azure/observability/monitor-log-analytics.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/admin/system-tables/": {
+      "docs": [
+        "knowledge/azure/databricks/runtime-and-compute.md",
+        "knowledge/azure/databricks/workflows.md",
+        "knowledge/azure/finops/cost-management-and-dbu.md",
+        "knowledge/azure/observability/monitor-log-analytics.md",
+        "knowledge/data-quality/contracts-and-expectations.md",
+        "knowledge/spark/streaming-state-checkpoint.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/admin/system-tables/billing": {
+      "docs": [
+        "knowledge/agentic/evidence-first.md",
+        "knowledge/azure/finops/cost-management-and-dbu.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/compute/photon": {
+      "docs": [
+        "knowledge/azure/databricks/runtime-and-compute.md",
+        "knowledge/azure/finops/cost-management-and-dbu.md",
+        "knowledge/spark/performance-aqe-shuffle-skew.md",
+        "knowledge/spark/streaming-state-checkpoint.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/compute/standard-limitations": {
+      "docs": [
+        "knowledge/azure/databricks/runtime-and-compute.md",
+        "knowledge/azure/eventhubs/eventhubs-and-kafka.md",
+        "knowledge/spark/execution-model.md",
+        "knowledge/spark/streaming-state-checkpoint.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/connect/unity-catalog/cloud-storage/azure-managed-identities": {
+      "docs": [
+        "knowledge/azure/iac/terraform-azurerm.md",
+        "knowledge/azure/identity/entra-managed-identity.md",
+        "knowledge/azure/network/private-link-dns.md",
+        "knowledge/azure/storage/adls-gen2.md",
+        "knowledge/azure/unity-catalog/securable-model.md",
+        "knowledge/azure/unity-catalog/troubleshooting-external-locations.md",
+        "knowledge/governance/multi-layer-conflicts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/connect/unity-catalog/cloud-storage/external-locations-adls": {
+      "docs": [
+        "knowledge/azure/unity-catalog/securable-model.md",
+        "knowledge/azure/unity-catalog/troubleshooting-external-locations.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/connect/unity-catalog/cloud-storage/manage-external-locations": {
+      "docs": [
+        "knowledge/azure/iac/terraform-azurerm.md",
+        "knowledge/azure/unity-catalog/privileges-and-fgac.md",
+        "knowledge/azure/unity-catalog/securable-model.md",
+        "knowledge/azure/unity-catalog/troubleshooting-external-locations.md",
+        "knowledge/governance/multi-layer-conflicts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/": {
+      "docs": [
+        "knowledge/azure/unity-catalog/securable-model.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/abac/": {
+      "docs": [
+        "knowledge/azure/unity-catalog/privileges-and-fgac.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/filters-and-masks/": {
+      "docs": [
+        "knowledge/azure/unity-catalog/privileges-and-fgac.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/securable-objects": {
+      "docs": [
+        "knowledge/azure/unity-catalog/privileges-and-fgac.md",
+        "knowledge/azure/unity-catalog/securable-model.md",
+        "knowledge/governance/multi-layer-conflicts.md",
+        "knowledge/migration/aws-to-azure-concepts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/delta/iceberg-reads": {
+      "docs": [
+        "knowledge/lakehouse/delta-lake.md",
+        "knowledge/lakehouse/iceberg.md",
+        "knowledge/lakehouse/open-table-formats.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/jobs/": {
+      "docs": [
+        "knowledge/azure/databricks/workflows.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/ldp/expectations": {
+      "docs": [
+        "knowledge/azure/databricks/workflows.md",
+        "knowledge/data-quality/contracts-and-expectations.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/": {
+      "docs": [
+        "knowledge/azure/databricks/runtime-and-compute.md",
+        "knowledge/spark/execution-model.md",
+        "knowledge/streaming/runtime-matrix.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/release-notes/runtime/18": {
+      "docs": [
+        "knowledge/azure/databricks/runtime-and-compute.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/release-notes/serverless/environment-version/": {
+      "docs": [
+        "knowledge/azure/databricks/runtime-and-compute.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/security/secrets/": {
+      "docs": [
+        "knowledge/azure/databricks/runtime-and-compute.md",
+        "knowledge/azure/identity/keyvault.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/tables/clustering": {
+      "docs": [
+        "knowledge/lakehouse/delta-lake.md",
+        "knowledge/lakehouse/iceberg.md",
+        "knowledge/lakehouse/open-table-formats.md",
+        "knowledge/spark/performance-aqe-shuffle-skew.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/tables/features/change-data-feed": {
+      "docs": [
+        "knowledge/azure/unity-catalog/privileges-and-fgac.md",
+        "knowledge/data-quality/contracts-and-expectations.md",
+        "knowledge/lakehouse/delta-lake.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/databricks/tables/features/deletion-vectors": {
+      "docs": [
+        "knowledge/lakehouse/delta-lake.md",
+        "knowledge/lakehouse/iceberg.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/event-hubs/azure-event-hubs-apache-kafka-overview": {
+      "docs": [
+        "knowledge/azure/eventhubs/eventhubs-and-kafka.md",
+        "knowledge/azure/identity/entra-managed-identity.md",
+        "knowledge/migration/aws-to-azure-concepts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-capture-overview": {
+      "docs": [
+        "knowledge/azure/eventhubs/eventhubs-and-kafka.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-for-kafka-ecosystem-overview": {
+      "docs": [
+        "knowledge/streaming/runtime-matrix.md"
+      ],
+      "retrieved": []
+    },
+    "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-kafka-spark-tutorial": {
+      "docs": [
+        "knowledge/azure/eventhubs/eventhubs-and-kafka.md",
+        "knowledge/spark/streaming-state-checkpoint.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/event-hubs/event-hubs-quotas": {
+      "docs": [
+        "knowledge/azure/eventhubs/eventhubs-and-kafka.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/key-vault/general/rbac-guide": {
+      "docs": [
+        "knowledge/azure/identity/entra-managed-identity.md",
+        "knowledge/azure/identity/keyvault.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/private-link/private-endpoint-dns": {
+      "docs": [
+        "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+        "knowledge/azure/identity/keyvault.md",
+        "knowledge/azure/network/private-link-dns.md",
+        "knowledge/azure/observability/monitor-log-analytics.md",
+        "knowledge/azure/purview/unified-catalog-and-lineage.md",
+        "knowledge/azure/storage/adls-gen2.md",
+        "knowledge/azure/synapse/pipelines-and-linked-services.md",
+        "knowledge/azure/unity-catalog/troubleshooting-external-locations.md",
+        "knowledge/governance/multi-layer-conflicts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-access-control-model": {
+      "docs": [
+        "knowledge/azure/identity/entra-managed-identity.md",
+        "knowledge/azure/storage/adls-gen2.md",
+        "knowledge/azure/unity-catalog/troubleshooting-external-locations.md",
+        "knowledge/governance/multi-layer-conflicts.md",
+        "knowledge/migration/aws-to-azure-concepts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-best-practices": {
+      "docs": [
+        "knowledge/azure/storage/adls-gen2.md",
+        "knowledge/lakehouse/open-table-formats.md",
+        "knowledge/spark/performance-aqe-shuffle-skew.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/synapse-analytics/data-integration/concepts-data-factory-differences": {
+      "docs": [
+        "knowledge/azure/synapse/pipelines-and-linked-services.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-34-runtime": {
+      "docs": [
+        "knowledge/streaming/runtime-matrix.md"
+      ],
+      "retrieved": [],
+      "pinned": true
+    },
+    "https://learn.microsoft.com/en-us/azure/synapse-analytics/spark/apache-spark-version-support": {
+      "docs": [
+        "knowledge/azure/synapse/spark-runtimes.md",
+        "knowledge/migration/synapse-to-fabric.md",
+        "knowledge/spark/execution-model.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview": {
+      "docs": [
+        "knowledge/azure/identity/entra-managed-identity.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/admin/monitoring-hub": {
+      "docs": [
+        "knowledge/azure/fabric/data-factory.md",
+        "knowledge/azure/observability/monitor-log-analytics.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/data-engineering/lakehouse-overview": {
+      "docs": [
+        "knowledge/azure/fabric/data-engineering-spark.md",
+        "knowledge/azure/fabric/onelake-shortcuts.md",
+        "knowledge/lakehouse/open-table-formats.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/data-engineering/lifecycle": {
+      "docs": [
+        "knowledge/azure/fabric/data-engineering-spark.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/data-engineering/runtime": {
+      "docs": [
+        "knowledge/azure/fabric/data-engineering-spark.md",
+        "knowledge/spark/execution-model.md",
+        "knowledge/spark/performance-aqe-shuffle-skew.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/data-engineering/runtime-1-3": {
+      "docs": [
+        "knowledge/azure/eventhubs/eventhubs-and-kafka.md",
+        "knowledge/azure/fabric/data-engineering-spark.md",
+        "knowledge/streaming/runtime-matrix.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ],
+      "pinned": true
+    },
+    "https://learn.microsoft.com/en-us/fabric/data-engineering/runtime-2-0": {
+      "docs": [
+        "knowledge/azure/fabric/data-engineering-spark.md",
+        "knowledge/lakehouse/delta-lake.md",
+        "knowledge/migration/synapse-to-fabric.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ],
+      "pinned": true
+    },
+    "https://learn.microsoft.com/en-us/fabric/data-engineering/synapse-to-fabric-spark-migration-assistant": {
+      "docs": [
+        "knowledge/azure/synapse/spark-runtimes.md",
+        "knowledge/migration/synapse-to-fabric.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/data-factory/compare-fabric-data-factory-and-azure-data-factory": {
+      "docs": [
+        "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+        "knowledge/azure/fabric/data-factory.md",
+        "knowledge/azure/identity/keyvault.md",
+        "knowledge/azure/network/private-link-dns.md",
+        "knowledge/azure/synapse/pipelines-and-linked-services.md",
+        "knowledge/migration/aws-to-azure-concepts.md",
+        "knowledge/migration/synapse-to-fabric.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/data-factory/what-is-copy-job": {
+      "docs": [
+        "knowledge/azure/fabric/data-factory.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/enterprise/licenses": {
+      "docs": [
+        "knowledge/azure/fabric/capacity-and-throttling.md",
+        "knowledge/azure/finops/cost-management-and-dbu.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/enterprise/metrics-app": {
+      "docs": [
+        "knowledge/azure/fabric/capacity-and-throttling.md",
+        "knowledge/azure/observability/monitor-log-analytics.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/enterprise/throttling": {
+      "docs": [
+        "knowledge/azure/fabric/capacity-and-throttling.md",
+        "knowledge/azure/fabric/realtime-intelligence.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/governance/microsoft-purview-fabric": {
+      "docs": [
+        "knowledge/azure/fabric/onelake-shortcuts.md",
+        "knowledge/azure/purview/unified-catalog-and-lineage.md",
+        "knowledge/governance/multi-layer-conflicts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/onelake/onelake-shortcuts": {
+      "docs": [
+        "knowledge/azure/fabric/onelake-shortcuts.md",
+        "knowledge/azure/fabric/realtime-intelligence.md",
+        "knowledge/governance/multi-layer-conflicts.md",
+        "knowledge/lakehouse/iceberg.md",
+        "knowledge/lakehouse/open-table-formats.md",
+        "knowledge/migration/aws-to-azure-concepts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/data-activator/activator-introduction": {
+      "docs": [
+        "knowledge/azure/fabric/realtime-intelligence.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/event-streams/overview": {
+      "docs": [
+        "knowledge/azure/fabric/capacity-and-throttling.md",
+        "knowledge/azure/fabric/realtime-intelligence.md",
+        "knowledge/migration/aws-to-azure-concepts.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/fabric/real-time-intelligence/overview": {
+      "docs": [
+        "knowledge/azure/fabric/realtime-intelligence.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/purview/data-gov-classic-lineage": {
+      "docs": [
+        "knowledge/azure/purview/unified-catalog-and-lineage.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/purview/register-scan-azure-databricks-unity-catalog": {
+      "docs": [
+        "knowledge/azure/purview/unified-catalog-and-lineage.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/purview/unified-catalog": {
+      "docs": [
+        "knowledge/azure/purview/unified-catalog-and-lineage.md",
+        "knowledge/data-quality/contracts-and-expectations.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://learn.microsoft.com/en-us/rest/api/cost-management/budgets/create-or-update?view=rest-cost-management-2025-03-01": {
+      "docs": [
+        "knowledge/azure/finops/cost-management-and-dbu.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://modelcontextprotocol.io/specification/latest": {
+      "docs": [
+        "knowledge/agentic/evidence-first.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/databricks_access_connector": {
+      "docs": [
+        "knowledge/azure/iac/terraform-azurerm.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://registry.terraform.io/v1/providers/hashicorp/azurerm": {
+      "docs": [
+        "knowledge/azure/iac/terraform-azurerm.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ],
+      "pinned": true
+    },
+    "https://spark.apache.org/docs/latest/sql-performance-tuning.html": {
+      "docs": [
+        "knowledge/spark/execution-model.md",
+        "knowledge/spark/performance-aqe-shuffle-skew.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://spark.apache.org/docs/latest/streaming/apis-on-dataframes-and-datasets.html": {
+      "docs": [
+        "knowledge/agentic/evidence-first.md",
+        "knowledge/spark/streaming-state-checkpoint.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    },
+    "https://spark.apache.org/docs/latest/structured-streaming-programming-guide.html": {
+      "docs": [
+        "knowledge/streaming/runtime-matrix.md"
+      ],
+      "retrieved": []
+    },
+    "https://spark.apache.org/news/index.html": {
+      "docs": [
+        "knowledge/azure/synapse/spark-runtimes.md",
+        "knowledge/spark/execution-model.md"
+      ],
+      "retrieved": [
+        "2026-10-06"
+      ]
+    }
+  }
+}

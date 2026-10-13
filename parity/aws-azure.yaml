@@ -1,0 +1,187 @@
+# AWS <-> Azure parity matrix — machine-readable companion of
+# docs/parity/AWS_AZURE_PARITY_AUDIT.md. Gate: scripts/check_aws_parity.py.
+# classification: AWS_AHEAD | AZURE_AHEAD | EQUIVALENT | DIFFERENT_BY_DESIGN | DEFERRED
+# portability:    COPY_SAFE | ADAPT | REFERENCE_ONLY | PROVIDER_SPECIFIC | DO_NOT_PORT
+schema_version: 1
+baseline:
+  aws_main_sha: ab7f02e2423e7c07cc2dbeb982fdc50a2c3f6099
+  azure_base_sha: b0420b8bbf7161a459e5c2317c312889c35b9a73
+  aws_version: "0.5.0"
+  azure_version: "0.1.0"
+  aws_agentic_fingerprint: "89e0ac38af993046"
+  azure_agentic_fingerprint: "84e091bd34e125d7"
+entries:
+  - capability: economy.profiles
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/economy/router.py + context/gateway_profiles.yaml
+    gap: none
+    action: none
+  - capability: economy.budgets
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/agentic/budget.py + agents/budget.py + economy/decision_*.py
+    gap: none
+    action: none
+  - capability: economy.caches
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/economy/cache.py + ledger.py
+    gap: none
+    action: none
+  - capability: economy.model_router
+    aws: MATURE
+    azure: MATURE
+    classification: DEFERRED
+    portability: COPY_SAFE
+    proof: sparkforge_azure/economy/model_router.py (SHADOW on both)
+    gap: no real consumer on either side
+    action: keep SHADOW; do not activate for parity
+  - capability: economy.recall_gate
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: ADAPT
+    proof: scripts/check_recall_economy.py (azure-native; gold set derives 0 ->
+           named unresolved, unlock documented)
+    gap: azure fixtures lack symbol-anchored findings (stage/file subjects)
+    action: gate refuses to fabricate; unblock recorded
+  - capability: evals.runner_and_grading
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/evals/runner.py + sparkforge_azure/evals/suite.py + sparkforge_azure/evals/grade.py
+    gap: none
+    action: none
+  - capability: evals.evidence_bundles
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/evals/evidence.py + evidence_resolver.py + policy.py
+    gap: none
+    action: none
+  - capability: evals.token_benchmark
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: ADAPT
+    proof: sparkforge_azure/evals/token_benchmark.py + evals/token_efficient/
+    gap: was absent; ported this cycle against the existing token_efficient suite
+    action: wired into check_recall_economy economy section
+  - capability: agentic.runtime_adapters
+    aws: ABSENT
+    azure: PRODUCTION_CANDIDATE
+    classification: AZURE_AHEAD
+    portability: PROVIDER_SPECIFIC
+    proof: sparkforge_azure/agentic/runtimes/ + evals/host_proof/claude_code.json
+    gap: aws has no host-adapter layer
+    action: none (azure leads; aws may reference)
+  - capability: agentic.value_evaluation
+    aws: ABSENT
+    azure: EVALUATED
+    classification: AZURE_AHEAD
+    portability: PROVIDER_SPECIFIC
+    proof: sparkforge_azure/agentic/agent_eval.py + evals/agent_runtime/ (4 real
+           host runs, $2.79 measured)
+    gap: aws has no with-agent vs without-agent harness
+    action: none
+  - capability: agentic.freeze_gate
+    aws: ABSENT
+    azure: MATURE
+    classification: AZURE_AHEAD
+    portability: PROVIDER_SPECIFIC
+    proof: sparkforge_azure/agentic/freeze.py (FREEZE_STATUS=frozen, 6/6)
+    gap: none
+    action: none
+  - capability: agentic.handoff_admission
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/agentic/handoff.py (receiver revalidation,
+           taint monotonicity, confused-deputy protection)
+    gap: none
+    action: none
+  - capability: context.gateway_and_trust
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/context/gateway.py + agentic/trust.py (UNKNOWN floor)
+    gap: none
+    action: none
+  - capability: context.memory
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/agentic/memory.py (conflicts preserved, env-scoped)
+    gap: none
+    action: none
+  - capability: graphs.federation
+    aws: MATURE
+    azure: MATURE
+    classification: DIFFERENT_BY_DESIGN
+    portability: PROVIDER_SPECIFIC
+    proof: sparkforge_azure/graph/ + codeintel/ (ARM/Fabric IDs vs ARNs;
+           explicit-identity merge only)
+    gap: none — provider identities differ correctly
+    action: none
+  - capability: receipts.content_addressed
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: COPY_SAFE
+    proof: sparkforge_azure/azure/receipt.py + sparkforge_azure/evals/evidence.py hashing
+    gap: none
+    action: none
+  - capability: interop.upstream_facts
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: ADAPT
+    proof: sparkforge_azure/adapters/upstream.py (schema upstream-facts/v1) + upstream.json bundle artifact
+    gap: was absent; adapted to the case-bundle seam this cycle
+    action: "facts enter run_case with `upstream:` ids, `upstream.` kinds,
+           theforge/handoff provenance; native rules never fire"
+  - capability: mcp.surface
+    aws: MATURE
+    azure: MATURE
+    classification: DIFFERENT_BY_DESIGN
+    portability: PROVIDER_SPECIFIC
+    proof: sparkforge_azure/mcp/ (17 sfa_* tools, risk tiers, pagination)
+    gap: tool sets differ by product shape; guarantees equivalent
+    action: none — do not chase tool-count parity
+  - capability: interop.a2a
+    aws: EXPERIMENTAL
+    azure: EXPERIMENTAL
+    classification: DEFERRED
+    portability: REFERENCE_ONLY
+    proof: no interoperable proof on either side
+    gap: none to close now
+    action: stays EXPERIMENTAL until real interop evidence
+  - capability: supply_chain.lock_sbom_audit
+    aws: MATURE
+    azure: MATURE
+    classification: EQUIVALENT
+    portability: ADAPT
+    proof: scripts/supply_chain.py (lock|verify-lock|sbom|audit) +
+           scripts/verify_wheel.py + scripts/check_surface_lock.py
+    gap: none — consolidated script covers gen_lock+gen_sbom+offline audit
+    action: none
+  - capability: docs.surface_gate
+    aws: PARTIAL
+    azure: MATURE
+    classification: AZURE_AHEAD
+    portability: REFERENCE_ONLY
+    proof: scripts/check_docs_index.py + check_docs_surface.py
+    gap: aws lacks the docs index gate
+    action: none

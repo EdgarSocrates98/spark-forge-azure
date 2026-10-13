@@ -1,0 +1,123 @@
+# Quinze casos de qualidade da rota economica: cobrem agreement, disagreement,
+# coverage_gap, unresolved (budget e ausencia de rota atual) e os dois estados
+# de tokens (resolvido por transcript, unresolved sem transcript).
+#
+# `expected_*` e a verdade declarada do seed: o runner falha se o engine sair
+# da linha — o seed e regression, nao benchmark.
+schema_version: 1
+suite_id: token-efficient-quality-v1
+cases:
+  - case_id: q-det-agreement
+    class: agreement
+    deterministic_available: true
+    current_route: tier_0_deterministic
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: agreement
+
+  - case_id: q-cached-agreement
+    class: agreement
+    cached: true
+    current_route: tier_1_cached
+    expected_status: accepted
+    expected_route: tier_1_cached
+    expected_comparison: agreement
+
+  - case_id: q-specialist-agreement
+    class: agreement
+    evidence_kinds: [specialist]
+    current_route: tier_4_specialist
+    expected_status: accepted
+    expected_route: tier_4_specialist
+    expected_comparison: agreement
+
+  - case_id: q-sensitive-agreement
+    class: agreement
+    risk_level: sensitive
+    current_route: tier_5_premium
+    expected_status: accepted
+    expected_route: tier_5_premium
+    expected_comparison: agreement
+
+  - case_id: q-default-agreement
+    class: agreement
+    current_route: tier_3_cheap_local
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: agreement
+
+  - case_id: q-det-vs-cached-priority
+    class: disagreement
+    deterministic_available: true
+    cached: true
+    current_route: tier_1_cached
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: disagreement
+
+  - case_id: q-default-when-det-declared
+    class: disagreement
+    current_route: tier_0_deterministic
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: disagreement
+
+  - case_id: q-specialist-beats-sensitive
+    class: disagreement
+    evidence_kinds: [specialist]
+    risk_level: sensitive
+    current_route: tier_5_premium
+    expected_status: accepted
+    expected_route: tier_4_specialist
+    expected_comparison: disagreement
+
+  - case_id: q-det-beats-sensitive
+    class: disagreement
+    deterministic_available: true
+    risk_level: sensitive
+    current_route: tier_5_premium
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: disagreement
+
+  - case_id: q-specialist-vs-default
+    class: disagreement
+    evidence_kinds: [specialist]
+    current_route: tier_3_cheap_local
+    expected_status: accepted
+    expected_route: tier_4_specialist
+    expected_comparison: disagreement
+
+  - case_id: q-coverage-gap-no-current
+    class: coverage_gap
+    deterministic_available: true
+    expected_status: accepted
+    expected_route: tier_0_deterministic
+    expected_comparison: coverage_gap
+
+  - case_id: q-coverage-gap-default
+    class: coverage_gap
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: coverage_gap
+
+  - case_id: q-budget-tokens-unresolved
+    class: unresolved
+    budget: {tokens_used: 9000, max_total_tokens: 100}
+    expected_status: unresolved
+    expected_route: null
+    expected_comparison: unresolved
+
+  - case_id: q-budget-tools-unresolved
+    class: unresolved
+    budget: {tool_calls_used: 50, max_tool_calls: 5}
+    expected_status: unresolved
+    expected_route: null
+    expected_comparison: unresolved
+
+  - case_id: q-profile-no-routing-effect
+    class: coverage_gap
+    profile: performance
+    expected_status: accepted
+    expected_route: tier_3_cheap_local
+    expected_comparison: coverage_gap

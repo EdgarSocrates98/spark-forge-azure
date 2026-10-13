@@ -1,0 +1,272 @@
+{
+  "case_id": "databricks-access",
+  "runtime": "generic",
+  "results": {
+    "A": {
+      "case_id": "databricks-access",
+      "configuration": "A",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "synthesizer"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "unity-catalog:which-principal-lacks-grant",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:unity-catalog:which-principal-lacks-grant",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.5559,
+      "tool_calls": 0,
+      "context_bytes": 86,
+      "degraded": true
+    },
+    "B": {
+      "case_id": "databricks-access",
+      "configuration": "B",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "synthesizer",
+        "unity-catalog-specialist"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "unity-catalog:which-principal-lacks-grant",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:unity-catalog:which-principal-lacks-grant",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided",
+        "unity-catalog-specialist:requires_probabilistic_reasoning"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4167,
+      "tool_calls": 0,
+      "context_bytes": 86,
+      "degraded": true
+    },
+    "C": {
+      "case_id": "databricks-access",
+      "configuration": "C",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "verifier",
+        "synthesizer",
+        "unity-catalog-specialist"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "unity-catalog:which-principal-lacks-grant",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:unity-catalog:which-principal-lacks-grant",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided",
+        "unity-catalog-specialist:requires_probabilistic_reasoning"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4354,
+      "tool_calls": 0,
+      "context_bytes": 86,
+      "degraded": true
+    },
+    "D": {
+      "case_id": "databricks-access",
+      "configuration": "D",
+      "runtime": "generic",
+      "agents": [
+        "coordinator",
+        "inventory",
+        "extractor",
+        "analyzer",
+        "judge",
+        "verifier",
+        "synthesizer",
+        "unity-catalog-specialist"
+      ],
+      "quality": {
+        "required_findings_hit": 0,
+        "required_findings_total": 0,
+        "forbidden_findings_hit": 0,
+        "forbidden_findings": [],
+        "known_unresolved_preserved": 1,
+        "known_unresolved_total": 1,
+        "provisional_findings": 2
+      },
+      "evidence": [
+        "extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}",
+        "synthesizer:extractor:{'id': 'fact-0', 'ref': 'error: PERMISSION_DENIED on abfss://c@acct/x', 'kind': 'provisional'}"
+      ],
+      "unresolved": [
+        "unity-catalog:which-principal-lacks-grant",
+        "coordinator:requires_probabilistic_reasoning",
+        "analyzer:requires_probabilistic_reasoning",
+        "judge:no_claims_provided",
+        "synthesizer:unity-catalog:which-principal-lacks-grant",
+        "synthesizer:coordinator:requires_probabilistic_reasoning",
+        "synthesizer:analyzer:requires_probabilistic_reasoning",
+        "synthesizer:judge:no_claims_provided",
+        "unity-catalog-specialist:requires_probabilistic_reasoning"
+      ],
+      "tokens": {
+        "status": "unresolved"
+      },
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_s": 0.4389,
+      "tool_calls": 0,
+      "context_bytes": 86,
+      "degraded": true
+    }
+  },
+  "value_vectors": {
+    "A": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": 0,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": 0.0
+    },
+    "B": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": -1,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": -0.1392
+    },
+    "C": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": -1,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": -0.1205
+    },
+    "D": {
+      "information_gain": 0,
+      "evidence_gain": 0,
+      "uncertainty_reduction": -1,
+      "decision_impact": "unresolved",
+      "quality_delta": 0,
+      "cost": {
+        "status": "unresolved"
+      },
+      "latency_delta_s": -0.117
+    }
+  },
+  "necessity": {
+    "A": "NEUTRAL",
+    "B": "NEUTRAL",
+    "C": "NEUTRAL",
+    "D": "NEUTRAL"
+  },
+  "quality_frontier": [
+    {
+      "config": "A",
+      "quality": 0,
+      "latency_s": 0.5559
+    },
+    {
+      "config": "B",
+      "quality": 0,
+      "latency_s": 0.4167
+    },
+    {
+      "config": "C",
+      "quality": 0,
+      "latency_s": 0.4354
+    },
+    {
+      "config": "D",
+      "quality": 0,
+      "latency_s": 0.4389
+    }
+  ]
+}

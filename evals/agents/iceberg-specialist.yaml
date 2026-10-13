@@ -1,0 +1,9 @@
+agent: iceberg-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: apache iceberg uniform snapshot expiration manifest list iceberg metadata
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: azure monitor log analytics kql diagnostic settings

@@ -1,0 +1,50 @@
+skill: delta-lake
+version: 1
+cases:
+- id: delta-lake-merge-slow
+  prompt: Meu MERGE ficou lento depois de um mês
+  must_include:
+  - _delta_log
+  - operationMetrics
+  must_not_include:
+  - é só rodar optimize
+  expected_tools:
+  - sparkforge-azure judge
+- id: delta-lake-vacuum-safe
+  prompt: Posso rodar VACUUM 0 horas?
+  must_include:
+  - retenção
+  - time travel
+  must_not_include:
+  - vacuum é seguro
+  - sem perda de dados
+  expected_tools:
+  - sparkforge-azure judge
+  - sfa_analyze
+- id: delta-lake-optimize-gain
+  prompt: OPTIMIZE vai deixar 5x mais rápido?
+  must_include:
+  - antes/depois
+  must_not_include:
+  - 5x mais rápido
+  expected_tools:
+  - sparkforge-azure lab run
+- id: delta-lake-spark-skew-negative
+  kind: negative
+  prompt: Uma task do stage leva 2h e as outras terminam em segundos
+  must_include:
+  - spark-performance
+  must_not_include:
+  - rode optimize
+  expected_tools:
+  - sfa_analyze
+- id: delta-lake-merge-or-exec-boundary
+  kind: boundary
+  prompt: "MERGE lento: small files na tabela ou problema de execucao do Spark?"
+  must_include:
+  - _delta_log
+  - spark-performance
+  must_not_include:
+  - e so rodar optimize
+  expected_tools:
+  - sparkforge-azure judge

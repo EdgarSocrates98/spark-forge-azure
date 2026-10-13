@@ -1,0 +1,134 @@
+{
+  "case_id": "streaming-lag",
+  "runtime": "claude_code",
+  "specialist": "event-hubs-specialist",
+  "spawn": {
+    "agent_id": "event-hubs-specialist",
+    "spawn_id": "sp-event-hubs-specialist-d8ffd6e1436e",
+    "runtime": "claude_code",
+    "execution_mode": "subagent",
+    "status": "completed",
+    "started": 1791509664.9876595,
+    "completed": 1791509707.762343,
+    "duration_s": 42.775,
+    "output": "{\"kind\":\"specialist_result\",\"hypotheses\":[\"H1 (processing bottleneck, ingress-side): micro-batch read is throttled because maxEventsPerTrigger / maxOffsetsPerTrigger is too low for the steady-state ingress rate. Each trigger completes on time but drains less than arrives, so lag grows linearly while the sink stays healthy.\",\"H2 (parallelism cap): Event Hubs partition count is at or below available executor cores. In the Spark connector, read tasks equal partitions (1:1), so adding cores cannot raise read throughput. Hot partitions from a skewed partition key also lengthen batch duration.\",\"H3 (namespace throttling): Standard-tier throughput units or Premium processing units are saturated on egress (ServerBusy / throttled requests). Slow fetches then look like Spark lag even though Spark and the sink have headroom.\",\"H4 (checkpoint bottleneck): the checkpoint/commit phase (offsets + commits log + state store) on ADLS Gen2 / DBFS takes a large share of each trigger because of slow metadata ops, many small files, or a large state store (stateful aggregation/dedup without watermark). Trigger interval is dominated by checkpoint I/O, not processing.\",\"H5 (consumer group contention): other readers share the same consumer group (per-partition reader limit 5; epoch receiver steals ownership), causing receiver disconnects and re-fetches that stall progress.\"],\"evidence_refs\":[\"NONE SUPPLIED for H1-H5: no StreamingQueryProgress JSON, Spark event log, Event Hubs metrics export, or job config was attached to this task. All hypotheses are config/mechanism-based and unverified.\",\"H1/H4 discriminator needed: StreamingQueryProgress.durationMs breakdown (addBatch, getBatch, latestOffset, queryPlanning, walCommit, commitOffsets) plus inputRowsPerSecond vs processedRowsPerSecond across â‰¥20 batches.\",\"H2 needed: Event Hub partitionCount, cluster total cores, per-partition IncomingMessages distribution (Azure Monitor, split by partition).\",\"H3 needed: Azure Monitor namespace metrics ThrottledRequests, ServerErrors, OutgoingBytes vs TU/PU egress quota (Standard: 2 MB/s egress per TU).\",\"H4 needed: checkpoint path listing (file count/size under offsets/, commits/, state/), stateOperators.numRowsTotal and memoryUsedBytes trend, storage account latency (SuccessE2ELatency vs SuccessServerLatency).\",\"H5 needed: consumerGroup value in job config and inventory of other consumers on that group; driver/executor logs for ReceiverDisconnectedException / epoch errors.\"],\"proposed_findings\":[\"event-hubs:checkpoint-vs-processing-bottleneck â€” UNRESOLVED; decision rule: if (walCommit + commitOffsets) / triggerExecution > 0.4 â†’ checkpoint-bound (H4); if addBatch dominant and processedRowsPerSecond < inputRowsPerSecond with rate cap hit â†’ ingest-cap (H1); if getBatch/latestOffset dominant with ThrottledRequests > 0 â†’ namespace-bound (H3).\",\"event-hubs:rate-limit-below-ingress (candidate, H1) â€” raise only after numInputRows per batch is confirmed pinned at maxEventsPerTrigger.\",\"event-hubs:partition-parallelism-cap (candidate, H2) â€” partitions â‰¤ cores â†’ horizontal Spark scaling ineffective; partition count fixed after creation on Standard tier.\",\"event-hubs:namespace-egress-throttling (candidate, H3).\",\"event-hubs:shared-consumer-group (candidate, H5).\"],\"unresolved\":[\"event-hubs:checkpoint-vs-processing-bottleneck â€” cannot be determined without StreamingQueryProgress duration breakdown; no runtime evidence supplied.\",\"Event Hubs tier, TU/PU count, auto-inflate setting, and partition count unknown.\",\"Connector in use unknown (azure-event-hubs-spark vs Kafka endpoint via spark-sql-kafka); rate-limit option names and fetch behavior differ.\",\"Whether the query is stateful (state store size drives checkpoint cost) unknown.\",\"Checkpoint storage backend and whether RocksDB state store / async checkpointing (Databricks) is enabled unknown.\",\"'Healthy sink' claim not verified: sink write time sits inside addBatch, so a sink that looks healthy externally can still dominate batch duration.\"],\"recommendations\":[\"Collect lastProgress/recentProgress from â‰¥20 consecutive batches and compute per-phase share of triggerExecution; route to spark-performance-specialist (addBatch-dominant) or delta-specialist/adls-specialist (walCommit/commitOffsets-dominant).\",\"Pull Azure Monitor metrics for the namespace over the lag window: IncomingMessages vs OutgoingMessages, ThrottledRequests, ServerErrors, split by partition (handoff: observability-specialist).\",\"Compare numInputRows per batch to maxEventsPerTrigger/maxOffsetsPerTrigger; if pinned at the cap, raise it in steps and re-measure. Do not raise blind.\",\"Confirm the job has a dedicated consumer group not shared with any other reader (Stream Analytics, Functions, Capture, ad-hoc notebooks).\",\"If partitions â‰¤ cores, document that scaling Spark won't help; options are a new hub with more partitions (Standard) or Premium/Dedicated with partition scale-out, plus fixing partition-key skew.\",\"If checkpoint-bound: move the checkpoint to a low-latency ADLS Gen2 account in the same region, enable RocksDB state store / changelog checkpointing where supported, add a watermark to bound state, and review trigger interval vs commit overhead.\",\"Do not change the sink; current evidence doesn't implicate it, but verify by isolating sink write time inside addBatch.\"]}",
+    "structured_output": null,
+    "error": null,
+    "usage": {
+      "status": "measured",
+      "input_tokens": 2,
+      "output_tokens": 2434,
+      "cache_creation_input_tokens": 82253,
+      "cost_usd": 0.7107528000000001,
+      "model": "claude-opus-5-5[1m]"
+    },
+    "trace_ref": "sha256:5a3c7b5f8373a4cc3b61fad04b15986e978e8fbe42df47d80ad206f284005a51"
+  },
+  "host_usage_measured": true,
+  "schema_violations": [],
+  "result": {
+    "case_id": "streaming-lag",
+    "configuration": "B",
+    "runtime": "claude_code",
+    "agents": [
+      "event-hubs-specialist"
+    ],
+    "quality": {
+      "required_findings_hit": 0,
+      "required_findings_total": 0,
+      "forbidden_findings_hit": 0,
+      "forbidden_findings": [],
+      "known_unresolved_preserved": 1,
+      "known_unresolved_total": 1,
+      "provisional_findings": 5
+    },
+    "evidence": [
+      "NONE SUPPLIED for H1-H5: no StreamingQueryProgress JSON, Spark event log, Event Hubs metrics export, or job config was attached to this task. All hypotheses are config/mechanism-based and unverified.",
+      "H1/H4 discriminator needed: StreamingQueryProgress.durationMs breakdown (addBatch, getBatch, latestOffset, queryPlanning, walCommit, commitOffsets) plus inputRowsPerSecond vs processedRowsPerSecond across â‰¥20 batches.",
+      "H2 needed: Event Hub partitionCount, cluster total cores, per-partition IncomingMessages distribution (Azure Monitor, split by partition).",
+      "H3 needed: Azure Monitor namespace metrics ThrottledRequests, ServerErrors, OutgoingBytes vs TU/PU egress quota (Standard: 2 MB/s egress per TU).",
+      "H4 needed: checkpoint path listing (file count/size under offsets/, commits/, state/), stateOperators.numRowsTotal and memoryUsedBytes trend, storage account latency (SuccessE2ELatency vs SuccessServerLatency).",
+      "H5 needed: consumerGroup value in job config and inventory of other consumers on that group; driver/executor logs for ReceiverDisconnectedException / epoch errors."
+    ],
+    "unresolved": [
+      "event-hubs:checkpoint-vs-processing-bottleneck â€” cannot be determined without StreamingQueryProgress duration breakdown; no runtime evidence supplied.",
+      "Event Hubs tier, TU/PU count, auto-inflate setting, and partition count unknown.",
+      "Connector in use unknown (azure-event-hubs-spark vs Kafka endpoint via spark-sql-kafka); rate-limit option names and fetch behavior differ.",
+      "Whether the query is stateful (state store size drives checkpoint cost) unknown.",
+      "Checkpoint storage backend and whether RocksDB state store / async checkpointing (Databricks) is enabled unknown.",
+      "'Healthy sink' claim not verified: sink write time sits inside addBatch, so a sink that looks healthy externally can still dominate batch duration."
+    ],
+    "tokens": {
+      "status": "measured",
+      "input": 2,
+      "output": 2434,
+      "cache_creation_input": 82253
+    },
+    "cost": {
+      "status": "measured",
+      "usd": 0.7107528000000001
+    },
+    "latency_s": 42.789,
+    "tool_calls": 0,
+    "context_bytes": 0,
+    "degraded": false
+  },
+  "value_vector_vs_A": {
+    "information_gain": 0,
+    "evidence_gain": 4,
+    "uncertainty_reduction": 2,
+    "decision_impact": "unresolved",
+    "quality_delta": 0,
+    "cost": {
+      "status": "unresolved"
+    },
+    "latency_delta_s": 42.3169
+  },
+  "necessity": "USEFUL",
+  "baseline_A": {
+    "case_id": "streaming-lag",
+    "configuration": "A",
+    "runtime": "generic",
+    "agents": [
+      "coordinator",
+      "inventory",
+      "extractor",
+      "analyzer",
+      "judge",
+      "synthesizer"
+    ],
+    "quality": {
+      "required_findings_hit": 0,
+      "required_findings_total": 0,
+      "forbidden_findings_hit": 0,
+      "forbidden_findings": [],
+      "known_unresolved_preserved": 1,
+      "known_unresolved_total": 1,
+      "provisional_findings": 2
+    },
+    "evidence": [
+      "extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}",
+      "synthesizer:extractor:{'id': 'fact-0', 'ref': 'consumer lag metric rising', 'kind': 'provisional'}"
+    ],
+    "unresolved": [
+      "event-hubs:checkpoint-vs-processing-bottleneck",
+      "coordinator:requires_probabilistic_reasoning",
+      "analyzer:requires_probabilistic_reasoning",
+      "judge:no_claims_provided",
+      "synthesizer:event-hubs:checkpoint-vs-processing-bottleneck",
+      "synthesizer:coordinator:requires_probabilistic_reasoning",
+      "synthesizer:analyzer:requires_probabilistic_reasoning",
+      "synthesizer:judge:no_claims_provided"
+    ],
+    "tokens": {
+      "status": "unresolved"
+    },
+    "cost": {
+      "status": "unresolved"
+    },
+    "latency_s": 0.4721,
+    "tool_calls": 0,
+    "context_bytes": 68,
+    "degraded": true
+  }
+}
