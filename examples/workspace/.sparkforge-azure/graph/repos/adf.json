@@ -1,0 +1,36 @@
+{
+ "edges": [],
+ "fingerprint": "460230ff1112e3810663add65bf6e4d710f3c30babf1e92f6edd69b294aa6263",
+ "meta": {
+  "engine": "ast",
+  "repo": "adf",
+  "skipped": 0
+ },
+ "nodes": [
+  {
+   "attrs": {
+    "format": "json",
+    "path": "pipeline/pl_ingest.json",
+    "repo": "adf"
+   },
+   "id": "code:config:adf/pipeline/pl_ingest.json",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:adf"
+   }
+  }
+ ],
+ "schema_version": 1,
+ "stats": {
+  "edges": 0,
+  "layers": {
+   "code": 1
+  },
+  "nodes": 1,
+  "unresolved": 0
+ },
+ "unresolved": []
+}

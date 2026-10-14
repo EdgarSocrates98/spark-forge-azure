@@ -1,0 +1,979 @@
+{
+ "edges": [
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "member_of",
+   "source": "azure:/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourcegroups/rg-data/providers/microsoft.databricks/workspaces/dbw-analytics",
+   "target": "knowledge:domain:sales"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "member_of",
+   "source": "azure:/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourcegroups/rg-data/providers/microsoft.storage/storageaccounts/stlakehouse",
+   "target": "knowledge:domain:sales"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "member_of",
+   "source": "azure:fabric:33333333-3333-4333-8333-333333333333",
+   "target": "knowledge:domain:sales"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "defines",
+   "source": "code:class:databricks/src/lakehouse/transforms.py::OrderWriter",
+   "target": "code:function:databricks/src/lakehouse/transforms.py::OrderWriter.target_path"
+  },
+  {
+   "attrs": {
+    "match": "path"
+   },
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "configures",
+   "source": "code:config:databricks/databricks.yml",
+   "target": "code:file:databricks/notebooks/silver_orders.py"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   },
+   "relation": "defines",
+   "source": "code:config:terraform/main.tf",
+   "target": "code:symbol:terraform/azurerm_databricks_workspace.analytics"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   },
+   "relation": "defines",
+   "source": "code:config:terraform/main.tf",
+   "target": "code:symbol:terraform/azurerm_storage_account.lake"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   },
+   "relation": "defines",
+   "source": "code:config:terraform/main.tf",
+   "target": "code:symbol:terraform/azurerm_storage_account.stshared"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "defines",
+   "source": "code:file:databricks/notebooks/silver_orders.py",
+   "target": "code:function:databricks/notebooks/silver_orders.py::run"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "defines",
+   "source": "code:file:databricks/notebooks/silver_orders.py",
+   "target": "data:notebook:databricks/notebooks/silver_orders.py"
+  },
+  {
+   "attrs": {
+    "module": "lakehouse.transforms.silver_orders"
+   },
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "imports",
+   "source": "code:file:databricks/notebooks/silver_orders.py",
+   "target": "code:file:databricks/src/lakehouse/transforms.py"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "imports",
+   "source": "code:file:databricks/notebooks/silver_orders.py",
+   "target": "code:import:lakehouse.transforms"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "defines",
+   "source": "code:file:databricks/src/lakehouse/transforms.py",
+   "target": "code:class:databricks/src/lakehouse/transforms.py::OrderWriter"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "defines",
+   "source": "code:file:databricks/src/lakehouse/transforms.py",
+   "target": "code:function:databricks/src/lakehouse/transforms.py::normalize_order"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "defines",
+   "source": "code:file:databricks/src/lakehouse/transforms.py",
+   "target": "code:function:databricks/src/lakehouse/transforms.py::silver_orders"
+  },
+  {
+   "attrs": {
+    "via_import": true
+   },
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "calls",
+   "source": "code:function:databricks/notebooks/silver_orders.py::run",
+   "target": "code:function:databricks/src/lakehouse/transforms.py::silver_orders"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "calls",
+   "source": "code:function:databricks/src/lakehouse/transforms.py::silver_orders",
+   "target": "code:function:databricks/src/lakehouse/transforms.py::normalize_order"
+  },
+  {
+   "attrs": {
+    "via_import": true
+   },
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "calls",
+   "source": "code:function:databricks/tests/test_transforms.py::test_normalize_order",
+   "target": "code:function:databricks/src/lakehouse/transforms.py::normalize_order"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:adf",
+   "target": "code:config:adf/pipeline/pl_ingest.json"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "depends_on",
+   "source": "code:repository:adf",
+   "target": "code:repository:terraform"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "member_of",
+   "source": "code:repository:adf",
+   "target": "knowledge:domain:sales"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:databricks",
+   "target": "code:config:databricks/databricks.yml"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:databricks",
+   "target": "code:file:databricks/notebooks/silver_orders.py"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:databricks",
+   "target": "code:file:databricks/src/lakehouse/__init__.py"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:databricks",
+   "target": "code:file:databricks/src/lakehouse/transforms.py"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:databricks",
+   "target": "code:test:databricks/tests/test_transforms.py"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "depends_on",
+   "source": "code:repository:databricks",
+   "target": "code:repository:shared"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "depends_on",
+   "source": "code:repository:databricks",
+   "target": "code:repository:terraform"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "member_of",
+   "source": "code:repository:databricks",
+   "target": "knowledge:domain:sales"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:fabric",
+   "target": "code:config:fabric/lakehouse.json"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "member_of",
+   "source": "code:repository:fabric",
+   "target": "knowledge:domain:sales"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:shared",
+   "target": "code:config:shared/conventions.yaml"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "contains",
+   "source": "code:repository:terraform",
+   "target": "code:config:terraform/main.tf"
+  },
+  {
+   "attrs": {
+    "declared": true
+   },
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "binds_to",
+   "source": "code:symbol:terraform/azurerm_databricks_workspace.analytics",
+   "target": "azure:/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourcegroups/rg-data/providers/microsoft.databricks/workspaces/dbw-analytics"
+  },
+  {
+   "attrs": {
+    "declared": true
+   },
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "binds_to",
+   "source": "code:symbol:terraform/azurerm_storage_account.lake",
+   "target": "azure:/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourcegroups/rg-data/providers/microsoft.storage/storageaccounts/stlakehouse"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "defines",
+   "source": "code:test:databricks/tests/test_transforms.py",
+   "target": "code:function:databricks/tests/test_transforms.py::test_normalize_order"
+  },
+  {
+   "attrs": {
+    "module": "lakehouse.transforms.normalize_order"
+   },
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "imports",
+   "source": "code:test:databricks/tests/test_transforms.py",
+   "target": "code:file:databricks/src/lakehouse/transforms.py"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "imports",
+   "source": "code:test:databricks/tests/test_transforms.py",
+   "target": "code:import:lakehouse.transforms"
+  },
+  {
+   "attrs": {
+    "module": "lakehouse.transforms.normalize_order"
+   },
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   },
+   "relation": "tests",
+   "source": "code:test:databricks/tests/test_transforms.py",
+   "target": "code:file:databricks/src/lakehouse/transforms.py"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "constrains_source",
+   "source": "knowledge:boundary:fabric-does-not-touch-terraform",
+   "target": "code:repository:fabric"
+  },
+  {
+   "attrs": {},
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   },
+   "relation": "constrains_target",
+   "source": "knowledge:boundary:fabric-does-not-touch-terraform",
+   "target": "code:repository:terraform"
+  }
+ ],
+ "fingerprint": "e01771f0ce793db7cc6a872c8222848214ae8d72821b035113389f139fd1922c",
+ "meta": {
+  "kind": "static",
+  "workspace": "contoso-lakehouse"
+ },
+ "nodes": [
+  {
+   "attrs": {
+    "arm_id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Databricks/workspaces/dbw-analytics",
+    "databricks_workspace_id": "1234567890123456",
+    "declared": true,
+    "declared_name": "analytics",
+    "workspace_url": "https://adb-1234567890123456.6.azuredatabricks.net"
+   },
+   "id": "azure:/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourcegroups/rg-data/providers/microsoft.databricks/workspaces/dbw-analytics",
+   "kind": "databricks_workspace",
+   "layer": "azure",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "arm_id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stlakehouse",
+    "declared": true,
+    "declared_name": "lake"
+   },
+   "id": "azure:/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourcegroups/rg-data/providers/microsoft.storage/storageaccounts/stlakehouse",
+   "kind": "storage_account",
+   "layer": "azure",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "arm_id": "/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourceGroups/rg-data/providers/Microsoft.Storage/storageAccounts/stshared",
+    "declared": true,
+    "declared_name": "shared-storage"
+   },
+   "id": "azure:/subscriptions/00000000-0000-4000-8000-00000000aaaa/resourcegroups/rg-data/providers/microsoft.storage/storageaccounts/stshared",
+   "kind": "storage_account",
+   "layer": "azure",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "declared": true,
+    "declared_name": "sales-fabric",
+    "fabric_workspace_id": "33333333-3333-4333-8333-333333333333"
+   },
+   "id": "azure:fabric:33333333-3333-4333-8333-333333333333",
+   "kind": "fabric_workspace",
+   "layer": "azure",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "end_line": 14,
+    "name": "OrderWriter",
+    "path": "src/lakehouse/transforms.py",
+    "qualified_name": "OrderWriter",
+    "repo": "databricks",
+    "start_line": 12
+   },
+   "id": "code:class:databricks/src/lakehouse/transforms.py::OrderWriter",
+   "kind": "class",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "format": "json",
+    "path": "pipeline/pl_ingest.json",
+    "repo": "adf"
+   },
+   "id": "code:config:adf/pipeline/pl_ingest.json",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:adf"
+   }
+  },
+  {
+   "attrs": {
+    "format": "yml",
+    "path": "databricks.yml",
+    "repo": "databricks"
+   },
+   "id": "code:config:databricks/databricks.yml",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "format": "json",
+    "path": "lakehouse.json",
+    "repo": "fabric"
+   },
+   "id": "code:config:fabric/lakehouse.json",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:fabric"
+   }
+  },
+  {
+   "attrs": {
+    "format": "yaml",
+    "path": "conventions.yaml",
+    "repo": "shared"
+   },
+   "id": "code:config:shared/conventions.yaml",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:shared"
+   }
+  },
+  {
+   "attrs": {
+    "iac": "terraform",
+    "path": "main.tf",
+    "repo": "terraform"
+   },
+   "id": "code:config:terraform/main.tf",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   }
+  },
+  {
+   "attrs": {
+    "language": "python",
+    "path": "notebooks/silver_orders.py",
+    "repo": "databricks"
+   },
+   "id": "code:file:databricks/notebooks/silver_orders.py",
+   "kind": "file",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "language": "python",
+    "path": "src/lakehouse/__init__.py",
+    "repo": "databricks"
+   },
+   "id": "code:file:databricks/src/lakehouse/__init__.py",
+   "kind": "file",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "language": "python",
+    "path": "src/lakehouse/transforms.py",
+    "repo": "databricks"
+   },
+   "id": "code:file:databricks/src/lakehouse/transforms.py",
+   "kind": "file",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "end_line": 7,
+    "name": "run",
+    "path": "notebooks/silver_orders.py",
+    "qualified_name": "run",
+    "repo": "databricks",
+    "start_line": 6
+   },
+   "id": "code:function:databricks/notebooks/silver_orders.py::run",
+   "kind": "function",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "end_line": 14,
+    "method": true,
+    "name": "target_path",
+    "path": "src/lakehouse/transforms.py",
+    "qualified_name": "OrderWriter.target_path",
+    "repo": "databricks",
+    "start_line": 13
+   },
+   "id": "code:function:databricks/src/lakehouse/transforms.py::OrderWriter.target_path",
+   "kind": "function",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "end_line": 5,
+    "name": "normalize_order",
+    "path": "src/lakehouse/transforms.py",
+    "qualified_name": "normalize_order",
+    "repo": "databricks",
+    "start_line": 4
+   },
+   "id": "code:function:databricks/src/lakehouse/transforms.py::normalize_order",
+   "kind": "function",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "end_line": 9,
+    "name": "silver_orders",
+    "path": "src/lakehouse/transforms.py",
+    "qualified_name": "silver_orders",
+    "repo": "databricks",
+    "start_line": 8
+   },
+   "id": "code:function:databricks/src/lakehouse/transforms.py::silver_orders",
+   "kind": "function",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "end_line": 5,
+    "name": "test_normalize_order",
+    "path": "tests/test_transforms.py",
+    "qualified_name": "test_normalize_order",
+    "repo": "databricks",
+    "start_line": 4
+   },
+   "id": "code:function:databricks/tests/test_transforms.py::test_normalize_order",
+   "kind": "function",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "module": "lakehouse.transforms"
+   },
+   "id": "code:import:lakehouse.transforms",
+   "kind": "import",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "exists": true,
+    "path": "adf",
+    "role": "adf"
+   },
+   "id": "code:repository:adf",
+   "kind": "repository",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "exists": true,
+    "path": "databricks",
+    "role": "databricks"
+   },
+   "id": "code:repository:databricks",
+   "kind": "repository",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "exists": true,
+    "path": "fabric",
+    "role": "fabric"
+   },
+   "id": "code:repository:fabric",
+   "kind": "repository",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "exists": true,
+    "path": "shared",
+    "role": "shared"
+   },
+   "id": "code:repository:shared",
+   "kind": "repository",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "exists": true,
+    "path": "terraform",
+    "role": "terraform"
+   },
+   "id": "code:repository:terraform",
+   "kind": "repository",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "address": "azurerm_databricks_workspace.analytics",
+    "iac": "terraform",
+    "path": "main.tf",
+    "repo": "terraform",
+    "resource_type": "azurerm_databricks_workspace"
+   },
+   "id": "code:symbol:terraform/azurerm_databricks_workspace.analytics",
+   "kind": "symbol",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   }
+  },
+  {
+   "attrs": {
+    "address": "azurerm_storage_account.lake",
+    "iac": "terraform",
+    "path": "main.tf",
+    "repo": "terraform",
+    "resource_type": "azurerm_storage_account"
+   },
+   "id": "code:symbol:terraform/azurerm_storage_account.lake",
+   "kind": "symbol",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   }
+  },
+  {
+   "attrs": {
+    "address": "azurerm_storage_account.stshared",
+    "iac": "terraform",
+    "path": "main.tf",
+    "repo": "terraform",
+    "resource_type": "azurerm_storage_account"
+   },
+   "id": "code:symbol:terraform/azurerm_storage_account.stshared",
+   "kind": "symbol",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:terraform"
+   }
+  },
+  {
+   "attrs": {
+    "language": "python",
+    "path": "tests/test_transforms.py",
+    "repo": "databricks"
+   },
+   "id": "code:test:databricks/tests/test_transforms.py",
+   "kind": "test",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "path": "notebooks/silver_orders.py",
+    "repo": "databricks"
+   },
+   "id": "data:notebook:databricks/notebooks/silver_orders.py",
+   "kind": "notebook",
+   "layer": "data",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:databricks"
+   }
+  },
+  {
+   "attrs": {
+    "allowed": false,
+    "name": "fabric-does-not-touch-terraform",
+    "source": "fabric",
+    "target": "terraform"
+   },
+   "id": "knowledge:boundary:fabric-does-not-touch-terraform",
+   "kind": "boundary",
+   "layer": "knowledge",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  },
+  {
+   "attrs": {
+    "name": "sales"
+   },
+   "id": "knowledge:domain:sales",
+   "kind": "domain",
+   "layer": "knowledge",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "manifest:contoso-lakehouse"
+   }
+  }
+ ],
+ "schema_version": 1,
+ "stats": {
+  "edges": 41,
+  "layers": {
+   "azure": 4,
+   "code": 24,
+   "data": 1,
+   "knowledge": 2
+  },
+  "nodes": 31,
+  "unresolved": 0
+ },
+ "unresolved": []
+}

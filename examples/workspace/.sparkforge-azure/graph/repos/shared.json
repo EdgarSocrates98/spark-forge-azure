@@ -1,0 +1,36 @@
+{
+ "edges": [],
+ "fingerprint": "6e4801b3b12965c303f47104bd823bba033cd7832a79cc3682928052490a3a4e",
+ "meta": {
+  "engine": "ast",
+  "repo": "shared",
+  "skipped": 0
+ },
+ "nodes": [
+  {
+   "attrs": {
+    "format": "yaml",
+    "path": "conventions.yaml",
+    "repo": "shared"
+   },
+   "id": "code:config:shared/conventions.yaml",
+   "kind": "config",
+   "layer": "code",
+   "provenance": {
+    "kind": "static",
+    "observed_at": null,
+    "source": "repo:shared"
+   }
+  }
+ ],
+ "schema_version": 1,
+ "stats": {
+  "edges": 0,
+  "layers": {
+   "code": 1
+  },
+  "nodes": 1,
+  "unresolved": 0
+ },
+ "unresolved": []
+}
