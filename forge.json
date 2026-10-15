@@ -12,5 +12,23 @@
   ],
   "extras": [
     "mcp"
-  ]
+  ],
+  "lab": {
+    "command": [
+      "{checkout}/.venv/bin/python",
+      "scripts/lab/sparkforge_azure_lab.py",
+      "--checkout",
+      "{checkout}",
+      "--mode",
+      "{mode}",
+      "--result-out",
+      "{receipt}"
+    ],
+    "receipt": ".forge/lab-result.json",
+    "modes": [
+      "A"
+    ],
+    "suite": "spark-forge-azure-lab",
+    "timeout_s": 120
+  }
 }

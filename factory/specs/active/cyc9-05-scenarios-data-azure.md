@@ -1,7 +1,7 @@
 ---
 id: cyc9-05
 title: scenarios-data-engineering-azure
-status: inbox
+status: active
 created: 2026-10-15
 owner: spark-forge-azure
 scope: repo
