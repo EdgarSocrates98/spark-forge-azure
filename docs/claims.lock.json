@@ -17,7 +17,7 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "suite-green",
@@ -38,7 +38,7 @@
      "pattern": "\n[0-9]+ passed"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "surface-lock",
@@ -53,7 +53,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "skills-catalogue-22",
@@ -71,7 +71,7 @@
      "value": 22
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "mcp-tools-18",
@@ -90,7 +90,7 @@
      "value": 18
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "knowledge-check",
@@ -105,7 +105,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "lab-verify",
@@ -124,7 +124,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "access-suite-10",
@@ -146,7 +146,7 @@
      "value": 10
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -169,7 +169,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "security-vertical-green",
@@ -189,7 +189,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "fabric-suite-green",
@@ -212,7 +212,7 @@
      "value": 16
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -228,7 +228,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "fabric-mcp-surface",
@@ -244,7 +244,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "docs-surface",
@@ -260,7 +260,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "stream-suite-green",
@@ -276,7 +276,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "stream-mcp-surface",
@@ -292,7 +292,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "migration-suite-green",
@@ -308,7 +308,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "migration-mcp-surface",
@@ -324,7 +324,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "docs-index",
@@ -340,7 +340,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "agentic-fleet-40",
@@ -360,7 +360,7 @@
      "value": 40
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "agentic-fingerprint",
@@ -379,7 +379,7 @@
      "pattern": "\"fingerprint\":\\s*\"sha256:[0-9a-f]{64}\""
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "sdd-gate-green",
@@ -399,7 +399,7 @@
      "value": true
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "freeze-frozen",
@@ -418,7 +418,7 @@
      "value": "frozen"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "host-proof-claude",
@@ -437,7 +437,7 @@
      "value": "host_proven"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "portable-distribution-wheel",
@@ -455,7 +455,7 @@
      "pattern": "portability gate: ok"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "workspace-relocation",
@@ -473,7 +473,7 @@
      "pattern": "ok\\s+relocated-repo"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "multi-repo-context",
@@ -491,7 +491,7 @@
      "pattern": "ok\\s+transitive-deps"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
    "id": "detach-safe",
@@ -509,7 +509,7 @@
      "pattern": "ok\\s+detach-reattach"
     }
    },
-   "sha": "0b2fb7ccfdd5e7c1765723880431f5cc47f92d94"
+   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   }
  ]
 }
