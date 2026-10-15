@@ -38,3 +38,4 @@ htmlcov/
 evals/portability/reports/case-*.json
 
 uv.lock
+graphify-out/
