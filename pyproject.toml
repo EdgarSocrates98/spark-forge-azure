@@ -32,6 +32,8 @@ dependencies = [
 [project.urls]
 Homepage = "https://github.com/EdgarSocrates98/spark-forge-azure"
 Repository = "https://github.com/EdgarSocrates98/spark-forge-azure"
+Documentation = "https://github.com/EdgarSocrates98/spark-forge-azure/blob/main/docs/README.md"
+Changelog = "https://github.com/EdgarSocrates98/spark-forge-azure/blob/main/CHANGELOG.md"
 Issues = "https://github.com/EdgarSocrates98/spark-forge-azure/issues"
 
 [project.optional-dependencies]

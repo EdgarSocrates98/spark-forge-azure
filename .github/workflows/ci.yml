@@ -34,7 +34,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python: ["3.10", "3.12", "3.14"]
+        # Every minor inside `requires-python >=3.10` — 3.11 and 3.13 were
+        # the uncovered legs (cycle 11.2, P1-004).
+        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:

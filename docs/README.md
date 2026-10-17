@@ -135,6 +135,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | Doc | Cobre |
 |---|---|
 | `docs/operations/runbook.md` | Gates de verificação, regeneração de locks, manutenção |
+| `docs/releasing/pypi-patch-plan.md` | Plano de patch PyPI c11.2 (metadata, sdist, provenance) |
 | `docs/agentops.md` | Spans/runs gravadas: `agentops runs/inspect/timeline/critical-path` |
 | `docs/agentic/AGENT_INVENTORY.md` | Status por agent da frota (gerado, `scripts/gen_agent_inventory.py`) |
 | `docs/agentic/MATURITY_MAP.md` | Auditoria seção→artefato do prompt de maturidade (autoral) |
