@@ -1,10 +1,10 @@
 # Spark Forge Azure
 
-> Instalação portátil: [`docs/installation/quickstart.md`](docs/installation/quickstart.md) — clone → setup → install. Delegação agêntica: [forge.agentic.json](forge.agentic.json) (SpecialistAgenticManifest/v1).
-> Docs: [commands](docs/reference/commands.md) · [skills](docs/reference/skills.md) · [agents](docs/reference/agents.md) · [tutorial](docs/tutorials/first-run.md) · [economy](docs/economy.md) · [troubleshooting](docs/installation/troubleshooting.md)
+> Instalação: `pip install sparkforge-azure` (PyPI, Python >= 3.10). Instalação portátil/agentic: [`docs/installation/quickstart.md`](https://github.com/EdgarSocrates98/spark-forge-azure/blob/v0.1.0/docs/installation/quickstart.md) — clone → setup → install. Delegação agêntica: [forge.agentic.json](https://github.com/EdgarSocrates98/spark-forge-azure/blob/v0.1.0/forge.agentic.json) (SpecialistAgenticManifest/v1).
+> Docs: [commands](https://github.com/EdgarSocrates98/spark-forge-azure/blob/v0.1.0/docs/reference/commands.md) · [skills](https://github.com/EdgarSocrates98/spark-forge-azure/blob/v0.1.0/docs/reference/skills.md) · [agents](https://github.com/EdgarSocrates98/spark-forge-azure/blob/v0.1.0/docs/reference/agents.md) · [tutorial](https://github.com/EdgarSocrates98/spark-forge-azure/blob/v0.1.0/docs/tutorials/first-run.md) · [economy](https://github.com/EdgarSocrates98/spark-forge-azure/blob/v0.1.0/docs/economy.md) · [troubleshooting](https://github.com/EdgarSocrates98/spark-forge-azure/blob/v0.1.0/docs/installation/troubleshooting.md)
 
 <p align="center">
-  <img src="docs/assets/spark-forge-logo.jpg" alt="Logo do SparkForge" width="420">
+  <img src="https://raw.githubusercontent.com/EdgarSocrates98/spark-forge-azure/v0.1.0/docs/assets/spark-forge-logo.jpg" alt="Logo do SparkForge" width="420">
 </p>
 
 **Plataforma de engenharia agentica para Data Engineering em Azure** — sibling
