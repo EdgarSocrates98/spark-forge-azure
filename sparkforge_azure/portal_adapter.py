@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from sparkforge_azure import _forge_portal as fp
+from sparkforge_azure import _portal_telemetry as _pt
 from sparkforge_azure.install import service
 
 _PACKAGE_ROOT = Path(__file__).resolve().parent
@@ -81,7 +82,14 @@ class SparkAzurePortal(fp.PortalAdapter):
         self.assets_dir = _ASSETS_DIR
         self._tasks: list[dict[str, Any]] = []
         self._task_seq = 0
+        # forge/PortalEvent/1 opt-in: the server emits op-boundary and
+        # transport events into this bounded recorder; /events + /metrics
+        # below are read-only projections of what really ran.
+        self._telemetry_recorder = _pt.EventRecorder()
+        self.event_sink = self._telemetry_recorder.emit
         self.ops = fp.default_operations(self) + [
+            *_pt.operations(self._telemetry_recorder, self),
+            _pt.task_events_op(self._telemetry_recorder, lambda: list(self._tasks)),
             fp.Operation("GET", "/profiles", lambda ctx: self._profiles()),
             fp.Operation("GET", "/hosts", lambda ctx: self._hosts()),
             fp.Operation("GET", "/mcp/servers", lambda ctx: self._mcp_servers()),
