@@ -78,6 +78,7 @@ packages = ["sparkforge_azure"]
 "skills" = "sparkforge_azure/_data/skills"
 "agents" = "sparkforge_azure/_data/agents"
 "lab/scenarios" = "sparkforge_azure/_data/lab/scenarios"
+"evals" = "sparkforge_azure/_data/evals"
 # Portal web local: os assets vendored (`portal/assets/` na raiz do clone) vão
 # para dentro do pacote, e o adapter os resolve nos dois layouts — igual ao
 # _data bundle. Sem isto `sparkforge-azure portal` num pip install cairia na
@@ -92,6 +93,7 @@ include = [
     "skills",
     "agents",
     "lab/scenarios",
+    "evals",
     "portal/assets",
     "README.md",
     "LICENSE",

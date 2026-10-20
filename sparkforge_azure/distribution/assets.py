@@ -25,7 +25,7 @@ _PKG = Path(__file__).resolve().parents[1]
 _REPO = _PKG.parent
 
 #: Asset groups, as declared in `[tool.hatch.build.targets.wheel.force-include]`.
-ASSET_GROUPS: tuple[str, ...] = ("agents", "knowledge", "lab", "rules", "skills")
+ASSET_GROUPS: tuple[str, ...] = ("agents", "evals", "knowledge", "lab", "rules", "skills")
 
 TEMPLATES_PACKAGE = "sparkforge_azure.distribution.templates"
 

@@ -126,8 +126,24 @@ def eval_compare(baseline_dir: Path | str, candidate_dir: Path | str) -> dict[st
     )
 
 
+def _evals_dir() -> Path:
+    """Corpus ``evals/``: workspace primeiro; checkout/wheel embutido depois.
+
+    ``group_dir`` resolve ``_REPO/evals`` num checkout e
+    ``sparkforge_azure/_data/evals`` numa wheel — o fallback final é o path de
+    workspace para que a recusa de corpus ausente aponte ao lugar de escrita.
+    """
+    from sparkforge_azure.distribution.assets import group_dir
+
+    local = Path.cwd() / "evals"
+    if local.is_dir():
+        return local
+    packaged = group_dir("evals")
+    return packaged if packaged.is_dir() else local
+
+
 def _suite_dir(nome: str) -> Path:
-    return Path.cwd() / "evals" / "agentic" / _nome(nome, "--suite")
+    return _evals_dir() / "agentic" / _nome(nome, "--suite")
 
 
 def _conjunto(suite: str, nome: str, flag: str) -> Path:
@@ -212,7 +228,7 @@ def main(argv: list[str] | None = None) -> int:
             execucao = DEBATE_RUNS_ROOT / _nome(args.run, "--run")
             if not execucao.is_dir():
                 raise EvalError(f"--run {args.run!r}: execucao ausente em {DEBATE_RUNS_ROOT}")
-            payload = grade_debate_run(Path.cwd().joinpath(*DEBATE_SUITE), execucao)
+            payload = grade_debate_run(_evals_dir().joinpath(*DEBATE_SUITE[1:]), execucao)
             (execucao / GRADE_FILE).write_text(
                 json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
             )
