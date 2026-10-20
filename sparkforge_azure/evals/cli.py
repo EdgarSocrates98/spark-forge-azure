@@ -127,14 +127,22 @@ def eval_compare(baseline_dir: Path | str, candidate_dir: Path | str) -> dict[st
 
 
 def _evals_dir() -> Path:
-    """Corpus ``evals/``: workspace primeiro; checkout/wheel embutido depois.
+    """Corpus ``evals/``: env > workspace > checkout/wheel embutido.
 
-    ``group_dir`` resolve ``_REPO/evals`` num checkout e
-    ``sparkforge_azure/_data/evals`` numa wheel — o fallback final é o path de
-    workspace para que a recusa de corpus ausente aponte ao lugar de escrita.
+    ``SPARKFORGE_AZURE_EVALS`` (alias legado ``SPARK_FORGE_AZURE_EVALS``)
+    aponta para a raiz ``evals/`` — paridade com ``SPARKFORGE_AWS_EVALS``
+    no sibling. ``group_dir`` resolve ``_REPO/evals`` num checkout e
+    ``sparkforge_azure/_data/evals`` numa wheel — o fallback final é o path
+    de workspace para que a recusa de corpus ausente aponte ao lugar de
+    escrita.
     """
     from sparkforge_azure.distribution.assets import group_dir
 
+    override = os.environ.get("SPARKFORGE_AZURE_EVALS") or os.environ.get(
+        "SPARK_FORGE_AZURE_EVALS"
+    )
+    if override:
+        return Path(override).expanduser()
     local = Path.cwd() / "evals"
     if local.is_dir():
         return local

@@ -43,3 +43,30 @@ def test_debate_suite_resolves_through_evals_dir(tmp_path, monkeypatch):
     assert tmp_path.joinpath(*cli.DEBATE_SUITE).name == "debate" and cli._evals_dir().joinpath(
         *cli.DEBATE_SUITE[1:]
     ) == cli._suite_dir("debate")
+
+
+def test_env_override_wins_over_workspace(tmp_path, monkeypatch):
+    custom = tmp_path / "custom-evals"
+    (custom / "agentic" / "debate").mkdir(parents=True)
+    monkeypatch.setenv("SPARKFORGE_AZURE_EVALS", str(custom))
+    workspace = tmp_path / "ws"
+    (workspace / "evals" / "agentic" / "debate").mkdir(parents=True)
+    monkeypatch.chdir(workspace)
+    assert cli._evals_dir() == custom
+    assert cli._suite_dir("debate") == custom / "agentic" / "debate"
+
+
+def test_env_alias_fallback(tmp_path, monkeypatch):
+    custom = tmp_path / "alias-evals"
+    custom.mkdir()
+    monkeypatch.setenv("SPARK_FORGE_AZURE_EVALS", str(custom))
+    monkeypatch.chdir(tmp_path)
+    assert cli._evals_dir() == custom
+
+
+def test_env_override_honest_missing(tmp_path, monkeypatch):
+    missing = tmp_path / "nada"
+    monkeypatch.setenv("SPARKFORGE_AZURE_EVALS", str(missing))
+    monkeypatch.chdir(tmp_path)
+    # override vence mesmo inexistente — a recusa downstream aponta para ele.
+    assert cli._evals_dir() == missing
