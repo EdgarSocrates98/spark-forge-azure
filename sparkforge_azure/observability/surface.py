@@ -23,8 +23,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[2]
-
 SERIALIZATION_BASIS = 'len(json.dumps(obj, ensure_ascii=False).encode("utf-8"))'
 
 
@@ -131,11 +129,19 @@ def measure_cli() -> dict[str, Any]:
 
 def measure_surface(root: Path | None = None) -> dict[str, Any]:
     """As superficies, medidas sem executar nada."""
-    raiz = root or ROOT
+    if root is not None:
+        skills, knowledge = root / "skills", root / "knowledge"
+    else:
+        # Sem root explicito, resolve cada grupo no layout ativo -- `parents[2]`
+        # num wheel instalado e site-packages, onde `skills/` e `knowledge/`
+        # nao existem; eles moram em `_data/` (ver distribution.assets).
+        from sparkforge_azure.distribution.assets import group_dir
+
+        skills, knowledge = group_dir("skills"), group_dir("knowledge")
     return {
         "cli": measure_cli(),
         "tools": measure_tool_catalogue(),
         "compact": measure_compact_catalogue(),
-        "skills": measure_skills(raiz / "skills"),
-        "knowledge": measure_directory(raiz / "knowledge", "*.md"),
+        "skills": measure_skills(skills),
+        "knowledge": measure_directory(knowledge, "*.md"),
     }

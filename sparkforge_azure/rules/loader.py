@@ -47,7 +47,10 @@ def catalog_dir() -> Path:
     para que um valor com `..` ou apontando para um arquivo nao vire uma leitura
     arbitraria de sistema de arquivos.
     """
-    override = os.environ.get("SPARKFORGE_AZURE_CATALOG")
+    override = (
+        os.environ.get("SPARKFORGE_AZURE_CATALOG")
+        or os.environ.get("SPARK_FORGE_AZURE_CATALOG")
+    )
     if override:
         resolved = Path(override).expanduser().resolve()
         if not resolved.is_dir():
@@ -58,10 +61,16 @@ def catalog_dir() -> Path:
 
     repo_root = Path(__file__).resolve().parents[2]
     candidate = repo_root / "rules" / "catalog"
-    if candidate.is_dir():
+    if (repo_root / "pyproject.toml").is_file() and candidate.is_dir():
         return candidate
 
-    return Path(__file__).resolve().parent / "catalog"
+    # No wheel o catalogo mora em `sparkforge_azure/_data/rules/catalog` (ver
+    # `force-include` em pyproject.toml). Import tardio: `distribution` e a
+    # camada que ja resolve os dois layouts, e importa-la no topo puxaria
+    # `discovery`/`manifests` para o caminho quente de quem so quer ler regras.
+    from sparkforge_azure.distribution.assets import group_dir
+
+    return group_dir("rules") / "catalog"
 
 
 def safe_catalog_file(base: Path, name: str) -> Path:

@@ -283,6 +283,10 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("install", "durable"): "receipts/manifests da instalacao sao escritas atomicas",
     ("install", "skills"): "install renderiza os espelhos de skills",
     ("distribution", "install"): "ai le a saude da integracao via install.service",
+    ("rules", "distribution"): "catalog_dir resolve _data/rules/catalog do wheel via assets",
+    ("knowledge_ref", "distribution"): "knowledge_dir resolve _data/knowledge do wheel via assets",
+    ("case", "distribution"): "playbook resolve _data/agents do wheel via assets",
+    ("observability", "distribution"): "measure_surface resolve _data/{skills,knowledge} do wheel",
     ("mcp", "distribution"): "sfa_ai reusa o fluxo read-only de distribution.ai",
     ("ui", "install"): "wizard da home dirige o service de instalacao",
 }

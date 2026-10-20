@@ -31,8 +31,20 @@ import yaml
 from sparkforge_azure.case.router import next_step
 
 ROOT = Path(__file__).resolve().parents[2]
-AGENTS = ROOT / "agents"
-EXECUTORS = AGENTS / "executors"
+
+
+def _agents_dir() -> Path:
+    """`agents/` no checkout ou `sparkforge_azure/_data/agents` no wheel.
+
+    Resolvido por chamada e nao por constante: `Path(__file__)` num wheel
+    instalado aponta para site-packages, onde `parents[2]/agents` nao existe
+    -- a mesma correcao de `rules/loader.py`.
+    """
+    if (ROOT / "pyproject.toml").is_file() and (ROOT / "agents").is_dir():
+        return ROOT / "agents"
+    from sparkforge_azure.distribution.assets import group_dir
+
+    return group_dir("agents")
 
 
 def _frontmatter(path: Path) -> dict[str, Any]:
@@ -49,7 +61,7 @@ def _section(text: str, title: str) -> str:
 
 
 def available_coordinators() -> list[str]:
-    return sorted(p.stem for p in AGENTS.glob("*.md"))
+    return sorted(p.stem for p in _agents_dir().glob("*.md"))
 
 
 def build_playbook(
@@ -76,7 +88,8 @@ def build_playbook(
     de fidelidade, que so verifica a decomposicao de passos) recebe o
     `next_step` que o case e a fase sozinhos determinam.
     """
-    path = AGENTS / f"{coordinator}.md"
+    agents = _agents_dir()
+    path = agents / f"{coordinator}.md"
     if not path.is_file():
         raise ValueError(
             f"coordenador desconhecido: {coordinator}. Rode `sparkforge playbook "
@@ -86,11 +99,11 @@ def build_playbook(
     front = _frontmatter(path)
     steps: list[dict[str, Any]] = []
     for order, name in enumerate(front.get("executors") or [], start=1):
-        executor_path = EXECUTORS / f"{name}.md"
+        executor_path = agents / "executors" / f"{name}.md"
         if not executor_path.is_file():
             raise ValueError(
                 f"{coordinator} declara o executor {name}, que nao existe em "
-                f"{EXECUTORS.relative_to(ROOT)}"
+                f"{agents / 'executors'}"
             )
         text = executor_path.read_text(encoding="utf-8")
         steps.append(

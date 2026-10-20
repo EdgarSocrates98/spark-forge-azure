@@ -40,27 +40,32 @@ class TestResolution:
     ):
         """Prova o unico caminho que existe num pacote instalado por pip.
 
-        Os outros tres testes desta classe passam sem tocar no
-        `return Path(__file__).resolve().parent / "knowledge"` de
-        `knowledge_dir()`: raiz do repo achada, env var valida, env var invalida
-        curto-circuitam antes dele. Sem este teste, um typo no nome do diretorio
-        ou uma troca na ordem das checagens quebraria exatamente o cenario que
-        e a razao do modulo existir, e nenhum teste apitaria.
+        Os outros tres testes desta classe passam sem tocar no fallback
+        `_data/knowledge` de `knowledge_dir()`: raiz do repo achada, env var
+        valida, env var invalida curto-circuitam antes dele. Sem este teste, um
+        typo no nome do diretorio ou uma troca na ordem das checagens quebraria
+        exatamente o cenario que e a razao do modulo existir, e nenhum teste
+        apitaria.
 
-        Simula o layout instalado em `tmp_path`: um `sparkforge/knowledge_ref.py`
-        falso (via injecao de `__file__`) com `sparkforge/knowledge/` presente e
-        sem `knowledge/` na raiz simulada (o equivalente a `parents[1]` cair fora
-        do repositorio real).
+        Simula o layout instalado em `tmp_path`: um `knowledge_ref.py` falso
+        (via injecao de `__file__`) num `site-packages/` sem `pyproject.toml`
+        nem `knowledge/` na raiz simulada — e o `_PKG`/`_REPO` de
+        `distribution.assets` apontados para o mesmo site-packages falso, para
+        que `group_dir()` enxergue o layout de wheel.
         """
         monkeypatch.delenv("SPARKFORGE_AZURE_KNOWLEDGE", raising=False)
 
         fake_package_dir = tmp_path / "site-packages" / "sparkforge_azure"
-        fake_knowledge_dir = fake_package_dir / "knowledge"
+        fake_knowledge_dir = fake_package_dir / "_data" / "knowledge"
         fake_knowledge_dir.mkdir(parents=True)
         fake_module_file = fake_package_dir / "knowledge_ref.py"
         fake_module_file.touch()
 
+        from sparkforge_azure.distribution import assets
+
         monkeypatch.setattr(kr, "__file__", str(fake_module_file))
+        monkeypatch.setattr(assets, "_PKG", fake_package_dir)
+        monkeypatch.setattr(assets, "_REPO", fake_package_dir.parent)
 
         assert kr.knowledge_dir() == fake_knowledge_dir
 

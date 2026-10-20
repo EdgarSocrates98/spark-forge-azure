@@ -29,7 +29,10 @@ def knowledge_dir() -> Path:
     comportamento e identico ao de sempre; instalado por pip, so o fallback
     existe.
     """
-    override = os.environ.get("SPARKFORGE_AZURE_KNOWLEDGE")
+    override = (
+        os.environ.get("SPARKFORGE_AZURE_KNOWLEDGE")
+        or os.environ.get("SPARK_FORGE_AZURE_KNOWLEDGE")
+    )
     if override:
         resolved = Path(override).expanduser().resolve()
         if not resolved.is_dir():
@@ -41,14 +44,17 @@ def knowledge_dir() -> Path:
 
     repo_root = Path(__file__).resolve().parents[1]
     candidate = repo_root / "knowledge"
-    if candidate.is_dir():
+    if (repo_root / "pyproject.toml").is_file() and candidate.is_dir():
         return candidate
 
-    # Fallback deliberadamente sem checagem de is_dir(), espelhando catalog_dir().
-    # Quem consumir precisa validar (is_dir() ou o exists() de safe_knowledge_file);
-    # catalog_dir() delega essa rede de seguranca para load_catalog(), que ainda
-    # nao tem equivalente aqui (chega nas Tasks 4 e 5).
-    return Path(__file__).resolve().parent / "knowledge"
+    # No wheel o conhecimento mora em `sparkforge_azure/_data/knowledge` (ver
+    # `force-include` em pyproject.toml) -- resolve por `distribution.assets`,
+    # a mesma camada que ja distingue os dois layouts, e sem checagem de
+    # is_dir(): quem consome valida (o exists() de safe_knowledge_file),
+    # espelhando catalog_dir().
+    from sparkforge_azure.distribution.assets import group_dir
+
+    return group_dir("knowledge")
 
 
 def safe_knowledge_file(base: Path, name: str) -> Path:

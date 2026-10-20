@@ -44,6 +44,18 @@ def asset_source() -> str:
     return "wheel"
 
 
+def group_dir(group: str) -> Path:
+    """Root of one asset group, in whichever layout is active.
+
+    Public counterpart of ``asset_source()``: ``sparkforge_azure.rules.loader``
+    and ``knowledge_ref`` resolve packaged ``rules/catalog`` and ``knowledge``
+    through here instead of re-deriving the source/wheel split, so the two
+    resolvers cannot drift apart again (the pre-`_data` package-local fallback
+    they carried pointed at paths that do not exist in the wheel).
+    """
+    return _group_dir(group)
+
+
 def _group_dir(group: str) -> Path:
     if asset_source() == "source":
         return _REPO / group
@@ -133,6 +145,7 @@ __all__ = [
     "PackageAsset",
     "asset_inventory",
     "asset_source",
+    "group_dir",
     "asset_summary",
     "load_template",
 ]

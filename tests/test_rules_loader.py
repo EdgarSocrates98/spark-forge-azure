@@ -40,6 +40,32 @@ class TestCatalogDiscovery:
         monkeypatch.setenv("SPARKFORGE_AZURE_CATALOG", str(tmp_path))
         assert catalog_dir() == tmp_path
 
+    def test_falls_back_to_the_packaged_data_dir_when_no_repo_root_exists(
+        self, tmp_path, monkeypatch
+    ):
+        """No wheel o catalogo mora em `sparkforge_azure/_data/rules/catalog`.
+
+        Simula o site-packages: `loader.py` falso via `__file__` (sem
+        `pyproject.toml` nem `rules/catalog` na raiz simulada) e o `_PKG`/`_REPO`
+        de `distribution.assets` apontados para o mesmo fake, para que
+        `group_dir()` enxergue o layout de wheel.
+        """
+        import sparkforge_azure.rules.loader as loader
+        from sparkforge_azure.distribution import assets
+
+        monkeypatch.delenv("SPARKFORGE_AZURE_CATALOG", raising=False)
+        fake_package_dir = tmp_path / "site-packages" / "sparkforge_azure"
+        fake_catalog = fake_package_dir / "_data" / "rules" / "catalog"
+        fake_catalog.mkdir(parents=True)
+        (fake_package_dir / "rules" / "loader.py").parent.mkdir(parents=True)
+        (fake_package_dir / "rules" / "loader.py").touch()
+
+        monkeypatch.setattr(loader, "__file__", str(fake_package_dir / "rules" / "loader.py"))
+        monkeypatch.setattr(assets, "_PKG", fake_package_dir)
+        monkeypatch.setattr(assets, "_REPO", fake_package_dir.parent)
+
+        assert catalog_dir() == fake_catalog
+
 
 class TestLoadCommittedCatalog:
 
