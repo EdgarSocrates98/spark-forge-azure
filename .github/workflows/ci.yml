@@ -45,6 +45,11 @@ jobs:
           fetch-depth: 0
       - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
       - run: uv venv --python ${{ matrix.python }} && uv pip install -e ".[dev]"
+      # lf-0019 B2 — rota Git Bash no Windows usa install.windows.sh;
+      # `bash -n` roda nos dois SOs da matriz (Git Bash no runner Windows).
+      - name: Git Bash installer syntax (lf-0019)
+        shell: bash
+        run: bash -n install.windows.sh
       - name: full suite (MCP, Lab, knowledge, surface, claims)
         run: uv run pytest -q -m "not live_azure"
       - name: knowledge, skills, agents
