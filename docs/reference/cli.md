@@ -387,6 +387,9 @@ redigido e limitado; cada recusa carrega código nomeado
 `--authorize` aceita `LOCAL_READ`, `LOCAL_WRITE`, `EXTERNAL_READ`,
 `EXTERNAL_WRITE`, `DESTRUCTIVE`, `COST_BEARING`.
 
+Evidência E2E do ciclo de integrações (casos A/B/E/G/H, mesma fronteira
+delegation/ do sibling AWS): `forge-cli/docs/integration/cases/`.
+
 ## Exit codes
 
 | Código | Significado |
