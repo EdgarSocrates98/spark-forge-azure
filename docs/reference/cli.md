@@ -359,6 +359,34 @@ recebe arquivos de outro sem aresta declarada ou `all` explícito — cada
 TokenSave é confinado por `resolve_within` à própria raiz. Ciclos recusam
 `dependency_cycle`.
 
+## `sparkforge-azure delegate <op>` — delegação governada a especialistas
+
+Delegação opcional e determinística para forges irmãos —
+`data-sentinel-forge` (`data-sentinel`, diagnóstico de runtime sobre
+artefatos exportados: logs de driver/executor Databricks, `spark
+explain`, `sql analyze`, `lakehouse metadata|operation|access|compat`
+para Delta/Unity Catalog) e `forge-doctor-data` (`forge-doctor-data scan
+--format agent`, análise estática PySpark/Delta). Nada aqui chama a Azure:
+toda capability declarada é `LOCAL_READ` sobre artefato já em disco;
+identidade Azure (Entra ID, managed identity, service principal) nunca
+sai da fronteira de `collect` desta forge. Especialista ausente degrada
+para o fallback nomeado `native-analysis` — nunca para execução simulada.
+
+| Op | Uso |
+|---|---|
+| `discover` | resolve os especialistas declarados nesta máquina (PATH, metadata de pacote, manifests, probes governados) → estados `NOT_INSTALLED`/`DISCOVERED`/`VERIFIED`/`INCOMPATIBLE`/`UNTRUSTED`; `--provider`, `--no-probe`, `--root` |
+| `plan <intent>` | roteamento determinístico do intent para uma capability declarada — nunca executa; `--authorize RISCO`, `--no-probe`, `--root` |
+| `run <provider> <capability>` | executa uma capability declarada sob a fronteira governada (argv puro, env saneada de credenciais `AZURE_*`/`ARM_*`/`DATABRICKS_*`/proxies, timeout, caps de saída, gate de risco); valores: `--target`, `--runtime`, `--operation`, `--table-format`, `--check`, `--dialect`; `--authorize RISCO`, `--timeout`, `--no-persist`, `--root` |
+| `handoffs` | lista os `EvidenceHandoff` persistidos em `.sparkforge-azure/delegation/handoffs/` (`--root`) |
+
+Evidência sai como `theforge/EvidenceHandoff/v1` selado (SHA-256),
+redigido e limitado; cada recusa carrega código nomeado
+(`provider-absent`, `version-incompatible`, `capability-absent`,
+`policy-refusal`, `cycle-detected`, `budget-exhausted`, `timeout`,
+`runtime-error`, `invalid-output`, `insufficient-evidence`, …).
+`--authorize` aceita `LOCAL_READ`, `LOCAL_WRITE`, `EXTERNAL_READ`,
+`EXTERNAL_WRITE`, `DESTRUCTIVE`, `COST_BEARING`.
+
 ## Exit codes
 
 | Código | Significado |

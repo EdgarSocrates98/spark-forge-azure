@@ -290,6 +290,10 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("observability", "distribution"): "measure_surface resolve _data/{skills,knowledge} do wheel",
     ("mcp", "distribution"): "sfa_ai reusa o fluxo read-only de distribution.ai",
     ("ui", "install"): "wizard da home dirige o service de instalacao",
+    ("cli", "delegation"): (
+        "cmd_delegation e a superficie L7 da delegacao governada a "
+        "especialistas (lf-0029)"
+    ),
 }
 
 

@@ -105,6 +105,12 @@ VARREDURA_CRUA_PERMITIDA: dict[str, str] = {
         "receipts e manifests de instalacao que o proprio kit escreveu nos "
         "state dirs governados -- nunca arvore de cliente"
     ),
+    "delegation/handoff.py": (
+        "lista os EvidenceHandoff `*.json` que o proprio modulo persistiu sob "
+        "`.sparkforge-azure/delegation/handoffs/` -- diretorio de estado que "
+        "esta forge escreve, confinado ao workspace root do chamador, nunca "
+        "arvore de cliente"
+    ),
 }
 
 
