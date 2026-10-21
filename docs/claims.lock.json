@@ -56,9 +56,9 @@
    "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
   },
   {
-   "id": "skills-catalogue-22",
+   "id": "skills-catalogue-23",
    "doc": "docs/ROADMAP.md",
-   "text": "**22 catalogadas**",
+   "text": "**23 catalogadas**",
    "proof": {
     "cmd": [
      "python",
@@ -68,7 +68,7 @@
      "kind": "json",
      "path": "skills",
      "op": "==",
-     "value": 22
+     "value": 23
     }
    },
    "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
