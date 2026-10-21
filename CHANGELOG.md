@@ -29,6 +29,13 @@ All notable changes to this project are documented here. Format follows
 
 ## [Unreleased]
 
+
+## [0.1.6] - 2026-10-21
+
+### Added
+
+- Integrations cycle: governed peer delegation (parity with spark-forge-aws) to data-sentinel-forge and forge-doctor-data; `sparkforge-azure-delegate-specialists` skill; delegation CLI verbs; Windows `.cmd` fixture shim; Python 3.10 `timezone.utc` compat fix; portal bundle re-vendored with explorer pages.
+
 ## [0.1.4] - 2026-10-20
 
 ### Changed
