@@ -99,6 +99,12 @@ def _dist_loader(meta_by_name: dict[str, dict[str, Any]], root: Path | None = No
 def _write_exe(path: Path, body: str) -> Path:
     path.write_text(f"#!{sys.executable}\n{body}", encoding="utf-8")
     path.chmod(path.stat().st_mode | stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH)
+    if os.name == "nt":
+        shim = path.with_name(path.name + ".cmd")
+        shim.write_text(
+            f'@echo off\r\n"{sys.executable}" "{path}" %*\r\n', encoding="utf-8"
+        )
+        return shim
     return path
 
 
