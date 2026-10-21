@@ -52,6 +52,7 @@ knowledge_packs:
 skills:
 - unity-catalog
 - azure-adls
+- delegate-specialists
 trust_floor: VERIFIED_FACT
 budget:
   context: 8000
@@ -98,6 +99,13 @@ Responder perguntas de Unity Catalog (grants, external locations, credentials, b
 1. Seguir o Procedimento de `skills/unity-catalog/SKILL.md` (coletar → extrair → julgar → verificar → sintetizar).
 2. Consultar só knowledge com data e fonte (`knowledge select`).
 3. Entregar findings ao `verifier`; nunca auto-verificar.
+
+## Delegação opcional
+
+Grants/external locations exportados ou compat de acesso lakehouse → skill
+`delegate-specialists` (`sentinel.lakehouse-access`, `sentinel.lakehouse-compat`) via
+`delegate discover`/`plan`/`run`, somente `VERIFIED`. Credenciais Azure nunca cruzam
+a fronteira — o especialista lê só o artefato exportado (`LOCAL_READ`).
 
 ## Condições de parada
 

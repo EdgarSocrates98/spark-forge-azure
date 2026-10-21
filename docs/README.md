@@ -19,7 +19,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/reference/knowledge-packs.md` | Packs de knowledge por vertical + escopo por failure_layer |
 | `docs/reference/cli.md` | Toda a CLI `sparkforge-azure`: verbos, flags, saída JSON, exit codes |
 | `docs/reference/mcp-tools.md` | As tools `sfa_*` (fonte canônica: `docs/surface.lock.json`): risco, parâmetros, envelope |
-| `docs/reference/skills.md` | Catálogo gerado das 22 skills (contrato v1): scope, triggers, handoffs, evals por kind — `gen_skills_doc.py` |
+| `docs/reference/skills.md` | Catálogo gerado das 23 skills (contrato v1): scope, triggers, handoffs, evals por kind — `gen_skills_doc.py` |
 | `docs/reference/commands.md` | Referência gerada por comando (`doc_inventory`+`doc_reference`): rationale por grupo |
 
 ## Instalação
@@ -58,7 +58,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/learn/recipes/synapse.md` | Receita: Synapse (pools, pipelines, migração p/ Fabric) |
 | `docs/learn/recipes/streaming.md` | Receita: Event Hubs + Structured Streaming + Fabric RTI |
 | `docs/learn/recipes/usar-agents.md` | Receita: frota de 40 agents — list/inspect/route/execute |
-| `docs/learn/recipes/usar-skills.md` | Receita: as 22 skills e o contrato de fronteira |
+| `docs/learn/recipes/usar-skills.md` | Receita: as 23 skills e o contrato de fronteira |
 | `docs/learn/recipes/verificar-mcp.md` | Receita: handshake MCP real + painel `ai` |
 | `docs/learn/recipes/graphfy.md` | Receita: `graph build/query/impact/view/ui` (ForgeGraphView/v1) |
 | `docs/learn/recipes/economia.md` | Receita: tokensave L0–L6, bytes medidos vs tokens |
@@ -186,7 +186,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `knowledge/INDEX.md` | Índice do corpus (gerado) |
 | `knowledge/sources.lock.json` | Fonte + freshness de cada entrada |
 | `rules/catalog/*.yaml` | Catálogo de regras + roteamento |
-| `skills/<nome>/SKILL.md` | 22 skills (contrato v1) |
+| `skills/<nome>/SKILL.md` | 23 skills (contrato v1) |
 | `agents/<nome>.md` | 38 manifests de agente |
 
 ## Harness / Segurança de conteúdo

@@ -53,6 +53,7 @@ knowledge_packs:
 skills:
 - spark-streaming
 - fabric-realtime
+- delegate-specialists
 trust_floor: VERIFIED_FACT
 budget:
   context: 8000
@@ -108,6 +109,13 @@ Responder perguntas de Structured Streaming e Fabric RTI com evidência do artef
 1. Seguir o Procedimento de `skills/spark-streaming/SKILL.md` (coletar → extrair → julgar → verificar → sintetizar).
 2. Consultar só knowledge com data e fonte (`knowledge select`).
 3. Entregar findings ao `verifier`; nunca auto-verificar.
+
+## Delegação opcional
+
+Stall de micro-batch, lag Event Hubs ou log de streaming exportado → skill
+`delegate-specialists` (`sentinel.databricks-logs`) via `delegate discover`/`plan`/`run`,
+somente `VERIFIED`. Semântica de streaming continua nativa — o especialista lê o log,
+não decide trigger/estado. Findings do handoff são evidência externa citada.
 
 ## Condições de parada
 

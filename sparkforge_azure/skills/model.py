@@ -39,6 +39,7 @@ SKILL_NAMES: tuple[str, ...] = (
     "azure-terraform",
     "azure-bicep",
     "azure-observability",
+    "delegate-specialists",
 )
 
 SOURCE_AUTHORITIES: tuple[str, ...] = (
@@ -95,6 +96,7 @@ CLI_VERBS: dict[str, tuple[str, ...] | None] = {
     "migration": ("assess",),
     "offline-bundle": (),
     "agentops": ("inspect", "waste"),
+    "delegate": ("discover", "plan", "run", "handoffs"),
 }
 MCP_TOOL_RE = re.compile(r"^sfa_[a-z][a-z0-9_]*$")
 _KIND_RE = re.compile(r"^[a-z][a-z0-9-]*$")

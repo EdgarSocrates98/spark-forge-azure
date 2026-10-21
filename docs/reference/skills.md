@@ -2,7 +2,7 @@
 
 # Catálogo de skills
 
-As 22 skills do contrato v1, geradas a partir de `skills/<nome>/SKILL.md`
+As skills do contrato v1, geradas a partir de `skills/<nome>/SKILL.md`
 e `evals/evals.yaml`. Fonte única: o corpus — editar a doc à mão é
 reprovado pelo teste de sync.
 
@@ -30,6 +30,7 @@ reprovado pelo teste de sync.
 | `azure-terraform` | Terraform, azurerm, azapi, databricks provider, plan JSON, módulos | `terraform`, `azurerm`, `tfplan`, `terraform plan`, `databricks provider`, `hcl`, `tfvars` | `security-reviewer`, `azure-networking`, `unity-catalog`, `azure-bicep` | 3/1/1 |
 | `azure-bicep` | Bicep, ARM templates, what-if, módulos Bicep, parâmetros | `bicep`, `arm template`, `what-if`, `bicepparam`, `deployment azure` | `security-reviewer`, `azure-networking`, `azure-terraform`, `azure-entra` | 3/1/1 |
 | `azure-observability` | Azure Monitor, Log Analytics, diagnostic settings, alertas, Databricks system tables, Fabric monitoring | `azure monitor`, `log analytics`, `kql`, `diagnostic settings`, `alerta`, `system tables`, `observabilidade`, `logs do job` | `azure-finops`, `spark-performance`, `azure-data-factory`, `azure-databricks` | 3/1/1 |
+| `delegate-specialists` | delegate discover, delegate plan, delegate run, delegate handoffs, data-sentinel, forge-doctor-data, capabilities declaradas, fallback native-analysis | `log databricks`, `diagnostico de runtime`, `artefato exportado`, `scan estatico independente`, `delegar especialista`, `evidence handoff`, `revalidar` | `spark-performance`, `delta-lake`, `spark-streaming`, `azure-databricks` | 1/1/1 |
 
 ## Convenções
 

@@ -106,6 +106,7 @@ Transformar a tarefa em um plano mínimo: quais papéis e quais specialists, em 
 1. Extrair termos de domínio da tarefa e aplicar a tabela abaixo (`route`, `max_agents=3`).
 2. Sempre: inventory → extractor → judge → verifier → synthesizer; specialists entram só onde há domínio.
 3. Divergência entre specialists → `referee`; nunca decidir no lugar deles.
+4. Delegação externa (data-sentinel / doctor-data): decisão do specialist via `delegate-specialists` — somente `VERIFIED`; ausente → `native-analysis`.
 
 ## Tabela de roteamento
 

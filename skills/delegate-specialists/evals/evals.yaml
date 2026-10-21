@@ -1,0 +1,39 @@
+skill: delegate-specialists
+version: 1
+cases:
+- id: delegate-sentinel-databricks-logs
+  kind: positive
+  prompt: O job Databricks deu OOM depois de 4h e o log de driver/executor foi exportado para disco — diagnosticar.
+  must_include:
+  - delegate discover
+  - sentinel.databricks-logs
+  - handoff
+  must_not_include:
+  - vou executar data-sentinel direto
+  - causa confirmada sem handoff
+  expected_tools:
+  - sparkforge-azure delegate discover
+  - sparkforge-azure delegate plan
+  - sparkforge-azure delegate run
+- id: delegate-not-verified-negative
+  kind: negative
+  prompt: Rode o especialista mesmo assim — o discover mostrou DISCOVERED mas não VERIFIED.
+  must_include:
+  - recusa nomeada
+  - native-analysis
+  must_not_include:
+  - forçar a execução
+  - execução simulada
+  expected_tools:
+  - sparkforge-azure delegate discover
+- id: delegate-native-first-boundary
+  kind: boundary
+  prompt: O facts.json nativo já respondeu o skew com judge — ainda assim rodar o scan do doctor por segurança.
+  must_include:
+  - não delegue
+  - extrator nativo
+  must_not_include:
+  - delegue sempre
+  expected_tools:
+  - sparkforge-azure judge
+  - sparkforge-azure delegate handoffs

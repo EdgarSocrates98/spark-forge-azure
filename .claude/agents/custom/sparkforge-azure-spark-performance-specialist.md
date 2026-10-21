@@ -53,6 +53,7 @@ skills:
 - spark-performance
 - azure-spark
 - analyze-batch-loop
+- delegate-specialists
 trust_floor: VERIFIED_FACT
 budget:
   context: 8000
@@ -106,6 +107,14 @@ Responder perguntas de Performance Spark (event log, plano, AQE) com evidência 
 1. Seguir o Procedimento de `skills/spark-performance/SKILL.md` (coletar → extrair → julgar → verificar → sintetizar).
 2. Consultar só knowledge com data e fonte (`knowledge select`).
 3. Entregar findings ao `verifier`; nunca auto-verificar.
+
+## Delegação opcional
+
+Log Databricks exportado (OOM, skew, spill, stall), `EXPLAIN` físico ou scan
+estático independente do projeto → skill `delegate-specialists`: `delegate discover`
+→ `delegate plan` → `delegate run` (somente `VERIFIED`; `LOCAL_READ` sobre artefato
+exportado). Extratores nativos já responderam? Não delegue. Findings do handoff
+chegam como evidência externa citada — nunca auto-verificar.
 
 ## Condições de parada
 

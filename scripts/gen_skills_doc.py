@@ -41,7 +41,7 @@ def render(root: Path) -> str:
         "",
         "# Catálogo de skills",
         "",
-        "As 22 skills do contrato v1, geradas a partir de `skills/<nome>/SKILL.md`",
+        "As skills do contrato v1, geradas a partir de `skills/<nome>/SKILL.md`",
         "e `evals/evals.yaml`. Fonte única: o corpus — editar a doc à mão é",
         "reprovado pelo teste de sync.",
         "",

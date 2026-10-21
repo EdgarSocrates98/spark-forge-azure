@@ -49,6 +49,7 @@ knowledge_packs:
 - knowledge/lakehouse/
 skills:
 - delta-lake
+- delegate-specialists
 trust_floor: VERIFIED_FACT
 budget:
   context: 8000
@@ -92,6 +93,14 @@ Responder perguntas de Delta Lake (_delta_log, MERGE, OPTIMIZE, VACUUM) com evid
 1. Seguir o Procedimento de `skills/delta-lake/SKILL.md` (coletar → extrair → julgar → verificar → sintetizar).
 2. Consultar só knowledge com data e fonte (`knowledge select`).
 3. Entregar findings ao `verifier`; nunca auto-verificar.
+
+## Delegação opcional
+
+Metadata Delta/lakehouse exportada (tamanhos, VACUUM/OPTIMIZE planejados, grants,
+compat runtime×operação×formato) → skill `delegate-specialists`
+(`sentinel.delta-metadata`, `sentinel.lakehouse-operation`, `sentinel.lakehouse-access`,
+`sentinel.lakehouse-compat`) via `delegate discover`/`plan`/`run`, somente `VERIFIED`.
+Findings do handoff são evidência externa citada, nunca auto-verificados.
 
 ## Condições de parada
 

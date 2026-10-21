@@ -49,6 +49,7 @@ knowledge_packs:
 skills:
 - azure-databricks
 - azure-spark
+- delegate-specialists
 trust_floor: VERIFIED_FACT
 budget:
   context: 8000
@@ -97,6 +98,14 @@ Responder perguntas de Azure Databricks (jobs, clusters, policies, DABs) com evi
 1. Seguir o Procedimento de `skills/azure-databricks/SKILL.md` (coletar → extrair → julgar → verificar → sintetizar).
 2. Consultar só knowledge com data e fonte (`knowledge select`).
 3. Entregar findings ao `verifier`; nunca auto-verificar.
+
+## Delegação opcional
+
+Log de job/cluster Databricks exportado ou compat runtime×operação×formato → skill
+`delegate-specialists` (`sentinel.databricks-logs`, `sentinel.lakehouse-compat`) via
+`delegate discover`/`plan`/`run`, somente `VERIFIED`. Definição de plataforma
+(cluster policy, job, DAB) permanece nativa. Findings do handoff são evidência
+externa citada.
 
 ## Condições de parada
 
