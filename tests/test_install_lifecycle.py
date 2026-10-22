@@ -227,3 +227,81 @@ def test_hosts_none_e_csv(tmp_path):
     assert plan is not None
     with pytest.raises(PortableError):
         service.install(host="nope", scope="project", root=alvo, dry_run=True)
+
+
+# --- forge/context/v1 — workspace registry (install-2.0 ciclo 2) ----------
+
+
+def test_install_escreve_forge_context(project: Path) -> None:
+    from sparkforge_azure import _forgecontext as fctx
+
+    out = service.install(scope="project", root=project, yes=True)
+    assert out["status"] == "completed"
+    check = next(c for c in out["checks"] if c["id"] == "context-registry")
+    assert check["status"] == "PASS"
+
+    ctx = project / ".forge" / "context"
+    registry = json.loads((ctx / "registry.json").read_text(encoding="utf-8"))
+    assert registry["schema"] == "forge/context-registry/v1"
+    entry = next(
+        e for e in registry["forges"] if e["forge_id"] == "sparkforge-azure")
+    assert entry["scope"] == "project"
+
+    manifest = json.loads(
+        (ctx / "capabilities" / "sparkforge-azure.json").read_text(
+            encoding="utf-8"))
+    assert manifest["schema"] == "forge/context/v1"
+    assert fctx.validate_manifest(manifest) == []
+    assert manifest["skills"], "manifesto sem skills reais"
+    assert manifest["rule_areas"], "manifesto sem rule areas"
+    assert manifest["agents"], "manifesto sem agents"
+    assert manifest["integrity"]["files"]["forge.json"].startswith("sha256:")
+
+    routing = (ctx / "ROUTING.md").read_text(encoding="utf-8")
+    assert "sparkforge-azure" in routing
+    assert "azure-data" in routing
+
+
+def test_install_context_idempotente_byte_a_byte(project: Path) -> None:
+    service.install(scope="project", root=project, yes=True)
+    ctx = project / ".forge" / "context"
+    snap = {
+        p.relative_to(ctx).as_posix(): p.read_bytes()
+        for p in sorted(ctx.rglob("*"))
+        if p.is_file()
+    }
+    service.install(scope="project", root=project, yes=True)
+    depois = {
+        p.relative_to(ctx).as_posix(): p.read_bytes()
+        for p in sorted(ctx.rglob("*"))
+        if p.is_file()
+    }
+    assert snap == depois
+
+
+def test_uninstall_desregistra_so_o_proprio_forge(project: Path) -> None:
+    from sparkforge_azure import _forgecontext as fctx
+
+    service.install(scope="project", root=project, yes=True)
+    estrangeiro = fctx.build_manifest(
+        forge_id="forge-alheia",
+        name="Forge Alheia",
+        version="1.0.0",
+        cli="forge-alheia",
+        package="forge_alheia",
+        distribution="forge-alheia",
+        python_spec=">=3.10",
+        scope="project",
+        domains=("dominio-alheio",),
+        skills=("skill-alheia",),
+    )
+    fctx.register_forge(project, estrangeiro, owner="forge-alheia")
+
+    un = service.uninstall(scope="project", root=project)
+    assert un["status"] == "completed"
+
+    ctx = project / ".forge" / "context"
+    registry = json.loads((ctx / "registry.json").read_text(encoding="utf-8"))
+    assert {e["forge_id"] for e in registry["forges"]} == {"forge-alheia"}
+    assert not (ctx / "capabilities" / "sparkforge-azure.json").exists()
+    assert (ctx / "capabilities" / "forge-alheia.json").exists()
