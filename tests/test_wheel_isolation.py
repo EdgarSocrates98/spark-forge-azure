@@ -114,8 +114,14 @@ def _create_venv(venv_dir: Path, tmp_path: Path, env: dict[str, str]) -> None:
         if uv is None:
             raise
     # ensurepip is absent on some managed interpreters (uv pythons on 3.10);
-    # `uv venv --seed` bootstraps pip without it.
-    seeded = _run([uv, "venv", "--seed", str(venv_dir)], cwd=tmp_path, env=env)
+    # `uv venv --seed` bootstraps pip without it. The aborted stdlib create
+    # leaves a partial dir that uv refuses — clear it first.
+    shutil.rmtree(venv_dir, ignore_errors=True)
+    seeded = _run(
+        [uv, "venv", "--seed", "--python", sys.executable, str(venv_dir)],
+        cwd=tmp_path,
+        env=env,
+    )
     assert seeded.returncode == 0, f"uv venv --seed failed: {seeded.stderr[-400:]}"
 
 
