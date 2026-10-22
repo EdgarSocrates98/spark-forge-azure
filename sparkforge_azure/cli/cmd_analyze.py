@@ -148,3 +148,8 @@ def register(sub: argparse._SubParsersAction) -> None:
     q.add_argument("--query", help="terms to rank claims (omit = first claims)")
     q.add_argument("--limit", type=int, default=8)
     q.set_defaults(func=_knowledge_select)
+
+    # §6.2 knowledge.search/get/list — install-time discovery verbs
+    from sparkforge_azure.cli.cmd_discovery import register_knowledge_leaves
+
+    register_knowledge_leaves(ks)

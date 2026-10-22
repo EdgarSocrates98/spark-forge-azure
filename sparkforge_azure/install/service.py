@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from sparkforge_azure import __version__
+from sparkforge_azure import __version__, discovery_ops
 from sparkforge_azure import _forgecontext as fctx
 from sparkforge_azure import _installkit as kit
 
@@ -94,17 +94,69 @@ def _skill_roots(hosts: tuple[str, ...]) -> list[str]:
     return seen
 
 
+_KNOWLEDGE_REF_RE = None  # compiled lazily in _referenced_knowledge_paths
+
+
+def _referenced_knowledge_paths(text: str) -> set[str]:
+    """Os caminhos `knowledge/<rel>` citados num SKILL.md — por link markdown
+    resolvido contra `skills/<name>` e por mencao textual `` `knowledge/x` ``.
+    Serve para emitir ponteiros exatamente nos docs referenciados (lf-0037)."""
+    global _KNOWLEDGE_REF_RE
+    if _KNOWLEDGE_REF_RE is None:
+        import re
+
+        _KNOWLEDGE_REF_RE = re.compile(
+            r"knowledge/[A-Za-z0-9_./-]+")
+    refs: set[str] = set()
+    for match in _KNOWLEDGE_REF_RE.finditer(text):
+        rel = match.group(0)[len("knowledge/"):].rstrip(".,);]")
+        if rel:
+            refs.add(rel)
+    return refs
+
+
+_KNOWLEDGE_STUB = """\
+# Ponteiro de knowledge — sparkforge-azure
+
+Este arquivo e um PONTEIRO gerado na instalacao: os links `knowledge/<rel>`
+dos mirrors (.claude/skills, .agents/skills, ...) resolvem aqui, mas o
+CONTEUDO real mora no pacote `sparkforge-azure` instalado — fora de qualquer
+checkout, e propositalmente nao copiado para o workspace.
+
+Recupere o documento real com os verbos nativos (offline, deterministicos):
+
+    sparkforge-azure knowledge get {rel}
+    sparkforge-azure knowledge search "<termo>" --domain {dominio}
+    sparkforge-azure context pack --domain {dominio}
+
+`knowledge get` devolve o caminho absoluto e o sha256 do documento dentro do
+pacote (ou de `SPARKFORGE_AZURE_KNOWLEDGE`, quando apontada). Para ver TODOS
+os documentos disponiveis: `sparkforge-azure knowledge list`.
+"""
+
+
+def _knowledge_stub(rel: str) -> str:
+    partes = rel.split("/")
+    dominio = partes[0] if len(partes) > 1 else Path(rel).stem
+    return _KNOWLEDGE_STUB.format(rel=rel, dominio=dominio)
+
+
 def _install_skill_mirrors(
     root: Path, ledger: dict[str, Any], hosts: tuple[str, ...],
 ) -> tuple[dict[str, Any], list[str]]:
     """Write ``sparkforge-azure-<name>/SKILL.md`` mirrors into the selected
-    host roots, ledgered like every other managed asset."""
+    host roots, ledgered like every other managed asset. Tambem emite os
+    ponteiros `knowledge/<rel>` referenciados pelas skills (lf-0037): no
+    wheel o knowledge mora no pacote, entao o stub aponta para os verbos
+    nativos em vez de deixar o link morto."""
     from sparkforge_azure.distribution.managed import record_file
     from sparkforge_azure.durable import write_atomic
     from sparkforge_azure.skills.mirrors import mirror_name, render_mirror
 
     written: list[str] = []
+    knowledge_refs: set[str] = set()
     for skill_name, text in _skill_sources():
+        knowledge_refs |= _referenced_knowledge_paths(text)
         rendered = render_mirror(text, skill_name)
         for mroot in _skill_roots(hosts):
             target = root / mroot / mirror_name(skill_name) / "SKILL.md"
@@ -115,6 +167,17 @@ def _install_skill_mirrors(
                 host=mroot.split("/")[0].lstrip("."),
             )
             written.append(str(target))
+    for rel in sorted(knowledge_refs):
+        # Ref de diretorio (`knowledge/spark/`) vira stub `<dir>/README.md`;
+        # ref de arquivo vira stub no proprio caminho.
+        stub_rel = rel if Path(rel).suffix else f"{rel}/README.md"
+        stub = root / "knowledge" / stub_rel
+        stub.parent.mkdir(parents=True, exist_ok=True)
+        write_atomic(stub, _knowledge_stub(rel))
+        ledger = record_file(
+            ledger, stub, kind="knowledge_pointer", mode="file",
+        )
+        written.append(str(stub))
     return ledger, written
 
 
@@ -627,7 +690,13 @@ def _context_manifest(
             {"id": "forge/context/v1", "version": "1"},
             {"id": "forge/context-registry/v1", "version": "1"},
         ),
+        discovery_ops=discovery_ops.ops(),
         discovery_commands=(
+            *(
+                c
+                for c in discovery_ops.commands()
+                if c["id"] != "doctor"  # `doctor` entra abaixo, ja declarado
+            ),
             {
                 "id": "analyze",
                 "argv": ["sparkforge-azure", "analyze", "{target}"],
