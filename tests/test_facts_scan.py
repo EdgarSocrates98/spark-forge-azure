@@ -105,6 +105,17 @@ VARREDURA_CRUA_PERMITIDA: dict[str, str] = {
         "receipts e manifests de instalacao que o proprio kit escreveu nos "
         "state dirs governados -- nunca arvore de cliente"
     ),
+    "_forgecontext.py": (
+        "motor de contexto vendored (theforge/forge_context, stampado): varre "
+        "`.forge/context/capabilities/*.json` do proprio state dir de contexto "
+        "-- conjunto fechado que o proprio modulo escreveu, nunca arvore de "
+        "cliente"
+    ),
+    "install/service.py": (
+        "varre `*.md`/`*.yaml` do bundle de assets e do catalogo de regras "
+        "desta forja (dirs fechados do proprio pacote) para montar o manifesto "
+        "forge/context/v1 -- nunca arvore de cliente"
+    ),
     "delegation/handoff.py": (
         "lista os EvidenceHandoff `*.json` que o proprio modulo persistiu sob "
         "`.sparkforge-azure/delegation/handoffs/` -- diretorio de estado que "
