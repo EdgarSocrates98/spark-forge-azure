@@ -178,6 +178,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/cycle6/ARCHITECTURE_FREEZE_READINESS.md` | Avaliação dos 14 candidatos de freeze §96-97 + decisão |
 | `docs/architecture/DATABRICKS_FABRIC_COMMON_PRIMITIVES.md` | Fronteira comum vs. específica dos dois verticais |
 | `docs/research/azure_sources_2026-10-06.md` | Fontes oficiais usadas na pesquisa dos verticais |
+| `docs/audits/FORGE_CONTEXT_BASELINE.md` | Baseline auditado do ciclo Install 2.0 (install/context/distribution; evidência de wheel PyPI 0.1.6) |
 
 ## Domínio
 
