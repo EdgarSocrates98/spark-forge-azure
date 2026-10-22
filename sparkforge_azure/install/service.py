@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Any
 
 from sparkforge_azure import __version__
+from sparkforge_azure import _forgecontext as fctx
 from sparkforge_azure import _installkit as kit
 
 FORGE_ID = "sparkforge-azure"
@@ -246,7 +247,7 @@ def install(*, scope: str = "project", root: Path | None = None,
         state.mkdir(parents=True, exist_ok=True)
         (state / "components.json").write_text(
             json.dumps(opts, indent=2), encoding="utf-8")
-    return _receipt(
+    receipt = _receipt(
         "install", scope, target,
         status="completed" if ok else "failed",
         checks=[{"id": "apply", "status": "PASS" if ok else "FAIL",
@@ -256,6 +257,12 @@ def install(*, scope: str = "project", root: Path | None = None,
                "gateway_profile": gateway_profile,
                "distribution": {k: v for k, v in doc.items()
                                 if k not in ("managed_files",)}})
+    if ok:
+        _register_context(
+            target, receipt, scope=scope, profile=profile,
+            hosts=hosts, components=opts or None,
+        )
+    return receipt
 
 
 def _install_user(home: Path, hosts: tuple[str, ...],
@@ -383,14 +390,17 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
         target, dry_run=dry_run, purge_state=purge, purge_cache=False)
     removed = [d["path"] for d in out.get("detached", [])
                if d.get("action") not in ("preserved_state", "absent")]
+    context_checks: list[dict[str, Any]] = []
     if not dry_run:
         kit._prune_empty_dirs(target, removed)
+        context_checks = [_unregister_context(target)]
     return _receipt(
         "uninstall", scope, target,
         status="planned" if dry_run else "completed",
         checks=[{"id": "uninstall", "status": "PASS",
                  "detail": f"{len(removed)} removed, "
-                           f"{len(out.get('preserved', []))} preserved"}],
+                           f"{len(out.get('preserved', []))} preserved"}]
+        + context_checks,
         extra={"dry_run": dry_run, "removed": removed,
                "kept": out.get("preserved", []),
                "warnings": out.get("warnings", [])})
@@ -436,3 +446,255 @@ def mcp_verify() -> dict[str, Any]:
 
 __all__ = ["HOSTS", "PROFILES", "SCOPES", "doctor", "install", "mcp_verify",
            "repair", "status", "uninstall", "update"]
+
+
+# --------------------------------------------------------------------------
+# forge-context/v1 wiring (install-2.0 ciclo 2, the-forge ADR-0061)
+# `.forge/context/` e o registry de workspace compartilhado entre forges.
+# Este forge so registra e desregistra o proprio `forge_id`.
+# --------------------------------------------------------------------------
+
+_PKG_DIR = Path(__file__).resolve().parents[1]
+_REPO_DIR = _PKG_DIR.parent
+
+_AZURE_DOMAINS: tuple[str, ...] = (
+    "azure-data",
+    "azure-databricks",
+    "microsoft-fabric",
+    "azure-synapse",
+    "adf",
+    "apache-iceberg",
+    "spark-streaming",
+    "terraform",
+    "data-quality",
+)
+
+
+def _group(group: str) -> Path | None:
+    """`skills`/`agents`/`rules`/`knowledge`/`evals` — raiz do clone ou
+    `_data/<group>` dentro do wheel, resolvido pelo canal canonico."""
+    from sparkforge_azure.distribution.assets import _group_dir
+
+    try:
+        root = _group_dir(group)
+    except Exception:
+        return None
+    return root if root.is_dir() else None
+
+
+def _mds(base: Path) -> list[str]:
+    return sorted(p.stem for p in base.glob("*.md")) if base.is_dir() else []
+
+
+def _context_manifest(
+    *, scope: str, profile: str, hosts: list[str],
+    components: dict[str, Any] | None,
+) -> dict[str, Any]:
+    """Manifesto forge/context/v1 montado das fontes reais: `forge.json` +
+    `forge.agentic.json` + `manifest.json` no checkout e os grupos de
+    assets que o install usou."""
+    forge_json = kit._load_json(_REPO_DIR / "forge.json", None)
+    forge_json = forge_json if isinstance(forge_json, dict) else None
+    agentic = kit._load_json(_REPO_DIR / "forge.agentic.json", None)
+    agentic = agentic if isinstance(agentic, dict) else None
+
+    skills_root = _group("skills")
+    skills = (
+        sorted(
+            d.name for d in skills_root.iterdir()
+            if d.is_dir() and (d / "SKILL.md").is_file()
+        )
+        if skills_root is not None
+        else []
+    )
+    agents_root = _group("agents")
+    agent_ids = _mds(agents_root) if agents_root is not None else []
+    rules_root = _group("rules")
+    catalog = rules_root / "catalog" if rules_root is not None else None
+    rule_areas = (
+        sorted(p.stem for p in catalog.glob("*.yaml"))
+        if catalog is not None and catalog.is_dir()
+        else []
+    )
+    knowledge_root = _group("knowledge")
+    providers = (
+        [{"id": "knowledge-base", "interface": "bundled"}]
+        if knowledge_root is not None
+        else []
+    )
+    evals_root = _group("evals")
+    eval_suites = (
+        [
+            {"id": p.name, "kind": "output-verification"}
+            for p in sorted(evals_root.iterdir())
+            if p.is_dir()
+        ]
+        if evals_root is not None
+        else []
+    )
+
+    checks: list[dict[str, Any]] = [
+        {
+            "id": "skills-bundle",
+            "status": "PASS" if skills else "UNVERIFIED",
+            "detail": f"{len(skills)} skills",
+        },
+        {
+            "id": "agent-specs",
+            "status": "PASS" if agent_ids else "UNVERIFIED",
+            "detail": f"{len(agent_ids)} agent docs",
+        },
+        {
+            "id": "rules-catalog",
+            "status": "PASS" if rule_areas else "UNVERIFIED",
+            "detail": f"{len(rule_areas)} rule files",
+        },
+    ]
+    return fctx.build_manifest(
+        forge_id=FORGE_ID,
+        name="Spark Forge Azure",
+        version=__version__,
+        cli="sparkforge-azure",
+        package="sparkforge_azure",
+        distribution="sparkforge-azure",
+        python_spec=">=3.10",
+        scope=scope,
+        profile=profile,
+        hosts=hosts,
+        forge_json=forge_json,
+        agentic=agentic,
+        domains=_AZURE_DOMAINS,
+        skills=skills,
+        coordinators=("coordinator",) if "coordinator" in agent_ids else (),
+        agents=agent_ids,
+        rule_areas=rule_areas,
+        knowledge_providers=providers,
+        eval_suites=eval_suites,
+        protocols=(
+            {"id": "forge/v1", "version": "1"},
+            {"id": "forge/context/v1", "version": "1"},
+            {"id": "forge/context-registry/v1", "version": "1"},
+        ),
+        discovery_commands=(
+            {
+                "id": "analyze",
+                "argv": ["sparkforge-azure", "analyze", "{target}"],
+                "mode": "direct-capability",
+                "read_only": True,
+                "description": "analyze Azure data artifacts",
+            },
+            {
+                "id": "next-step",
+                "argv": ["sparkforge-azure", "next-step"],
+                "mode": "specialist-workflow",
+                "read_only": True,
+                "description": "routing-driven specialist recommendation",
+            },
+            {
+                "id": "doctor",
+                "argv": ["sparkforge-azure", "doctor"],
+                "mode": "diagnostic-only",
+                "read_only": True,
+                "description": "environment + installation health",
+            },
+        ),
+        mcp={
+            "server_name": "sparkforge-azure",
+            "command": ["sparkforge-azure", "mcp", "serve"],
+            "verify_tool": "sfa_version",
+        },
+        resources={
+            "skills-bundle": {
+                "kind": "bundled",
+                "location": "sparkforge_azure/_data/skills",
+                "optional": False,
+            },
+            "agents-bundle": {
+                "kind": "bundled",
+                "location": "sparkforge_azure/_data/agents",
+                "optional": False,
+            },
+            "rules-catalog": {
+                "kind": "bundled",
+                "location": "sparkforge_azure/_data/rules",
+                "optional": False,
+            },
+            "knowledge-base": {
+                "kind": "bundled",
+                "location": "sparkforge_azure/_data/knowledge",
+                "optional": True,
+            },
+            "install-state": {
+                "kind": "referenced",
+                "location": ".sparkforge-azure",
+                "optional": True,
+            },
+        },
+        mutating_verbs=(
+            "install",
+            "uninstall",
+            "repair",
+            "integrate",
+            "detach",
+            "collect",
+            "case update",
+        ),
+        requires_approval=("install", "uninstall", "integrate", "detach"),
+        offline_available=True,
+        health={
+            "status": (
+                "healthy" if skills and agent_ids and rule_areas else "degraded"
+            ),
+            "checks": checks,
+        },
+        components=components,
+        recorded_by="sparkforge-azure",
+    )
+
+
+def _register_context(
+    target: Path,
+    receipt: dict[str, Any],
+    *,
+    scope: str,
+    profile: str,
+    hosts: list[str],
+    components: dict[str, Any] | None,
+) -> None:
+    """Grava `.forge/context/` — manifesto + entrada no registry +
+    ROUTING.md. Falha vira check BLOCKED nomeado no recibo."""
+    try:
+        manifest = _context_manifest(
+            scope=scope, profile=profile, hosts=hosts, components=components
+        )
+        out = fctx.register_forge(target, manifest, owner=FORGE_ID)
+        receipt.setdefault("checks", []).append(
+            {
+                "id": "context-registry",
+                "status": "PASS",
+                "detail": f".forge/context {out['status']} "
+                f"({len(out['written'])} writes)",
+            }
+        )
+    except fctx.ContextError as exc:
+        receipt.setdefault("checks", []).append(
+            {"id": "context-registry", "status": "BLOCKED",
+             "detail": f"{exc.kind}: {exc.detail}"}
+        )
+
+
+def _unregister_context(target: Path) -> dict[str, Any]:
+    """Remove somente o manifesto/entry deste forge."""
+    try:
+        out = fctx.unregister_forge(target, FORGE_ID, owner=FORGE_ID)
+        return {
+            "id": "context-registry",
+            "status": "PASS",
+            "detail": f".forge/context {out['status']}",
+        }
+    except fctx.ContextError as exc:
+        return {
+            "id": "context-registry",
+            "status": "BLOCKED",
+            "detail": f"{exc.kind}: {exc.detail}",
+        }
