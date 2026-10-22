@@ -272,3 +272,14 @@ grep _FORGECONTEXT_VERSION sparkforge_azure/_forgecontext.py → "1.3.1"
 grep -c 'def test_' tests/test_{install_lifecycle,wheel_isolation,
   evals_surface,discovery_ops}.py               → 26/1/22/14
 ```
+
+## Pós-release — evidência de publicação (2026-10-23 UTC)
+
+| Item | Estado | Evidência |
+|---|---|---|
+| Tag | CRIADA | `v0.2.0` no merge commit da release PR |
+| GitHub Release | CRIADO | `gh release view v0.2.0` |
+| PyPI | PUBLICADO | `pypi.org/pypi/sparkforge-azure/json` → `0.2.0` |
+| Wheel smoke (venv limpo) | PASS | `pip install sparkforge-azure==0.2.0` + `sparkforge-azure --version` → `0.2.0` |
+
+Notas: installkit canônico 1.0.2 (`_SOURCE_SHA256 a15ca78bb34a0109`), bootstrap 1.1.1 — propagados aos 7 carriers; `vendor.py --check` CLEAN ×7. `data-sentinel-forge`: **deferido pelo dono** (outro CLI evoluindo).
