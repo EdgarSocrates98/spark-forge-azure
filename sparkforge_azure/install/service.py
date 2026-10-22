@@ -647,7 +647,9 @@ def _context_manifest(
     # cobre as 4 categorias do enum EVAL_KINDS e marca as suites seladas.
     # Suites novas entram na tabela; `evals describe <id>` e o command que
     # o manifesto publica para cada uma.
-    from sparkforge_azure.evals import taxonomy as _evals_taxonomy
+    import importlib
+
+    _evals_taxonomy = importlib.import_module("sparkforge_azure.evals.taxonomy")
 
     eval_suites = _evals_taxonomy.manifest_suites("sparkforge-azure")
 

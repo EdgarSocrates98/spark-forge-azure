@@ -328,7 +328,9 @@ def capabilities() -> dict[str, Any]:
     # cru — cada suite carrega categoria, ambiente e selagem §7.3. O
     # varrimento continua como `dirs` informativo: o nao-classificado e
     # dado, nao ausencia silenciosa.
-    from sparkforge_azure.evals import taxonomy as _evals_taxonomy
+    import importlib
+
+    _evals_taxonomy = importlib.import_module("sparkforge_azure.evals.taxonomy")
 
     rules = _load_rules()
     try:
