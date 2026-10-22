@@ -244,11 +244,11 @@ def test_install_escreve_forge_context(project: Path) -> None:
     registry = json.loads((ctx / "registry.json").read_text(encoding="utf-8"))
     assert registry["schema"] == "forge/context-registry/v1"
     entry = next(
-        e for e in registry["forges"] if e["forge_id"] == "sparkforge-azure")
+        e for e in registry["forges"] if e["forge_id"] == "spark-forge-azure")
     assert entry["scope"] == "project"
 
     manifest = json.loads(
-        (ctx / "capabilities" / "sparkforge-azure.json").read_text(
+        (ctx / "capabilities" / "spark-forge-azure.json").read_text(
             encoding="utf-8"))
     assert manifest["schema"] == "forge/context/v1"
     assert fctx.validate_manifest(manifest) == []
@@ -258,7 +258,7 @@ def test_install_escreve_forge_context(project: Path) -> None:
     assert manifest["integrity"]["files"]["forge.json"].startswith("sha256:")
 
     routing = (ctx / "ROUTING.md").read_text(encoding="utf-8")
-    assert "sparkforge-azure" in routing
+    assert "spark-forge-azure" in routing
     assert "azure-data" in routing
 
 
@@ -303,7 +303,7 @@ def test_uninstall_desregistra_so_o_proprio_forge(project: Path) -> None:
     ctx = project / ".forge" / "context"
     registry = json.loads((ctx / "registry.json").read_text(encoding="utf-8"))
     assert {e["forge_id"] for e in registry["forges"]} == {"forge-alheia"}
-    assert not (ctx / "capabilities" / "sparkforge-azure.json").exists()
+    assert not (ctx / "capabilities" / "spark-forge-azure.json").exists()
     assert (ctx / "capabilities" / "forge-alheia.json").exists()
 
 
@@ -320,7 +320,7 @@ def test_install_escreve_consumer_docs(project: Path) -> None:
     claude = (project / "CLAUDE.md").read_text(encoding="utf-8")
     proto = (project / "AGENT_PROTOCOL.md").read_text(encoding="utf-8")
     assert "<!-- forge:ecosystem:begin -->" in agents
-    assert "<!-- forge:sparkforge-azure:begin -->" in agents
+    assert "<!-- forge:spark-forge-azure:begin -->" in agents
     assert "<!-- sparkforge-azure:begin -->" not in agents  # legado convergiu
     assert "@AGENTS.md" in claude
     for sec in (
@@ -345,7 +345,7 @@ def test_install_converge_marker_legado(project: Path) -> None:
     assert agents.startswith("# minhas regras\n")
     assert "old managed" not in agents
     assert "<!-- sparkforge-azure:begin -->" not in agents
-    assert "<!-- forge:sparkforge-azure:begin -->" in agents
+    assert "<!-- forge:spark-forge-azure:begin -->" in agents
 
 
 def test_install_docs_idempotente(project: Path) -> None:
@@ -371,10 +371,10 @@ def test_uninstall_seletivo_entre_forges(project: Path) -> None:
 
     service.uninstall(scope="project", root=project)
     agents = (project / "AGENTS.md").read_text(encoding="utf-8")
-    assert "forge:sparkforge-azure" not in agents
+    assert "forge:spark-forge-azure" not in agents
     assert "forge:forge-alheia:begin" in agents
     proto = (project / "AGENT_PROTOCOL.md").read_text(encoding="utf-8")
-    assert "forge:forge-alheia" in proto and "sparkforge-azure" not in proto
+    assert "forge:forge-alheia" in proto and "spark-forge-azure" not in proto
 
 
 def test_install_recusa_marcador_ambiguo(project: Path) -> None:
@@ -385,7 +385,7 @@ def test_install_recusa_marcador_ambiguo(project: Path) -> None:
         encoding="utf-8")
     out = service.install(scope="project", root=project, yes=True)
     check = next(
-        (c for c in out["checks"] if c["id"] == "consumer-docs"), None)
+        (c for c in out["checks"] if c["id"] == "context-registry"), None)
     assert check is not None and check["status"] == "BLOCKED"
     assert "FORGE-CONTEXT-CONFLICT" in check["detail"]
 
