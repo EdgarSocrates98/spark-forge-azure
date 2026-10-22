@@ -72,3 +72,15 @@ def register(sub: argparse._SubParsersAction) -> None:
         help="task text — engages the per-project L0→L6 ladder (default: project set only)",
     )
     r.set_defaults(func=_run(_resolve))
+
+    pk = leaf.add_parser(
+        "pack",
+        help="§6.2 context.build — bounded domain context pack (rules + knowledge metadata + hash)",
+    )
+    pk.add_argument("--domain")
+    pk.add_argument("--rules-limit", type=int)
+    pk.add_argument("--knowledge-limit", type=int)
+    pk.add_argument("--as-of", dest="as_of")
+    from sparkforge_azure.cli.cmd_discovery import context_pack
+
+    pk.set_defaults(func=_run(context_pack))

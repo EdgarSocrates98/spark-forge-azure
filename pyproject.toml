@@ -84,6 +84,14 @@ packages = ["sparkforge_azure"]
 # _data bundle. Sem isto `sparkforge-azure portal` num pip install cairia na
 # recusa SFA-PORTAL-NO-ASSETS.
 "portal/assets" = "sparkforge_azure/portal_assets"
+# Forge manifests (install-2.0 §8.2): `install/service._context_manifest` lê
+# `forge.json`/`forge.agentic.json` da raiz do checkout para compor o
+# manifesto `forge/context/v1` (integrity digests, host_adapters,
+# `discovery.manifest`). Sob o wheel a raiz não existe — os manifestos vão
+# para `_data`, a mesma convenção dos demais dados de runtime, para o resolver
+# bundled servir sem checkout.
+"forge.json" = "sparkforge_azure/_data/forge.json"
+"forge.agentic.json" = "sparkforge_azure/_data/forge.agentic.json"
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -95,6 +103,8 @@ include = [
     "lab/scenarios",
     "evals",
     "portal/assets",
+    "forge.json",
+    "forge.agentic.json",
     "README.md",
     "LICENSE",
     "pyproject.toml",

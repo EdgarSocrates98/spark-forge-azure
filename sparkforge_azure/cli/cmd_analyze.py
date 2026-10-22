@@ -96,9 +96,13 @@ def _judge(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _knowledge_roots() -> list[Path]:
-    from sparkforge_azure.knowledge_drift import repo_root
+    # `knowledge_dir()` resolve env override -> raiz do repo -> `_data/knowledge`
+    # no wheel; antes era `repo_root() or cwd`, que num pip install olhava para
+    # `<cwd>/knowledge` e respondia "pack not found" (mesma classe de bug do
+    # `fleet_root()` — §8.3).
+    from sparkforge_azure.knowledge_ref import knowledge_dir
 
-    base = (repo_root() or Path.cwd()) / "knowledge"
+    base = knowledge_dir()
     return [base / "azure", base]
 
 
@@ -144,3 +148,8 @@ def register(sub: argparse._SubParsersAction) -> None:
     q.add_argument("--query", help="terms to rank claims (omit = first claims)")
     q.add_argument("--limit", type=int, default=8)
     q.set_defaults(func=_knowledge_select)
+
+    # §6.2 knowledge.search/get/list — install-time discovery verbs
+    from sparkforge_azure.cli.cmd_discovery import register_knowledge_leaves
+
+    register_knowledge_leaves(ks)
