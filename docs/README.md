@@ -180,6 +180,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 | `docs/architecture/DATABRICKS_FABRIC_COMMON_PRIMITIVES.md` | Fronteira comum vs. específica dos dois verticais |
 | `docs/research/azure_sources_2026-10-06.md` | Fontes oficiais usadas na pesquisa dos verticais |
 | `docs/audits/FORGE_CONTEXT_BASELINE.md` | Baseline auditado do ciclo Install 2.0 (install/context/distribution; evidência de wheel PyPI 0.1.6) |
+| `docs/audits/FORGE_CONTEXT_FINAL_HOMOLOGATION.md` | Homologação final do ciclo Install 2.0 (§12.6: SHAs, PRs, testes, matriz PyPI, gaps restantes) |
 | `docs/install/DISTRIBUTION_PARITY.md` | Matriz de paridade §8.5: checkout vs wheel local vs PyPI publicado |
 
 ## Domínio
