@@ -194,12 +194,12 @@ def test_manifest_ops_and_commands_consistent():
 
 
 def test_knowledge_pointer_stubs_for_skill_refs(tmp_path):
-    """， SKILL.md  knowledge/<rel>  stub。"""
+    """SKILL.md refs viram stubs em knowledge/<rel>."""
     from sparkforge_azure.install import service
 
     ledger = {"version": 1, "files": []}
     ledger, written = service._install_skill_mirrors(tmp_path, ledger, ("claude",))
-    stubs = [w for w in written if "/knowledge/" in w]
+    stubs = [w for w in written if "knowledge" in Path(w).parts]
     assert stubs, "expected knowledge pointer stubs"
     for stub in stubs:
         body = Path(stub).read_text(encoding="utf-8")
