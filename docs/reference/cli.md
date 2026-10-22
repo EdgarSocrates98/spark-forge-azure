@@ -249,6 +249,21 @@ quando há findings.
 |---|---|
 | `select` | `--domain` (pack sob `knowledge/azure` ou `knowledge`) + `--query`/`--limit` — claims ranqueados; cache sob o state dir |
 
+## `sparkforge-azure rules <op>` — catálogo versionado (offline)
+
+Leitura direta do catálogo `rules/catalog/` — sem facts, sem runtime.
+
+| Op | Uso |
+|---|---|
+| `search` | filtra regras por termo/área — offline, paginado (`--cursor`) |
+| `get` | uma regra por `RULE_ID` — corpo completo + `action:` |
+
+## `sparkforge-azure capabilities` — superfície declarada
+
+Emite o `capability list` do manifesto — ops de discovery (§6.2),
+capacidades declaradas e contagem de rules/knowledge/evals. Útil para
+conferir paridade CLI↔manifesto após `install`.
+
 ## `sparkforge-azure distribution <op>` — lifecycle portável
 
 Camada de produto portável (prompt_evo_portable.md): identidade de projeto
