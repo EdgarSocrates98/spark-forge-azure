@@ -324,6 +324,12 @@ def _group_names(group: str) -> list[str]:
 
 def capabilities() -> dict[str, Any]:
     """§6.2 capabilities.list + protocol.describe num documento só."""
+    # §7.1 (lf-0038): o inventario e a taxonomia declarada, nao o varrimento
+    # cru — cada suite carrega categoria, ambiente e selagem §7.3. O
+    # varrimento continua como `dirs` informativo: o nao-classificado e
+    # dado, nao ausencia silenciosa.
+    from sparkforge_azure.evals import taxonomy as _evals_taxonomy
+
     rules = _load_rules()
     try:
         kroot = knowledge_dir()
@@ -350,7 +356,17 @@ def capabilities() -> dict[str, Any]:
         "knowledge": kstate,
         "skills": {"count": len(_group_names("skills")), "ids": _group_names("skills")},
         "agents": {"count": len(_group_names("agents")), "ids": _group_names("agents")},
-        "eval_suites": _group_names("evals"),
+        "eval_suites": _evals_taxonomy.suite_ids(),
+        "evals": {
+            "categories": list(_evals_taxonomy.KINDS),
+            "counts": _evals_taxonomy.kind_counts(),
+            "dirs": _group_names("evals"),
+            "detail": _evals_taxonomy.capability_detail(),
+            # §7.2 — ops conceituais de evals/verification -> argv real.
+            # `discovery.ops` do manifesto e fechado no §6.2; os seis ops
+            # do §7.2 vivem aqui e como discovery.commands.
+            "ops": discovery_ops.eval_ops_expanded(),
+        },
         "domains": list(discovery_ops.DOMAINS),
         "protocols": list(discovery_ops.PROTOCOLS),
         "interfaces": {"mcp": discovery_ops.MCP_INTERFACE},
