@@ -180,6 +180,7 @@ def initialize(
     name: str | None = None,
     regen_id: bool = False,
     with_mirrors: bool = False,
+    include_markers: bool = True,
 ) -> dict[str, Any]:
     """Initialize portable identity + local integration for ``root``.
 
@@ -255,6 +256,8 @@ def initialize(
 
     # Host contracts (§65–§71): managed marker blocks in AGENTS.md always
     # and CLAUDE.md when the host is around; mirrors are opt-in bulk.
+    # `include_markers=False` (install path): the forge_context docs layer
+    # owns the `forge:*` blocks there — no double generation of markers.
     detected = tuple(
         h["name"] for h in detect_hosts() if h["status"] == "available"
     )
@@ -263,6 +266,7 @@ def initialize(
         ledger,
         hosts=detected,
         with_mirrors=with_mirrors,
+        write_markers=include_markers,
     )
 
     ledger = record_file(

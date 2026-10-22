@@ -135,8 +135,10 @@ def _planned_files(target: Path, scope: str, hosts: tuple[str, ...],
 
     out = [".mcp.json", "AGENTS.md"]
     if scope != "user":
-        out.append(".sparkforge-azure/project.yaml")
-    if "claude" in hosts or (target / "CLAUDE.md").exists():
+        # install_docs sempre escreve CLAUDE.md + AGENT_PROTOCOL.md (lf-0036)
+        out += [".sparkforge-azure/project.yaml", "CLAUDE.md",
+                "AGENT_PROTOCOL.md"]
+    elif "claude" in hosts or (target / "CLAUDE.md").exists():
         out.append("CLAUDE.md")
     if profile in ("recommended", "full"):
         for skill_name, _ in _skill_sources():
@@ -229,7 +231,14 @@ def install(*, scope: str = "project", root: Path | None = None,
         if scope == "user":
             doc = _install_user(target, hosts, profile)
         else:
-            doc = dist.initialize(target, with_mirrors=(profile == "full"))
+            # include_markers=False: os consumer docs (blocos `forge:*` +
+            # AGENT_PROTOCOL.md consolidado) sao escritos pela camada
+            # forge_context em `_register_context`, nao pelo ledger de
+            # markers legado (lf-0036).
+            doc = dist.initialize(
+                target, with_mirrors=(profile == "full"), include_markers=False
+            )
+            _drop_stale_doc_entries(state, target)
             if profile in ("recommended", "full"):
                 from sparkforge_azure.distribution.managed import (
                     load_ledger,
@@ -356,21 +365,50 @@ def repair(*, scope: str = "project", root: Path | None = None,
         if scope == "user":
             _install_user(target, HOSTS, "recommended")
         else:
-            dist.initialize(target, with_mirrors=False)
+            # include_markers=False: markers legados sao convergidos pela
+            # camada forge_context (repair_docs abaixo); reescreve-los aqui
+            # recriaria o drift que estamos removendo (lf-0036).
+            dist.initialize(target, with_mirrors=False, include_markers=False)
             from sparkforge_azure.distribution.managed import (
                 load_ledger,
                 save_ledger,
             )
+            _drop_stale_doc_entries(state, target)
             ledger = load_ledger(state)
             ledger, _w = _install_skill_mirrors(target, ledger, HOSTS)
             save_ledger(state, ledger)
         after = [a for a in assess_ledger(state) if a["state"] != "present"]
+        # Consumer docs: re-assert dos blocos `forge:*` a partir dos
+        # manifests em `.forge/context/`; recusa nomeada vira check.
+        # Escopo user tem target=~ e nunca registra contexto — repair_docs
+        # criaria `~/.forge/context/` à toa, então só roda em project e
+        # quando há resíduo de contexto.
+        docs_check: dict[str, Any] | None = None
+        if scope != "user" and _docs_leftovers(target):
+            try:
+                out_docs = fctx.repair_docs(
+                    target, legacy_tags=_LEGACY_DOC_TAGS)
+                docs_check = {
+                    "id": "consumer-docs",
+                    "status": "PASS",
+                    "detail": f"{out_docs['status']} "
+                    f"({len(out_docs['written'])} writes)",
+                }
+            except fctx.ContextError as exc:
+                docs_check = {
+                    "id": "consumer-docs",
+                    "status": "BLOCKED",
+                    "detail": f"{exc.kind}: {exc.detail}",
+                }
+    checks = [{"id": "repair",
+               "status": "PASS" if not after else "FAIL",
+               "detail": f"{len(before)} drifted, {len(after)} remaining"}]
+    if docs_check is not None:
+        checks.append(docs_check)
     return _receipt(
         "repair", scope, target,
         status="completed" if not after else "failed",
-        checks=[{"id": "repair",
-                 "status": "PASS" if not after else "FAIL",
-                 "detail": f"{len(before)} drifted, {len(after)} remaining"}],
+        checks=checks,
         extra={"repaired": [a["path"] for a in before
                             if a["path"] not in {b["path"] for b in after}]})
 
@@ -381,10 +419,17 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
 
     target = _resolve(scope, root)
     if not _state_dir(scope, target).exists() and not dry_run:
+        # No-op idempotente que não escreve estado — a menos que restem
+        # resíduos de contexto/docs (state dir sumiu mas a entry no
+        # registry ou os blocos `forge:*` continuam). As duas ops adquirem
+        # lock, então só rodam quando há resíduo.
+        checks = [{"id": "uninstall", "status": "PASS",
+                   "detail": "0 removed, 0 kept — nothing installed"}]
+        if scope != "user" and _docs_leftovers(target):
+            checks += [_unregister_context(target), _uninstall_docs(target)]
         return _receipt(
             "uninstall", scope, target, status="completed",
-            checks=[{"id": "uninstall", "status": "PASS",
-                     "detail": "0 removed, 0 kept — nothing installed"}],
+            checks=checks,
             extra={"removed": [], "kept": []})
     out = detach_service.detach(
         target, dry_run=dry_run, purge_state=purge, purge_cache=False)
@@ -393,7 +438,9 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
     context_checks: list[dict[str, Any]] = []
     if not dry_run:
         kit._prune_empty_dirs(target, removed)
-        context_checks = [_unregister_context(target)]
+        if scope != "user" and _docs_leftovers(target):
+            context_checks = [
+                _unregister_context(target), _uninstall_docs(target)]
     return _receipt(
         "uninstall", scope, target,
         status="planned" if dry_run else "completed",
@@ -456,6 +503,11 @@ __all__ = ["HOSTS", "PROFILES", "SCOPES", "doctor", "install", "mcp_verify",
 
 _PKG_DIR = Path(__file__).resolve().parents[1]
 _REPO_DIR = _PKG_DIR.parent
+
+# Markers de geracoes anteriores (`distribution.managed` escrevia
+# `<!-- sparkforge-azure:begin -->`); `install_docs` os remove ao
+# convergir para o contrato `forge:<tag>` (lf-0036).
+_LEGACY_DOC_TAGS: tuple[str, ...] = ("sparkforge-azure",)
 
 _AZURE_DOMAINS: tuple[str, ...] = (
     "azure-data",
@@ -681,6 +733,31 @@ def _register_context(
             {"id": "context-registry", "status": "BLOCKED",
              "detail": f"{exc.kind}: {exc.detail}"}
         )
+        return
+    # Consumer docs (AGENTS.md/CLAUDE.md/AGENT_PROTOCOL.md) so existem em
+    # escopo de projeto/workspace — user-scope escreve assets sob ~ e ja
+    # traz os markers legados via install_host_assets.
+    if scope == "user":
+        return
+    try:
+        docs = fctx.install_docs(
+            target, manifest, owner=FORGE_ID, legacy_tags=_LEGACY_DOC_TAGS
+        )
+        receipt.setdefault("checks", []).append(
+            {
+                "id": "consumer-docs",
+                "status": "PASS",
+                "detail": (
+                    f"{docs['status']}: {len(docs['written'])} written, "
+                    f"{len(docs['kept'])} kept"
+                ),
+            }
+        )
+    except fctx.ContextError as exc:
+        receipt.setdefault("checks", []).append(
+            {"id": "consumer-docs", "status": "BLOCKED",
+             "detail": f"{exc.kind}: {exc.detail}"}
+        )
 
 
 def _unregister_context(target: Path) -> dict[str, Any]:
@@ -695,6 +772,73 @@ def _unregister_context(target: Path) -> dict[str, Any]:
     except fctx.ContextError as exc:
         return {
             "id": "context-registry",
+            "status": "BLOCKED",
+            "detail": f"{exc.kind}: {exc.detail}",
+        }
+
+
+_CONSUMER_DOCS: tuple[str, ...] = (
+    "AGENTS.md", "CLAUDE.md", "AGENT_PROTOCOL.md")
+
+
+def _drop_stale_doc_entries(state: Path, target: Path) -> None:
+    """Remove do ledger as entries dos consumer docs: eles agora sao
+    managed pela camada forge_context (blocos `forge:*`), nao por hash de
+    marker/bloco — uma entry `markers` antiga ficaria `modified` para
+    sempre depois da convergencia."""
+    from sparkforge_azure.distribution.managed import (
+        forget_file,
+        load_ledger,
+        save_ledger,
+    )
+
+    ledger = load_ledger(state)
+    for name in _CONSUMER_DOCS:
+        ledger = forget_file(ledger, (target / name).resolve())
+        ledger = forget_file(ledger, target / name)
+    save_ledger(state, ledger)
+
+
+def _docs_leftovers(target: Path) -> bool:
+    """True quando o target ainda carrega resíduo forge_context: dir de
+    contexto, nosso bloco managed, o bloco shared do ecossistema, o
+    sentinel do protocolo managed ou um marker legado. Leitura sem lock —
+    só um hit justifica o caminho de escrita (nunca criamos
+    `.forge/context/` num root pristino)."""
+    if (target / fctx.CONTEXT_DIR).exists():
+        return True
+    needles = (
+        f"forge:{FORGE_ID}:", f"{fctx.DOC_TAG_ECOSYSTEM}:",
+        fctx.PROTOCOL_SENTINEL, *_LEGACY_DOC_TAGS,
+    )
+    for name in _CONSUMER_DOCS:
+        path = target / name
+        if not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        if any(n in text for n in needles):
+            return True
+    return False
+
+
+def _uninstall_docs(target: Path) -> dict[str, Any]:
+    """Retira os blocos `forge:sparkforge-azure` (+ markers legados) dos
+    consumer docs. Depois do unregister, para o protocolo sair sem nos."""
+    try:
+        out = fctx.uninstall_docs(
+            target, FORGE_ID, owner=FORGE_ID, legacy_tags=_LEGACY_DOC_TAGS
+        )
+        return {
+            "id": "consumer-docs",
+            "status": "PASS",
+            "detail": f"{out['status']}: {len(out['written'])} changed",
+        }
+    except fctx.ContextError as exc:
+        return {
+            "id": "consumer-docs",
             "status": "BLOCKED",
             "detail": f"{exc.kind}: {exc.detail}",
         }
