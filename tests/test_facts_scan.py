@@ -127,6 +127,11 @@ VARREDURA_CRUA_PERMITIDA: dict[str, str] = {
         "esta forge escreve, confinado ao workspace root do chamador, nunca "
         "arvore de cliente"
     ),
+    "evals/surface.py": (
+        "lf-0038 §7: lista `*.yaml` de `evals/agent_runtime/cases/` -- corpus "
+        "versionado do proprio checkout, resolvido a partir do pacote "
+        "(_REPO_DIR), nunca um diretorio passado pelo chamador"
+    ),
 }
 
 

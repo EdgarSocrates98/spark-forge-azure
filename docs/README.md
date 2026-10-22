@@ -156,6 +156,7 @@ Mapa da documentação do repositório. O contrato de trabalho de qualquer agent
 
 | Doc | Cobre |
 |---|---|
+| `docs/evals-taxonomy.md` | Inventário §7.1 classificado das 9 suites de evals + ops §7.2 + postura §7.3 (`sparkforge-azure evals`) |
 | `docs/labs/access.md` | 10 cenários UC/ADLS (`diagnose --suite`) + security/taint |
 | `docs/labs/fabric.md` | 16 cenários Fabric (`diagnose fabric --suite`) + coletor live opt-in |
 | `docs/labs/stream.md` | 22 cenários Streaming/RTI (`diagnose stream --suite`) + correctness semantics |

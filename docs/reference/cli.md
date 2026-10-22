@@ -390,6 +390,24 @@ redigido e limitado; cada recusa carrega código nomeado
 Evidência E2E do ciclo de integrações (casos A/B/E/G/H, mesma fronteira
 delegation/ do sibling AWS): `forge-cli/docs/integration/cases/`.
 
+## `sparkforge-azure evals <op>` — superfície §7.2 de avaliação
+
+Inventário classificado das 9 suites de evals nas 4 categorias do §7.1
+(developer, runtime-decision, output-verification, host-conformance).
+Fonte: `sparkforge_azure/evals/taxonomy.py`; taxonomia em
+`docs/evals-taxonomy.md`.
+
+| op | efeito |
+|---|---|
+| `list` | `evals.list` — inventário classificado com contagens por categoria |
+| `describe` | `evals.describe --suite <id>` — categoria, ambiente, selagem e sha256 de integridade; gabarito selado nunca sai |
+| `run` | `evals.run --suite <id>` — runner determinístico da suite; suites de host recusam `EVALS-REQUIRES-HOST` |
+| `result` | `evals.result --suite <id> --run <run>` — scorecard de uma execução de host gravada em `~/.sparkforge-azure/agentic-evals/` |
+
+§7.4 (verification): `verification.plan` → `lab plan <cenario>`;
+`verification.run` → `lab verify` (evidência de execução via
+`lab run --execute --confirm` + `lab inspect`/`lab reproduce`).
+
 ## Exit codes
 
 | Código | Significado |
