@@ -105,6 +105,20 @@ def _json(doc: subprocess.CompletedProcess, step: str) -> dict:
         ) from None
 
 
+def _create_venv(venv_dir: Path, tmp_path: Path, env: dict[str, str]) -> None:
+    try:
+        venv.create(venv_dir, with_pip=True)
+        return
+    except subprocess.CalledProcessError:
+        uv = shutil.which("uv", path=env.get("PATH"))
+        if uv is None:
+            raise
+    # ensurepip is absent on some managed interpreters (uv pythons on 3.10);
+    # `uv venv --seed` bootstraps pip without it.
+    seeded = _run([uv, "venv", "--seed", str(venv_dir)], cwd=tmp_path, env=env)
+    assert seeded.returncode == 0, f"uv venv --seed failed: {seeded.stderr[-400:]}"
+
+
 @pytest.mark.slow
 def test_wheel_install_lifecycle_outside_checkout(tmp_path: Path):
     wheel = _build_wheel(tmp_path)
@@ -126,7 +140,7 @@ def test_wheel_install_lifecycle_outside_checkout(tmp_path: Path):
     env = _clean_env()
 
     venv_dir = tmp_path / "venv"
-    venv.create(venv_dir, with_pip=True)
+    _create_venv(venv_dir, tmp_path, env)
     scripts = _scripts_dir(venv_dir)
     python = scripts / "python"
     pip = scripts / "pip"
