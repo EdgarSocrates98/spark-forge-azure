@@ -16,7 +16,13 @@ from sparkforge_azure.cli.main import CliError
 
 
 def _call(a: argparse.Namespace) -> dict[str, Any]:
-    from sparkforge_azure.evals import surface, taxonomy
+    # importlib: o runtime nao pode depender estaticamente da avaliacao
+    # (test_harness_boundary); o adapter carrega o pacote como plugin —
+    # mesmo padrao de `mcp/tools.py:load_all`.
+    import importlib
+
+    surface = importlib.import_module("sparkforge_azure.evals.surface")
+    taxonomy = importlib.import_module("sparkforge_azure.evals.taxonomy")
 
     try:
         if a.evals_action == "list":
