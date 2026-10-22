@@ -22,7 +22,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from sparkforge_azure import __version__
-from sparkforge_azure.paths import PKG, REPO, data_root, state_dir
+from sparkforge_azure.paths import PKG, REPO, data_root, fleet_root, state_dir
 
 
 @dataclass(frozen=True, slots=True)
@@ -445,7 +445,7 @@ def _agentic_fleet() -> Check:
     try:
         from sparkforge_azure.agentic.inventory import inventory
 
-        rep = inventory(REPO)
+        rep = inventory(fleet_root())
     except Exception as exc:  # noqa: BLE001 - doctor reports, never raises
         return Check("agentic_fleet", "fail", f"inventory failed: {exc}"[:200])
     counts = rep.counts
