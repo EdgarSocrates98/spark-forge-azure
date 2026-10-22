@@ -874,7 +874,12 @@ def _register_context(
     """Grava `.forge/context/` — manifesto + entrada no registry +
     ROUTING.md + consumer docs, numa UNICA transacao (install-2.0 §9.2:
     preflight → lock → conflicts → backup → write → verify → commit,
-    rollback em falha). Falha vira check BLOCKED nomeado no recibo."""
+    rollback em falha). Falha vira check BLOCKED nomeado no recibo.
+    Escopo user tem target=~: `~/.forge/` e nivel de conta; contexto de
+    workspace nao se escreve la — senao o uninstall (que pul user-scope)
+    orfa a entrada no registry."""
+    if scope == "user":
+        return
     try:
         manifest = _context_manifest(
             scope=scope, profile=profile, hosts=hosts, components=components
@@ -885,7 +890,7 @@ def _register_context(
         swept = _sweep_legacy_forge_ids(target)
         out = fctx.install_transaction(
             target, manifest, owner=FORGE_ID,
-            legacy_tags=_LEGACY_DOC_TAGS, docs=scope != "user",
+            legacy_tags=_LEGACY_DOC_TAGS,
         )
         if swept:
             receipt.setdefault("checks", []).append(
