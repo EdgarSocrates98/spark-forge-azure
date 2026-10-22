@@ -72,45 +72,54 @@ def install_host_assets(
     *,
     hosts: tuple[str, ...] = (),
     with_mirrors: bool = False,
+    write_markers: bool = True,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Write the host-facing files; returns (ledger, report)."""
+    """Write the host-facing files; returns (ledger, report).
+
+    ``write_markers=False`` skips the legacy ``sparkforge-azure`` marker
+    blocks — the ``forge:*`` consumer-docs layer (forge_context) owns
+    AGENTS.md/CLAUDE.md on the install path (lf-0036)."""
     report: dict[str, Any] = {
         "marker_files": [],
         "mirrors": {"written": 0, "roots": list(AGENT_MIRROR_ROOTS)},
         "skipped": [],
     }
 
-    # AGENTS.md — the generic contract (Codex, Devin and any agent CLI read it).
-    agents_md = root / "AGENTS.md"
-    apply_marker_block(agents_md, _BLOCK_BODY)
-    ledger = record_file(
-        ledger,
-        agents_md,
-        kind="host_contract",
-        mode="markers",
-        owned_key_hashes={"block": marker_block_sha(agents_md.read_text(encoding="utf-8"))},
-        host="generic",
-    )
-    report["marker_files"].append("AGENTS.md")
-
-    # CLAUDE.md — only when it already exists or claude was detected; we
-    # don't create host files for hosts that were never seen (§76).
-    claude_md = root / "CLAUDE.md"
-    if claude_md.is_file() or "claude" in hosts:
-        apply_marker_block(claude_md, _BLOCK_BODY)
+    if write_markers:
+        # AGENTS.md — the generic contract (Codex, Devin and any agent CLI
+        # read it).
+        agents_md = root / "AGENTS.md"
+        apply_marker_block(agents_md, _BLOCK_BODY)
         ledger = record_file(
             ledger,
-            claude_md,
+            agents_md,
             kind="host_contract",
             mode="markers",
             owned_key_hashes={
-                "block": marker_block_sha(claude_md.read_text(encoding="utf-8"))
+                "block": marker_block_sha(agents_md.read_text(encoding="utf-8"))
             },
-            host="claude",
+            host="generic",
         )
-        report["marker_files"].append("CLAUDE.md")
-    else:
-        report["skipped"].append("CLAUDE.md (host not detected)")
+        report["marker_files"].append("AGENTS.md")
+
+        # CLAUDE.md — only when it already exists or claude was detected; we
+        # don't create host files for hosts that were never seen (§76).
+        claude_md = root / "CLAUDE.md"
+        if claude_md.is_file() or "claude" in hosts:
+            apply_marker_block(claude_md, _BLOCK_BODY)
+            ledger = record_file(
+                ledger,
+                claude_md,
+                kind="host_contract",
+                mode="markers",
+                owned_key_hashes={
+                    "block": marker_block_sha(claude_md.read_text(encoding="utf-8"))
+                },
+                host="claude",
+            )
+            report["marker_files"].append("CLAUDE.md")
+        else:
+            report["skipped"].append("CLAUDE.md (host not detected)")
 
     if with_mirrors:
         sources = _agent_sources()

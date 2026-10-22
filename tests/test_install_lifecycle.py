@@ -305,3 +305,100 @@ def test_uninstall_desregistra_so_o_proprio_forge(project: Path) -> None:
     assert {e["forge_id"] for e in registry["forges"]} == {"forge-alheia"}
     assert not (ctx / "capabilities" / "sparkforge-azure.json").exists()
     assert (ctx / "capabilities" / "forge-alheia.json").exists()
+
+
+# --- consumer docs — install-2.0 ciclo 3 (lf-0036) ------------------------
+
+
+def test_install_escreve_consumer_docs(project: Path) -> None:
+    out = service.install(scope="project", root=project, yes=True)
+    assert out["status"] == "completed"
+    check = next(c for c in out["checks"] if c["id"] == "consumer-docs")
+    assert check["status"] == "PASS"
+
+    agents = (project / "AGENTS.md").read_text(encoding="utf-8")
+    claude = (project / "CLAUDE.md").read_text(encoding="utf-8")
+    proto = (project / "AGENT_PROTOCOL.md").read_text(encoding="utf-8")
+    assert "<!-- forge:ecosystem:begin -->" in agents
+    assert "<!-- forge:sparkforge-azure:begin -->" in agents
+    assert "<!-- sparkforge-azure:begin -->" not in agents  # legado convergiu
+    assert "@AGENTS.md" in claude
+    for sec in (
+        "1. Discovery", "2. Classification", "3. Routing",
+        "4. Context Retrieval", "5. Planning", "6. Execution",
+        "7. Evaluation", "8. Verification", "9. Reporting",
+    ):
+        assert sec in proto
+    assert proto.startswith("<!-- forge:agent-protocol:v1 -->")
+
+
+def test_install_converge_marker_legado(project: Path) -> None:
+    """Um AGENTS.md com o marker `sparkforge-azure` antigo converge para
+    `forge:*` sem duplicar blocos nem perder conteudo do usuario."""
+    (project / "AGENTS.md").write_text(
+        "# minhas regras\n\n"
+        "<!-- sparkforge-azure:begin -->\nold managed\n"
+        "<!-- sparkforge-azure:end -->\n",
+        encoding="utf-8")
+    service.install(scope="project", root=project, yes=True)
+    agents = (project / "AGENTS.md").read_text(encoding="utf-8")
+    assert agents.startswith("# minhas regras\n")
+    assert "old managed" not in agents
+    assert "<!-- sparkforge-azure:begin -->" not in agents
+    assert "<!-- forge:sparkforge-azure:begin -->" in agents
+
+
+def test_install_docs_idempotente(project: Path) -> None:
+    service.install(scope="project", root=project, yes=True)
+    nomes = ("AGENTS.md", "CLAUDE.md", "AGENT_PROTOCOL.md")
+    snap = {n: (project / n).read_bytes() for n in nomes}
+    service.install(scope="project", root=project, yes=True)
+    assert {n: (project / n).read_bytes() for n in nomes} == snap
+
+
+def test_uninstall_seletivo_entre_forges(project: Path) -> None:
+    from sparkforge_azure import _forgecontext as fctx
+
+    service.install(scope="project", root=project, yes=True)
+    alheio = fctx.build_manifest(
+        forge_id="forge-alheia", name="Forge Alheia", version="1.0.0",
+        cli="forge-alheia", package="forge_alheia", distribution="forge-alheia",
+        python_spec=">=3.10", scope="project", domains=("dominio-alheio",),
+        skills=("skill-alheia",),
+    )
+    fctx.register_forge(project, alheio, owner="forge-alheia")
+    fctx.install_docs(project, alheio, owner="forge-alheia")
+
+    service.uninstall(scope="project", root=project)
+    agents = (project / "AGENTS.md").read_text(encoding="utf-8")
+    assert "forge:sparkforge-azure" not in agents
+    assert "forge:forge-alheia:begin" in agents
+    proto = (project / "AGENT_PROTOCOL.md").read_text(encoding="utf-8")
+    assert "forge:forge-alheia" in proto and "sparkforge-azure" not in proto
+
+
+def test_install_recusa_marcador_ambiguo(project: Path) -> None:
+    (project / "AGENTS.md").write_text(
+        "# x\n<!-- forge:sparkforge-azure:begin -->\na\n"
+        "<!-- forge:sparkforge-azure:begin -->\nb\n"
+        "<!-- forge:sparkforge-azure:end -->\n",
+        encoding="utf-8")
+    out = service.install(scope="project", root=project, yes=True)
+    check = next(
+        (c for c in out["checks"] if c["id"] == "consumer-docs"), None)
+    assert check is not None and check["status"] == "BLOCKED"
+    assert "FORGE-CONTEXT-CONFLICT" in check["detail"]
+
+
+def test_repair_reconstroi_bloco_danificado(project: Path) -> None:
+    service.install(scope="project", root=project, yes=True)
+    alvo = project / "AGENTS.md"
+    alvo.write_text(
+        alvo.read_text(encoding="utf-8").replace(
+            "Spark Forge Azure", "ADULTERADO"),
+        encoding="utf-8")
+    out = service.repair(scope="project", root=project)
+    check = next(
+        (c for c in out["checks"] if c["id"] == "consumer-docs"), None)
+    assert check is not None and check["status"] == "PASS"
+    assert "ADULTERADO" not in alvo.read_text(encoding="utf-8")
