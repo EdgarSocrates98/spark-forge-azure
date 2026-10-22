@@ -153,7 +153,7 @@ def rules_search(
     page = _paginate([_rule_index(r) if index else r for r in rules], limit, cursor)
     return {
         "status": "ok",
-        "forge": "sparkforge-azure",
+        "forge": "spark-forge-azure",
         "catalog_dir": str(catalog_dir()),
         "filters_applied": {
             k: v
@@ -345,7 +345,7 @@ def capabilities() -> dict[str, Any]:
         kstate = {"unavailable": str(exc)}
     return {
         "status": "ok",
-        "forge": "sparkforge-azure",
+        "forge": "spark-forge-azure",
         "version": __version__,
         "cli": discovery_ops.CLI,
         "offline": True,
@@ -415,7 +415,7 @@ def context_pack(
 
     pack: dict[str, Any] = {
         "schema": "forge/context-pack/v1",
-        "forge": "sparkforge-azure",
+        "forge": "spark-forge-azure",
         "version": __version__,
         "domain": domain,
         "domain_prefixes": list(prefixes) if prefixes else None,

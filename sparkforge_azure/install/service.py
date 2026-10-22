@@ -23,7 +23,13 @@ from sparkforge_azure import __version__, discovery_ops
 from sparkforge_azure import _forgecontext as fctx
 from sparkforge_azure import _installkit as kit
 
-FORGE_ID = "sparkforge-azure"
+FORGE_ID = "spark-forge-azure"
+# Registry identities this forge previously shipped under. Installs from
+# pre-lf-0040 (merged in #79) registered `sparkforge-azure` — the canonical
+# manifest id was always `spark-forge-azure` (forge.json). Install/uninstall
+# sweep that stale identity: same forge, older name — reclaiming it is
+# self-cleanup, never foreign deletion.
+_LEGACY_FORGE_IDS: tuple[str, ...] = ("sparkforge-azure",)
 PROFILES: tuple[str, ...] = ("minimal", "recommended", "full")
 GATEWAY_PROFILES: tuple[str, ...] = ("economy", "balanced", "deep")
 SCOPES: tuple[str, ...] = ("project", "workspace", "user")
@@ -441,13 +447,33 @@ def repair(*, scope: str = "project", root: Path | None = None,
             ledger, _w = _install_skill_mirrors(target, ledger, HOSTS)
             save_ledger(state, ledger)
         after = [a for a in assess_ledger(state) if a["state"] != "present"]
-        # Consumer docs: re-assert dos blocos `forge:*` a partir dos
-        # manifests em `.forge/context/`; recusa nomeada vira check.
-        # Escopo user tem target=~ e nunca registra contexto — repair_docs
-        # criaria `~/.forge/context/` à toa, então só roda em project e
-        # quando há resíduo de contexto.
+        # Registry de contexto + consumer docs: re-assert dos blocos
+        # `forge:*` a partir dos manifests em `.forge/context/`; recusa
+        # nomeada vira check. Escopo user tem target=~ e nunca registra
+        # contexto — as ops criariam `~/.forge/context/` à toa, então só
+        # rodam em project e quando há resíduo de contexto.
         docs_check: dict[str, Any] | None = None
+        ctx_check: dict[str, Any] | None = None
         if scope != "user" and _docs_leftovers(target):
+            try:
+                out_ctx = fctx.repair_context(target)
+                rec = out_ctx.get("recovered")
+                ctx_check = {
+                    "id": "context-registry",
+                    "status": "PASS",
+                    "detail": (
+                        f"{out_ctx['status']} "
+                        f"({len(out_ctx['written'])} writes)"
+                        + (f"; recovered {rec['op']}:{rec['forge_id']}" if rec else "")
+                        + ("; stale lock reclaimed" if out_ctx.get("lock_recovered") else "")
+                    ),
+                }
+            except fctx.ContextError as exc:
+                ctx_check = {
+                    "id": "context-registry",
+                    "status": "BLOCKED",
+                    "detail": f"{exc.kind}: {exc.detail}",
+                }
             try:
                 out_docs = fctx.repair_docs(
                     target, legacy_tags=_LEGACY_DOC_TAGS)
@@ -466,6 +492,8 @@ def repair(*, scope: str = "project", root: Path | None = None,
     checks = [{"id": "repair",
                "status": "PASS" if not after else "FAIL",
                "detail": f"{len(before)} drifted, {len(after)} remaining"}]
+    if ctx_check is not None:
+        checks.append(ctx_check)
     if docs_check is not None:
         checks.append(docs_check)
     return _receipt(
@@ -489,7 +517,7 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
         checks = [{"id": "uninstall", "status": "PASS",
                    "detail": "0 removed, 0 kept — nothing installed"}]
         if scope != "user" and _docs_leftovers(target):
-            checks += [_unregister_context(target), _uninstall_docs(target)]
+            checks += _unregister_context(target)
         return _receipt(
             "uninstall", scope, target, status="completed",
             checks=checks,
@@ -502,8 +530,7 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
     if not dry_run:
         kit._prune_empty_dirs(target, removed)
         if scope != "user" and _docs_leftovers(target):
-            context_checks = [
-                _unregister_context(target), _uninstall_docs(target)]
+            context_checks = _unregister_context(target)
     return _receipt(
         "uninstall", scope, target,
         status="planned" if dry_run else "completed",
@@ -568,9 +595,13 @@ _PKG_DIR = Path(__file__).resolve().parents[1]
 _REPO_DIR = _PKG_DIR.parent
 
 # Markers de geracoes anteriores (`distribution.managed` escrevia
-# `<!-- sparkforge-azure:begin -->`); `install_docs` os remove ao
-# convergir para o contrato `forge:<tag>` (lf-0036).
-_LEGACY_DOC_TAGS: tuple[str, ...] = ("sparkforge-azure",)
+# `<!-- sparkforge-azure:begin -->`; os ciclos lf-0035–0039 escreviam
+# `<!-- forge:sparkforge-azure:begin -->` sob o id sem hifen);
+# `install_docs` os remove ao convergir para o contrato `forge:<tag>`.
+_LEGACY_DOC_TAGS: tuple[str, ...] = (
+    "sparkforge-azure",
+    "forge:sparkforge-azure",
+)
 
 _AZURE_DOMAINS: tuple[str, ...] = (
     "azure-data",
@@ -806,8 +837,29 @@ def _context_manifest(
             "checks": checks,
         },
         components=components,
-        recorded_by="sparkforge-azure",
+        recorded_by=FORGE_ID,
     )
+
+
+def _sweep_legacy_forge_ids(target: Path) -> list[str]:
+    """Unregister registry identities this forge shipped under before the
+    canonical id landed (see ``_LEGACY_FORGE_IDS``). Returns swept ids.
+
+    Runs BEFORE the install/uninstall transaction so the sweep and the
+    real op never share a lock — each ``unregister_forge`` is its own
+    journaled unit. Absent entries are a no-op; a stale capability file
+    without a registry entry is reclaimed the same way.
+    """
+    reg = fctx.load_registry(target)
+    present = {e.get("forge_id") for e in (reg or {}).get("forges", [])}
+    swept: list[str] = []
+    for legacy in _LEGACY_FORGE_IDS:
+        if legacy == FORGE_ID:
+            continue
+        if legacy in present or fctx.capability_path(target, legacy).exists():
+            fctx.unregister_forge(target, legacy, owner=legacy)
+            swept.append(legacy)
+    return swept
 
 
 def _register_context(
@@ -820,12 +872,29 @@ def _register_context(
     components: dict[str, Any] | None,
 ) -> None:
     """Grava `.forge/context/` — manifesto + entrada no registry +
-    ROUTING.md. Falha vira check BLOCKED nomeado no recibo."""
+    ROUTING.md + consumer docs, numa UNICA transacao (install-2.0 §9.2:
+    preflight → lock → conflicts → backup → write → verify → commit,
+    rollback em falha). Falha vira check BLOCKED nomeado no recibo."""
     try:
         manifest = _context_manifest(
             scope=scope, profile=profile, hosts=hosts, components=components
         )
-        out = fctx.register_forge(target, manifest, owner=FORGE_ID)
+        # Consumer docs (AGENTS.md/CLAUDE.md/AGENT_PROTOCOL.md) so existem
+        # em escopo de projeto/workspace — user-scope escreve assets sob ~
+        # e ja traz os markers legados via install_host_assets.
+        swept = _sweep_legacy_forge_ids(target)
+        out = fctx.install_transaction(
+            target, manifest, owner=FORGE_ID,
+            legacy_tags=_LEGACY_DOC_TAGS, docs=scope != "user",
+        )
+        if swept:
+            receipt.setdefault("checks", []).append(
+                {
+                    "id": "context-registry-legacy-sweep",
+                    "status": "PASS",
+                    "detail": f"stale registry ids reclaimed: {swept}",
+                }
+            )
         receipt.setdefault("checks", []).append(
             {
                 "id": "context-registry",
@@ -834,21 +903,7 @@ def _register_context(
                 f"({len(out['written'])} writes)",
             }
         )
-    except fctx.ContextError as exc:
-        receipt.setdefault("checks", []).append(
-            {"id": "context-registry", "status": "BLOCKED",
-             "detail": f"{exc.kind}: {exc.detail}"}
-        )
-        return
-    # Consumer docs (AGENTS.md/CLAUDE.md/AGENT_PROTOCOL.md) so existem em
-    # escopo de projeto/workspace — user-scope escreve assets sob ~ e ja
-    # traz os markers legados via install_host_assets.
-    if scope == "user":
-        return
-    try:
-        docs = fctx.install_docs(
-            target, manifest, owner=FORGE_ID, legacy_tags=_LEGACY_DOC_TAGS
-        )
+        docs = out["docs"]
         receipt.setdefault("checks", []).append(
             {
                 "id": "consumer-docs",
@@ -861,26 +916,42 @@ def _register_context(
         )
     except fctx.ContextError as exc:
         receipt.setdefault("checks", []).append(
-            {"id": "consumer-docs", "status": "BLOCKED",
+            {"id": "context-registry", "status": "BLOCKED",
              "detail": f"{exc.kind}: {exc.detail}"}
         )
 
 
-def _unregister_context(target: Path) -> dict[str, Any]:
-    """Remove somente o manifesto/entry deste forge."""
+def _unregister_context(target: Path) -> list[dict[str, Any]]:
+    """Remove manifesto/entry/blocos `forge:*` deste forge numa UNICA
+    transacao (§9.2) — só artifacts próprios: nosso capability file, nossa
+    entrada no registry, nossos blocos; docs compartilhados regeneram
+    para os sobreviventes."""
     try:
-        out = fctx.unregister_forge(target, FORGE_ID, owner=FORGE_ID)
-        return {
-            "id": "context-registry",
-            "status": "PASS",
-            "detail": f".forge/context {out['status']}",
-        }
+        _sweep_legacy_forge_ids(target)
+        out = fctx.uninstall_transaction(
+            target, FORGE_ID, owner=FORGE_ID, legacy_tags=_LEGACY_DOC_TAGS
+        )
+        docs = out["docs"]
+        return [
+            {
+                "id": "context-registry",
+                "status": "PASS",
+                "detail": f".forge/context {out['status']}",
+            },
+            {
+                "id": "consumer-docs",
+                "status": "PASS",
+                "detail": f"{docs['status']}: {len(docs['written'])} changed",
+            },
+        ]
     except fctx.ContextError as exc:
-        return {
-            "id": "context-registry",
-            "status": "BLOCKED",
-            "detail": f"{exc.kind}: {exc.detail}",
-        }
+        return [
+            {
+                "id": "context-registry",
+                "status": "BLOCKED",
+                "detail": f"{exc.kind}: {exc.detail}",
+            }
+        ]
 
 
 _CONSUMER_DOCS: tuple[str, ...] = (
@@ -929,22 +1000,3 @@ def _docs_leftovers(target: Path) -> bool:
             return True
     return False
 
-
-def _uninstall_docs(target: Path) -> dict[str, Any]:
-    """Retira os blocos `forge:sparkforge-azure` (+ markers legados) dos
-    consumer docs. Depois do unregister, para o protocolo sair sem nos."""
-    try:
-        out = fctx.uninstall_docs(
-            target, FORGE_ID, owner=FORGE_ID, legacy_tags=_LEGACY_DOC_TAGS
-        )
-        return {
-            "id": "consumer-docs",
-            "status": "PASS",
-            "detail": f"{out['status']}: {len(out['written'])} changed",
-        }
-    except fctx.ContextError as exc:
-        return {
-            "id": "consumer-docs",
-            "status": "BLOCKED",
-            "detail": f"{exc.kind}: {exc.detail}",
-        }
