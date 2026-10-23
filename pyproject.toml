@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "sparkforge-azure"
-version = "0.2.2"
+version = "0.2.3"
 description = "Agentic Engineering OS for Azure Data Engineering: deterministic facts, rules and evidence for Databricks, Fabric, Synapse, ADF, ADLS, Event Hubs, Unity Catalog and Purview"
 readme = "README.md"
 license = { file = "LICENSE" }
