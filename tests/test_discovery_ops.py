@@ -208,3 +208,19 @@ def test_knowledge_pointer_stubs_for_skill_refs(tmp_path):
     # stub  ledger（uninstall ）
     kinds = {f["kind"] for f in ledger["files"]}
     assert "knowledge_pointer" in kinds
+
+
+def test_knowledge_refs_descartam_traversal():
+    """Refs `knowledge/<rel>` citadas em SKILL.md nunca viram path fora da
+    raiz: `..`, absoluto, drive ou backslash sao descartados na extracao
+    — nunca chegam ao stub write nem a uma chave de ledger com `..`."""
+    from sparkforge_azure.install.service import _referenced_knowledge_paths
+
+    texto = (
+        "veja `knowledge/delta/merge.md` e "
+        "`knowledge/../../fora.md` e `knowledge/sub/dir/x` "
+        "e `knowledge/C:/evil`"
+    )
+    refs = _referenced_knowledge_paths(texto)
+    assert "delta/merge.md" in refs
+    assert all(".." not in r and ":" not in r for r in refs)

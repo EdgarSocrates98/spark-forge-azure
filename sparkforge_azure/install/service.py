@@ -103,10 +103,22 @@ def _skill_roots(hosts: tuple[str, ...]) -> list[str]:
 _KNOWLEDGE_REF_RE = None  # compiled lazily in _referenced_knowledge_paths
 
 
+def _rel_seguro(rel: str) -> bool:
+    """Um `knowledge/<rel>` citado num doc vira path em disco no install —
+    `..`, absoluto, drive ou barra invertida escreveriam FORA da raiz
+    `knowledge/` (o `Path` nao normaliza `..` antes do syscall)."""
+    if not rel or "\\" in rel or ":" in rel or "%" in rel:
+        return False
+    partes = Path(rel)
+    return not partes.is_absolute() and ".." not in partes.parts
+
+
 def _referenced_knowledge_paths(text: str) -> set[str]:
     """Os caminhos `knowledge/<rel>` citados num SKILL.md — por link markdown
     resolvido contra `skills/<name>` e por mencao textual `` `knowledge/x` ``.
-    Serve para emitir ponteiros exatamente nos docs referenciados (lf-0037)."""
+    Serve para emitir ponteiros exatamente nos docs referenciados (lf-0037).
+    Refs que escapam a raiz (`..`, absoluto) sao descartadas — nunca viram
+    path nem chave de ledger."""
     global _KNOWLEDGE_REF_RE
     if _KNOWLEDGE_REF_RE is None:
         import re
@@ -116,7 +128,7 @@ def _referenced_knowledge_paths(text: str) -> set[str]:
     refs: set[str] = set()
     for match in _KNOWLEDGE_REF_RE.finditer(text):
         rel = match.group(0)[len("knowledge/"):].rstrip(".,);]")
-        if rel:
+        if rel and _rel_seguro(rel):
             refs.add(rel)
     return refs
 
@@ -174,6 +186,11 @@ def _install_skill_mirrors(
             )
             written.append(str(target))
     for rel in sorted(knowledge_refs):
+        # Defesa em profundidade: `rel` vem de texto de documento — um `..`
+        # residiria fora de `root/knowledge/` no syscall e viraria path com
+        # `..` no ledger (unlink fora da raiz no uninstall).
+        if not _rel_seguro(rel):
+            continue
         # Ref de diretorio (`knowledge/spark/`) vira stub `<dir>/README.md`;
         # ref de arquivo vira stub no proprio caminho.
         stub_rel = rel if Path(rel).suffix else f"{rel}/README.md"
@@ -519,7 +536,8 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
         if scope != "user" and _docs_leftovers(target):
             checks += _unregister_context(target)
         return _receipt(
-            "uninstall", scope, target, status="completed",
+            "uninstall", scope, target,
+            status="failed" if any(c.get("status") == "BLOCKED" for c in checks) else "completed",
             checks=checks,
             extra={"removed": [], "kept": []})
     out = detach_service.detach(
@@ -531,9 +549,10 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
         kit._prune_empty_dirs(target, removed)
         if scope != "user" and _docs_leftovers(target):
             context_checks = _unregister_context(target)
+    ctx_blocked = any(c.get("status") == "BLOCKED" for c in context_checks)
     return _receipt(
         "uninstall", scope, target,
-        status="planned" if dry_run else "completed",
+        status="planned" if dry_run else "failed" if ctx_blocked else "completed",
         checks=[{"id": "uninstall", "status": "PASS",
                  "detail": f"{len(removed)} removed, "
                            f"{len(out.get('preserved', []))} preserved"}]
@@ -924,6 +943,9 @@ def _register_context(
             {"id": "context-registry", "status": "BLOCKED",
              "detail": f"{exc.kind}: {exc.detail}"}
         )
+        # BLOCKED num componente mandatório não sai exit 0 — os assets
+        # foram escritos mas o contrato install-2.0 falhou.
+        receipt["status"] = "failed"
 
 
 def _unregister_context(target: Path) -> list[dict[str, Any]]:
