@@ -2,6 +2,24 @@
 
 All notable changes to this project are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+## [0.2.2] - 2026-10-29
+
+### Fixed
+
+- `_forgecontext` v1.3.3 + `_installkit` v1.0.3 (vendored): `repair_context`
+  reports malformed capability files per-file instead of crashing;
+  context/install locks carry a unique ownership token; poisoned journals
+  quarantine instead of wedging later ops; asset/ledger paths are
+  validated before disk writes (`FORGE-INSTALL-UNSAFE-PATH`);
+  `_atomic_write` preserves file modes.
+- `install`: `knowledge/<rel>` references extracted from SKILL.md docs
+  now discard traversal refs (`..`, absolute, drive, backslash) at
+  extraction AND at the stub-write layer — no file can be created or
+  recorded outside the install root via a crafted doc mention.
+- A `BLOCKED` check on the mandatory context-registry component now marks
+  the receipt `failed` (nonzero exit) — on install AND on both uninstall
+  paths.
+
 ## [0.2.1] - 2026-10-22
 
 ### Fixed
