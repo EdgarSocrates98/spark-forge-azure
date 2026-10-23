@@ -1,3 +1,3 @@
 """Spark Forge Azure - Agentic Engineering OS for Azure Data Engineering."""
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"
