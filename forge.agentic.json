@@ -1,7 +1,7 @@
 {
   "schema": "forge/SpecialistAgenticManifest/v1",
   "provider": "spark-forge-azure",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "cli": "sparkforge-azure",
   "cli_entry": "sparkforge_azure.cli.main:main",
   "workflows": [
