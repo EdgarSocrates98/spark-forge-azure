@@ -2,14 +2,14 @@
 
 All notable changes to this project are documented here. Format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
-## [0.2.3] - 2026-10-24
+## [0.2.3] - 2026-10-23
 
 ### Security
 
 - Vendored `_installkit` 1.0.4: unsafe ledger keys surfaced in
   `status().drift.unsafe`; `doctor` marks them non-repairable.
 
-## [0.2.2] - 2026-10-29
+## [0.2.2] - 2026-10-23
 
 ### Fixed
 
