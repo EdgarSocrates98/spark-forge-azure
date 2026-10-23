@@ -16,7 +16,7 @@ from __future__ import annotations
 import json
 import subprocess  # noqa: S404 — bounded argv to the installed venv pip
 import sys
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 from sparkforge_azure import __version__, discovery_ops
@@ -109,7 +109,7 @@ def _rel_seguro(rel: str) -> bool:
     `knowledge/` (o `Path` nao normaliza `..` antes do syscall)."""
     if not rel or "\\" in rel or ":" in rel or "%" in rel:
         return False
-    partes = Path(rel)
+    partes = PurePosixPath(rel)
     return not partes.is_absolute() and ".." not in partes.parts
 
 
