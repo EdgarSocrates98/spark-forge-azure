@@ -80,6 +80,11 @@ All notable changes to this project are documented here. Format follows
 
 ## [Unreleased]
 
+## [0.3.1] — 2026-10-23
+
+### Fixed
+- patch — manifest/agentic versions synced; no behavior change
+
 
 
 ## [0.3.0] - 2026-10-23
