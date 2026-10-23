@@ -15,18 +15,18 @@ from pathlib import Path
 from sparkforge_azure.ui.i18n import t
 from sparkforge_azure.ui.kit import NonInteractive, UIContext, _c, dashboard, select
 
-FORGE_NAME = 'spark-forge-azure'
-CLI_NAME = 'sparkforge-azure'
-CLI_ENTRY = 'sparkforge_azure.cli.main:main'
+FORGE_NAME = "spark-forge-azure"
+CLI_NAME = "sparkforge-azure"
+CLI_ENTRY = "sparkforge_azure.cli.main:main"
 
 _MENU: list[tuple[str, list[str] | None]] = [
-    ('Analyze this project', ['analyze']),
-    ('Diagnose', ['diagnose']),
-    ('Check installation health', ['doctor']),
-    ('Installation status (ledger + drift)', ['install', 'status']),
-    ('MCP verify (real handshake)', ['install', 'mcp-verify']),
-    ('Graph Studio (browser)', ['graph','ui']),
-    ('Open AI host (state + launch)', ['ai']),
+    ("Analyze this project", ["analyze"]),
+    ("Diagnose", ["diagnose"]),
+    ("Check installation health", ["doctor"]),
+    ("Installation status (ledger + drift)", ["install", "status"]),
+    ("MCP verify (real handshake)", ["install", "mcp-verify"]),
+    ("Graph Studio (browser)", ["graph", "ui"]),
+    ("Open AI host (state + launch)", ["ai"]),
     ("installation wizard", "__wizard__"),
     ("quit", None),
 ]
@@ -41,11 +41,10 @@ def _cli_argv(extra: list[str]) -> list[str] | None:
         module, _, fn = CLI_ENTRY.partition(":")
         checkout = next(
             (
-            a
-            for a in Path(__file__).resolve().parents
-            if (a / "forge.json").is_file()
-            and (a / "pyproject.toml").is_file()
-        ),
+                a
+                for a in Path(__file__).resolve().parents
+                if (a / "forge.json").is_file() and (a / "pyproject.toml").is_file()
+            ),
             None,
         )
         if checkout is None:
@@ -60,7 +59,7 @@ def _cli_argv(extra: list[str]) -> list[str] | None:
 
 
 def _run_argv(argv: list[str]) -> int:
-    env = dict(__import__('os').environ, FORGE_TEXT_OUTPUT="1")
+    env = dict(__import__("os").environ, FORGE_TEXT_OUTPUT="1")
     try:
         return subprocess.run(argv, check=False, env=env).returncode
     except FileNotFoundError:
@@ -73,6 +72,7 @@ def run_home(*, ctx: UIContext | None = None) -> int:
         raise NonInteractive("home requires a TTY")
     if ctx.ansi:  # full-screen path; ANSI-free terminals keep the inline kit
         from sparkforge_azure.ui.tui import run_tui
+
         return run_tui(ctx=ctx)
     dashboard(
         f"{FORGE_NAME}  workspace: {Path.cwd().name}",
