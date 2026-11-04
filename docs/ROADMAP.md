@@ -367,4 +367,5 @@ na arvore (SDD `TREE_ECONOMY_MEASUREMENT`, AC4):
   hardening de skills/agents + distribuição portável W1–W6
   (distribution/workspace/relocatable identity/context resolve/host
   integration/detach hardening) + FORGE_PORTAL (18 testes de adapter
-  HTTP real).
+  HTTP real). Com o vertical Cosmos DB, a suíte corrente é
+  **3179 passed / 9 skipped** (local Windows, Python 3.14, ~648s).
