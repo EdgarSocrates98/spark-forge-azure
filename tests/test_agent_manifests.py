@@ -45,9 +45,9 @@ def _errs(agent_id: str, mutate=None, body_mutate=None) -> list[str]:
 
 def test_taxonomy_counts():
     assert len(ROLE_IDS) == 16
-    assert len(SPECIALIST_IDS) == 20
+    assert len(SPECIALIST_IDS) == 21
     assert len(SUBAGENT_IDS) == 4
-    assert len(set(ALL_AGENT_IDS)) == 40
+    assert len(set(ALL_AGENT_IDS)) == 41
     found = sorted(p.stem for p in (ROOT / "agents").glob("*.md"))
     assert found == sorted(ALL_AGENT_IDS)
 

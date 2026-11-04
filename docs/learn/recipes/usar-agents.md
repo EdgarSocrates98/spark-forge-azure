@@ -1,6 +1,6 @@
 # Receita — usar os agents do spark-forge-azure
 
-**O quê:** a frota tem 40 agents (roles, specialists, subagents, executores)
+**O quê:** a frota tem 41 agents (roles, specialists, subagents, executores)
 com contrato v2: `kind`, `domain`, `autonomy` L0–L2, `risk` e evals. Tudo é
 inventariável e roteável por comando.
 **Por que:** escolher agente é dado, não julgamento — `agents route` explica

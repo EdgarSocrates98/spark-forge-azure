@@ -27,7 +27,7 @@ from sparkforge_azure.knowledgebase.metadata import (
 
 ROOT = Path(__file__).resolve().parents[1]
 KNOWLEDGE = ROOT / "knowledge"
-TODAY = date(2026, 10, 6)
+TODAY = date(2026, 11, 3)
 
 EXPECTED_IDS = {
     "azure.spark.execution-model",
@@ -67,6 +67,11 @@ EXPECTED_IDS = {
     "data-quality.contracts-and-expectations",
     "agentic.evidence-first",
     "spark.streaming.runtime-matrix",
+    "azure.cosmosdb.spark-connector",
+    "azure.cosmosdb.bulk-and-batch",
+    "azure.cosmosdb.change-feed",
+    "azure.cosmosdb.reads-and-tuning",
+    "azure.cosmosdb.model-and-limits",
 }
 
 

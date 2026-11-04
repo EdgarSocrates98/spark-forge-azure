@@ -74,6 +74,7 @@ SPECIALIST_DOMAINS: tuple[str, ...] = (
     "adls",
     "onelake",
     "event-hubs",
+    "cosmos-db",
     "streaming",
     "purview",
     "entra",

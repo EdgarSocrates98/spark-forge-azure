@@ -47,6 +47,7 @@ DOMAINS: frozenset[str] = frozenset(
         "azure-data-factory",
         "azure-adls",
         "azure-event-hubs",
+        "azure-cosmos-db",
         "azure-purview",
         "azure-entra",
         "azure-keyvault",

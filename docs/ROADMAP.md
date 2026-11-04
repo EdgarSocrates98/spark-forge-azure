@@ -48,6 +48,7 @@ Medido em 2026-10-07 sobre `feat/v0.1.0-foundation-delivery`:
 - Skills: **23 catalogadas** — as 21 de domínio do §157 + `analyze-batch-loop`
   (skill de método; ancora a análise de lote no extrator PySpark e cita `SF-PY-004`)
   + `delegate-specialists` (delegação governada a especialistas opcionais).
+  Depois: o vertical Cosmos DB (`azure-cosmos-db`) elevou o catálogo a **24 catalogadas**.
 - Regras: catálogo `SF-PY` (12 regras PySpark) + `routing.yaml` com rotas de estado
   e `AGENT-003` (findings_area → coordenador); `rule_areas` declarado nos manifests.
 - Contratos fechados nesta entrega: `parity.yaml` + `manifest.json` gerados por
@@ -230,7 +231,8 @@ maturity pass auditou cada bloco § contra artefatos reais
   (negative exige `no_match`, nunca `below_cap`); `_eval_coverage` agora
   resolve cada entrada contra `tests/`/`evals/` (antes bastava lista
   não-vazia — divergência docstring↔código fechada); 40 manifests declaram
-  evals reais → frota **40/40 `ready`** (era 40× `unevaluated`; suite 2818/9).
+  evals reais → frota **40/40 `ready`** (era 40× `unevaluated`; suite 2818/9);
+  o vertical Cosmos DB (`cosmos-db-specialist`) elevou a frota a **41/41 `ready`**.
 - `AGENT_MIRRORS` (W2): mirrors de hosts para os 40 manifests —
   `.claude/agents/custom/` + `.agents/agents/` file-per-agent, `name`/
   `description` injetados, drift `missing|stale|orphan` + sync, campo

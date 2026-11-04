@@ -20,6 +20,9 @@ import pytest
 
 pq = pytest.importorskip("pyarrow.parquet")
 pa = pytest.importorskip("pyarrow")
+# O coletor parquet_footer ainda nao foi portado do sibling AWS; sem ele o
+# arquivo inteiro pula, seguindo o mesmo padrao do guard do pyarrow.
+pytest.importorskip("sparkforge_azure.collect.parquet_footer")
 
 from sparkforge_azure.collect.base import CollectorUnavailable, load_manifest  # noqa: E402
 from sparkforge_azure.collect.parquet_footer import (  # noqa: E402

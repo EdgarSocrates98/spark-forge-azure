@@ -5,7 +5,7 @@
     "manifest_only": 0,
     "partial": 0,
     "unevaluated": 0,
-    "ready": 40
+    "ready": 41
   },
   "agents": [
     {
@@ -379,6 +379,22 @@
       "mirrors": [
         ".claude/agents/custom/sparkforge-azure-event-hubs-specialist.md",
         ".agents/agents/sparkforge-azure-event-hubs-specialist.md"
+      ]
+    },
+    {
+      "agent_id": "cosmos-db-specialist",
+      "kind": "specialist",
+      "status": "ready",
+      "domain": "cosmos-db",
+      "autonomy": "L1",
+      "evals": [
+        "evals/agents/cosmos-db-specialist.yaml",
+        "tests/test_agent_eval_cases.py",
+        "tests/test_agent_contract_v2.py"
+      ],
+      "mirrors": [
+        ".claude/agents/custom/sparkforge-azure-cosmos-db-specialist.md",
+        ".agents/agents/sparkforge-azure-cosmos-db-specialist.md"
       ]
     },
     {

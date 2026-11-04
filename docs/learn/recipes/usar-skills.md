@@ -1,7 +1,7 @@
 # Receita — usar as skills do spark-forge-azure
 
-**O quê:** 23 skills canônicas (contrato v1) cobrem os domínios Azure —
-storage (ADLS), Bicep, ADF, Databricks, Entra, Event Hubs, FinOps,
+**O quê:** 24 skills canônicas (contrato v1) cobrem os domínios Azure —
+storage (ADLS), Bicep, ADF, Cosmos DB, Databricks, Entra, Event Hubs, FinOps,
 networking, observability, Purview, Spark, Synapse, Terraform, Delta,
 Fabric (data-engineering, OneLake, Real-Time), Iceberg, Spark perf/streaming
 e Unity Catalog — mais as skills de método `analyze-batch-loop` e

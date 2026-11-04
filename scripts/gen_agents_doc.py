@@ -31,7 +31,7 @@ def render(root: Path) -> str:
         "",
         "# Catálogo de agents",
         "",
-        "Os 40 agents do contrato v2, gerados a partir de `agents/<id>.md`.",
+        "Os 41 agents do contrato v2, gerados a partir de `agents/<id>.md`.",
         "Fonte única: os manifests — editar a doc à mão é reprovado pelo",
         "teste de sync.",
         "",

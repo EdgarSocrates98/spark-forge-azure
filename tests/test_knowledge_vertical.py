@@ -54,10 +54,17 @@ MIGRATION_PACKS = {
     "migration-plan",
 }
 
+COSMOS_PACKS = {
+    "cosmos-core",
+    "cosmos-spark-connector",
+    "cosmos-change-feed",
+}
+
 _VERTICAL_OF = {**{p: "access" for p in PACKS},
                 **{p: "fabric" for p in FABRIC_PACKS},
                 **{p: "stream" for p in STREAM_PACKS},
-                **{p: "migration" for p in MIGRATION_PACKS}}
+                **{p: "migration" for p in MIGRATION_PACKS},
+                **{p: "cosmos" for p in COSMOS_PACKS}}
 
 NON_VERTICAL_DOMAINS = {
     "azure-data-factory",
@@ -72,7 +79,7 @@ NON_VERTICAL_DOMAINS = {
 def test_packs_manifest_declares_the_six_packs():
     manifest = load_packs()
     assert set(manifest["packs"]) == (PACKS | FABRIC_PACKS | STREAM_PACKS
-                                     | MIGRATION_PACKS)
+                                     | MIGRATION_PACKS | COSMOS_PACKS)
     for name, spec in manifest["packs"].items():
         assert spec["domains"], "pack sem dominio"
         assert spec["failure_layers"], "pack sem failure_layer"

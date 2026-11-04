@@ -104,8 +104,8 @@
   ]
  },
  "knowledge": {
-  "count": 38,
-  "total_bytes": 173920
+  "count": 43,
+  "total_bytes": 203051
  },
  "mcp": {
   "compact": [
@@ -366,7 +366,7 @@
  },
  "schema_version": 2,
  "skills": {
-  "count": 23,
-  "total_bytes": 102423
+  "count": 24,
+  "total_bytes": 109701
  }
 }

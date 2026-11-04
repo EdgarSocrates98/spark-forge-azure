@@ -1,0 +1,67 @@
+skill: azure-cosmos-db
+version: 1
+cases:
+- id: azure-cosmos-db-429
+  prompt: Minha carga bulk no Cosmos está tomando 429 o tempo todo
+  must_include:
+  - bulk
+  - throughput control
+  - métrica
+  must_not_include:
+  - aumentar RU resolve
+  expected_tools:
+  - sparkforge-azure judge
+  - sfa_analyze
+- id: azure-cosmos-db-connector-version
+  prompt: Qual versão do conector Cosmos uso num cluster Spark 3.4 / DBR 13?
+  must_include:
+  - matriz
+  - verified_at
+  must_not_include:
+  - qualquer versão funciona
+  expected_tools:
+  - sparkforge-azure knowledge select
+  - sfa_knowledge_select
+- id: azure-cosmos-db-change-feed-checkpoint
+  prompt: O change feed do Cosmos processou o backlog inteiro de novo depois do restart
+  must_include:
+  - checkpoint
+  - startFrom
+  - spark-streaming
+  must_not_include:
+  - exactly-once garantido
+  expected_tools:
+  - sparkforge-azure judge
+  - sfa_analyze
+- id: azure-cosmos-db-delta-cdf-negative
+  kind: negative
+  prompt: Como ativo o Change Data Feed da minha tabela Delta para CDC incremental?
+  must_include:
+  - delta-lake
+  must_not_include:
+  - cosmos.oltp.changeFeed
+  - throughput bucket
+  expected_tools:
+  - sfa_analyze
+- id: azure-cosmos-db-eventhubs-negative
+  kind: negative
+  prompt: Meu consumidor Event Hubs está com lag crescente no consumer group
+  must_include:
+  - azure-event-hubs
+  must_not_include:
+  - partition key
+  - throughput bucket
+  expected_tools:
+  - sfa_analyze
+- id: azure-cosmos-db-read-tuning-boundary
+  kind: boundary
+  prompt: A query Spark no Cosmos varre tudo e demora — é RU insuficiente ou o plano Spark?
+  must_include:
+  - partitioning
+  - métrica
+  - spark-performance
+  must_not_include:
+  - é certamente RU
+  expected_tools:
+  - sparkforge-azure judge
+  - sfa_analyze

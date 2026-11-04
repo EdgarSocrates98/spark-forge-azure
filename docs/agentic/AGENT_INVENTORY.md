@@ -11,10 +11,10 @@ Per-agent contract status, measured by `sparkforge_azure.agentic.inventory` — 
 | `broken` | 0 |
 | `manifest_only` | 0 |
 | `partial` | 0 |
-| `ready` | 40 |
+| `ready` | 41 |
 | `unevaluated` | 0 |
 
-**Total:** 40 agents
+**Total:** 41 agents
 
 ## Fleet
 
@@ -44,6 +44,7 @@ Per-agent contract status, measured by `sparkforge_azure.agentic.inventory` — 
 | `adls-specialist` | specialist | `ready` |
 | `onelake-specialist` | specialist | `ready` |
 | `event-hubs-specialist` | specialist | `ready` |
+| `cosmos-db-specialist` | specialist | `ready` |
 | `streaming-specialist` | specialist | `ready` |
 | `purview-specialist` | specialist | `ready` |
 | `entra-specialist` | specialist | `ready` |

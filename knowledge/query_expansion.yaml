@@ -208,6 +208,38 @@ terms:
     aliases: [arm template, what-if]
     expands: [diagnostic settings]
     targets: [azure.iac.bicep, azure-bicep]
+  - term: cosmos
+    aliases: [cosmos db, cosmosdb, azure cosmos, azure cosmos db, nosql api, documents.azure.com]
+    expands: [partition key, request unit, change feed, bulk write, integrated cache]
+    targets: [azure-cosmos-db, azure.cosmosdb.spark-connector, azure.cosmosdb.model-and-limits]
+  - term: partition key
+    aliases: [partitionkey, pk, hierarchical partition key, hpk, synthetic key, hot partition]
+    expands: [cosmos, throughput control, feed range]
+    targets: [azure.cosmosdb.model-and-limits, azure.cosmosdb.bulk-and-batch]
+  - term: request unit
+    aliases: [request units, ru, 'ru/s', rus, throughput, normalizedruconsumption, '429', too many requests]
+    expands: [cosmos, throughput control, autoscale, hot partition]
+    targets: [azure.cosmosdb.model-and-limits, azure.cosmosdb.reads-and-tuning]
+  - term: throughput control
+    aliases: [throughput bucket, throughput buckets, target throughput, priority level]
+    expands: [request unit, cosmos]
+    targets: [azure.cosmosdb.model-and-limits, azure.cosmosdb.bulk-and-batch]
+  - term: change feed
+    aliases: [changefeed, cdc, all versions and deletes, full fidelity, cosmos.oltp.changefeed]
+    expands: [cosmos, checkpoint, structured streaming]
+    targets: [azure.cosmosdb.change-feed, azure.spark.streaming-state-checkpoint]
+  - term: bulk
+    aliases: [bulk load, bulk write, bulk enabled, transactional batch, item overwrite, item append]
+    expands: [cosmos, request unit, write strategy]
+    targets: [azure.cosmosdb.bulk-and-batch, azure.cosmosdb.spark-connector]
+  - term: integrated cache
+    aliases: [dedicated gateway, maxintegratedcachestaleness]
+    expands: [cosmos, request unit]
+    targets: [azure.cosmosdb.reads-and-tuning, azure.cosmosdb.model-and-limits]
+  - term: analytical store
+    aliases: [synapse link, cosmos.olap, azure synapse link, fabric mirroring]
+    expands: [cosmos, synapse]
+    targets: [azure.cosmosdb.spark-connector]
   - term: data quality
     aliases: [expectations, expect_or_drop, data contract, data contracts]
     expands: [lakeflow jobs, quarantine]

@@ -72,6 +72,7 @@ handoffs:
   - adls-specialist
   - onelake-specialist
   - event-hubs-specialist
+  - cosmos-db-specialist
   - streaming-specialist
   - purview-specialist
   - entra-specialist
@@ -118,7 +119,6 @@ Transformar a tarefa em um plano mínimo: quais papéis e quais specialists, em 
 ## Tabela de roteamento
 
 Máximo 3 specialists por padrão (teto 5); empate segue a ordem da tabela.
-
 | Domínio | Termos de roteamento | Specialist |
 |---|---|---|
 | Microsoft Fabric (workspace, Spark, Data Factory do Fabric) | fabric, fabric spark, fabric notebook, fabric lakehouse, fabric warehouse | `fabric-specialist` |
@@ -129,6 +129,7 @@ Máximo 3 specialists por padrão (teto 5); empate segue a ordem da tabela.
 | ADLS Gen2 / Storage | adls, adls gen2, data lake storage, acl, storage account | `adls-specialist` |
 | OneLake (shortcuts, segurança OneLake) | onelake, onelake shortcut, shortcut, onelake security, onelake catalog | `onelake-specialist` |
 | Event Hubs (namespace, partições, Kafka endpoint) | event hubs, event hub, eventhub, eventhubs, kafka endpoint | `event-hubs-specialist` |
+| Azure Cosmos DB for NoSQL (conector Spark, RU, change feed) | cosmos, cosmos db, cosmosdb, azure cosmos, azure cosmos db | `cosmos-db-specialist` |
 | Spark Structured Streaming / Fabric RTI | structured streaming, streaming, watermark, checkpoint, foreachbatch | `streaming-specialist` |
 | Microsoft Purview (data map, lineage, classificação) | purview, microsoft purview, lineage, data map, purview scan | `purview-specialist` |
 | Entra ID, Managed Identity, RBAC, Key Vault | entra, entra id, managed identity, service principal, rbac | `entra-specialist` |

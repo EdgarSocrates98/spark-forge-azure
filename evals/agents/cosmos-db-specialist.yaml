@@ -1,0 +1,15 @@
+agent: cosmos-db-specialist
+kind: route
+cases:
+- id: route-positive-core
+  kind: route_positive
+  prompt: cosmos db change feed request unit partition key bulk write
+- id: route-positive-spark
+  kind: route_positive
+  prompt: azure cosmos spark connector bulk load throughput control
+- id: route-negative-disjoint
+  kind: route_negative
+  prompt: bicep arm template what if bicepparam
+- id: route-negative-kafka
+  kind: route_negative
+  prompt: event hubs kafka endpoint consumer group throughput unit

@@ -17,7 +17,7 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "suite-green",
@@ -53,12 +53,12 @@
      "kind": "exit0"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
-   "id": "skills-catalogue-23",
+   "id": "skills-catalogue-24",
    "doc": "docs/ROADMAP.md",
-   "text": "**23 catalogadas**",
+   "text": "**24 catalogadas**",
    "proof": {
     "cmd": [
      "python",
@@ -68,7 +68,7 @@
      "kind": "json",
      "path": "skills",
      "op": "==",
-     "value": 23
+     "value": 24
     }
    },
    "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
@@ -90,7 +90,7 @@
      "value": 18
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "knowledge-check",
@@ -105,7 +105,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "lab-verify",
@@ -124,7 +124,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "access-suite-10",
@@ -146,7 +146,7 @@
      "value": 10
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -169,7 +169,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "security-vertical-green",
@@ -189,7 +189,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "fabric-suite-green",
@@ -212,7 +212,7 @@
      "value": 16
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -228,7 +228,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "fabric-mcp-surface",
@@ -244,7 +244,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "docs-surface",
@@ -260,7 +260,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "stream-suite-green",
@@ -276,7 +276,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "stream-mcp-surface",
@@ -292,7 +292,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "migration-suite-green",
@@ -308,7 +308,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "migration-mcp-surface",
@@ -324,7 +324,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "docs-index",
@@ -340,12 +340,12 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
-   "id": "agentic-fleet-40",
+   "id": "agentic-fleet-41",
    "doc": "docs/ROADMAP.md",
-   "text": "40/40 `ready`",
+   "text": "41/41 `ready`",
    "proof": {
     "cmd": [
      "python",
@@ -357,10 +357,10 @@
     "expect": {
      "kind": "json",
      "path": "counts.ready",
-     "value": 40
+     "value": 41
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "agentic-fingerprint",
@@ -379,7 +379,7 @@
      "pattern": "\"fingerprint\":\\s*\"sha256:[0-9a-f]{64}\""
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "sdd-gate-green",
@@ -399,7 +399,7 @@
      "value": true
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "freeze-frozen",
@@ -418,7 +418,7 @@
      "value": "frozen"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "host-proof-claude",
@@ -437,7 +437,7 @@
      "value": "host_proven"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "portable-distribution-wheel",
@@ -455,7 +455,7 @@
      "pattern": "portability gate: ok"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "workspace-relocation",
@@ -473,7 +473,7 @@
      "pattern": "ok\\s+relocated-repo"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "multi-repo-context",
@@ -491,7 +491,7 @@
      "pattern": "ok\\s+transitive-deps"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   },
   {
    "id": "detach-safe",
@@ -509,7 +509,7 @@
      "pattern": "ok\\s+detach-reattach"
     }
    },
-   "sha": "da43dc18f645695f7428a9e42c5d2b1d4167b34e"
+   "sha": "7e51610fd3b3727847e577cf6443103181873800"
   }
  ]
 }

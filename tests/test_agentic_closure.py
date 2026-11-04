@@ -21,9 +21,9 @@ def test_fingerprint_deterministic_and_shaped() -> None:
     b = fleet_fingerprint(REPO)
     assert a["fingerprint"] == b["fingerprint"]
     assert a["fingerprint"].startswith("sha256:")
-    assert a["agents"] == len(ALL_AGENT_IDS) == 40
+    assert a["agents"] == len(ALL_AGENT_IDS) == 41
     assert a["teams"] == 4
-    assert a["routes"] == 20
+    assert a["routes"] == 21
     # the basis is inspectable — every manifest contributes contract fields
     basis = fingerprint_basis(REPO)
     assert set(basis["manifests"]) == set(ALL_AGENT_IDS)
@@ -77,7 +77,7 @@ def _cli(*args: str) -> dict:
 def test_agents_fingerprint_and_impact_cli() -> None:
     out = _cli("agents", "fingerprint")
     assert out["code"] == 0
-    assert out["doc"]["agents"] == 40
+    assert out["doc"]["agents"] == 41
     assert out["doc"]["fingerprint"].startswith("sha256:")
 
     out = _cli("agents", "impact", "--path", "agents/coordinator.md")

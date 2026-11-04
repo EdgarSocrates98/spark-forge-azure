@@ -105,6 +105,26 @@ packs:
     purpose: TU/PU/CU capacity economics, throughput evidence vs marketing
     domains: [azure-finops]
     failure_layers: [event_hubs_capacity]
+  # --- Cosmos DB for NoSQL deep vertical (Spark connector, bulk/batch, CDC) -
+  cosmos-core:
+    vertical: cosmos
+    purpose: "Cosmos DB for NoSQL: modelo RU, partition keys, limites de servico,
+      throughput control (buckets PREVIEW), integrated cache, rede e identidade"
+    domains: [azure-cosmos-db, azure-networking, azure-entra]
+    failure_layers: [cosmos_ru, cosmos_partitioning, cosmos_auth, cosmos_network,
+      cross_environment]
+  cosmos-spark-connector:
+    vertical: cosmos
+    purpose: "conector Spark do Cosmos (cosmos.oltp/changeFeed, matriz de versoes,
+      auth, catalog API), bulk/batch writes, leitura/partitioning/pushdown, tuning"
+    domains: [azure-cosmos-db, spark-performance, azure-databricks]
+    failure_layers: [spark, cosmos_ru, cosmos_connector]
+  cosmos-change-feed:
+    vertical: cosmos
+    purpose: "CDC via change feed: startFrom/modos, checkpoint batch+stream,
+      itemCountPerTriggerHint, backlog e semantica de entrega"
+    domains: [azure-cosmos-db, spark-streaming]
+    failure_layers: [consumer_progress, checkpoint, cosmos_ru]
   # --- Cycle 5: ADF/Synapse -> Fabric migration vertical -----------------
   migration-inventory:
     vertical: migration

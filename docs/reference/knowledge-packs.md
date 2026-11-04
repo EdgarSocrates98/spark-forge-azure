@@ -26,6 +26,14 @@ ficou fora. O report `diagnose fabric` carrega o bloco `knowledge` escopado.
 | `fabric-rti` | `fabric-realtime`, `fabric-identity` | `eventstream_*`, `eventhouse_ingestion`, `kql`, `activator_*` |
 | `stream-economy` | `azure-finops` | `event_hubs_capacity` |
 
+## Vertical Cosmos DB for NoSQL
+
+| pack | domínios | failure_layers |
+|---|---|---|
+| `cosmos-core` | `azure-cosmos-db`, `azure-networking`, `azure-entra` | `cosmos_ru`, `cosmos_partitioning`, `cosmos_auth`, `cosmos_network`, `cross_environment` |
+| `cosmos-spark-connector` | `azure-cosmos-db`, `spark-performance`, `azure-databricks` | `spark`, `cosmos_ru`, `cosmos_connector` |
+| `cosmos-change-feed` | `azure-cosmos-db`, `spark-streaming` | `consumer_progress`, `checkpoint`, `cosmos_ru` |
+
 ## Vertical Migration (Cycle 5)
 
 | pack | domínios | failure_layers |

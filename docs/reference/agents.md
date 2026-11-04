@@ -2,7 +2,7 @@
 
 # Catálogo de agents
 
-Os 40 agents do contrato v2, gerados a partir de `agents/<id>.md`.
+Os 41 agents do contrato v2, gerados a partir de `agents/<id>.md`.
 Fonte única: os manifests — editar a doc à mão é reprovado pelo
 teste de sync.
 
@@ -28,6 +28,7 @@ teste de sync.
 | `adls-specialist` | specialist | adls | L1 | read_only | 3 |
 | `azure-databricks-specialist` | specialist | azure-databricks | L1 | read_only | 3 |
 | `bicep-specialist` | specialist | bicep | L1 | read_only | 3 |
+| `cosmos-db-specialist` | specialist | cosmos-db | L1 | read_only | 3 |
 | `delta-specialist` | specialist | delta | L1 | read_only | 3 |
 | `entra-specialist` | specialist | entra | L1 | read_only | 3 |
 | `event-hubs-specialist` | specialist | event-hubs | L1 | read_only | 3 |
