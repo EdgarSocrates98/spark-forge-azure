@@ -25,6 +25,7 @@ class KnowledgePack:
     source_hash: str = ""
     is_stale: bool = False
     stale_reason: str | None = None
+    freshness: str = "unknown"  # fresh|stale|unknown|conflicted|deprecated
 
 
 class KnowledgePackLoader:
@@ -59,6 +60,8 @@ class KnowledgePackLoader:
 
         title = domain.replace("-", " ").title()
         last_verified = ""
+        declared_source_hash = ""
+        deprecated = False
         if meta_file.is_file():
             try:
                 import json
@@ -66,28 +69,45 @@ class KnowledgePackLoader:
                 meta = json.loads(meta_file.read_text(encoding="utf-8"))
                 title = meta.get("title", title)
                 last_verified = meta.get("last_verified", "")
-            except Exception:  # noqa: S110 -- metadado opcional: sem ele valem os defaults acima
-                pass
-
-        # Check staleness
-        is_stale = False
-        stale_reason = None
-        if last_verified:
-            try:
-                verified_date = datetime.date.fromisoformat(last_verified)
-                age_days = (datetime.date.today() - verified_date).days
-                if age_days > self.max_age_days:
-                    is_stale = True
-                    stale_reason = (
-                        f"Knowledge pack verified {age_days} days ago "
-                        f"(threshold: {self.max_age_days} "
-                        f"days)."
-                    )
+                declared_source_hash = str(meta.get("source_hash", ""))
+                deprecated = bool(
+                    meta.get("deprecated", False) or meta.get("status") == "deprecated"
+                )
             except Exception:  # noqa: S110 -- metadado opcional: sem ele valem os defaults acima
                 pass
 
         content_for_hash = f"{concise_text}{patterns_text}{anti_patterns_text}"
         src_hash = hashlib.sha256(content_for_hash.encode("utf-8")).hexdigest()[:16]
+
+        # Freshness is explicit. Missing/invalid dates are unknown, never fresh.
+        freshness = "unknown"
+        stale_reason = "last_verified is missing"
+        if deprecated:
+            freshness = "deprecated"
+            stale_reason = "knowledge pack is explicitly deprecated"
+        elif declared_source_hash and declared_source_hash != src_hash:
+            freshness = "conflicted"
+            stale_reason = "metadata source_hash does not match pack content"
+        elif last_verified:
+            try:
+                verified_date = datetime.date.fromisoformat(last_verified)
+                age_days = (datetime.date.today() - verified_date).days
+                if age_days < 0:
+                    freshness = "unknown"
+                    stale_reason = "last_verified is in the future"
+                elif age_days > self.max_age_days:
+                    freshness = "stale"
+                    stale_reason = (
+                        f"Knowledge pack verified {age_days} days ago "
+                        f"(threshold: {self.max_age_days} "
+                        f"days)."
+                    )
+                else:
+                    freshness = "fresh"
+                    stale_reason = None
+            except Exception:  # noqa: S110 -- metadado opcional: sem ele valem os defaults acima
+                freshness = "unknown"
+                stale_reason = "last_verified is not a valid ISO date"
 
         return KnowledgePack(
             domain=domain,
@@ -97,8 +117,9 @@ class KnowledgePackLoader:
             anti_patterns_content=anti_patterns_text,
             last_verified=last_verified,
             source_hash=src_hash,
-            is_stale=is_stale,
+            is_stale=freshness == "stale",
             stale_reason=stale_reason,
+            freshness=freshness,
         )
 
     def select_packs(
