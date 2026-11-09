@@ -50,6 +50,10 @@ class TestEstados:
         e = estado(U, "2026-08-01", _conferida(3, pinned=True, changed_at="2026-09-01"), AS_OF)
         assert (e.state, e.reason) == ("fresh", "versao_no_caminho")
 
+    def test_pinned_without_last_verified_is_unknown(self):
+        e = estado(U, "2026-08-01", _lock(pinned=True), AS_OF)
+        assert (e.state, e.reason) == ("unknown", "last_verified_ausente")
+
     def test_unverified(self):
         e = estado(U, "2026-08-01", _lock(), AS_OF)
         assert (e.state, e.reason) == ("unknown", "last_verified_ausente")

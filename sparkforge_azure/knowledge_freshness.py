@@ -179,12 +179,6 @@ def estado(
             conflito = {"declared": entrada.get("conflicted")}
         return Estado("conflicted", "leituras_divergentes", **base | {"conflicted": conflito})
 
-    # A pinned URL is immutable evidence; it does not need a moving-source
-    # verification timestamp. Keep the old ``fixed`` semantics in the new
-    # public vocabulary.
-    if entrada.get("pinned"):
-        return Estado("fresh", "versao_no_caminho", **base)
-
     mudou_bruto = entrada.get("changed_at")
     mudou = data(mudou_bruto)
     if mudou_bruto is not None and mudou is None:
@@ -203,10 +197,20 @@ def estado(
         "checked_at": conferido.isoformat() if conferido else None,
         "changed_at": mudou.isoformat() if mudou else None,
     }
-    if mudou is not None and validado < mudou:
-        return Estado("stale", "mudou_depois_da_validacao", **base, **datas)
     if not entrada.get("sha256") or conferido is None:
         return Estado("unknown", "last_verified_ausente", **base, **datas)
+    # A pinned URL prevents content drift, but it is not a substitute for the
+    # explicit verification evidence required by the freshness contract.
+    if entrada.get("pinned"):
+        return Estado(
+            "fresh",
+            "versao_no_caminho",
+            age_days=(as_of - conferido).days,
+            **base,
+            **datas,
+        )
+    if mudou is not None and validado < mudou:
+        return Estado("stale", "mudou_depois_da_validacao", **base, **datas)
     idade = (as_of - conferido).days
     if idade > aging_days:
         return Estado(
