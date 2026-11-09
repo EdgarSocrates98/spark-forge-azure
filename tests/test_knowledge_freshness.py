@@ -126,9 +126,9 @@ class TestPrecedencia:
             estado(U, "2026-08-01", _conferida(40, changed_at="2026-09-01"), AS_OF).state == "stale"
         )
 
-    def test_missing_last_verified_is_unknown_even_with_change_marker(self):
-        """A mudança não transforma ausência de verificação em atualidade."""
-        assert estado(U, "2026-08-01", _lock(changed_at="2026-09-01"), AS_OF).state == "unknown"
+    def test_change_marker_proves_stale_without_last_verified(self):
+        """A ausência não confirma fresh, mas uma mudança prova stale."""
+        assert estado(U, "2026-08-01", _lock(changed_at="2026-09-01"), AS_OF).state == "stale"
 
 
 class TestUnresolvedEConflito:
