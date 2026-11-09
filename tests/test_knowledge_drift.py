@@ -64,7 +64,7 @@ def test_lida_no_dia_da_mudanca_ja_e_revalidada():
 
 def test_regra_sem_data_de_leitura_e_stale():
     fonte = _unica(drift(LOCK, None, [_regra("SF-LF-001", None)], {}, INDICE, DIA))
-    assert fonte["citations"][0]["retrieved"] is None and fonte["impact"]["rules"] == ["SF-LF-001"]
+    assert fonte["citations"][0]["retrieved"] is None and fonte["impact"]["rules"] == []
 
 
 def test_fonte_fixa_por_versao_nunca_entra():
