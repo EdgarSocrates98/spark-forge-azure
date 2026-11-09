@@ -76,7 +76,7 @@ class TestEstados:
 
     def test_aging(self):
         e = estado(U, "2026-08-01", _conferida(20), AS_OF)
-        assert (e.state, e.age_days) == ("stale", 20)
+        assert (e.state, e.age_days, e.is_stale) == ("stale", 20, True)
 
     @pytest.mark.parametrize(
         ("dias", "esperado"), [(AGING_DAYS, "fresh"), (AGING_DAYS + 1, "stale")]
@@ -106,7 +106,9 @@ class TestEstados:
         ],
     )
     def test_invalid_future_missing_and_deprecated_are_explicit(self, validated, lock, expected):
-        assert estado(U, validated, lock, AS_OF).state == expected
+        result = estado(U, validated, lock, AS_OF)
+        assert result.state == expected
+        assert result.is_stale is (expected == "deprecated")
 
 
 class TestPrecedencia:
