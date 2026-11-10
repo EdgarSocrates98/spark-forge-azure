@@ -9,8 +9,8 @@ Paridade cross-Forge atual: seção *Post-closure freshness update* em
 
 | Campo | Valor | Fonte |
 |---|---|---|
-| MAIN_SHA | `fdb3655` | git rev-parse --short HEAD |
-| PACKAGE_VERSION | `0.3.2` | sparkforge_azure.__version__ |
+| MAIN_SHA | `423188c` | git rev-parse --short HEAD |
+| PACKAGE_VERSION | `0.3.3` | sparkforge_azure.__version__ |
 | TESTS | `3179 passed` | claim `suite-green` em docs/claims.lock.json (prova = suite) |
 | CLAIMS | `28` | docs/claims.lock.json |
 | SKILLS | `24` | scripts/check_skills_agents.py |

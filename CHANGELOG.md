@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.3.3] — 2026-11-10
+
+### Fixed
+
+- Published the Cycle 2.7 release certification baseline.
+
 ## [0.3.2] — 2026-11-04
 
 ### Fixed
