@@ -47,12 +47,16 @@ def _conferida(dias: int, **extra):
 
 class TestEstados:
     def test_fixed(self):
-        e = estado(U, "2026-08-01", _lock(pinned=True, changed_at="2026-09-01"), AS_OF)
-        assert (e.state, e.reason) == ("fixed", "versao_no_caminho")
+        e = estado(U, "2026-08-01", _conferida(3, pinned=True, changed_at="2026-09-01"), AS_OF)
+        assert (e.state, e.reason) == ("fresh", "versao_no_caminho")
+
+    def test_pinned_without_last_verified_is_unknown(self):
+        e = estado(U, "2026-08-01", _lock(pinned=True), AS_OF)
+        assert (e.state, e.reason) == ("unknown", "last_verified_ausente")
 
     def test_unverified(self):
         e = estado(U, "2026-08-01", _lock(), AS_OF)
-        assert (e.state, e.reason) == ("unverified", "nunca_conferida")
+        assert (e.state, e.reason) == ("unknown", "last_verified_ausente")
 
     def test_stale_quando_mudou_depois_da_validacao(self):
         e = estado(U, date(2026, 8, 1), _conferida(3, changed_at="2026-09-01"), AS_OF)
@@ -68,7 +72,7 @@ class TestEstados:
         assert e.state == "fresh"
 
     def test_sem_data_de_validacao_e_mudanca_registrada_e_stale(self):
-        assert estado(U, None, _conferida(3, changed_at="2026-09-01"), AS_OF).state == "stale"
+        assert estado(U, None, _conferida(3, changed_at="2026-09-01"), AS_OF).state == "unknown"
 
     def test_fresh(self):
         e = estado(U, "2026-08-01", _conferida(5), AS_OF)
@@ -76,53 +80,76 @@ class TestEstados:
 
     def test_aging(self):
         e = estado(U, "2026-08-01", _conferida(20), AS_OF)
-        assert (e.state, e.age_days) == ("aging", 20)
+        assert (e.state, e.age_days, e.is_stale) == ("stale", 20, True)
 
     @pytest.mark.parametrize(
-        ("dias", "esperado"), [(AGING_DAYS, "fresh"), (AGING_DAYS + 1, "aging")]
+        ("dias", "esperado"), [(AGING_DAYS, "fresh"), (AGING_DAYS + 1, "stale")]
     )
     def test_borda_do_limiar(self, dias, esperado):
         assert estado(U, "2026-08-01", _conferida(dias), AS_OF).state == esperado
 
     def test_checked_at_ilegivel_e_unverified(self):
         lock = _lock(sha256="ab" * 32, checked_at="ontem")
-        assert estado(U, "2026-08-01", lock, AS_OF).state == "unverified"
+        assert estado(U, "2026-08-01", lock, AS_OF).state == "unknown"
+
+    def test_last_verified_is_supported_as_canonical_field(self):
+        lock = _lock(sha256="ab" * 32, last_verified="2026-09-08")
+        assert estado(U, "2026-08-01", lock, AS_OF).state == "fresh"
+
+    @pytest.mark.parametrize(
+        ("validated", "lock", "expected"),
+        [
+            ("ontem", _conferida(3), "unknown"),
+            ("2026-09-12", _conferida(3), "unknown"),
+            ("2026-08-01", _lock(sha256="ab" * 32, checked_at="2026-09-12"), "unknown"),
+            (
+                "2026-08-01",
+                _lock(sha256="ab" * 32, checked_at="2026-09-08", deprecated=True),
+                "deprecated",
+            ),
+        ],
+    )
+    def test_invalid_future_missing_and_deprecated_are_explicit(self, validated, lock, expected):
+        result = estado(U, validated, lock, AS_OF)
+        assert result.state == expected
+        assert result.is_stale is (expected == "deprecated")
 
 
 class TestPrecedencia:
     def test_fixed_vence_stale(self):
         lock = _conferida(3, changed_at="2026-09-01")
         lock[U]["pinned"] = True
-        assert estado(U, "2026-08-01", lock, AS_OF).state == "fixed"
+        assert estado(U, "2026-08-01", lock, AS_OF).state == "fresh"
 
     def test_stale_vence_aging(self):
         assert (
             estado(U, "2026-08-01", _conferida(40, changed_at="2026-09-01"), AS_OF).state == "stale"
         )
 
-    def test_stale_vence_unverified(self):
-        """Hash removido depois de uma mudanca registrada: a mudanca e o sinal."""
+    def test_change_marker_proves_stale_without_last_verified(self):
+        """A ausência não confirma fresh, mas uma mudança prova stale."""
         assert estado(U, "2026-08-01", _lock(changed_at="2026-09-01"), AS_OF).state == "stale"
 
 
 class TestUnresolvedEConflito:
     def test_sem_lock(self):
         e = estado(U, "2026-08-01", None, AS_OF, motivo_sem_lock="lock_ilegivel")
-        assert (e.state, e.reason) == ("unresolved", "lock_ilegivel")
+        assert (e.state, e.reason) == ("unknown", "lock_ilegivel")
 
     def test_fora_do_lock(self):
         e = estado("https://outra.example.com/x", "2026-08-01", _lock(), AS_OF)
-        assert (e.state, e.reason) == ("unresolved", "fora_do_lock")
+        assert (e.state, e.reason) == ("unknown", "fora_do_lock")
 
     def test_conflicted_ao_lado_do_estado(self):
         lock = _conferida(5)
         lock[U]["retrieved"] = ["2026-07-31", "2026-08-03"]
         e = estado(U, "2026-07-31", lock, AS_OF)
-        assert e.state == "fresh"
+        assert e.state == "conflicted"
         assert e.conflicted == {"validated": "2026-07-31", "other_readings": ["2026-08-03"]}
 
     def test_sem_conflito_quando_so_ha_a_mesma_data(self):
-        assert estado(U, "2026-08-01", _conferida(5), AS_OF).conflicted is None
+        e = estado(U, "2026-08-01", _conferida(5), AS_OF)
+        assert e.conflicted is None and e.is_stale is False
 
 
 class TestMapa:

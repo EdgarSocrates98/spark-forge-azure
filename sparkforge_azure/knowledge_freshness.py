@@ -7,17 +7,17 @@ tem versao no caminho (`pinned`), se ja foi conferida por hash (`sha256`,
 (`changed_at`, gravado por `scripts/refresh_knowledge.py --update`). Com as duas
 coisas, o estado da fonte e calculavel, e nao opiniao:
 
-  unresolved  o lock nao existe, nao le, ou nao tem a URL
-  fixed       versao no caminho: o conteudo nao muda
-  stale       o hash mudou DEPOIS da data em que a regra validou a fonte
-  unverified  URL movel que nunca foi conferida por hash
-  aging       conferida, sem mudanca, mas ha mais de `AGING_DAYS`
-  fresh       conferida, sem mudanca, dentro de `AGING_DAYS`
+  fresh       hash conferido e a validacao ainda esta dentro do limiar
+  stale       a fonte mudou depois da validacao, ou a validacao expirou
+  unknown     falta evidencia, data e invalida/futura, ou o lock nao resolve a URL
+  conflicted  fontes/leituras da mesma URL divergem
+  deprecated  a entrada foi explicitamente retirada de uso
 
-A ordem acima e a precedencia. `conflicted` nao e estado: e um atributo ao lado
-dele, quando o lock registra para a mesma URL uma leitura em data diferente da
-que a regra declara. Trocar o estado inteiro por ele esconderia `unverified` e
-`fixed` atras de uma divergencia de data que quase sempre e so releitura.
+Esses sao os unicos estados publicos. Detalhes antigos (`fixed`, `aging`,
+`unverified` e `unresolved`) continuam aparecendo apenas em `reason`, para que
+consumidores antigos nao confundam ausencia de evidencia com atualidade.
+`is_stale` e o adapter de compatibilidade para consumidores que ainda nao
+migraram para o vocabulario fechado.
 
 O LIMIAR E ESCOLHA. Nao existe fonte que diga quantos dias uma conferencia leva
 para envelhecer. `AGING_DAYS` e convencao, declarada com a razao em
@@ -52,7 +52,7 @@ AGING_BASIS = (
 )
 LOCK_NAME = "sources.lock.json"
 LOCK_ENV = "SPARKFORGE_AZURE_SOURCES_LOCK"
-ESTADOS = ("unresolved", "fixed", "stale", "unverified", "aging", "fresh")
+ESTADOS = ("fresh", "stale", "unknown", "conflicted", "deprecated")
 
 
 @dataclass(frozen=True)
@@ -64,6 +64,18 @@ class Estado:
     changed_at: str | None = None
     age_days: int | None = None
     conflicted: dict[str, Any] | None = None
+
+    @property
+    def is_stale(self) -> bool:
+        """Compatibilidade: estados que nao devem ser usados como atuais."""
+
+        return self.state in {"stale", "deprecated"}
+
+    @property
+    def freshness(self) -> str:
+        """Nome explicito usado por envelopes de conhecimento."""
+
+        return self.state
 
     def to_dict(self) -> dict[str, Any]:
         return {k: v for k, v in asdict(self).items() if v is not None}
@@ -120,7 +132,7 @@ def carregar_lock(root: Path | None) -> tuple[dict[str, Any] | None, str | None]
 
 def _conflito(validado: date | None, entrada: Mapping[str, Any]) -> dict[str, Any] | None:
     leituras = sorted({str(d) for d in entrada.get("retrieved") or [] if data(d) is not None})
-    if validado is None:
+    if validado is None or len(leituras) < 2:
         return None
     outras = [d for d in leituras if d != validado.isoformat()]
     if not outras:
@@ -137,33 +149,86 @@ def estado(
     motivo_sem_lock: str = "lock_ausente",
     aging_days: int = AGING_DAYS,
 ) -> Estado:
-    """O estado de UMA fonte, na precedencia do docstring do modulo."""
+    """O estado de UMA fonte, fail-closed e na precedencia declarada acima."""
     if lock is None:
-        return Estado("unresolved", motivo_sem_lock)
+        return Estado("unknown", motivo_sem_lock)
     entrada = lock.get(url)
     if not isinstance(entrada, Mapping):
-        return Estado("unresolved", "fora_do_lock")
+        return Estado("unknown", "fora_do_lock")
     validado = data(validado_em)
     base = {
         "validated": validado.isoformat() if validado else None,
         "conflicted": _conflito(validado, entrada),
     }
-    if entrada.get("pinned"):
-        return Estado("fixed", "versao_no_caminho", **base)
 
-    mudou = data(entrada.get("changed_at"))
-    conferido = data(entrada.get("checked_at"))
+    if validado is None:
+        reason = (
+            "data_de_validacao_ausente"
+            if validado_em is None
+            else "data_de_validacao_invalida"
+        )
+        return Estado("unknown", reason, **base)
+    if validado > as_of:
+        return Estado("unknown", "data_de_validacao_futura", **base)
+
+    if entrada.get("deprecated") is True or str(entrada.get("status", "")).lower() == "deprecated":
+        return Estado("deprecated", "fonte_deprecada", **base)
+    if base["conflicted"] is not None or entrada.get("conflicted"):
+        conflito = base["conflicted"]
+        if conflito is None:
+            conflito = {"declared": entrada.get("conflicted")}
+        return Estado("conflicted", "leituras_divergentes", **base | {"conflicted": conflito})
+
+    mudou_bruto = entrada.get("changed_at")
+    mudou = data(mudou_bruto)
+    if mudou_bruto is not None and mudou is None:
+        return Estado("unknown", "changed_at_invalido", **base)
+    if mudou is not None and mudou > as_of:
+        return Estado("unknown", "changed_at_futuro", **base, changed_at=mudou.isoformat())
+
+    conferido_bruto = entrada.get("last_verified", entrada.get("checked_at"))
+    conferido = data(conferido_bruto)
+    if conferido_bruto is not None and conferido is None:
+        return Estado("unknown", "last_verified_invalido", **base)
+    if conferido is not None and conferido > as_of:
+        return Estado("unknown", "last_verified_futuro", **base, checked_at=conferido.isoformat())
+
     datas = {
         "checked_at": conferido.isoformat() if conferido else None,
         "changed_at": mudou.isoformat() if mudou else None,
     }
-    if mudou is not None and (validado is None or validado < mudou):
+    # A pinned URL prevents content drift, but it is not a substitute for the
+    # explicit verification evidence required by the freshness contract.
+    if entrada.get("pinned"):
+        if not entrada.get("sha256") or conferido is None:
+            return Estado("unknown", "last_verified_ausente", **base, **datas)
+        return Estado(
+            "fresh",
+            "versao_no_caminho",
+            age_days=(as_of - conferido).days,
+            **base,
+            **datas,
+        )
+    if mudou is not None and validado < mudou:
         return Estado("stale", "mudou_depois_da_validacao", **base, **datas)
     if not entrada.get("sha256") or conferido is None:
-        return Estado("unverified", "nunca_conferida", **base)
+        return Estado("unknown", "last_verified_ausente", **base, **datas)
     idade = (as_of - conferido).days
-    nome = "aging" if idade > aging_days else "fresh"
-    return Estado(nome, f"conferida_ha_{idade}_dias", age_days=idade, **base, **datas)
+    if idade > aging_days:
+        return Estado(
+            "stale",
+            f"validacao_expirada_ha_{idade}_dias",
+            age_days=idade,
+            **base,
+            **datas,
+        )
+    return Estado(
+        "fresh",
+        "versao_no_caminho" if entrada.get("pinned") else f"conferida_ha_{idade}_dias",
+        age_days=idade,
+        **base,
+        **datas,
+    )
 
 
 def mapa(

@@ -64,4 +64,45 @@ def test_knowledge_pack_stale_detection(tmp_path):
     pack = loader.load_pack(pack_dir)
     assert pack.domain == "aws-glue"
     assert pack.is_stale is True
+    assert pack.freshness == "stale"
     assert "threshold" in (pack.stale_reason or "")
+
+
+def test_knowledge_pack_missing_or_invalid_date_is_unknown(tmp_path):
+    pack_dir = tmp_path / "missing"
+    pack_dir.mkdir()
+    (pack_dir / "concise.md").write_text("content", encoding="utf-8")
+    assert KnowledgePackLoader(root_dir=tmp_path).load_pack(pack_dir).freshness == "unknown"
+    (pack_dir / "metadata.json").write_text(
+        '{"last_verified": "not-a-date"}', encoding="utf-8"
+    )
+    pack = KnowledgePackLoader(root_dir=tmp_path).load_pack(pack_dir)
+    assert pack.freshness == "unknown"
+    assert "valid ISO" in (pack.stale_reason or "")
+
+
+def test_knowledge_pack_future_date_is_unknown(tmp_path):
+    pack_dir = tmp_path / "future"
+    pack_dir.mkdir()
+    (pack_dir / "concise.md").write_text("content", encoding="utf-8")
+    (pack_dir / "metadata.json").write_text(
+        '{"last_verified": "2999-01-01"}', encoding="utf-8"
+    )
+    pack = KnowledgePackLoader(root_dir=tmp_path).load_pack(pack_dir)
+    assert pack.freshness == "unknown"
+    assert "future" in (pack.stale_reason or "")
+
+
+def test_knowledge_pack_hash_conflict_and_deprecated(tmp_path):
+    conflict = tmp_path / "conflict"
+    conflict.mkdir()
+    (conflict / "concise.md").write_text("content", encoding="utf-8")
+    (conflict / "metadata.json").write_text(
+        '{"last_verified": "2026-11-01", "source_hash": "wrong"}', encoding="utf-8"
+    )
+    assert KnowledgePackLoader(root_dir=tmp_path).load_pack(conflict).freshness == "conflicted"
+    deprecated = tmp_path / "deprecated"
+    deprecated.mkdir()
+    (deprecated / "concise.md").write_text("content", encoding="utf-8")
+    (deprecated / "metadata.json").write_text('{"deprecated": true}', encoding="utf-8")
+    assert KnowledgePackLoader(root_dir=tmp_path).load_pack(deprecated).freshness == "deprecated"
