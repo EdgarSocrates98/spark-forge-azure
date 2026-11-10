@@ -1,0 +1,9 @@
+{
+  "cycle": "2.7",
+  "repository": "spark-forge-azure",
+  "version": "0.3.2",
+  "tag": "v0.3.2",
+  "source_commit": "28ff654801add3e9cb97590c6e27c9de9e49c094",
+  "version_source": "pyproject.toml",
+  "verified_at": "2026-11-10"
+}
