@@ -16,3 +16,14 @@ def test_azure_projection_preserves_freshness_and_redacts_identity_secrets():
     assert note["version"] == "v1"
     assert "do-not-write" not in note["content"]
     assert "stale" in note["content"]
+
+
+def test_azure_projection_redacts_secrets_in_title_and_summary():
+    note = build_obsidian_diagnostic(
+        title="Token=do-not-write",
+        summary="password=do-not-write-summary",
+        workspace="analytics",
+        vault_id="team-vault",
+    )
+    assert "do-not-write" not in note["content"]
+    assert "[REDACTED]" in note["content"]

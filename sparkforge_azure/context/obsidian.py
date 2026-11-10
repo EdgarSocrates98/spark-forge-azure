@@ -52,6 +52,8 @@ def build_obsidian_diagnostic(
     confidence: str = "unknown",
     provenance: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
+    safe_title = str(_safe(title.strip() or "Azure diagnostic"))
+    safe_summary = str(_safe(summary.strip()))
     metadata = _safe({
         "type": "azure-diagnostic",
         "source": "spark-forge-azure",
@@ -61,7 +63,7 @@ def build_obsidian_diagnostic(
         "provenance": provenance or {},
     })
     lines = ["---", yaml.safe_dump(metadata, sort_keys=True, allow_unicode=True).rstrip(), "---",
-             f"# {title.strip() or 'Azure diagnostic'}", "", summary.strip(), ""]
+             f"# {safe_title}", "", safe_summary, ""]
     lines += _section("Versions", versions)
     lines += _section("Resources", resources)
     lines += _section(
