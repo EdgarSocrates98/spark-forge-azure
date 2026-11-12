@@ -36,13 +36,15 @@ DESTRAVA: dict[str, str] = {
         "cluster define nao tem linha para mudar"
     ),
     LINHA_NAO_CONFERE: (
-        "extraia os facts de novo sobre a arvore atual (`sparkforge-azure analyze terraform|pyspark "
-        "--out`) e passe `--repo` na mesma raiz usada na extracao"
+        "extraia os facts de novo sobre a arvore atual "
+        "(`sparkforge-azure analyze terraform|pyspark --out`) e passe "
+        "`--repo` na mesma raiz usada na extracao"
     ),
     PROCEDENCIA_AMBIGUA: (
         "deixe a chave num lugar so (o codigo vence o Terraform em runtime) e extraia de novo"
     ),
-    VALOR_NAO_LITERAL: "escreva o valor como literal simples na chamada, ou mude a mao",
+    VALOR_NAO_LITERAL: ("escreva o valor como literal simples na chamada, "
+                        "ou mude a mao"),
     VALOR_REDIGIDO: "o valor parece segredo e foi redigido na extracao; mude a mao",
     VALOR_INVALIDO: "passe um valor do mesmo tipo do atual, sem espaco, aspas ou barra invertida",
     VALOR_JA_IGUAL: "nada a mudar: o arquivo ja pede esse valor",
@@ -64,11 +66,12 @@ DESTRAVA: dict[str, str] = {
         "teto de tamanho da varredura; mude-o a mao"
     ),
     SANDBOX_INEXISTENTE: (
-        "rode `sparkforge-azure change sandbox --repo <raiz> --diff <arquivo>` e passe o `id` que ele "
-        "devolver"
+        "rode `sparkforge-azure change sandbox --repo <raiz> "
+        "--diff <arquivo>` e passe o `id` que ele devolver"
     ),
     SANDBOX_NAO_APLICADO: (
-        "o sandbox recusou o diff; resolva a recusa dele e rode `sparkforge-azure change sandbox` de novo"
+        "o sandbox recusou o diff; resolva a recusa dele e rode "
+        "`sparkforge-azure change sandbox` de novo"
     ),
     SANDBOX_DESATUALIZADO: (
         "a arvore mudou depois do sandbox; rode `sparkforge-azure change sandbox` de novo sobre a "

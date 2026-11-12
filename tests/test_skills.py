@@ -78,7 +78,8 @@ def _errors(root: Path, name: str = "unity-catalog", **kw) -> list[str]:
 
 
 def test_catalogue_has_exactly_24_skills():
-    # 22 skills de domínio (seção 156) + `analyze-batch-loop`/`delegate-specialists` (método) + 6 skills `sdd-*` do ciclo SDD
+    # 22 skills de domínio (seção 156) + `analyze-batch-loop`/
+    # `delegate-specialists` (método) + 6 skills `sdd-*` do ciclo SDD
     # que ancora a análise de lote no extrator pyspark (citada por SF-PY-004),
     # + `delegate-specialists`, a skill de método que ancora a delegação opcional
     # a data-sentinel-forge / forge-doctor-data sob fronteira LOCAL_READ.

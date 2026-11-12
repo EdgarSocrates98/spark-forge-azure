@@ -5,7 +5,8 @@ SKILLS = {
 "sdd-explore": dict(phase="explore", nxt="define.md",
     purpose="Formar uma ideia difusa em decisao de escopo com grill gate",
     steps=["Grill gate: dono da decisao, fora-de-escopo, risco maior, menor versao aceitavel",
-           "Descoberta Azure: servicos tocados (Unity Catalog, Delta, Iceberg, OneLake, ADLS, ADF, Synapse, Fabric)",
+           ("Descoberta Azure: servicos tocados (Unity Catalog, Delta, "
+            "Iceberg, OneLake, ADLS, ADF, Synapse, Fabric)"),
            "Fatos vem de ferramenta; decisao e sempre do humano",
            "Alternativas com trade-offs, riscos e unknowns explicitos",
            "Aprovacao humana registrada antes de abrir o define"]),
@@ -13,7 +14,8 @@ SKILLS = {
     purpose="Fixar o que significa pronto: hipotese + criterios AC* verificaveis",
     steps=["Hipotese mensuravel e metrica de sucesso",
            "Criterios AC1..ACn verificaveis por comando",
-           "Requisitos de dados Azure: business keys, deduplicacao, consistencia, idempotencia, reprocessamento, SLA",
+           ("Requisitos de dados Azure: business keys, deduplicacao, "
+            "consistencia, idempotencia, reprocessamento, SLA"),
            "Seguranca: Entra ID, RBAC, Unity Catalog grants afetados",
            "status ready somente com ACs completos"]),
 "sdd-design": dict(phase="design", nxt="plan.md",
@@ -110,14 +112,16 @@ metadata:
 
 ## Pontos de decisão
 
-- Gate: `sparkforge-azure sdd check --feature <f>` — cada recusa e nomeada e carrega `unlock`; existencia de arquivo nunca e prova.
+- Gate: `sparkforge-azure sdd check --feature <f>` — cada recusa e nomeada
+  e carrega `unlock`; existencia de arquivo nunca e prova.
 - `upstream_hash_stale` → re-stamp apos mudanca intencional.
 - `schema_invalid` → corrigir frontmatter, nunca contornar.
 - `evidence_missing` → produzir o artefato/AC, nunca override.
 
 ## Não concluir sem evidência
 
-- Artefato selado + `sparkforge-azure sdd check` verde sao o minimo; status pronto sem os dois e defeito.
+- Artefato selado + `sparkforge-azure sdd check` verde sao o minimo;
+  status pronto sem os dois e defeito.
 
 ## Seguranca
 
