@@ -49,6 +49,7 @@ Medido em 2026-10-07 sobre `feat/v0.1.0-foundation-delivery`:
   (skill de método; ancora a análise de lote no extrator PySpark e cita `SF-PY-004`)
   + `delegate-specialists` (delegação governada a especialistas opcionais).
   Depois: o vertical Cosmos DB (`azure-cosmos-db`) elevou o catálogo a **24 catalogadas**.
+  Depois: o ciclo SDD/Obsidian elevou o catálogo a **30 catalogadas**.
 - Regras: catálogo `SF-PY` (12 regras PySpark) + `routing.yaml` com rotas de estado
   e `AGENT-003` (findings_area → coordenador); `rule_areas` declarado nos manifests.
 - Contratos fechados nesta entrega: `parity.yaml` + `manifest.json` gerados por

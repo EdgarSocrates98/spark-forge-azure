@@ -17,7 +17,7 @@
      "pattern": "\"provider\":\\s*\"azure\""
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "suite-green",
@@ -38,7 +38,7 @@
      "pattern": "\n[0-9]+ passed"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "surface-lock",
@@ -53,12 +53,12 @@
      "kind": "exit0"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "skills-catalogue-24",
    "doc": "docs/ROADMAP.md",
-   "text": "**24 catalogadas**",
+   "text": "**30 catalogadas**",
    "proof": {
     "cmd": [
      "python",
@@ -68,10 +68,10 @@
      "kind": "json",
      "path": "skills",
      "op": "==",
-     "value": 24
+     "value": 30
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "mcp-tools-18",
@@ -90,7 +90,7 @@
      "value": 18
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "knowledge-check",
@@ -105,7 +105,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "lab-verify",
@@ -124,7 +124,7 @@
      "pattern": "\"valid\":\\s*true"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "access-suite-10",
@@ -146,7 +146,7 @@
      "value": 10
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "tokensave-benchmark-honest",
@@ -169,7 +169,7 @@
      "value": "unresolved"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "security-vertical-green",
@@ -189,7 +189,7 @@
      "pattern": "[0-9]+ passed"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "fabric-suite-green",
@@ -212,7 +212,7 @@
      "value": 16
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "fabric-sdd-gate-green",
@@ -228,7 +228,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "fabric-mcp-surface",
@@ -244,7 +244,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "docs-surface",
@@ -260,7 +260,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "stream-suite-green",
@@ -276,7 +276,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "stream-mcp-surface",
@@ -292,7 +292,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "migration-suite-green",
@@ -308,7 +308,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "migration-mcp-surface",
@@ -324,7 +324,7 @@
      "kind": "exit0"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "docs-index",
@@ -340,7 +340,7 @@
      "pattern": "\"ok\":\\s*true"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "agentic-fleet-41",
@@ -360,7 +360,7 @@
      "value": 41
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "agentic-fingerprint",
@@ -379,7 +379,7 @@
      "pattern": "\"fingerprint\":\\s*\"sha256:[0-9a-f]{64}\""
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "sdd-gate-green",
@@ -399,7 +399,7 @@
      "value": true
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "freeze-frozen",
@@ -418,7 +418,7 @@
      "value": "frozen"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "host-proof-claude",
@@ -437,7 +437,7 @@
      "value": "host_proven"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "portable-distribution-wheel",
@@ -455,7 +455,7 @@
      "pattern": "portability gate: ok"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "workspace-relocation",
@@ -473,7 +473,7 @@
      "pattern": "ok\\s+relocated-repo"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "multi-repo-context",
@@ -491,7 +491,7 @@
      "pattern": "ok\\s+transitive-deps"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   },
   {
    "id": "detach-safe",
@@ -509,7 +509,7 @@
      "pattern": "ok\\s+detach-reattach"
     }
    },
-   "sha": "0ba7481a316c4ead3ea4124c30c98c272bfc0d75"
+   "sha": "9d5660e577a204543b22c214fcfcf6f1621292df"
   }
  ]
 }
