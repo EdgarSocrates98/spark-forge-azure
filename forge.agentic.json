@@ -77,6 +77,7 @@
     "mcp",
     "serve"
   ],
+  "mcp_verify_tool": "sfa_version",
   "host_adapters": [
     "claude",
     "devin",
