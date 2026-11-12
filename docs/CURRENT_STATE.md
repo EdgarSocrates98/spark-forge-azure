@@ -9,14 +9,14 @@ Paridade cross-Forge atual: seção *Post-closure freshness update* em
 
 | Campo | Valor | Fonte |
 |---|---|---|
-| MAIN_SHA | `423188c` | git rev-parse --short HEAD |
+| MAIN_SHA | `21852cd` | git rev-parse --short HEAD |
 | PACKAGE_VERSION | `0.3.3` | sparkforge_azure.__version__ |
 | TESTS | `3179 passed` | claim `suite-green` em docs/claims.lock.json (prova = suite) |
 | CLAIMS | `28` | docs/claims.lock.json |
-| SKILLS | `24` | scripts/check_skills_agents.py |
+| SKILLS | `30` | scripts/check_skills_agents.py |
 | AGENTS | `41` | agents/*.md |
 | MCP_TOOLS | `18` | sparkforge_azure.mcp.tools.load_all() |
-| CLI_COMMANDS | `95` | docs/surface.lock.json |
+| CLI_COMMANDS | `103` | docs/surface.lock.json |
 | PORTABILITY | `10/10 cases ok` | evals/portability/reports/portability-matrix.json |
 | FREEZE | `frozen` | agentic.freeze.evaluate_freeze() |
 | REMOTE_CI | `NOT_OBSERVED` | constante declarada — quota GitHub esgotada |
