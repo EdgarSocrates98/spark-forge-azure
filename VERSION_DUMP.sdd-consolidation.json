@@ -1,0 +1,9 @@
+{
+  "cycle": "sdd-consolidation",
+  "repository": "spark-forge-azure",
+  "version": "0.3.5",
+  "tag": "v0.3.5",
+  "source_commit": "578a920907fd43cdc7cd0575c8be3f6d07ed2a18",
+  "version_source": "pyproject.toml",
+  "verified_at": "2026-11-12"
+}
