@@ -2,7 +2,7 @@
  "basis": "sha256(json.dumps(obj, sort_keys=True, separators=(\",\", \":\")))",
  "capabilities": {
   "count": 68,
-  "sha256": "4dd6334b3598f5ef0bcf5dc64e4c6bb3c29e144a547d486efaa91bc257cb1952"
+  "sha256": "8815ee09e9892ebc5ce5879f03a99c23821e2277a4fa8f97faddc8d977b6bf48"
  },
  "cli": {
   "commands": [
@@ -375,6 +375,6 @@
  "schema_version": 2,
  "skills": {
   "count": 30,
-  "total_bytes": 125898
+  "total_bytes": 127724
  }
 }

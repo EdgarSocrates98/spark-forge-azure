@@ -370,13 +370,13 @@ aws_subsystems:
     azure_path: null
     reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
   migration:
-    class: DEFER
-    status: planned
+    class: REIMPLEMENT_AZURE_NATIVE
+    status: new_azure
     aws_files: 6
     aws_markers: 113
     manifest_entries: 0
-    azure_path: null
-    reason: sem caso real, dependencia externa ou evidencia insuficiente; ver gatilho de reabertura
+    azure_path: sparkforge_azure/migration
+    reason: modulo Azure nativo; o homonimo AWS (6 arquivos, 113 marcadores) nao tem decisao registrada no port_manifest
   observability:
     class: COPY_SAFE
     status: ported
