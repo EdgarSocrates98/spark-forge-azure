@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "sparkforge-azure": {
+      "command": "sparkforge-azure",
+      "args": [
+        "mcp",
+        "serve",
+        "--transport",
+        "stdio"
+      ]
+    }
+  }
+}

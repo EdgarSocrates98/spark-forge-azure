@@ -1,0 +1,21 @@
+{
+  "read_config_from": {
+    "claude": false,
+    "cursor": false,
+    "windsurf": false
+  },
+  "permissions": {
+    "allow": [
+      "Exec(sparkforge-azure --version)",
+      "Exec(sparkforge-azure doctor)",
+      "Exec(sparkforge-azure obsidian status)",
+      "Exec(sparkforge-azure obsidian scan)",
+      "Exec(sparkforge-azure obsidian preview)",
+      "Exec(sparkforge-azure obsidian sync-plan)",
+      "Exec(sparkforge-azure obsidian history)",
+      "Exec(sparkforge-azure analyze)",
+      "Exec(sparkforge-azure judge)",
+      "Exec(sparkforge-azure rules)"
+    ]
+  }
+}

@@ -60,7 +60,7 @@ _PENDENTE = {
     ),
     "funcval": (
         "o resultado continua o mesmo -- contagem, schema, chaves e agregados --, com "
-        "`sparkforge funcval plan` e `sparkforge funcval compare`"
+        "`sparkforge-azure funcval plan` e `sparkforge-azure funcval compare`"
     ),
 }
 _NAO_AFIRMA = (

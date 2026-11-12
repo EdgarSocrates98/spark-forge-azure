@@ -77,8 +77,13 @@ class _Contexto:
 
     def recusa(self, code: str, caminho: Path, campo: str | None, unlock: str) -> None:
         self.refused.append(
-            {"code": code, "feature": self.feature, "path": self.rel(caminho),
-             "field": campo, "unlock": unlock}
+            {
+                "code": code,
+                "feature": self.feature,
+                "path": self.rel(caminho),
+                "field": campo,
+                "unlock": unlock,
+            }
         )
 
     def lacuna(self, code: str, caminho: Path, unlock: str) -> None:
@@ -109,13 +114,20 @@ def _carrega(ctx: _Contexto) -> None:
                 ctx.recusa("schema_invalid", caminho, campo, erro.message)
             continue
         if artefato.meta["phase"] != fase:
-            ctx.recusa("schema_invalid", caminho, "phase",
-                       f"o arquivo {fase}.md declara phase {artefato.meta['phase']}")
+            ctx.recusa(
+                "schema_invalid",
+                caminho,
+                "phase",
+                f"o arquivo {fase}.md declara phase {artefato.meta['phase']}",
+            )
             continue
         if artefato.meta["feature"] != ctx.feature:
-            ctx.recusa("schema_invalid", caminho, "feature",
-                       f"o arquivo mora em {ctx.feature}/ e declara feature "
-                       f"{artefato.meta['feature']}")
+            ctx.recusa(
+                "schema_invalid",
+                caminho,
+                "feature",
+                f"o arquivo mora em {ctx.feature}/ e declara feature {artefato.meta['feature']}",
+            )
             continue
         ctx.artefatos[fase] = artefato
 
@@ -126,8 +138,12 @@ def _gate_order(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
         return  # o anterior existe e ja foi recusado por schema; nao repete a causa
     previo = ctx.artefatos.get(anterior)
     if previo is None or previo.meta["status"] not in PRONTO:
-        ctx.recusa("phase_out_of_order", artefato.path, "phase",
-                   f"{fase} exige {anterior}.md com status ready ou done")
+        ctx.recusa(
+            "phase_out_of_order",
+            artefato.path,
+            "phase",
+            f"{fase} exige {anterior}.md com status ready ou done",
+        )
 
 
 def _upstream_esperado(ctx: _Contexto, fase: str) -> str | None:
@@ -148,29 +164,48 @@ def _gate_upstream(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
                 if fase == "explore"
                 else "define so declara upstream quando explore.md existe na feature"
             )
-            ctx.recusa("schema_invalid", artefato.path, "upstream",
-                       f"{motivo}; remova o bloco upstream")
+            ctx.recusa(
+                "schema_invalid", artefato.path, "upstream", f"{motivo}; remova o bloco upstream"
+            )
         return
-    esperado_rel = f"{ctx.rel(ctx.caminhos[esperado])}" if esperado in ctx.caminhos else (
-        f"{ctx.rel(artefato.path.parent)}/{esperado}.md"
+    esperado_rel = (
+        f"{ctx.rel(ctx.caminhos[esperado])}"
+        if esperado in ctx.caminhos
+        else (f"{ctx.rel(artefato.path.parent)}/{esperado}.md")
     )
     if declarado is None:
-        ctx.recusa("upstream_missing", artefato.path, "upstream",
-                   f"declare upstream.path: {esperado_rel} e rode `sparkforge sdd stamp`")
+        ctx.recusa(
+            "upstream_missing",
+            artefato.path,
+            "upstream",
+            f"declare upstream.path: {esperado_rel} e rode `sparkforge-azure sdd stamp`",
+        )
         return
     alvo = resolve_within(ctx.repo, declarado["path"])
     if alvo is None or not alvo.is_file():
-        ctx.recusa("upstream_missing", artefato.path, "upstream/path",
-                   f"{declarado['path']} nao existe; o upstream de {fase} e {esperado_rel}")
+        ctx.recusa(
+            "upstream_missing",
+            artefato.path,
+            "upstream/path",
+            f"{declarado['path']} nao existe; o upstream de {fase} e {esperado_rel}",
+        )
         return
     if esperado in ctx.caminhos and alvo != ctx.caminhos[esperado].resolve():
-        ctx.recusa("upstream_missing", artefato.path, "upstream/path",
-                   f"{declarado['path']} nao e o upstream de {fase}; use {esperado_rel}")
+        ctx.recusa(
+            "upstream_missing",
+            artefato.path,
+            "upstream/path",
+            f"{declarado['path']} nao e o upstream de {fase}; use {esperado_rel}",
+        )
         return
     if declarado["sha256"] != text_sha256(alvo):
-        ctx.recusa("upstream_stale", artefato.path, "upstream/sha256",
-                   f"{declarado['path']} mudou; revise {fase} e rode "
-                   f"`sparkforge sdd stamp --repo . {ctx.rel(artefato.path)}`")
+        ctx.recusa(
+            "upstream_stale",
+            artefato.path,
+            "upstream/sha256",
+            f"{declarado['path']} mudou; revise {fase} e rode "
+            f"`sparkforge-azure sdd stamp --repo . {ctx.rel(artefato.path)}`",
+        )
 
 
 def _nomes_de_teste(corpo: list[ast.stmt], prefixo: str = "") -> set[str]:
@@ -222,13 +257,18 @@ def _conferir_teste(
     if _teste_existe(ctx.repo, referencia):
         return
     if _build_pronto(ctx):
-        ctx.recusa("verified_by_dangling", artefato.path, campo,
-                   f"{referencia} nao existe depois do build; escreva o teste ou corrija a "
-                   "referencia")
+        ctx.recusa(
+            "verified_by_dangling",
+            artefato.path,
+            campo,
+            f"{referencia} nao existe depois do build; escreva o teste ou corrija a referencia",
+        )
     else:
-        ctx.lacuna("test_not_written", artefato.path,
-                   f"{referencia} ainda nao existe; o build escreve o teste de {dono} antes do "
-                   "codigo")
+        ctx.lacuna(
+            "test_not_written",
+            artefato.path,
+            f"{referencia} ainda nao existe; o build escreve o teste de {dono} antes do codigo",
+        )
 
 
 def _itens_de_fact(arquivo: Path) -> list[dict[str, Any]]:
@@ -250,7 +290,7 @@ def _fact_presente(arquivo: Path, seletor: str) -> bool:
     """`#<id>` casa o id; `#kind:<kind>` casa qualquer fact daquele kind."""
     itens = _itens_de_fact(arquivo)
     if seletor.startswith(_SELETOR_KIND):
-        kind = seletor[len(_SELETOR_KIND):]
+        kind = seletor[len(_SELETOR_KIND) :]
         return bool(kind) and any(item.get("kind") == kind for item in itens)
     return seletor in {str(item["id"]) for item in itens if item.get("id")}
 
@@ -259,25 +299,36 @@ def _conferir_fact(ctx: _Contexto, artefato: Artifact, referencia: str) -> None:
     caminho, _, seletor = referencia.partition("#")
     alvo = resolve_within(ctx.repo, caminho) if caminho else None
     if alvo is None or not alvo.is_file() or not _fact_presente(alvo, seletor):
-        ctx.lacuna("fact_not_collected", artefato.path,
-                   f"{seletor or referencia} nao esta em {caminho}; colete o artefato e "
-                   "rode o `sparkforge analyze` que o extrai")
+        ctx.lacuna(
+            "fact_not_collected",
+            artefato.path,
+            f"{seletor or referencia} nao esta em {caminho}; colete o artefato e "
+            "rode o `sparkforge-azure analyze` que o extrai",
+        )
 
 
 def _gate_success_source(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
     for indice, item in enumerate(artefato.meta["success"]):
         if not str(item.get("source") or "").strip():
-            ctx.recusa("success_without_source", artefato.path, f"success/{indice}/source",
-                       f"diga de onde vem o numero de {item['id']} (regra 24)")
+            ctx.recusa(
+                "success_without_source",
+                artefato.path,
+                f"success/{indice}/source",
+                f"diga de onde vem o numero de {item['id']} (regra 24)",
+            )
 
 
 def _gate_change_kinds(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
     conhecidos = change_kinds()
     for indice, chave in enumerate(artefato.meta["change_kinds"]):
         if chave not in conhecidos:
-            ctx.recusa("schema_invalid", artefato.path, f"change_kinds/{indice}",
-                       f"'{chave}' nao existe em sparkforge/sdd/change_kinds.yaml; use uma de: "
-                       + ", ".join(sorted(conhecidos)))
+            ctx.recusa(
+                "schema_invalid",
+                artefato.path,
+                f"change_kinds/{indice}",
+                f"'{chave}' nao existe em sparkforge/sdd/change_kinds.yaml; use uma de: "
+                + ", ".join(sorted(conhecidos)),
+            )
 
 
 def _conferir_funcval(
@@ -286,24 +337,33 @@ def _conferir_funcval(
     # a FORMA da comparacao, nunca o veredito: divergir ou nao e das SF-FVAL no judge
     itens = _itens_de_fact(alvo)
     if not any(item.get("kind") == "funcval.check_delta" for item in itens):
-        ctx.recusa("funcval_not_comparison", artefato.path, campo,
-                   f"{referencia} nao tem nenhum funcval.check_delta; rode `sparkforge funcval "
-                   f"compare --plan <plano> --before <a> --after <b> --out {referencia}`")
+        ctx.recusa(
+            "funcval_not_comparison",
+            artefato.path,
+            campo,
+            f"{referencia} nao tem nenhum funcval.check_delta; rode `sparkforge-azure funcval "
+            f"compare --plan <plano> --before <a> --after <b> --out {referencia}`",
+        )
         return
     for item in itens:
         if item.get("kind") == "funcval.unresolved":
-            ctx.lacuna("funcval_blind_spot", artefato.path,
-                       f"{referencia} nao comparou {_nome_do_ponto_cego(item)}; resolva o motivo "
-                       "e rode `sparkforge funcval compare` de novo")
+            ctx.lacuna(
+                "funcval_blind_spot",
+                artefato.path,
+                f"{referencia} nao comparou {_nome_do_ponto_cego(item)}; resolva o motivo "
+                "e rode `sparkforge-azure funcval compare` de novo",
+            )
 
 
 def _nome_do_ponto_cego(item: dict[str, Any]) -> str:
     """O que o funcval deixou sem comparar: o `symbol` do subject (ou o subject cru) e o motivo."""
     sujeito = item.get("subject")
     sujeito = sujeito if isinstance(sujeito, dict) else {}
-    nome = _texto_ou_none(sujeito.get("symbol")) or ", ".join(
-        f"{chave}={valor}" for chave, valor in sorted(sujeito.items())
-    ) or str(item.get("id") or "?")
+    nome = (
+        _texto_ou_none(sujeito.get("symbol"))
+        or ", ".join(f"{chave}={valor}" for chave, valor in sorted(sujeito.items()))
+        or str(item.get("id") or "?")
+    )
     atributos = item.get("attrs")
     motivo = _texto_ou_none(atributos.get("reason")) if isinstance(atributos, dict) else None
     return f"{nome} (reason: {motivo})" if motivo else nome
@@ -316,9 +376,13 @@ def _gate_verified_by(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
         referencia = prova["ref"]
         if prova["kind"] == "test":
             if not _ref_de_teste_valida(referencia):
-                ctx.recusa("schema_invalid", artefato.path, f"{campo}/ref",
-                           f"'{referencia}' nao e node id do pytest; use "
-                           "tests/arquivo.py::test_nome (ou ::TestClasse::test_nome)")
+                ctx.recusa(
+                    "schema_invalid",
+                    artefato.path,
+                    f"{campo}/ref",
+                    f"'{referencia}' nao e node id do pytest; use "
+                    "tests/arquivo.py::test_nome (ou ::TestClasse::test_nome)",
+                )
                 continue
             _conferir_teste(ctx, artefato, campo, referencia, item["id"])
         elif prova["kind"] == "fact":
@@ -332,8 +396,11 @@ def _conferir_ref_funcval(
 ) -> None:
     alvo = resolve_within(ctx.repo, referencia)
     if alvo is None or not alvo.is_file():
-        ctx.lacuna("funcval_not_run", artefato.path,
-                   f"rode `sparkforge funcval compare --out {referencia}` para {dono}")
+        ctx.lacuna(
+            "funcval_not_run",
+            artefato.path,
+            f"rode `sparkforge-azure funcval compare --out {referencia}` para {dono}",
+        )
         return
     _conferir_funcval(ctx, artefato, campo, alvo, referencia)
 
@@ -349,16 +416,24 @@ def _gate_manifest(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
         if alvo is not None and item["action"] == "delete" and build_pronto:
             continue
         if alvo is None or not alvo.exists():
-            ctx.recusa("manifest_path_unknown", artefato.path, f"files/{indice}/path",
-                       f"{item['path']} nao existe para {item['action']}; confira o caminho ou "
-                       "use action: create")
+            ctx.recusa(
+                "manifest_path_unknown",
+                artefato.path,
+                f"files/{indice}/path",
+                f"{item['path']} nao existe para {item['action']}; confira o caminho ou "
+                "use action: create",
+            )
 
 
 def _gate_rollback(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
     for indice, decisao in enumerate(artefato.meta["decisions"]):
         if not str(decisao.get("rollback") or "").strip():
-            ctx.recusa("rollback_missing", artefato.path, f"decisions/{indice}/rollback",
-                       f"diga como desfazer {decisao['id']}")
+            ctx.recusa(
+                "rollback_missing",
+                artefato.path,
+                f"decisions/{indice}/rollback",
+                f"diga como desfazer {decisao['id']}",
+            )
 
 
 def _gate_cobertura(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
@@ -373,8 +448,12 @@ def _gate_cobertura(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
         campo = "tasks"
     for item in define.meta["acceptance"]:
         if item["id"] not in cobertos:
-            ctx.recusa("acceptance_uncovered", artefato.path, campo,
-                       f"{item['id']} do define nao aparece em nenhum covers do {fase}")
+            ctx.recusa(
+                "acceptance_uncovered",
+                artefato.path,
+                campo,
+                f"{item['id']} do define nao aparece em nenhum covers do {fase}",
+            )
 
 
 def _arquivos_de_relatorio(repo: Path, ident: str) -> list[Path]:
@@ -424,9 +503,13 @@ def _conferir_achado(
 ) -> None:
     ident, _, regra = referencia.partition("#")
     if not regra:
-        ctx.recusa("schema_invalid", artefato.path, f"{campo}/ref",
-                   f"'{referencia}' nao e <change_id>#<rule_id>; use #<rule_id> para o "
-                   "change_id do build_report")
+        ctx.recusa(
+            "schema_invalid",
+            artefato.path,
+            f"{campo}/ref",
+            f"'{referencia}' nao e <change_id>#<rule_id>; use #<rule_id> para o "
+            "change_id do build_report",
+        )
         return
     if not ident:
         build = ctx.artefatos.get("build_report")
@@ -437,13 +520,20 @@ def _conferir_achado(
         return
     alvo = ident or "<change_id>"
     if _build_pronto(ctx):
-        ctx.recusa("moved_not_observed", artefato.path, campo,
-                   f"{regra} nao sai no relatorio de {alvo} ({_ONDE_O_RELATORIO_MORA}); "
-                   "a regra precisa estar em resolved e fora de new")
+        ctx.recusa(
+            "moved_not_observed",
+            artefato.path,
+            campo,
+            f"{regra} nao sai no relatorio de {alvo} ({_ONDE_O_RELATORIO_MORA}); "
+            "a regra precisa estar em resolved e fora de new",
+        )
     else:
-        ctx.lacuna("finding_not_observed", artefato.path,
-                   f"{dono} prova que {regra} sai; rode `sparkforge change sandbox` e "
-                   f"registre o id em change_id ({_ONDE_O_RELATORIO_MORA})")
+        ctx.lacuna(
+            "finding_not_observed",
+            artefato.path,
+            f"{dono} prova que {regra} sai; rode `sparkforge-azure change sandbox` e "
+            f"registre o id em change_id ({_ONDE_O_RELATORIO_MORA})",
+        )
 
 
 def _conferir_prova(
@@ -464,17 +554,24 @@ def _gate_task_test(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
         prova = tarefa.get("proof")
         campo = f"tasks/{indice}/test"
         if prova and not operador:
-            ctx.recusa("schema_invalid", artefato.path, f"tasks/{indice}/proof",
-                       "proof so vale no perfil operator; no dev a tarefa declara test")
+            ctx.recusa(
+                "schema_invalid",
+                artefato.path,
+                f"tasks/{indice}/proof",
+                "proof so vale no perfil operator; no dev a tarefa declara test",
+            )
         if teste:
-            _conferir_teste(ctx, artefato, campo, f"{teste['path']}::{teste['name']}",
-                            tarefa["id"])
+            _conferir_teste(ctx, artefato, campo, f"{teste['path']}::{teste['name']}", tarefa["id"])
         if prova and operador:
             _conferir_prova(ctx, artefato, f"tasks/{indice}/proof", prova, tarefa["id"])
         elif not teste:
             extra = " (no operator, ou proof: funcval, fact ou finding)" if operador else ""
-            ctx.recusa("task_without_test", artefato.path, campo,
-                       f"{tarefa['id']} precisa do teste que falha antes do codigo{extra}")
+            ctx.recusa(
+                "task_without_test",
+                artefato.path,
+                campo,
+                f"{tarefa['id']} precisa do teste que falha antes do codigo{extra}",
+            )
 
 
 def _conferir_movido(
@@ -483,18 +580,26 @@ def _conferir_movido(
     ident = movido["change_id"]
     do_build = _texto_ou_none(artefato.meta.get("change_id"))
     if ident != do_build:
-        ctx.recusa("moved_change_mismatch", artefato.path, f"{campo}/change_id",
-                   f"{dono}: moved.change_id {ident} nao e o change_id do build "
-                   f"({do_build or 'vazio'}); a tarefa prova a mudanca que o build registrou")
+        ctx.recusa(
+            "moved_change_mismatch",
+            artefato.path,
+            f"{campo}/change_id",
+            f"{dono}: moved.change_id {ident} nao e o change_id do build "
+            f"({do_build or 'vazio'}); a tarefa prova a mudanca que o build registrou",
+        )
         return
     if _historia(ctx, ident):
         return
     faltam = _nao_movidas(_relatorio_da_mudanca(ctx.repo, ident), movido["resolved"])
     if faltam:
-        ctx.recusa("moved_not_observed", artefato.path, campo,
-                   f"{dono}: {', '.join(faltam)} nao sai no relatorio de {ident} "
-                   f"({_ONDE_O_RELATORIO_MORA}); a regra precisa estar em resolved e fora "
-                   "de new: rode `sparkforge change sandbox` de novo ou corrija moved")
+        ctx.recusa(
+            "moved_not_observed",
+            artefato.path,
+            campo,
+            f"{dono}: {', '.join(faltam)} nao sai no relatorio de {ident} "
+            f"({_ONDE_O_RELATORIO_MORA}); a regra precisa estar em resolved e fora "
+            "de new: rode `sparkforge-azure change sandbox` de novo ou corrija moved",
+        )
 
 
 def _gate_red(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
@@ -502,8 +607,12 @@ def _gate_red(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
     for indice, tarefa in enumerate(artefato.meta["tasks"]):
         movido = tarefa.get("moved")
         if movido is not None and not operador:
-            ctx.recusa("schema_invalid", artefato.path, f"tasks/{indice}/moved",
-                       "moved so vale no perfil operator; no dev a tarefa declara red e green")
+            ctx.recusa(
+                "schema_invalid",
+                artefato.path,
+                f"tasks/{indice}/moved",
+                "moved so vale no perfil operator; no dev a tarefa declara red e green",
+            )
         if tarefa["status"] != "done":
             continue
         vermelho = tarefa.get("red")
@@ -512,9 +621,13 @@ def _gate_red(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
             if vermelho is None:
                 continue
         if not vermelho or vermelho["exit"] == 0:
-            ctx.recusa("red_not_declared", artefato.path, f"tasks/{indice}/red",
-                       f"registre o comando que falhou antes do codigo de {tarefa['id']} "
-                       "(exit diferente de zero)")
+            ctx.recusa(
+                "red_not_declared",
+                artefato.path,
+                f"tasks/{indice}/red",
+                f"registre o comando que falhou antes do codigo de {tarefa['id']} "
+                "(exit diferente de zero)",
+            )
 
 
 def _caminho_normal(texto: str) -> str:
@@ -574,31 +687,48 @@ def _gate_acceptance_red(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
         prova = item["verified_by"]
         if prova["kind"] != "test" or item.get("guard"):
             continue
-        donas = [do_build[t["id"]] for t in plano.meta["tasks"]
-                 if item["id"] in t["covers"] and t["id"] in do_build]
-        if any(tarefa["status"] == "done" and _vermelho_cita(prova["ref"], tarefa.get("red"))
-               for tarefa in donas):
+        donas = [
+            do_build[t["id"]]
+            for t in plano.meta["tasks"]
+            if item["id"] in t["covers"] and t["id"] in do_build
+        ]
+        if any(
+            tarefa["status"] == "done" and _vermelho_cita(prova["ref"], tarefa.get("red"))
+            for tarefa in donas
+        ):
             continue
         if any(_red_recusado(tarefa) for tarefa in donas):
             continue
-        ctx.recusa("acceptance_never_red", artefato.path, "tasks",
-                   f"{item['id']}: nenhuma tarefa que o cobre viu {prova['ref']} vermelho; "
-                   "o red de uma delas cita esse node id (ou so o arquivo, com exit 2), "
-                   "ou o define declara guard com o motivo")
+        ctx.recusa(
+            "acceptance_never_red",
+            artefato.path,
+            "tasks",
+            f"{item['id']}: nenhuma tarefa que o cobre viu {prova['ref']} vermelho; "
+            "o red de uma delas cita esse node id (ou so o arquivo, com exit 2), "
+            "ou o define declara guard com o motivo",
+        )
 
 
 def _gate_claims(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
     for indice, afirmacao in enumerate(artefato.meta["claims"]):
         if not str(afirmacao.get("evidence_ref") or "").strip():
-            ctx.recusa("claim_without_evidence", artefato.path, f"claims/{indice}/evidence_ref",
-                       "aponte o arquivo, teste ou fact que sustenta a afirmacao")
+            ctx.recusa(
+                "claim_without_evidence",
+                artefato.path,
+                f"claims/{indice}/evidence_ref",
+                "aponte o arquivo, teste ou fact que sustenta a afirmacao",
+            )
 
 
 def _gate_hypothesis(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
     if not artefato.meta.get("hypothesis_outcome"):
-        ctx.recusa("hypothesis_open_at_ship", artefato.path, "hypothesis_outcome",
-                   "feche a hipotese com confirmed, refuted ou abandoned, sem reescrever a "
-                   "afirmacao (regra 21)")
+        ctx.recusa(
+            "hypothesis_open_at_ship",
+            artefato.path,
+            "hypothesis_outcome",
+            "feche a hipotese com confirmed, refuted ou abandoned, sem reescrever a "
+            "afirmacao (regra 21)",
+        )
 
 
 def _gate_registries(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
@@ -616,9 +746,13 @@ def _gate_registries(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
             if registro in marcados or registro in vistos:
                 continue
             vistos.add(registro)
-            ctx.recusa("registry_unchecked", artefato.path, "registries",
-                       f"{registro} e exigido por '{tipo['section']}' "
-                       "(docs/gates-por-mudanca.md); rode o gate e liste-o")
+            ctx.recusa(
+                "registry_unchecked",
+                artefato.path,
+                "registries",
+                f"{registro} e exigido por '{tipo['section']}' "
+                "(docs/gates-por-mudanca.md); rode o gate e liste-o",
+            )
 
 
 def _texto_ou_none(valor: Any) -> str | None:
@@ -657,8 +791,12 @@ def _gate_case(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
         return
     declarado = _texto_ou_none(artefato.meta.get("case_id"))
     if declarado is None or declarado != _case_id_atual(ctx.repo):
-        ctx.recusa("case_missing", artefato.path, "case_id",
-                   "abra o case com `sparkforge case open` e copie o case_id dele para o define")
+        ctx.recusa(
+            "case_missing",
+            artefato.path,
+            "case_id",
+            "abra o case com `sparkforge-azure case open` e copie o case_id dele para o define",
+        )
 
 
 _BASES_DA_MUDANCA: tuple[tuple[PurePosixPath, str], ...] = (
@@ -686,10 +824,14 @@ def _gate_change(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
         return
     ident = str(artefato.meta.get("change_id") or "")
     if not _pastas_da_mudanca(ctx.repo, ident):
-        ctx.recusa("change_missing", artefato.path, "change_id",
-                   "o build do operador passa por `sparkforge change sandbox`; registre o id "
-                   "em change_id (vale enquanto existir .sparkforge-azure/sandbox/<id>/ ou "
-                   ".sparkforge-azure/proposal/<id>/)")
+        ctx.recusa(
+            "change_missing",
+            artefato.path,
+            "change_id",
+            "o build do operador passa por `sparkforge-azure change sandbox`; registre o id "
+            "em change_id (vale enquanto existir .sparkforge-azure/sandbox/<id>/ ou "
+            ".sparkforge-azure/proposal/<id>/)",
+        )
 
 
 def _ids_citados(ctx: _Contexto) -> list[str]:
@@ -728,14 +870,22 @@ def _gate_evidence(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
     entradas = artefato.meta.get("evidence")
     if artefato.meta["profile"] != "operator":
         if entradas is not None:
-            ctx.recusa("schema_invalid", artefato.path, "evidence",
-                       "evidence so vale no perfil operator; o ship dev nao cita mudanca")
+            ctx.recusa(
+                "schema_invalid",
+                artefato.path,
+                "evidence",
+                "evidence so vale no perfil operator; o ship dev nao cita mudanca",
+            )
         return
     build = ctx.artefatos.get("build_report")
     if build is not None and not _texto_ou_none(build.meta.get("change_id")):
-        ctx.recusa("ship_evidence_missing", artefato.path, "evidence",
-                   "o build_report nao registrou change_id: sem a mudanca do build, nenhuma "
-                   "evidencia vira historia; registre o id de `sparkforge change sandbox`")
+        ctx.recusa(
+            "ship_evidence_missing",
+            artefato.path,
+            "evidence",
+            "o build_report nao registrou change_id: sem a mudanca do build, nenhuma "
+            "evidencia vira historia; registre o id de `sparkforge-azure change sandbox`",
+        )
         return
     citados = _ids_citados(ctx)
     gravados = {entrada["change_id"] for entrada in entradas or []}
@@ -743,31 +893,47 @@ def _gate_evidence(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
     if not entradas or faltam:
         alvo = faltam or citados
         vistos = "; ".join(filter(None, (_hashes_vistos(ctx, ident) for ident in alvo)))
-        ctx.recusa("ship_evidence_missing", artefato.path, "evidence",
-                   "grave evidence: [{change_id, report_sha256}] para "
-                   f"{', '.join(alvo) or 'o change_id do build'}, com o text_sha256 do "
-                   f"relatorio que o ship leu (presentes: {vistos or 'nenhum'}); leia o "
-                   "relatorio antes de copiar o hash")
+        ctx.recusa(
+            "ship_evidence_missing",
+            artefato.path,
+            "evidence",
+            "grave evidence: [{change_id, report_sha256}] para "
+            f"{', '.join(alvo) or 'o change_id do build'}, com o text_sha256 do "
+            f"relatorio que o ship leu (presentes: {vistos or 'nenhum'}); leia o "
+            "relatorio antes de copiar o hash",
+        )
     for indice, entrada in enumerate(entradas or []):
         for arquivo in _arquivos_de_relatorio(ctx.repo, entrada["change_id"]):
             atual = _sha_ou_vazio(arquivo)
             if atual != entrada["report_sha256"]:
-                ctx.recusa("ship_evidence_mismatch", artefato.path,
-                           f"evidence/{indice}/report_sha256",
-                           f"{ctx.rel(arquivo)} tem text_sha256 {atual or '(ilegivel)'}, e o "
-                           f"ship gravou {entrada['report_sha256']}; o relatorio mudou depois "
-                           "do ship: leia-o de novo antes de regravar o hash")
+                ctx.recusa(
+                    "ship_evidence_mismatch",
+                    artefato.path,
+                    f"evidence/{indice}/report_sha256",
+                    f"{ctx.rel(arquivo)} tem text_sha256 {atual or '(ilegivel)'}, e o "
+                    f"ship gravou {entrada['report_sha256']}; o relatorio mudou depois "
+                    "do ship: leia-o de novo antes de regravar o hash",
+                )
 
 
 _GATES: dict[str, tuple[Gate, ...]] = {
     "explore": (_gate_upstream,),
     "define": (
-        _gate_upstream, _gate_success_source, _gate_change_kinds, _gate_verified_by, _gate_case,
+        _gate_upstream,
+        _gate_success_source,
+        _gate_change_kinds,
+        _gate_verified_by,
+        _gate_case,
     ),
     "design": (_gate_order, _gate_upstream, _gate_manifest, _gate_rollback, _gate_cobertura),
     "plan": (_gate_order, _gate_upstream, _gate_cobertura, _gate_task_test),
     "build_report": (
-        _gate_order, _gate_upstream, _gate_red, _gate_acceptance_red, _gate_claims, _gate_change,
+        _gate_order,
+        _gate_upstream,
+        _gate_red,
+        _gate_acceptance_red,
+        _gate_claims,
+        _gate_change,
     ),
     "ship": (_gate_order, _gate_upstream, _gate_hypothesis, _gate_registries, _gate_evidence),
 }
@@ -833,10 +999,14 @@ def evaluate(
             "root": root,
             "features": [],
             "refused": [],
-            "unresolved": [{
-                "code": "root_missing", "feature": None, "path": root,
-                "unlock": f"crie {root}/<FEATURE>/ ou passe --root para a pasta dos artefatos",
-            }],
+            "unresolved": [
+                {
+                    "code": "root_missing",
+                    "feature": None,
+                    "path": root,
+                    "unlock": f"crie {root}/<FEATURE>/ ou passe --root para a pasta dos artefatos",
+                }
+            ],
         }, {}
     descoberta = discover(raiz)
     todas = descoberta.features

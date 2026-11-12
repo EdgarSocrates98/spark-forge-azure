@@ -32,11 +32,11 @@ ACHADO_NOVO_BLOQUEANTE = "achado_novo_bloqueante"
 DESTRAVA: dict[str, str] = {
     SEM_PROCEDENCIA: (
         "declare a chave em arquivo (Terraform `--conf` ou `spark.conf.set`) e extraia de "
-        "novo com `sparkforge analyze terraform|pyspark --out`; valor que so o runtime ou o "
+        "novo com `sparkforge-azure analyze terraform|pyspark --out`; valor que so o runtime ou o "
         "cluster define nao tem linha para mudar"
     ),
     LINHA_NAO_CONFERE: (
-        "extraia os facts de novo sobre a arvore atual (`sparkforge analyze terraform|pyspark "
+        "extraia os facts de novo sobre a arvore atual (`sparkforge-azure analyze terraform|pyspark "
         "--out`) e passe `--repo` na mesma raiz usada na extracao"
     ),
     PROCEDENCIA_AMBIGUA: (
@@ -64,14 +64,14 @@ DESTRAVA: dict[str, str] = {
         "teto de tamanho da varredura; mude-o a mao"
     ),
     SANDBOX_INEXISTENTE: (
-        "rode `sparkforge change sandbox --repo <raiz> --diff <arquivo>` e passe o `id` que ele "
+        "rode `sparkforge-azure change sandbox --repo <raiz> --diff <arquivo>` e passe o `id` que ele "
         "devolver"
     ),
     SANDBOX_NAO_APLICADO: (
-        "o sandbox recusou o diff; resolva a recusa dele e rode `sparkforge change sandbox` de novo"
+        "o sandbox recusou o diff; resolva a recusa dele e rode `sparkforge-azure change sandbox` de novo"
     ),
     SANDBOX_DESATUALIZADO: (
-        "a arvore mudou depois do sandbox; rode `sparkforge change sandbox` de novo sobre a "
+        "a arvore mudou depois do sandbox; rode `sparkforge-azure change sandbox` de novo sobre a "
         "arvore atual e proponha o `id` novo"
     ),
     ACHADO_NOVO_BLOQUEANTE: (

@@ -184,7 +184,7 @@ def register(sub: argparse._SubParsersAction) -> None:
     p.add_argument(
         "--components",
         default=None,
-        help="optional components csv: skills,agents,mcp,tui,graph-studio",
+        help="optional components csv: skills,agents,mcp,knowledge,rules,evals,tui,graph-studio",
     )
     p.add_argument("--dry-run", action="store_true")
     p.add_argument(

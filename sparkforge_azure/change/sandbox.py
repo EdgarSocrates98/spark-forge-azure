@@ -195,7 +195,7 @@ def _proximos_passos(depois: str) -> list[dict[str, str]]:
             ),
         },
         {
-            "action": "sparkforge funcval plan",
+            "action": "sparkforge-azure funcval plan",
             "detail": (
                 "confira que o resultado continua o mesmo: contagem, schema, chaves, agregados"
             ),
