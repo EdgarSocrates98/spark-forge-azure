@@ -75,6 +75,16 @@ VARREDURA_CRUA_PERMITIDA: dict[str, str] = {
     "rules/loader.py": "varre o catalogo de regras embarcado no wheel",
     "context/progressive.py": "varre as references embarcadas no wheel",
     "decision/cache.py": "varre o cache de decisoes que o proprio motor escreveu",
+    "sdd/federated.py": (
+        "varre o diretorio de receipts SDD que o proprio motor escreveu "
+        "para projetar o contrato federado -- corpus do engine, nao arvore "
+        "de cliente"
+    ),
+    "_forge_obsidian/obsidian.py": (
+        "engine vendored byte-parity com the-forge -- varre apenas o "
+        "diretorio de receipts do proprio vault configurado, confinado "
+        "por escopo de vault, nunca arvore de cliente"
+    ),
     "economy/goldset.py": (
         "varre `fixtures/*/*/` do PROPRIO repositorio, corpus curado e "
         "versionado, nunca arvore de cliente. Passar por `iter_source_files` "

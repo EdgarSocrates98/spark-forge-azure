@@ -423,6 +423,28 @@ Fonte: `sparkforge_azure/evals/taxonomy.py`; taxonomia em
 `verification.run` → `lab verify` (evidência de execução via
 `lab run --execute --confirm` + `lab inspect`/`lab reproduce`).
 
+## `sparkforge-azure obsidian <op>` — vault autorizado
+
+Operações sobre um vault Obsidian configurado pelo operador —
+`FORGE_OBSIDIAN_VAULT` (compartilhada pelo ecossistema) ou
+`SPARKFORGE_AZURE_OBSIDIAN_VAULT` (específica). A raiz do vault nunca é
+argumento de CLI/web; o engine é o `sparkforge_azure._forge_obsidian`
+vendido byte-parity do pacote neutro `forge-obsidian`.
+
+| Op | Uso |
+|---|---|
+| `status` | estado configurado/detectado do vault + capabilities |
+| `scan [--prefix] [--limit]` | lista paths `.md` sem ler corpos |
+| `preview <path>` | metadados + projeção (wikilinks/tags), nunca o corpo |
+| `sync-plan <path> <file>` | dry-run de sync do arquivo local para o vault |
+| `export <path> <file> --yes` | aplica um plano revisado; exige `--baseline-hash` para substituir |
+| `export-note <name> <file> --yes` | exporta como `forges/spark-forge-azure/<name>.md` |
+| `history [--limit]` | ledger de receipts (body-free) |
+
+Todo `export`/`export-note` bem-sucedido também atualiza
+`forges/index.md` (mapa de conteúdo do ecossistema — `--no-moc` desliga).
+Recusas saem como payloads nomeados (`OBSIDIAN-*`), nunca tracebacks.
+
 ## Exit codes
 
 | Código | Significado |

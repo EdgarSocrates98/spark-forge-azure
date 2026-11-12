@@ -118,7 +118,7 @@ def load_case(root: Path | str) -> dict[str, Any]:
     path = case_path(root)
     if not path.is_file():
         raise CaseError(
-            f"Nenhum case em {path}. Rode `sparkforge case open` para criar um."
+            f"Nenhum case em {path}. Rode `sparkforge-azure case open` para criar um."
         )
 
     try:

@@ -36,10 +36,11 @@ SCOPES: tuple[str, ...] = ("project", "workspace", "user")
 HOSTS: tuple[str, ...] = ("claude", "devin", "codex", "copilot")
 
 # Which host-owned dirs receive skill mirrors per host. `.agents/skills`
-# is shared by Devin/Codex/Copilot (deduplicated at write time).
+# is shared by Devin/Codex/Copilot (deduplicated at write time) — devin o
+# le nativamente, entao `.devin/` fica so para confs host-specific.
 _SKILL_ROOTS: dict[str, tuple[str, ...]] = {
     "claude": (".claude/skills",),
-    "devin": (".devin/skills", ".agents/skills"),
+    "devin": (".agents/skills",),
     "codex": (".agents/skills",),
     "copilot": (".agents/skills", ".github/skills"),
 }
@@ -119,17 +120,24 @@ def _referenced_knowledge_paths(text: str) -> set[str]:
     Serve para emitir ponteiros exatamente nos docs referenciados (lf-0037).
     Refs que escapam a raiz (`..`, absoluto) sao descartadas — nunca viram
     path nem chave de ledger."""
+    return {rel for root, rel in _referenced_asset_paths(text) if root == "knowledge"}
+
+
+def _referenced_asset_paths(text: str) -> set[tuple[str, str]]:
+    """Os caminhos `{knowledge,rules,evals}/<rel>` citados num SKILL.md —
+    pares ``(root, rel)``; refs que escapam a raiz sao descartadas."""
     global _KNOWLEDGE_REF_RE
     if _KNOWLEDGE_REF_RE is None:
         import re
 
         _KNOWLEDGE_REF_RE = re.compile(
-            r"knowledge/[A-Za-z0-9_./-]+")
-    refs: set[str] = set()
+            r"(knowledge|rules|evals)/[A-Za-z0-9_./-]+")
+    refs: set[tuple[str, str]] = set()
     for match in _KNOWLEDGE_REF_RE.finditer(text):
-        rel = match.group(0)[len("knowledge/"):].rstrip(".,);]")
+        root_kind = match.group(1)
+        rel = match.group(0)[len(root_kind) + 1:].rstrip(".,);]")
         if rel and _rel_seguro(rel):
-            refs.add(rel)
+            refs.add((root_kind, rel))
     return refs
 
 
@@ -159,6 +167,26 @@ def _knowledge_stub(rel: str) -> str:
     return _KNOWLEDGE_STUB.format(rel=rel, dominio=dominio)
 
 
+_ASSET_STUB = """\
+# Ponteiro de {kind} — sparkforge-azure
+
+Este arquivo e um PONTEIRO gerado na instalacao: os links `{kind}/<rel>`
+dos mirrors (.agents/skills, .claude/skills, ...) resolvem aqui, mas o
+CONTEUDO real mora no pacote `sparkforge-azure` instalado — fora de qualquer
+checkout, e propositalmente nao copiado para o workspace.
+
+Recupere o conteudo real pelos verbos nativos:
+
+    sparkforge-azure capabilities        # mapa completo ops -> verbos
+"""
+
+
+def _asset_stub(root_kind: str, rel: str) -> str:
+    if root_kind == "knowledge":
+        return _knowledge_stub(rel)
+    return _ASSET_STUB.format(kind=root_kind, rel=rel)
+
+
 def _install_skill_mirrors(
     root: Path, ledger: dict[str, Any], hosts: tuple[str, ...],
 ) -> tuple[dict[str, Any], list[str]]:
@@ -172,9 +200,9 @@ def _install_skill_mirrors(
     from sparkforge_azure.skills.mirrors import mirror_name, render_mirror
 
     written: list[str] = []
-    knowledge_refs: set[str] = set()
+    asset_refs: set[tuple[str, str]] = set()
     for skill_name, text in _skill_sources():
-        knowledge_refs |= _referenced_knowledge_paths(text)
+        asset_refs |= _referenced_asset_paths(text)
         rendered = render_mirror(text, skill_name)
         for mroot in _skill_roots(hosts):
             target = root / mroot / mirror_name(skill_name) / "SKILL.md"
@@ -185,20 +213,20 @@ def _install_skill_mirrors(
                 host=mroot.split("/")[0].lstrip("."),
             )
             written.append(str(target))
-    for rel in sorted(knowledge_refs):
+    for root_kind, rel in sorted(asset_refs):
         # Defesa em profundidade: `rel` vem de texto de documento — um `..`
-        # residiria fora de `root/knowledge/` no syscall e viraria path com
+        # residiria fora de `root/<kind>/` no syscall e viraria path com
         # `..` no ledger (unlink fora da raiz no uninstall).
         if not _rel_seguro(rel):
             continue
         # Ref de diretorio (`knowledge/spark/`) vira stub `<dir>/README.md`;
         # ref de arquivo vira stub no proprio caminho.
         stub_rel = rel if Path(rel).suffix else f"{rel}/README.md"
-        stub = root / "knowledge" / stub_rel
+        stub = root / root_kind / stub_rel
         stub.parent.mkdir(parents=True, exist_ok=True)
-        write_atomic(stub, _knowledge_stub(rel))
+        write_atomic(stub, _asset_stub(root_kind, rel))
         ledger = record_file(
-            ledger, stub, kind="knowledge_pointer", mode="file",
+            ledger, stub, kind=f"{root_kind}_pointer", mode="file",
         )
         written.append(str(stub))
     return ledger, written
@@ -732,6 +760,7 @@ def _context_manifest(
         profile=profile,
         hosts=hosts,
         forge_json=forge_json,
+        kind="specialist",
         agentic=agentic,
         domains=_AZURE_DOMAINS,
         skills=skills,

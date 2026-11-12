@@ -96,7 +96,7 @@ class TestRoundTrip:
         assert first == second
 
     def test_load_missing_case_raises_with_actionable_message(self, tmp_path):
-        with pytest.raises(CaseError, match="sparkforge case open"):
+        with pytest.raises(CaseError, match="sparkforge-azure case open"):
             load_case(tmp_path)
 
     def test_load_rejects_unknown_schema_version(self, tmp_path):

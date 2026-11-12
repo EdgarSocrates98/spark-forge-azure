@@ -25,7 +25,7 @@ BENCH_VOLUME = "SF-BENCH-001"
 BENCH_SEM_LOG = "missing_log_analyzed"
 
 FUNCVAL_UNLOCK = (
-    "sparkforge funcval plan ... --out <plano> e sparkforge funcval compare "
+    "sparkforge-azure funcval plan ... --out <plano> e sparkforge-azure funcval compare "
     "--plan <plano> --before <resultado-antes> --after <resultado-depois>"
 )
 BENCH_UNLOCK = (

@@ -78,11 +78,12 @@ def _errors(root: Path, name: str = "unity-catalog", **kw) -> list[str]:
 
 
 def test_catalogue_has_exactly_24_skills():
-    # 22 skills de domínio (seção 156) + `analyze-batch-loop`, a skill de método
+    # 22 skills de domínio (seção 156) + `analyze-batch-loop`/
+    # `delegate-specialists` (método) + 6 skills `sdd-*` do ciclo SDD
     # que ancora a análise de lote no extrator pyspark (citada por SF-PY-004),
     # + `delegate-specialists`, a skill de método que ancora a delegação opcional
     # a data-sentinel-forge / forge-doctor-data sob fronteira LOCAL_READ.
-    assert len(SKILL_NAMES) == 24 == len(set(SKILL_NAMES))
+    assert len(SKILL_NAMES) == 30 == len(set(SKILL_NAMES))
     found = sorted(p.name for p in (ROOT / "skills").iterdir() if (p / "SKILL.md").is_file())
     assert found == sorted(SKILL_NAMES)
 
@@ -441,6 +442,6 @@ def test_check_script_summary(tmp_path):
     script = _load_script("check_skills_agents")
     summary = script.run(ROOT, allow_pending_knowledge=True)
     assert summary["ok"], summary["errors"]
-    assert summary["skills"] == 24
+    assert summary["skills"] == 30
     assert summary["agents"] == {"roles": 16, "specialists": 21, "subagents": 4}
     assert script.main(["--root", str(tmp_path)]) == 1

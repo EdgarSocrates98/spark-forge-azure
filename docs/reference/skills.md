@@ -32,6 +32,12 @@ reprovado pelo teste de sync.
 | `azure-bicep` | Bicep, ARM templates, what-if, módulos Bicep, parâmetros | `bicep`, `arm template`, `what-if`, `bicepparam`, `deployment azure` | `security-reviewer`, `azure-networking`, `azure-terraform`, `azure-entra` | 3/1/1 |
 | `azure-observability` | Azure Monitor, Log Analytics, diagnostic settings, alertas, Databricks system tables, Fabric monitoring | `azure monitor`, `log analytics`, `kql`, `diagnostic settings`, `alerta`, `system tables`, `observabilidade`, `logs do job` | `azure-finops`, `spark-performance`, `azure-data-factory`, `azure-databricks` | 3/1/1 |
 | `delegate-specialists` | delegate discover, delegate plan, delegate run, delegate handoffs, data-sentinel, forge-doctor-data, capabilities declaradas, fallback native-analysis | `log databricks`, `diagnostico de runtime`, `artefato exportado`, `scan estatico independente`, `delegar especialista`, `evidence handoff`, `revalidar` | `spark-performance`, `delta-lake`, `spark-streaming`, `azure-databricks` | 1/1/1 |
+| `sdd-explore` | SDD, spec-driven development, explore | `sdd`, `explore` | — | 1/1/1 |
+| `sdd-define` | SDD, spec-driven development, define | `sdd`, `define` | — | 1/1/1 |
+| `sdd-design` | SDD, spec-driven development, design | `sdd`, `design` | — | 1/1/1 |
+| `sdd-plan` | SDD, spec-driven development, plan | `sdd`, `plan` | — | 1/1/1 |
+| `sdd-build` | SDD, spec-driven development, build_report | `sdd`, `build_report` | — | 1/1/1 |
+| `sdd-ship` | SDD, spec-driven development, ship | `sdd`, `ship` | — | 1/1/1 |
 
 ## Convenções
 

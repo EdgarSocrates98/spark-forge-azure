@@ -80,12 +80,20 @@
    "migration inventory",
    "migration plan",
    "migration validate",
+   "obsidian export",
+   "obsidian export-note",
+   "obsidian history",
+   "obsidian preview",
+   "obsidian scan",
+   "obsidian status",
+   "obsidian sync-plan",
    "offline-bundle build",
    "offline-bundle verify",
    "portal",
    "rules get",
    "rules search",
    "sdd check",
+   "sdd stamp",
    "sdd status",
    "tokensave benchmark",
    "tokensave context",
@@ -366,7 +374,7 @@
  },
  "schema_version": 2,
  "skills": {
-  "count": 24,
-  "total_bytes": 109701
+  "count": 30,
+  "total_bytes": 125898
  }
 }

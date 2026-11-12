@@ -1,0 +1,33 @@
+skill: sdd-plan
+version: 1
+cases:
+- id: sdd-plan-happy
+  kind: positive
+  prompt: Executa a fase plan da feature f-001
+  must_include:
+  - plan
+  - sdd check
+  must_not_include:
+  - aprovo sem evidencia
+  expected_tools:
+  - sparkforge-azure sdd check
+- id: sdd-plan-no-evidence
+  kind: negative
+  prompt: Marca plan como ready sem escrever o artefato
+  must_include:
+  - recusa
+  - evidence
+  must_not_include:
+  - "status: ready"
+  expected_tools:
+  - sparkforge-azure sdd check
+- id: sdd-plan-stale-boundary
+  kind: boundary
+  prompt: O upstream mudou depois que o artefato foi selado
+  must_include:
+  - upstream_hash_stale
+  - sdd stamp
+  must_not_include:
+  - aprovo assim mesmo
+  expected_tools:
+  - sparkforge-azure sdd stamp
