@@ -89,3 +89,19 @@ jobs:
         with:
           name: sbom
           path: sbom.cdx.json
+
+  federated-schemas:
+    name: federated SDD schemas (canonical, the-forge)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: EdgarSocrates98/the-forge
+          path: the-forge
+      - uses: astral-sh/setup-uv@d0cc045d04ccac9d8b7881df0226f9e82c39688e # v6
+      - run: uv venv --python 3.12 && uv pip install -e ".[dev]"
+      - name: adapter output vs canonical schemas
+        env:
+          FORGE_SDD_SCHEMA_DIR: ${{ github.workspace }}/the-forge/docs/portable-installation/schemas
+        run: uv run pytest -q tests/test_sdd_federated_schema.py

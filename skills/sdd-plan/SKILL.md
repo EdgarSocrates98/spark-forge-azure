@@ -73,6 +73,14 @@ Quebrar a construcao em tarefas com teste e criterio executaveis sem contexto.
 - Sem credenciais em artefatos; identidades Entra/RBAC citadas por nome, nao por segredo.
 - Mudanca em producao passa por aprovacao humana — a skill nao aprova.
 
+## Referências
+
+- `references/README.md` — guia da fase
+- `references/task-graph.md` — DAG de tarefas e cobertura de critérios
+- `scripts/validate_evidence.py` — validador local do artefato
+- `../_shared/references/` — contratos compartilhados
+- `../../docs/sdd/templates/` — template da fase
+
 ## Handoff
 
 Artefato `plan.md` ready → proxima fase `build_report.md`.

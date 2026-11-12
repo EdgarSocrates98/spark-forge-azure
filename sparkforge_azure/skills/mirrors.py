@@ -49,6 +49,45 @@ class MirrorDrift:
     reason: str  # missing | stale | orphan
 
 
+#: Asset dirs mirrored byte-identically next to SKILL.md — a mirror whose
+#: body cites `references/x.md` must actually ship the file (section 159).
+ASSET_DIRS: tuple[str, ...] = ("references", "scripts")
+#: Shared assets mirrored unprefixed — `../../_shared/` links resolve the
+#: same way in source and in every host mirror.
+SHARED_DIR = "_shared"
+
+
+def _asset_mirrors(root: Path, skill_dir: Path, name: str) -> dict[Path, str]:
+    out: dict[Path, str] = {}
+    for sub in ASSET_DIRS:
+        base = skill_dir / sub
+        if not base.is_dir():
+            continue
+        for asset in sorted(base.rglob("*")):
+            if not asset.is_file():
+                continue
+            rel = asset.relative_to(skill_dir)
+            text = asset.read_text(encoding="utf-8")
+            for mroot in MIRROR_ROOTS:
+                out[root / mroot / mirror_name(name) / rel] = text
+    return out
+
+
+def _shared_mirrors(root: Path) -> dict[Path, str]:
+    base = root / "skills" / SHARED_DIR
+    out: dict[Path, str] = {}
+    if not base.is_dir():
+        return out
+    for asset in sorted(base.rglob("*")):
+        if not asset.is_file():
+            continue
+        rel = asset.relative_to(base)
+        text = asset.read_text(encoding="utf-8")
+        for mroot in MIRROR_ROOTS:
+            out[root / mroot / SHARED_DIR / rel] = text
+    return out
+
+
 def expected_mirrors(root: Path) -> dict[Path, str]:
     out: dict[Path, str] = {}
     for src in discover_skill_files(root):
@@ -56,6 +95,8 @@ def expected_mirrors(root: Path) -> dict[Path, str]:
         text = render_mirror(src.read_text(encoding="utf-8"), name)
         for mroot in MIRROR_ROOTS:
             out[root / mroot / mirror_name(name) / "SKILL.md"] = text
+        out.update(_asset_mirrors(root, src.parent, name))
+    out.update(_shared_mirrors(root))
     return out
 
 

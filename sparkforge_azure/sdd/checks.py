@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 import json
+import re
 from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import cache
@@ -916,6 +917,60 @@ def _gate_evidence(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
                 )
 
 
+_PERSISTENCIA_RE = re.compile(
+    r"delta|onelake|lakehouse|iceberg|parquet|abfss|adls", re.IGNORECASE
+)
+
+
+def _gate_persistence(ctx: _Contexto, fase: str, artefato: Artifact) -> None:
+    """Checklist de persistencia do `change_kinds.yaml` (Onda 3D, dominio Azure).
+
+    Dispara por declaracao (um `change_kind` do define com `persistence`) ou,
+    so no perfil `operator`, por deteccao: `files` citando
+    delta/onelake/lakehouse/iceberg/parquet/abfss/adls num repo de jobs de
+    dados e sinal de escrita persistente; no `dev` os mesmos nomes sao
+    codigo de ferramenta, e so a declaracao conta. Nesse caso a checklist
+    canonica e a uniao de todas as `persistence` do mapa. Item sem
+    tratamento no `persistence` da fase e lacuna, porque a forma correta e
+    julgamento de dominio, nao erro de contrato.
+    """
+    define = ctx.artefatos.get("define")
+    if define is None:
+        return
+    conhecidos = change_kinds()
+    itens = {
+        item
+        for chave in define.meta["change_kinds"]
+        for item in (conhecidos.get(chave) or {}).get("persistence") or []
+    }
+    if not itens and artefato.meta["profile"] == "operator":
+        if fase == "design":
+            caminhos = [f["path"] for f in artefato.meta["files"]]
+        else:
+            caminhos = [
+                caminho
+                for tarefa in artefato.meta["tasks"]
+                for caminho in (tarefa.get("files") or [])
+            ]
+        if any(_PERSISTENCIA_RE.search(caminho) for caminho in caminhos):
+            itens = {
+                item
+                for valor in conhecidos.values()
+                for item in valor.get("persistence") or []
+            }
+    if not itens:
+        return
+    declarado = artefato.meta.get("persistence") or {}
+    for item in sorted(itens):
+        if not str(declarado.get(item) or "").strip():
+            ctx.lacuna(
+                "persistence_undeclared",
+                artefato.path,
+                f"declare persistence.{item}: como a mudanca trata {item} na "
+                "escrita de dados (feature com persistencia detectada)",
+            )
+
+
 _GATES: dict[str, tuple[Gate, ...]] = {
     "explore": (_gate_upstream,),
     "define": (
@@ -925,8 +980,21 @@ _GATES: dict[str, tuple[Gate, ...]] = {
         _gate_verified_by,
         _gate_case,
     ),
-    "design": (_gate_order, _gate_upstream, _gate_manifest, _gate_rollback, _gate_cobertura),
-    "plan": (_gate_order, _gate_upstream, _gate_cobertura, _gate_task_test),
+    "design": (
+        _gate_order,
+        _gate_upstream,
+        _gate_manifest,
+        _gate_rollback,
+        _gate_cobertura,
+        _gate_persistence,
+    ),
+    "plan": (
+        _gate_order,
+        _gate_upstream,
+        _gate_cobertura,
+        _gate_task_test,
+        _gate_persistence,
+    ),
     "build_report": (
         _gate_order,
         _gate_upstream,

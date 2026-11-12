@@ -206,3 +206,30 @@ Registro ausente ⇒ recusa `change_kind_registry_missing` com unlock apontando 
 - `tool_result_parity` — evidencia nomeada; produza via `sparkforge-azure sdd check` e cite o artefato/run que a gerou.
 
 Registro ausente ⇒ recusa `change_kind_registry_missing` com unlock apontando esta secao.
+
+## Escrever tabela ou artefato persistente (Delta, Iceberg, OneLake, ADLS Gen2, Parquet)
+
+**change_kind:** `data_persistence`
+
+O `change_kinds` do define declara `data_persistence` quando o job grava
+tabela ou artefato persistente — e, no perfil `operator`, o gate também
+dispara quando `files` do design ou das tarefas do plan citam `delta`,
+`onelake`, `lakehouse`, `iceberg`, `parquet`, `abfss` ou `adls` (num repo de
+jobs de dados o nome é sinal de escrita; no `dev` o mesmo nome é código de
+ferramenta, e só a declaração conta).
+Aí `design` e `plan` respondem, no campo `persistence`, como a mudança trata
+cada item do checklist (`sparkforge_azure/sdd/change_kinds.yaml`):
+atomicidade, isolamento, consistência, idempotência, concorrência,
+versionamento, evolução de schema, chave de negócio, reprocessamento, retry,
+snapshot/commit/rollback, recuperação, atualização parcial, testes negativos
+e métricas de validação funcional. O design explica, no tratamento de
+`snapshot_commit_rollback` e de `partial_update`, como os invariantes se
+preservam quando a operação falha entre passos. Item sem tratamento vira
+`persistence_undeclared` — lacuna, não recusa, porque a forma correta é
+julgamento de domínio.
+
+**Registros obrigatorios no ship.md:**
+
+- `sdd_persistence_check` — evidencia nomeada; produza via `sparkforge-azure sdd check` e cite o artefato/run que a gerou.
+
+Registro ausente ⇒ recusa `change_kind_registry_missing` com unlock apontando esta secao.

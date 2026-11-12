@@ -73,6 +73,14 @@ Decidir como construir sobre o define selado.
 - Sem credenciais em artefatos; identidades Entra/RBAC citadas por nome, nao por segredo.
 - Mudanca em producao passa por aprovacao humana — a skill nao aprova.
 
+## Referências
+
+- `references/README.md` — guia da fase
+- `references/design-review.md` — checklist de revisão de desenho Azure
+- `scripts/validate_evidence.py` — validador local do artefato
+- `../_shared/references/` — contratos compartilhados
+- `../../docs/sdd/templates/` — template da fase
+
 ## Handoff
 
 Artefato `design.md` ready → proxima fase `plan.md`.

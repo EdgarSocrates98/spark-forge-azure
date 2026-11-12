@@ -73,6 +73,14 @@ Fixar o que significa pronto: hipotese + criterios AC* verificaveis.
 - Sem credenciais em artefatos; identidades Entra/RBAC citadas por nome, nao por segredo.
 - Mudanca em producao passa por aprovacao humana — a skill nao aprova.
 
+## Referências
+
+- `references/README.md` — guia da fase
+- `references/requirements-quality.md` — qualidade de requisitos e ACs
+- `scripts/validate_evidence.py` — validador local do artefato
+- `../_shared/references/` — contratos compartilhados
+- `../../docs/sdd/templates/` — template da fase
+
 ## Handoff
 
 Artefato `define.md` ready → proxima fase `design.md`.

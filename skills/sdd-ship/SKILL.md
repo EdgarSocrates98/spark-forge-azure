@@ -73,6 +73,14 @@ Fechar o ciclo com evidencia de entrega e hypothesis_outcome.
 - Sem credenciais em artefatos; identidades Entra/RBAC citadas por nome, nao por segredo.
 - Mudanca em producao passa por aprovacao humana — a skill nao aprova.
 
+## Referências
+
+- `references/README.md` — guia da fase
+- `references/convergence.md` — convergência spec↔implementação
+- `scripts/validate_evidence.py` — validador local do artefato
+- `../_shared/references/` — contratos compartilhados
+- `../../docs/sdd/templates/` — template da fase
+
 ## Handoff
 
 Ship aceito → ciclo fechado; aprendizado volta ao define da proxima feature.
