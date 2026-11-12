@@ -73,6 +73,14 @@ Formar uma ideia difusa em decisao de escopo com grill gate.
 - Sem credenciais em artefatos; identidades Entra/RBAC citadas por nome, nao por segredo.
 - Mudanca em producao passa por aprovacao humana — a skill nao aprova.
 
+## Referências
+
+- `references/README.md` — guia da fase
+- `references/decision-tree.md` — árvore de decisão do grill gate
+- `scripts/validate_evidence.py` — validador local do artefato
+- `../_shared/references/` — contratos compartilhados
+- `../../docs/sdd/templates/` — template da fase
+
 ## Handoff
 
 Artefato `explore.md` ready → proxima fase `define.md`.

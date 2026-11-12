@@ -73,6 +73,14 @@ Executar o plano com evidencia: red/green, recibo, recuperacao idempotente.
 - Sem credenciais em artefatos; identidades Entra/RBAC citadas por nome, nao por segredo.
 - Mudanca em producao passa por aprovacao humana — a skill nao aprova.
 
+## Referências
+
+- `references/README.md` — guia da fase
+- `references/execution-receipt.md` — recibo de execução red/green
+- `scripts/validate_evidence.py` — validador local do artefato
+- `../_shared/references/` — contratos compartilhados
+- `../../docs/sdd/templates/` — template da fase
+
 ## Handoff
 
 Artefato `build_report.md` ready → proxima fase `ship.md`.
