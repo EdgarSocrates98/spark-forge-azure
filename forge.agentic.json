@@ -85,5 +85,924 @@
   ],
   "requires_network": false,
   "requires_credentials": false,
-  "read_only_default": true
+  "read_only_default": true,
+  "resources": [
+    {
+      "id": "analyze-batch-loop",
+      "kind": "skill",
+      "location": "skills/analyze-batch-loop/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-adls",
+      "kind": "skill",
+      "location": "skills/azure-adls/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-bicep",
+      "kind": "skill",
+      "location": "skills/azure-bicep/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-cosmos-db",
+      "kind": "skill",
+      "location": "skills/azure-cosmos-db/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-data-factory",
+      "kind": "skill",
+      "location": "skills/azure-data-factory/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-databricks",
+      "kind": "skill",
+      "location": "skills/azure-databricks/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-entra",
+      "kind": "skill",
+      "location": "skills/azure-entra/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-event-hubs",
+      "kind": "skill",
+      "location": "skills/azure-event-hubs/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-finops",
+      "kind": "skill",
+      "location": "skills/azure-finops/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-networking",
+      "kind": "skill",
+      "location": "skills/azure-networking/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-observability",
+      "kind": "skill",
+      "location": "skills/azure-observability/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-purview",
+      "kind": "skill",
+      "location": "skills/azure-purview/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-spark",
+      "kind": "skill",
+      "location": "skills/azure-spark/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-synapse",
+      "kind": "skill",
+      "location": "skills/azure-synapse/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-terraform",
+      "kind": "skill",
+      "location": "skills/azure-terraform/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "delegate-specialists",
+      "kind": "skill",
+      "location": "skills/delegate-specialists/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "delta-lake",
+      "kind": "skill",
+      "location": "skills/delta-lake/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "fabric-data-engineering",
+      "kind": "skill",
+      "location": "skills/fabric-data-engineering/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "fabric-onelake",
+      "kind": "skill",
+      "location": "skills/fabric-onelake/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "fabric-realtime",
+      "kind": "skill",
+      "location": "skills/fabric-realtime/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "iceberg",
+      "kind": "skill",
+      "location": "skills/iceberg/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "sdd-build",
+      "kind": "skill",
+      "location": "skills/sdd-build/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "sdd-define",
+      "kind": "skill",
+      "location": "skills/sdd-define/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "sdd-design",
+      "kind": "skill",
+      "location": "skills/sdd-design/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "sdd-explore",
+      "kind": "skill",
+      "location": "skills/sdd-explore/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "sdd-plan",
+      "kind": "skill",
+      "location": "skills/sdd-plan/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "sdd-ship",
+      "kind": "skill",
+      "location": "skills/sdd-ship/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "spark-performance",
+      "kind": "skill",
+      "location": "skills/spark-performance/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "spark-streaming",
+      "kind": "skill",
+      "location": "skills/spark-streaming/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "unity-catalog",
+      "kind": "skill",
+      "location": "skills/unity-catalog/SKILL.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "adf-specialist",
+      "kind": "agent",
+      "location": "agents/adf-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "adls-specialist",
+      "kind": "agent",
+      "location": "agents/adls-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "analyzer",
+      "kind": "agent",
+      "location": "agents/analyzer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "azure-databricks-specialist",
+      "kind": "agent",
+      "location": "agents/azure-databricks-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "bicep-specialist",
+      "kind": "agent",
+      "location": "agents/bicep-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "coordinator",
+      "kind": "agent",
+      "location": "agents/coordinator.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "cosmos-db-specialist",
+      "kind": "agent",
+      "location": "agents/cosmos-db-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "cost-reviewer",
+      "kind": "agent",
+      "location": "agents/cost-reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "critic",
+      "kind": "agent",
+      "location": "agents/critic.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "databricks-cost-reviewer",
+      "kind": "agent",
+      "location": "agents/databricks-cost-reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "databricks-performance-reviewer",
+      "kind": "agent",
+      "location": "agents/databricks-performance-reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "databricks-runtime-reviewer",
+      "kind": "agent",
+      "location": "agents/databricks-runtime-reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "databricks-uc-reviewer",
+      "kind": "agent",
+      "location": "agents/databricks-uc-reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "delta-specialist",
+      "kind": "agent",
+      "location": "agents/delta-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "entra-specialist",
+      "kind": "agent",
+      "location": "agents/entra-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "evaluation-specialist",
+      "kind": "agent",
+      "location": "agents/evaluation-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "event-hubs-specialist",
+      "kind": "agent",
+      "location": "agents/event-hubs-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "extractor",
+      "kind": "agent",
+      "location": "agents/extractor.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "fabric-specialist",
+      "kind": "agent",
+      "location": "agents/fabric-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "finops-specialist",
+      "kind": "agent",
+      "location": "agents/finops-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "iceberg-specialist",
+      "kind": "agent",
+      "location": "agents/iceberg-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "inventory",
+      "kind": "agent",
+      "location": "agents/inventory.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "judge",
+      "kind": "agent",
+      "location": "agents/judge.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "migration-reviewer",
+      "kind": "agent",
+      "location": "agents/migration-reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "migration-specialist",
+      "kind": "agent",
+      "location": "agents/migration-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "networking-specialist",
+      "kind": "agent",
+      "location": "agents/networking-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "observability-specialist",
+      "kind": "agent",
+      "location": "agents/observability-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "onelake-specialist",
+      "kind": "agent",
+      "location": "agents/onelake-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "performance-reviewer",
+      "kind": "agent",
+      "location": "agents/performance-reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "purview-specialist",
+      "kind": "agent",
+      "location": "agents/purview-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "referee",
+      "kind": "agent",
+      "location": "agents/referee.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "reviewer",
+      "kind": "agent",
+      "location": "agents/reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "security-reviewer",
+      "kind": "agent",
+      "location": "agents/security-reviewer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "spark-performance-specialist",
+      "kind": "agent",
+      "location": "agents/spark-performance-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "streaming-specialist",
+      "kind": "agent",
+      "location": "agents/streaming-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "synapse-specialist",
+      "kind": "agent",
+      "location": "agents/synapse-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "synthesizer",
+      "kind": "agent",
+      "location": "agents/synthesizer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "terraform-specialist",
+      "kind": "agent",
+      "location": "agents/terraform-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "test-engineer",
+      "kind": "agent",
+      "location": "agents/test-engineer.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "unity-catalog-specialist",
+      "kind": "agent",
+      "location": "agents/unity-catalog-specialist.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "verifier",
+      "kind": "agent",
+      "location": "agents/verifier.md",
+      "resource_class": "agentic"
+    },
+    {
+      "id": "knowledge/agentic/evidence-first.md",
+      "kind": "knowledge",
+      "location": "knowledge/agentic/evidence-first.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/adf/pipelines-ir-managed-vnet.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/cosmosdb/bulk-and-batch.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/cosmosdb/bulk-and-batch.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/cosmosdb/change-feed.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/cosmosdb/change-feed.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/cosmosdb/model-and-limits.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/cosmosdb/model-and-limits.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/cosmosdb/reads-and-tuning.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/cosmosdb/reads-and-tuning.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/cosmosdb/spark-connector.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/cosmosdb/spark-connector.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/databricks/runtime-and-compute.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/databricks/runtime-and-compute.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/databricks/workflows.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/databricks/workflows.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/eventhubs/eventhubs-and-kafka.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/eventhubs/eventhubs-and-kafka.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/fabric/capacity-and-throttling.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/fabric/capacity-and-throttling.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/fabric/data-engineering-spark.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/fabric/data-engineering-spark.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/fabric/data-factory.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/fabric/data-factory.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/fabric/onelake-security.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/fabric/onelake-security.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/fabric/onelake-shortcuts.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/fabric/onelake-shortcuts.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/fabric/realtime-intelligence.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/fabric/realtime-intelligence.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/fabric/workspace-identity.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/fabric/workspace-identity.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/finops/cost-management-and-dbu.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/finops/cost-management-and-dbu.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/iac/bicep.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/iac/bicep.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/iac/terraform-azurerm.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/iac/terraform-azurerm.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/identity/entra-managed-identity.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/identity/entra-managed-identity.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/identity/keyvault.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/identity/keyvault.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/network/private-link-dns.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/network/private-link-dns.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/observability/monitor-log-analytics.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/observability/monitor-log-analytics.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/purview/unified-catalog-and-lineage.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/purview/unified-catalog-and-lineage.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/storage/adls-gen2.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/storage/adls-gen2.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/synapse/pipelines-and-linked-services.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/synapse/pipelines-and-linked-services.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/synapse/spark-runtimes.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/synapse/spark-runtimes.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/unity-catalog/privileges-and-fgac.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/unity-catalog/privileges-and-fgac.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/unity-catalog/securable-model.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/unity-catalog/securable-model.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/azure/unity-catalog/troubleshooting-external-locations.md",
+      "kind": "knowledge",
+      "location": "knowledge/azure/unity-catalog/troubleshooting-external-locations.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/data-quality/contracts-and-expectations.md",
+      "kind": "knowledge",
+      "location": "knowledge/data-quality/contracts-and-expectations.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/governance/multi-layer-conflicts.md",
+      "kind": "knowledge",
+      "location": "knowledge/governance/multi-layer-conflicts.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/INDEX.md",
+      "kind": "knowledge",
+      "location": "knowledge/INDEX.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/lakehouse/delta-lake.md",
+      "kind": "knowledge",
+      "location": "knowledge/lakehouse/delta-lake.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/lakehouse/iceberg.md",
+      "kind": "knowledge",
+      "location": "knowledge/lakehouse/iceberg.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/lakehouse/open-table-formats.md",
+      "kind": "knowledge",
+      "location": "knowledge/lakehouse/open-table-formats.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/matrices/databricks-runtime.yaml",
+      "kind": "knowledge",
+      "location": "knowledge/matrices/databricks-runtime.yaml",
+      "format": "yaml",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/matrices/eventhubs-tiers.yaml",
+      "kind": "knowledge",
+      "location": "knowledge/matrices/eventhubs-tiers.yaml",
+      "format": "yaml",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/matrices/fabric-capacity-throttling.yaml",
+      "kind": "knowledge",
+      "location": "knowledge/matrices/fabric-capacity-throttling.yaml",
+      "format": "yaml",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/matrices/fabric-runtime.yaml",
+      "kind": "knowledge",
+      "location": "knowledge/matrices/fabric-runtime.yaml",
+      "format": "yaml",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/matrices/synapse-runtime.yaml",
+      "kind": "knowledge",
+      "location": "knowledge/matrices/synapse-runtime.yaml",
+      "format": "yaml",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/migration/aws-to-azure-concepts.md",
+      "kind": "knowledge",
+      "location": "knowledge/migration/aws-to-azure-concepts.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/migration/synapse-to-fabric.md",
+      "kind": "knowledge",
+      "location": "knowledge/migration/synapse-to-fabric.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/offline-manifest.json",
+      "kind": "knowledge",
+      "location": "knowledge/offline-manifest.json",
+      "format": "json",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/packs.yaml",
+      "kind": "knowledge",
+      "location": "knowledge/packs.yaml",
+      "format": "yaml",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/query_expansion.yaml",
+      "kind": "knowledge",
+      "location": "knowledge/query_expansion.yaml",
+      "format": "yaml",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/source_authority.yaml",
+      "kind": "knowledge",
+      "location": "knowledge/source_authority.yaml",
+      "format": "yaml",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/sources.lock.json",
+      "kind": "knowledge",
+      "location": "knowledge/sources.lock.json",
+      "format": "json",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/spark/execution-model.md",
+      "kind": "knowledge",
+      "location": "knowledge/spark/execution-model.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/spark/performance-aqe-shuffle-skew.md",
+      "kind": "knowledge",
+      "location": "knowledge/spark/performance-aqe-shuffle-skew.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/spark/streaming-state-checkpoint.md",
+      "kind": "knowledge",
+      "location": "knowledge/spark/streaming-state-checkpoint.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "knowledge/streaming/runtime-matrix.md",
+      "kind": "knowledge",
+      "location": "knowledge/streaming/runtime-matrix.md",
+      "format": "markdown",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "rules/catalog",
+      "kind": "rule",
+      "location": "rules/catalog",
+      "resource_class": "policy"
+    },
+    {
+      "id": "evals/agent_runtime",
+      "kind": "eval",
+      "location": "evals/agent_runtime",
+      "resource_class": "validation"
+    },
+    {
+      "id": "evals/agentic",
+      "kind": "eval",
+      "location": "evals/agentic",
+      "resource_class": "validation"
+    },
+    {
+      "id": "evals/agents",
+      "kind": "eval",
+      "location": "evals/agents",
+      "resource_class": "validation"
+    },
+    {
+      "id": "evals/convergence",
+      "kind": "eval",
+      "location": "evals/convergence",
+      "resource_class": "validation"
+    },
+    {
+      "id": "evals/host_proof",
+      "kind": "eval",
+      "location": "evals/host_proof",
+      "resource_class": "validation"
+    },
+    {
+      "id": "evals/mcp-conformance",
+      "kind": "eval",
+      "location": "evals/mcp-conformance",
+      "resource_class": "validation"
+    },
+    {
+      "id": "evals/parity",
+      "kind": "eval",
+      "location": "evals/parity",
+      "resource_class": "validation"
+    },
+    {
+      "id": "evals/portability",
+      "kind": "eval",
+      "location": "evals/portability",
+      "resource_class": "validation"
+    },
+    {
+      "id": "evals/token_efficient",
+      "kind": "eval",
+      "location": "evals/token_efficient",
+      "resource_class": "validation"
+    },
+    {
+      "id": "examples/governance",
+      "kind": "example",
+      "location": "examples/governance",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "examples/workspace",
+      "kind": "example",
+      "location": "examples/workspace",
+      "resource_class": "read-only"
+    },
+    {
+      "id": "fixtures/airflow",
+      "kind": "fixture",
+      "location": "fixtures/airflow",
+      "resource_class": "test-only"
+    },
+    {
+      "id": "fixtures/azure",
+      "kind": "fixture",
+      "location": "fixtures/azure",
+      "resource_class": "test-only"
+    },
+    {
+      "id": "fixtures/graph",
+      "kind": "fixture",
+      "location": "fixtures/graph",
+      "resource_class": "test-only"
+    },
+    {
+      "id": "fixtures/observability",
+      "kind": "fixture",
+      "location": "fixtures/observability",
+      "resource_class": "test-only"
+    },
+    {
+      "id": "fixtures/otel",
+      "kind": "fixture",
+      "location": "fixtures/otel",
+      "resource_class": "test-only"
+    },
+    {
+      "id": "fixtures/pyspark",
+      "kind": "fixture",
+      "location": "fixtures/pyspark",
+      "resource_class": "test-only"
+    },
+    {
+      "id": "fixtures/sdd",
+      "kind": "fixture",
+      "location": "fixtures/sdd",
+      "resource_class": "test-only"
+    },
+    {
+      "id": "fixtures/synthetic",
+      "kind": "fixture",
+      "location": "fixtures/synthetic",
+      "resource_class": "test-only"
+    }
+  ]
 }
