@@ -1,0 +1,9 @@
+{
+  "cycle": "unified-release",
+  "repository": "spark-forge-azure",
+  "version": "0.3.6",
+  "tag": "v0.3.6",
+  "source_commit": "c829bf926fe00d304372d3ba5d88fee36a727828",
+  "version_source": "pyproject.toml|package.json|__init__",
+  "verified_at": "2026-11-12"
+}
