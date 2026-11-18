@@ -45,6 +45,9 @@ _SKILL_ROOTS: dict[str, tuple[str, ...]] = {
     "copilot": (".agents/skills", ".github/skills"),
 }
 
+#: Subdir proprio dentro de `knowledge/` do alvo (install-2.1) — canonical
+#: em `skills/mirrors.py` (KNOWLEDGE_NAMESPACE), importado lazy onde usado.
+
 
 def _spec() -> kit.ForgeSpec:
     return kit.ForgeSpec(
@@ -76,20 +79,30 @@ def _state_dir(scope: str, target: Path) -> Path:
     return target / ".sparkforge-azure"
 
 
-def _skill_sources() -> list[tuple[str, str]]:
-    """``(skill_name, SKILL.md text)`` from the canonical ``skills/`` group —
-    source checkout or the ``_data/skills`` payload inside the wheel."""
+def _skill_source_dirs() -> list[tuple[str, Path]]:
+    """``(skill_name, skill_dir)`` from the canonical ``skills/`` group —
+    source checkout or the ``_data/skills`` payload inside the wheel. The
+    dir is needed so asset files (``references/``, ``scripts/``) can ship
+    alongside ``SKILL.md`` (install-2.1)."""
     from sparkforge_azure.distribution.assets import _group_dir
 
     root = _group_dir("skills")
-    out: list[tuple[str, str]] = []
+    out: list[tuple[str, Path]] = []
     if not root.is_dir():
         return out
     for item in sorted(root.iterdir(), key=lambda e: e.name):
-        skill_md = item / "SKILL.md"
-        if item.is_dir() and skill_md.is_file():
-            out.append((item.name, skill_md.read_text(encoding="utf-8")))
+        if item.is_dir() and (item / "SKILL.md").is_file():
+            out.append((item.name, item))
     return out
+
+
+def _skill_sources() -> list[tuple[str, str]]:
+    """``(skill_name, SKILL.md text)`` — convenience over
+    ``_skill_source_dirs`` for callers that only need the document."""
+    return [
+        (name, (sdir / "SKILL.md").read_text(encoding="utf-8"))
+        for name, sdir in _skill_source_dirs()
+    ]
 
 
 def _skill_roots(hosts: tuple[str, ...]) -> list[str]:
@@ -187,37 +200,148 @@ def _asset_stub(root_kind: str, rel: str) -> str:
     return _ASSET_STUB.format(kind=root_kind, rel=rel)
 
 
-def _install_skill_mirrors(
-    root: Path, ledger: dict[str, Any], hosts: tuple[str, ...],
+_KNOWLEDGE_INDEX = """\
+# knowledge/sparkforge-azure/ — ponteiros do sparkforge-azure
+
+Os arquivos neste diretorio sao PONTEIROS (um por documento referenciado
+pelas skills/agents instalados). O knowledge real e versionado dentro do
+pacote `sparkforge-azure` e se recupera offline pelos verbos:
+
+    sparkforge-azure knowledge list
+    sparkforge-azure knowledge get <doc>
+    sparkforge-azure knowledge search "<termo>" [--domain <d>]
+    sparkforge-azure context pack --domain <d>
+    sparkforge-azure capabilities          # mapa completo ops -> verbos
+
+Total referenciado nesta instalacao: {total} documento(s).
+"""
+
+
+def _knowledge_index_stub(total: int) -> str:
+    """`knowledge/sparkforge-azure/README.md` do alvo: indice dos ponteiros
+    + os verbos de retrieval (paridade com a wave-02 do sibling AWS)."""
+    return _KNOWLEDGE_INDEX.format(total=total)
+
+
+def _migrate_legacy_knowledge_stubs(
+    root: Path, ledger: dict[str, Any],
 ) -> tuple[dict[str, Any], list[str], list[str]]:
-    """Write ``sparkforge-azure-<name>/SKILL.md`` mirrors into the selected
-    host roots, ledgered like every other managed asset. Tambem emite os
-    ponteiros `knowledge/<rel>` referenciados pelas skills (lf-0037): no
-    wheel o knowledge mora no pacote, entao o stub aponta para os verbos
-    nativos em vez de deixar o link morto.
+    """install-2.0 wrote stubs at ``knowledge/<rel>`` (un-namespaced).
 
-    Toda escrita whole-file passa por ``write_managed_file``: um arquivo
-    pre-existente nao-ledgered no caminho de um mirror/stub e ESTRANGEIRO —
-    preservado, nunca adotado, e reportado em ``skipped`` (install-2.1)."""
-    from sparkforge_azure.distribution.managed import write_managed_file
-    from sparkforge_azure.skills.mirrors import mirror_name, render_mirror
+    Honest migration (install-2.1): a ledgered stub whose bytes still match
+    the ledger is ours — it is unlinked and its entry dropped (the new
+    namespaced stub takes over). A ledgered stub whose bytes drifted was
+    edited by the user — the file is preserved and our claim is dropped
+    (``detach`` semantics), and an unledgered file was never ours — it is
+    left entirely alone. Returns ``(ledger, migrated, detached)``."""
+    from sparkforge_azure.distribution.managed import forget_file
+    from sparkforge_azure.skills.mirrors import KNOWLEDGE_NAMESPACE
 
-    written: list[str] = []
-    skipped: list[str] = []
+    kroot = (root / "knowledge").as_posix() + "/"
+    kns = (root / "knowledge" / KNOWLEDGE_NAMESPACE).as_posix() + "/"
+    migrated: list[str] = []
+    detached: list[str] = []
+    for entry in list(ledger["files"]):
+        path = str(entry.get("path") or "")
+        if not path.startswith(kroot) or path.startswith(kns):
+            continue
+        if entry.get("kind") != "knowledge_pointer":
+            continue
+        legacy = Path(path)
+        ledger = forget_file(ledger, legacy)
+        if not legacy.is_file():
+            migrated.append(path)  # already gone — just drop the claim
+            continue
+        import hashlib
+
+        if hashlib.sha256(legacy.read_bytes()).hexdigest() == entry.get("sha256"):
+            legacy.unlink()  # ours, unmodified — the namespaced stub replaces it
+            migrated.append(path)
+        else:
+            detached.append(path)  # user-edited — preserved, claim dropped
+    return ledger, migrated, detached
+
+
+def _skill_mirror_plan(
+    root: Path, hosts: tuple[str, ...],
+    include_agent_refs: bool = False,
+) -> list[tuple[Path, str, str]]:
+    """The ``(path, text, kind)`` plan for skill-layer writes under ``root``.
+
+    Covers ``SKILL.md`` + the ``references/``/``scripts/`` asset dirs each
+    skill ships + the shared ``_shared/`` tree (mirroring the repo-local
+    sync in ``skills/mirrors.py``, install-2.1) + the asset pointers
+    (`knowledge/` namespaced, ``rules/``/``evals/`` at their roots).
+    ``include_agent_refs`` folds agent-manifest `knowledge/` mentions into
+    the pointer set — only when agent mirrors actually install (full)."""
+    from sparkforge_azure.distribution.assets import _group_dir
+    from sparkforge_azure.skills.mirrors import (
+        ASSET_DIRS,
+        KNOWLEDGE_NAMESPACE,
+        SHARED_DIR,
+        _walk_files,
+        mirror_name,
+        namespace_knowledge_refs,
+        render_mirror,
+    )
+
+    def _asset_bytes(asset: Path) -> str | bytes:
+        """Texto com rewrite de namespace para `.md`; bytes verbatim para
+        o resto — assets binarios (fontes, imagens) sao copiados como sao."""
+        data = asset.read_bytes()
+        if asset.suffix != ".md":
+            return data
+        try:
+            return namespace_knowledge_refs(data.decode("utf-8"))
+        except UnicodeDecodeError:
+            return data
+
+    plan: list[tuple[Path, str | bytes, str]] = []
     asset_refs: set[tuple[str, str]] = set()
-    for skill_name, text in _skill_sources():
+    mroots = _skill_roots(hosts)
+    for skill_name, sdir in _skill_source_dirs():
+        text = (sdir / "SKILL.md").read_text(encoding="utf-8")
         asset_refs |= _referenced_asset_paths(text)
-        rendered = render_mirror(text, skill_name)
-        for mroot in _skill_roots(hosts):
-            target = root / mroot / mirror_name(skill_name) / "SKILL.md"
-            ledger, outcome = write_managed_file(
-                ledger, target, rendered, kind="skill_mirror",
-                host=mroot.split("/")[0].lstrip("."),
-            )
-            if outcome == "preserved_foreign":
-                skipped.append(str(target))
-            else:
-                written.append(str(target))
+        rendered = namespace_knowledge_refs(render_mirror(text, skill_name))
+        for mroot in mroots:
+            mdir = root / mroot / mirror_name(skill_name)
+            plan.append((mdir / "SKILL.md", rendered, "skill"))
+            for sub in ASSET_DIRS:
+                base = sdir / sub
+                if not base.is_dir():
+                    continue
+                for asset in _walk_files(base):
+                    rel = asset.relative_to(sdir)
+                    if asset.suffix == ".md":
+                        try:
+                            asset_refs |= _referenced_asset_paths(
+                                asset.read_text(encoding="utf-8"))
+                        except UnicodeDecodeError:
+                            pass
+                    plan.append((mdir / rel, _asset_bytes(asset), "skill"))
+    shared = _group_dir("skills") / SHARED_DIR
+    if shared.is_dir():
+        for asset in _walk_files(shared):
+            rel = asset.relative_to(shared)
+            if asset.suffix == ".md":
+                try:
+                    asset_refs |= _referenced_asset_paths(
+                        asset.read_text(encoding="utf-8"))
+                except UnicodeDecodeError:
+                    pass
+            for mroot in mroots:
+                plan.append(
+                    (root / mroot / SHARED_DIR / rel,
+                     _asset_bytes(asset), "skill"))
+    # Agent manifests citam `knowledge/<rel>` tambem — seus refs entram no
+    # mesmo conjunto de ponteiros, mas so quando os mirrors de agent
+    # instalam de fato (full + kind agent; o espelho e reescrito com o
+    # namespace em `install_host_assets`).
+    if include_agent_refs:
+        from sparkforge_azure.distribution.hostfiles import _agent_sources
+        for _agent_id, agent_text in _agent_sources():
+            asset_refs |= _referenced_asset_paths(agent_text)
+    knowledge_rels: set[str] = set()
     for root_kind, rel in sorted(asset_refs):
         # Defesa em profundidade: `rel` vem de texto de documento — um `..`
         # residiria fora de `root/<kind>/` no syscall e viraria path com
@@ -227,45 +351,108 @@ def _install_skill_mirrors(
         # Ref de diretorio (`knowledge/spark/`) vira stub `<dir>/README.md`;
         # ref de arquivo vira stub no proprio caminho.
         stub_rel = rel if Path(rel).suffix else f"{rel}/README.md"
-        stub = root / root_kind / stub_rel
+        if root_kind == "knowledge":
+            knowledge_rels.add(rel)
+            stub = root / "knowledge" / KNOWLEDGE_NAMESPACE / stub_rel
+        else:
+            stub = root / root_kind / stub_rel
+        plan.append((stub, _asset_stub(root_kind, rel), root_kind))
+    if knowledge_rels:
+        plan.append((
+            root / "knowledge" / KNOWLEDGE_NAMESPACE / "README.md",
+            _knowledge_index_stub(len(knowledge_rels)),
+            "knowledge",
+        ))
+    return plan
+
+
+def _install_skill_mirrors(
+    root: Path, ledger: dict[str, Any], hosts: tuple[str, ...],
+    enabled_kinds: set[str] | None = None,
+    include_agent_refs: bool = False,
+) -> tuple[dict[str, Any], list[str], list[str], list[str], list[str]]:
+    """Write the skill-layer plan into the selected host roots, ledgered
+    like every other managed asset. Knowledge pointers land namespaced
+    under ``knowledge/sparkforge-azure/`` (install-2.1); legacy
+    un-namespaced stubs migrate honestly first.
+
+    Toda escrita whole-file passa por ``write_managed_file``: um arquivo
+    pre-existente nao-ledgered no caminho de um mirror/stub e ESTRANGEIRO —
+    preservado, nunca adotado, e reportado em ``skipped`` (install-2.1).
+    ``enabled_kinds`` restringe o plano aos kinds selecionados por
+    ``--components``/profile."""
+    from sparkforge_azure.distribution.managed import write_managed_file
+
+    ledger, migrated, detached = _migrate_legacy_knowledge_stubs(root, ledger)
+    written: list[str] = []
+    skipped: list[str] = []
+    for target, text, kind in _skill_mirror_plan(
+            root, hosts, include_agent_refs):
+        if enabled_kinds is not None and kind not in enabled_kinds:
+            continue
+        rel_parts = target.relative_to(root).parts
+        host = (
+            rel_parts[0].lstrip(".")
+            if "/skills/" in target.as_posix()
+            else None
+        )
         ledger, outcome = write_managed_file(
-            ledger, stub, _asset_stub(root_kind, rel),
-            kind=f"{root_kind}_pointer",
+            ledger, target, text,
+            kind=("skill_mirror" if kind == "skill" else f"{kind}_pointer"),
+            host=host,
         )
         if outcome == "preserved_foreign":
-            skipped.append(str(stub))
+            skipped.append(str(target))
         else:
-            written.append(str(stub))
-    return ledger, written, skipped
+            written.append(str(target))
+    return ledger, written, skipped, migrated, detached
 
 
-def _mcp_config(root: Path, ledger: dict[str, Any]) -> tuple[dict[str, Any], str]:
+def _mcp_config(root: Path, ledger: dict[str, Any],
+                profile: str | None = None) -> tuple[dict[str, Any], str]:
     from sparkforge_azure.distribution.hosts import MCP_SERVER_NAME, mcp_entry
     from sparkforge_azure.distribution.managed import apply_json_key
 
     ledger, outcome = apply_json_key(
-        root / ".mcp.json", f"mcpServers.{MCP_SERVER_NAME}", mcp_entry(),
+        root / ".mcp.json", f"mcpServers.{MCP_SERVER_NAME}",
+        mcp_entry(profile=profile),
         ledger=ledger, kind="mcp_config",
     )
     return ledger, outcome
 
 
 def _planned_files(target: Path, scope: str, hosts: tuple[str, ...],
-                   profile: str) -> list[str]:
-    from sparkforge_azure.skills.mirrors import mirror_name
+                   profile: str,
+                   enabled_kinds: set[str] | None = None) -> list[str]:
+    from sparkforge_azure.distribution.hostfiles import _AGENT_ROOT_HOSTS
 
-    out = [".mcp.json", "AGENTS.md"]
-    if scope != "user":
+    out = ["AGENTS.md"]
+    # `.mcp.json` entra no plano quando ha host selecionado E o kind mcp
+    # esta habilitado — `install` escreve a entrada nessa mesma condicao.
+    if hosts and (enabled_kinds is None or "mcp" in enabled_kinds):
+        out.append(".mcp.json")
+    if scope == "project":
         # install_docs sempre escreve CLAUDE.md + AGENT_PROTOCOL.md (lf-0036)
         out += [".sparkforge-azure/project.yaml", "CLAUDE.md",
                 "AGENT_PROTOCOL.md"]
+    elif scope == "workspace":
+        # install-2.1: workspace nao ganha project.yaml (membros precisam
+        # poder instalar depois) — so os consumer docs.
+        out += ["CLAUDE.md", "AGENT_PROTOCOL.md"]
     elif "claude" in hosts or (target / "CLAUDE.md").exists():
         out.append("CLAUDE.md")
     if profile in ("recommended", "full"):
-        for skill_name, _ in _skill_sources():
-            for mroot in _skill_roots(hosts):
-                out.append(f"{mroot}/{mirror_name(skill_name)}/SKILL.md")
-    if profile == "full":
+        # O plano real da camada de skills — SKILL.md + references/ +
+        # scripts/ + _shared/ + ponteiros namespaced (install-2.1) —
+        # filtrado pelos kinds efetivos (--components/profile).
+        out += [
+            p.relative_to(target).as_posix()
+            for p, _text, kind in _skill_mirror_plan(target, hosts)
+            if enabled_kinds is None or kind in enabled_kinds
+        ]
+    if profile == "full" and (
+        enabled_kinds is None or "agent" in enabled_kinds
+    ):
         from sparkforge_azure.agentmanifest.mirrors import (
             AGENT_MIRROR_ROOTS,
         )

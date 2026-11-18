@@ -160,12 +160,15 @@ def ledger_entry(ledger: dict[str, Any], path: Path) -> dict[str, Any] | None:
 def write_managed_file(
     ledger: dict[str, Any],
     path: Path,
-    text: str,
+    content: str | bytes,
     *,
     kind: str,
     host: str | None = None,
 ) -> tuple[dict[str, Any], str]:
     """Whole-file managed write guarded by ownership (install-2.1).
+
+    ``content`` may be ``str`` (encoded UTF-8) or ``bytes`` — binary
+    assets like fonts/images under ``references/`` copy verbatim.
 
     Outcomes:
 
@@ -180,16 +183,22 @@ def write_managed_file(
       a user/foreign file sitting at a managed path. It is preserved,
       never recorded, and the caller reports the skip honestly.
     """
+    data = (
+        content.encode("utf-8") if isinstance(content, str)
+        else bytes(content)
+    )
     if path.exists() and ledger_entry(ledger, path) is None:
         try:
             current = path.read_bytes()
         except OSError:
             current = b""
-        if current == text.encode("utf-8"):
+        if current == data:
             return ledger, "unchanged"
         return ledger, "preserved_foreign"
     path.parent.mkdir(parents=True, exist_ok=True)
-    write_atomic(path, text)
+    from sparkforge_azure.durable import write_atomic_bytes
+
+    write_atomic_bytes(path, data)
     ledger = record_file(ledger, path, kind=kind, mode="file", host=host)
     return ledger, "written"
 
