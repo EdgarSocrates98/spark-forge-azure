@@ -385,6 +385,11 @@ def install(*, scope: str = "project", root: Path | None = None,
             target, receipt, scope=scope, profile=profile,
             hosts=hosts, components=opts or None,
         )
+        # O manifesto de conta (~/.forge/installations/) descreve o runtime
+        # instalado — escopo user instala assets sob ~, nao o runtime; o
+        # registro so e re-assertido nos escopos de projeto/workspace.
+        if scope != "user":
+            _register(target)
     return receipt
 
 
@@ -679,6 +684,16 @@ def _mds(base: Path) -> list[str]:
     return sorted(p.stem for p in base.glob("*.md")) if base.is_dir() else []
 
 
+def _bundled_json(name: str) -> dict[str, Any] | None:
+    """Manifesto JSON do pacote/checkout — ordem: `_data/` do wheel e a
+    raiz do repo (checkout/editable)."""
+    for cand in (_PKG_DIR / "_data" / name, _REPO_DIR / name):
+        data = kit._load_json(cand, None)
+        if isinstance(data, dict):
+            return data
+    return None
+
+
 def _context_manifest(
     *, scope: str, profile: str, hosts: list[str],
     components: dict[str, Any] | None,
@@ -686,13 +701,6 @@ def _context_manifest(
     """Manifesto forge/context/v1 montado das fontes reais: `forge.json` +
     `forge.agentic.json` + `manifest.json` no checkout e os grupos de
     assets que o install usou."""
-    def _bundled_json(name: str) -> dict[str, Any] | None:
-        for cand in (_PKG_DIR / "_data" / name, _REPO_DIR / name):
-            data = kit._load_json(cand, None)
-            if isinstance(data, dict):
-                return data
-        return None
-
     forge_json = _bundled_json("forge.json")
     agentic = _bundled_json("forge.agentic.json")
 
@@ -908,6 +916,92 @@ def _sweep_legacy_forge_ids(target: Path) -> list[str]:
             fctx.unregister_forge(target, legacy, owner=legacy)
             swept.append(legacy)
     return swept
+
+
+def _installation_manifest() -> dict[str, Any]:
+    path = kit.installations_dir() / f"{FORGE_ID}.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def _register(target: Path) -> None:
+    """Atualiza `~/.forge/installations/spark-forge-azure.json` quando o
+    bootstrap ja o escreveu (o runtime instalado e a autoridade); senao,
+    grava um manifesto minimo apontando para o estado do projeto."""
+    existing = _installation_manifest()
+    doc = dict(existing) if existing else {}
+    doc.update(
+        {
+            "schema": kit.SCHEMA_MANIFEST,
+            "forge_id": FORGE_ID,
+            "package": "sparkforge_azure",
+            "distribution": "sparkforge-azure",
+            "cli": {
+                "name": "sparkforge-azure",
+                "version_cmd": ["sparkforge-azure", "--version"],
+            },
+            "version": __version__,
+            "updated_at": kit._utc_now(),
+            "installed_at": doc.get("installed_at", kit._utc_now()),
+            "installed_by": doc.get(
+                "installed_by",
+                {"agent": "sparkforge-azure-cli", "version": __version__},
+            ),
+            "source": doc.get(
+                "source", {"kind": "project-install", "path": str(target)}
+            ),
+        }
+    )
+    doc.setdefault("install_root", str(kit.installs_root() / FORGE_ID))
+    doc.setdefault(
+        "mcp",
+        {
+            "server_name": "sparkforge-azure",
+            "command": ["sparkforge-azure", "mcp", "serve"],
+            "verify_tool": "sfa_version",
+            "verified": False,
+        },
+    )
+    doc.update(_declared_install_fields())
+    kit.register_installation(doc)
+
+
+def _declared_install_fields() -> dict[str, Any]:
+    """As declaracoes install-2.1 do `forge.json` deste forge — copiadas
+    verbatim para o manifesto registrado, nunca fabricadas (espelha o
+    passo `register` do `forge_bootstrap`):
+
+    - ``installation_kind``: ``content``|``service``|``control-tool`` —
+      a classe que o plano consolidado usa na ordenacao estavel.
+    - ``install``: a superficie declarada (operations/flags/hosts/scopes/
+      profiles/approval) — o argv builder do orquestrador so envia o que
+      esta declarado; ausente, o manifesto fica no default v1.
+    - ``depends_on``: forge_ids que devem instalar antes — declarado
+      mesmo quando vazio (``[]``): o plano consolidado le a presenca da
+      chave como declaracao explicita, nao como ausencia de dado.
+    """
+    cfg = _bundled_json("forge.json")
+    if not cfg:
+        return {}
+    from sparkforge_azure.distribution.errors import PortableError
+
+    doc: dict[str, Any] = {}
+    if cfg.get("installation_kind"):
+        kind = str(cfg["installation_kind"])
+        if kind not in kit.INSTALLATION_KINDS:
+            raise PortableError(
+                kit.E_UNSUPPORTED,
+                f"forge.json installation_kind {kind!r} — expected "
+                f"{kit.INSTALLATION_KINDS}",
+            )
+        doc["installation_kind"] = kind
+    if cfg.get("install"):
+        doc["install"] = dict(cfg["install"])
+    if "depends_on" in cfg:
+        doc["depends_on"] = [str(d) for d in cfg["depends_on"]]
+    return doc
 
 
 def _register_context(
