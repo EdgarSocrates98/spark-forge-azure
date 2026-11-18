@@ -48,9 +48,19 @@ HOSTS: tuple[HostSpec, ...] = (
 )
 
 
-def mcp_entry() -> dict[str, object]:
-    """The ``mcpServers.sparkforge-azure`` value — installed binary only."""
-    return {"command": MCP_COMMAND, "args": list(MCP_ARGS)}
+def mcp_entry(*, profile: str | None = None) -> dict[str, object]:
+    """The ``mcpServers.sparkforge-azure`` value — installed binary only.
+
+    ``profile`` selects the MCP argv for the Context Gateway execution
+    profile (install-2.1): ``economy``/``balanced`` publish the compact
+    read-only catalog (``mcp serve --compact``); ``deep``/None keeps the
+    full catalog. Unknown profiles are a named error, never a guess."""
+    if profile not in (None, "economy", "balanced", "deep"):
+        raise ValueError(f"unknown Gateway profile: {profile!r}")
+    args = list(MCP_ARGS)
+    if profile in ("economy", "balanced"):
+        args.append("--compact")
+    return {"command": MCP_COMMAND, "args": args}
 
 
 def detect_hosts(env_path: str | None = None) -> tuple[dict[str, object], ...]:

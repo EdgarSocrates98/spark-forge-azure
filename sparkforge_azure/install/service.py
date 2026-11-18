@@ -460,8 +460,13 @@ def _planned_files(target: Path, scope: str, hosts: tuple[str, ...],
             mirror_name as agent_mirror_name,
         )
         from sparkforge_azure.distribution.hostfiles import _agent_sources
+        selected = set(hosts)
+        roots = [
+            r for r in AGENT_MIRROR_ROOTS
+            if selected & set(_AGENT_ROOT_HOSTS.get(r, ()))
+        ]
         for agent_id, _src in _agent_sources():
-            for mroot in AGENT_MIRROR_ROOTS:
+            for mroot in roots:
                 out.append(f"{mroot}/{agent_mirror_name(agent_id)}.md")
     return sorted(dict.fromkeys(out))
 
@@ -516,8 +521,15 @@ def install(*, scope: str = "project", root: Path | None = None,
         hosts = list(dict.fromkeys(nomes))
     target = _resolve(scope, root)
     state = _state_dir(scope, target)
-    opts = kit.component_options("recommended", components)
+    opts = kit.component_options(profile, components)
     opts["execution_profile"] = gateway_profile
+    # Kinds efetivos de asset: `--components` seleciona explicitamente;
+    # senao o default do profile (paridade AWS wave-02 — PROFILE_COMPONENTS
+    # / profile_asset_kinds). "config"/"marker"/"state" sao core.
+    if components is None:
+        enabled_kinds = set(kit.profile_asset_kinds(profile))
+    else:
+        enabled_kinds = set(opts.get("asset_kinds", ()))
 
     if dry_run:
         return _receipt(
@@ -528,8 +540,8 @@ def install(*, scope: str = "project", root: Path | None = None,
             extra={"dry_run": True,
                    "components": opts or None,
                    "gateway_profile": gateway_profile,
-                   "planned_files": _planned_files(target, scope, hosts,
-                                                   profile)})
+                   "planned_files": _planned_files(
+                       target, scope, hosts, profile, enabled_kinds)})
     if not yes:
         raise PortableError(
             kit.E_NOTAPPROVED,
@@ -537,14 +549,24 @@ def install(*, scope: str = "project", root: Path | None = None,
 
     with kit.acquire_lock(state):
         if scope == "user":
-            doc = _install_user(target, hosts, profile)
+            doc = _install_user(
+                target, hosts, profile, enabled_kinds, gateway_profile)
         else:
             # include_markers=False: os consumer docs (blocos `forge:*` +
             # AGENT_PROTOCOL.md consolidado) sao escritos pela camada
             # forge_context em `_register_context`, nao pelo ledger de
             # markers legado (lf-0036).
+            # mint_identity: workspace NAO e um projeto — sem project.yaml
+            # na raiz do workspace, senao member installs recusam com
+            # path_outside_root (install-2.1).
             doc = dist.initialize(
-                target, with_mirrors=(profile == "full"), include_markers=False
+                target,
+                with_mirrors=(profile == "full"),
+                include_markers=False,
+                hosts=tuple(hosts),
+                execution_profile=gateway_profile,
+                enabled_kinds=enabled_kinds,
+                mint_identity=(scope == "project"),
             )
             _drop_stale_doc_entries(state, target)
             if profile in ("recommended", "full"):
@@ -553,12 +575,23 @@ def install(*, scope: str = "project", root: Path | None = None,
                     save_ledger,
                 )
                 ledger = load_ledger(state)
-                ledger, written, skipped = _install_skill_mirrors(
-                    target, ledger, hosts)
+                with_agent_refs = (
+                    profile == "full"
+                    and (enabled_kinds is None or "agent" in enabled_kinds)
+                )
+                ledger, written, skipped, migrated, detached = (
+                    _install_skill_mirrors(
+                        target, ledger, hosts, enabled_kinds,
+                        with_agent_refs)
+                )
                 save_ledger(state, ledger)
                 doc["skill_mirrors"] = written
                 if skipped:
                     doc["foreign_preserved"] = skipped
+                if migrated:
+                    doc["knowledge_migrated"] = migrated
+                if detached:
+                    doc["knowledge_detached"] = detached
                 doc["managed_files"] = [f["path"] for f in ledger["files"]]
         # `initialize` may report a refusal doc instead of raising.
         ok = doc.get("status") == "ok"
@@ -605,25 +638,45 @@ def install(*, scope: str = "project", root: Path | None = None,
 
 
 def _install_user(home: Path, hosts: tuple[str, ...],
-                  profile: str) -> dict[str, Any]:
-    """User scope: host assets only — no project identity (that's per-repo)."""
+                  profile: str, enabled_kinds: set[str] | None = None,
+                  gateway_profile: str | None = None) -> dict[str, Any]:
+    """User scope: host assets only — no project identity (that's per-repo).
+
+    install-2.1: `hosts` escopa mirrors/configs (`--host`), `enabled_kinds`
+    restringe kinds (`--components`), `gateway_profile` seleciona o argv
+    MCP (economy/balanced → `--compact`)."""
     from sparkforge_azure.distribution.hostfiles import install_host_assets
     from sparkforge_azure.distribution.hosts import detect_hosts
     from sparkforge_azure.distribution.managed import load_ledger, save_ledger
 
     state = home / ".sparkforge-azure"
     ledger = load_ledger(state)
-    ledger, outcome = _mcp_config(home, ledger)
+    mcp_wanted = enabled_kinds is None or "mcp" in enabled_kinds
+    outcome = "skipped"
+    if mcp_wanted and hosts:
+        ledger, outcome = _mcp_config(
+            home, ledger, profile=gateway_profile)
     detected = tuple(h["name"] for h in detect_hosts()
                      if h["status"] == "available")
     ledger, report = install_host_assets(
         home, ledger, hosts=detected,
-        with_mirrors=(profile == "full"))
+        with_mirrors=(profile == "full"),
+        write_markers=bool(hosts),
+        enabled_kinds=enabled_kinds,
+        mirror_hosts=hosts)
     written: list[str] = []
     skipped: list[str] = []
+    migrated: list[str] = []
+    detached: list[str] = []
     if profile in ("recommended", "full"):
-        ledger, written, skipped = _install_skill_mirrors(
-            home, ledger, hosts)
+        with_agent_refs = (
+            profile == "full"
+            and (enabled_kinds is None or "agent" in enabled_kinds)
+        )
+        ledger, written, skipped, migrated, detached = (
+            _install_skill_mirrors(
+                home, ledger, hosts, enabled_kinds, with_agent_refs)
+        )
     save_ledger(state, ledger)
     out = {"status": "ok",
            "managed_files": [f["path"] for f in ledger["files"]],
@@ -631,6 +684,10 @@ def _install_user(home: Path, hosts: tuple[str, ...],
            "mcp": outcome}
     if skipped:
         out["foreign_preserved"] = skipped
+    if migrated:
+        out["knowledge_migrated"] = migrated
+    if detached:
+        out["knowledge_detached"] = detached
     return out
 
 
@@ -697,21 +754,51 @@ def repair(*, scope: str = "project", root: Path | None = None,
                      "detail": f"{len(before)} drifted managed assets"}],
             extra={"dry_run": True,
                    "drifted": [a["path"] for a in before]})
+    # Converge para a selecao persistida (components.json) quando existe —
+    # um install com `--components skills` nao deve ganhar agents/knowledge
+    # no repair; sem o arquivo o plano e o default recommended.
+    saved_opts: dict[str, Any] = {}
+    cj = kit.components_path(state)
+    if cj.is_file():
+        try:
+            loaded = json.loads(cj.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                saved_opts = loaded
+        except (OSError, ValueError):
+            saved_opts = {}
+    saved_kinds = (
+        set(saved_opts["asset_kinds"]) if saved_opts.get("asset_kinds")
+        else None
+    )
+    saved_gw = saved_opts.get("execution_profile")
     with kit.acquire_lock(state):
         if scope == "user":
-            _install_user(target, HOSTS, "recommended")
+            _install_user(
+                target, HOSTS, "recommended", saved_kinds, saved_gw)
         else:
             # include_markers=False: markers legados sao convergidos pela
             # camada forge_context (repair_docs abaixo); reescreve-los aqui
-            # recriaria o drift que estamos removendo (lf-0036).
-            dist.initialize(target, with_mirrors=False, include_markers=False)
+            # recriaria o drift que estamos removendo (lf-0036). Repair e
+            # convergencia da instalacao existente: mantem a identidade e
+            # nao restringe hosts — o alvo e o plano persistido.
+            dist.initialize(
+                target,
+                with_mirrors=False,
+                include_markers=False,
+                execution_profile=saved_gw,
+                enabled_kinds=saved_kinds,
+                mint_identity=(scope == "project"),
+            )
             from sparkforge_azure.distribution.managed import (
                 load_ledger,
                 save_ledger,
             )
             _drop_stale_doc_entries(state, target)
             ledger = load_ledger(state)
-            ledger, _w, _s = _install_skill_mirrors(target, ledger, HOSTS)
+            ledger, _w, _s, _m, _d = _install_skill_mirrors(
+                target, ledger, HOSTS, saved_kinds,
+                include_agent_refs=(
+                    saved_kinds is not None and "agent" in saved_kinds))
             save_ledger(state, ledger)
         after = [a for a in assess_ledger(state) if a["state"] != "present"]
         # Registry de contexto + consumer docs: re-assert dos blocos

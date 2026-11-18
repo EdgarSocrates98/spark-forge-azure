@@ -181,12 +181,24 @@ def initialize(
     regen_id: bool = False,
     with_mirrors: bool = False,
     include_markers: bool = True,
+    hosts: tuple[str, ...] | None = None,
+    execution_profile: str | None = None,
+    enabled_kinds: set[str] | None = None,
+    mint_identity: bool = True,
 ) -> dict[str, Any]:
     """Initialize portable identity + local integration for ``root``.
 
     Idempotent (§13): a second run keeps the same ``project_id`` and rewrites
     only managed assets. ``regen_id`` (§43) explicitly mints a new identity
     for a copied project — recorded in the receipt, never silent.
+
+    install-2.1: ``hosts`` scopes host-facing writes (``None`` = detection,
+    the ``distribution init`` default); ``execution_profile`` selects the
+    MCP argv (economy/balanced → ``--compact``); ``enabled_kinds`` narrows
+    by asset kind (``--components``); ``mint_identity=False`` skips minting
+    ``project.yaml`` — used by ``install --scope workspace`` so the
+    workspace root does not pose as a project root and member installs
+    stay possible (``path_outside_root``).
     """
     base = Path(root or Path.cwd()).resolve()
     found = discover(base)
@@ -203,6 +215,7 @@ def initialize(
         )
 
     existing = _project_or_none(base)
+    identity = None
     if existing and not regen_id:
         identity = existing[1]
         kept.append("project_id")
@@ -218,7 +231,7 @@ def initialize(
         write_project_identity(base, identity)
         created.append("project_id_regenerated")
         warnings.append(f"previous project_id {previous.project_id} superseded")
-    else:
+    elif mint_identity:
         identity = init_project_identity(base, name=name)
         created.append("project.yaml")
 
@@ -227,20 +240,36 @@ def initialize(
 
     # Local MCP integration for every MCP-capable declared host (§72–§75):
     # one shared .mcp.json at the project root, one owned key inside it.
+    # install-2.1: `--host none` selects zero hosts → no host-facing config;
+    # `--components` without `mcp` narrows the entry out; the gateway
+    # execution profile picks the argv (economy/balanced → --compact).
     mcp_path = base / ".mcp.json"
     host_configs: list[dict[str, Any]] = []
+    mcp_wanted = (
+        (enabled_kinds is None or "mcp" in enabled_kinds)
+        and (hosts is None or len(hosts) > 0)
+    )
     try:
-        ledger, outcome = apply_json_key(
-            mcp_path,
-            f"mcpServers.{MCP_SERVER_NAME}",
-            mcp_entry(),
-            ledger=ledger,
-            kind="mcp_config",
-        )
+        if mcp_wanted:
+            ledger, outcome = apply_json_key(
+                mcp_path,
+                f"mcpServers.{MCP_SERVER_NAME}",
+                mcp_entry(profile=execution_profile),
+                ledger=ledger,
+                kind="mcp_config",
+            )
+        else:
+            outcome = "skipped"
         if outcome == "written":
             host_configs.append(
                 {"file": str(mcp_path), "key": f"mcpServers.{MCP_SERVER_NAME}",
                  "state": "managed"}
+            )
+        elif outcome == "skipped":
+            host_configs.append(
+                {"file": str(mcp_path), "key": f"mcpServers.{MCP_SERVER_NAME}",
+                 "state": "skipped",
+                 "detail": "no host selected or mcp kind not enabled"}
             )
         else:
             host_configs.append(
@@ -261,23 +290,27 @@ def initialize(
     detected = tuple(
         h["name"] for h in detect_hosts() if h["status"] == "available"
     )
+    marker_hosts = detected if hosts is None else tuple(hosts)
     ledger, host_files = install_host_assets(
         base,
         ledger,
-        hosts=detected,
+        hosts=marker_hosts,
         with_mirrors=with_mirrors,
         write_markers=include_markers,
+        enabled_kinds=enabled_kinds,
+        mirror_hosts=hosts,
     )
 
-    ledger = record_file(
-        ledger,
-        state / "project.yaml",
-        kind="project_manifest",
-    )
+    if identity is not None:
+        ledger = record_file(
+            ledger,
+            state / "project.yaml",
+            kind="project_manifest",
+        )
     workspace = _workspace_or_none(base)
     receipt = {
         "version": 1,
-        "project_id": identity.project_id,
+        "project_id": identity.project_id if identity else None,
         "workspace_id": workspace[1].workspace_id if workspace else None,
         "package_version": __version__,
         "managed_files": [f["path"] for f in ledger["files"]],
@@ -294,7 +327,7 @@ def initialize(
 
     return {
         "status": "ok",
-        "project_id": identity.project_id,
+        "project_id": identity.project_id if identity else None,
         "project_root": str(base),
         "created": created,
         "kept": kept,
