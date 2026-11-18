@@ -315,9 +315,9 @@ def test_install_arquivo_identico_preexistente_nao_adota(project: Path) -> None:
     alvo = (project / ".agents" / "skills" / mirror_name(skill_name)
             / "SKILL.md")
     alvo.parent.mkdir(parents=True, exist_ok=True)
-    alvo.write_text(
-        namespace_knowledge_refs(render_mirror(text, skill_name)),
-        encoding="utf-8")
+    alvo.write_bytes(
+        namespace_knowledge_refs(render_mirror(text, skill_name))
+        .encode("utf-8"))
 
     out = service.install(scope="project", root=project, yes=True)
     assert out["status"] == "completed"
