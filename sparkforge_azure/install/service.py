@@ -181,16 +181,20 @@ def _knowledge_stub(rel: str) -> str:
 
 
 _ASSET_STUB = """\
-# Ponteiro de {kind} — sparkforge-azure
+# Ponteiro de {kind}
 
 Este arquivo e um PONTEIRO gerado na instalacao: os links `{kind}/<rel>`
 dos mirrors (.agents/skills, .claude/skills, ...) resolvem aqui, mas o
-CONTEUDO real mora no pacote `sparkforge-azure` instalado — fora de qualquer
+CONTEUDO real mora no pacote do forge instalado — fora de qualquer
 checkout, e propositalmente nao copiado para o workspace.
 
-Recupere o conteudo real pelos verbos nativos:
-
-    sparkforge-azure capabilities        # mapa completo ops -> verbos
+Num workspace federado a raiz `{kind}/` e compartilhada entre forges: o
+forge dono deste ponteiro e os seus verbos nativos constam no registry
+`.forge/context/registry.json` (workspace) e em
+`~/.forge/installations/` (conta). O manifesto `forge/context/v1` em
+`.forge/context/capabilities/<forge>.json` lista os comandos de
+descoberta do forge — em geral `<cli> capabilities` devolve o mapa
+completo ops -> verbos.
 """
 
 
