@@ -18,6 +18,15 @@ from sparkforge_azure.distribution.managed import load_ledger
 from sparkforge_azure.install import service
 
 
+@pytest.fixture(autouse=True)
+def _forge_home_isolado(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Isola `~/.forge/` — install-2.1 re-asserta o manifesto de conta em
+    `~/.forge/installations/`; sem isto a suite escreveria no HOME real."""
+    casa = tmp_path / "forge-home"
+    casa.mkdir()
+    monkeypatch.setenv("FORGE_HOME_OVERRIDE", str(casa))
+
+
 @pytest.fixture()
 def project(tmp_path: Path) -> Path:
     root = tmp_path / "my-project"
@@ -230,6 +239,81 @@ def test_hosts_none_e_csv(tmp_path):
 
 
 # --- forge/context/v1 — workspace registry (install-2.0 ciclo 2) ----------
+
+
+# --- install-2.1: ownership — foreign files preserved, never adopted -----
+
+
+def test_install_preserva_arquivo_estrangeiro_no_mirror(project: Path) -> None:
+    """Um arquivo do usuario num caminho de mirror NAO e clobbered nem
+    adotado: fica intacto, fora do ledger, e o recibo recusa honestamente."""
+    plan = service.install(scope="project", root=project, dry_run=True)
+    alvo_rel = next(f for f in plan["planned_files"]
+                    if f.startswith(".agents/skills/")
+                    and f.endswith("SKILL.md"))
+    alvo = project / alvo_rel
+    alvo.parent.mkdir(parents=True, exist_ok=True)
+    alvo.write_text("conteudo do usuario", encoding="utf-8")
+
+    out = service.install(scope="project", root=project, yes=True)
+    assert alvo.read_text(encoding="utf-8") == "conteudo do usuario"
+    assert out["status"] == "failed"
+    check = next(c for c in out["checks"] if c["id"] == "foreign-files")
+    assert check["status"] == "FAIL"
+    assert str(alvo) in (out.get("preserved_foreign") or [])
+
+    from sparkforge_azure.distribution.managed import load_ledger
+
+    ledger = load_ledger(project / ".sparkforge-azure")
+    assert all(f["path"] != alvo.as_posix() for f in ledger["files"])
+
+
+def test_install_preserva_stub_estrangeiro(project: Path) -> None:
+    """O mesmo guarda-chuva cobre os ponteiros de knowledge/rules/evals:
+    stub estrangeiro em `knowledge/<rel>` e preservado e reportado."""
+    foreign = project / "knowledge" / "spark" / "README.md"
+    foreign.parent.mkdir(parents=True, exist_ok=True)
+    foreign.write_text("doc do usuario", encoding="utf-8")
+    out = service.install(scope="project", root=project, yes=True)
+    assert foreign.read_text(encoding="utf-8") == "doc do usuario"
+    assert out["status"] == "failed"
+    assert str(foreign) in (out.get("preserved_foreign") or [])
+
+
+def test_install_preserva_agent_mirror_estrangeiro(project: Path) -> None:
+    """Profile full: `.agents/agents/sparkforge-azure-*.md` estrangeiro e
+    preservado e recusado — `with_mirrors` tambem passa pelo guard."""
+    alvo = project / ".agents" / "agents" / "sparkforge-azure-coordinator.md"
+    alvo.parent.mkdir(parents=True, exist_ok=True)
+    alvo.write_text("meu agent", encoding="utf-8")
+    out = service.install(scope="project", root=project, profile="full",
+                          yes=True)
+    assert alvo.read_text(encoding="utf-8") == "meu agent"
+    assert out["status"] == "failed"
+    assert str(alvo) in (out.get("preserved_foreign") or [])
+
+
+def test_install_arquivo_identico_preexistente_nao_adota(project: Path) -> None:
+    """Byte-identical pre-existing file at a managed path: the mirror is
+    effectively installed, but the file is never ledgered — `uninstall`
+    must not delete a file we never wrote."""
+    from sparkforge_azure.distribution.managed import load_ledger
+    from sparkforge_azure.skills.mirrors import mirror_name, render_mirror
+    from sparkforge_azure.install.service import _skill_sources
+
+    skill_name, text = next(iter(_skill_sources()))
+    alvo = (project / ".agents" / "skills" / mirror_name(skill_name)
+            / "SKILL.md")
+    alvo.parent.mkdir(parents=True, exist_ok=True)
+    alvo.write_text(render_mirror(text, skill_name), encoding="utf-8")
+
+    out = service.install(scope="project", root=project, yes=True)
+    assert out["status"] == "completed"
+    ledger = load_ledger(project / ".sparkforge-azure")
+    assert all(f["path"] != alvo.as_posix() for f in ledger["files"])
+
+    service.uninstall(scope="project", root=project)
+    assert alvo.is_file()
 
 
 def test_install_escreve_forge_context(project: Path) -> None:

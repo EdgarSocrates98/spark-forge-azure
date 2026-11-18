@@ -33,8 +33,8 @@ from sparkforge_azure.distribution.managed import (
     apply_marker_block,
     marker_block_sha,
     record_file,
+    write_managed_file,
 )
-from sparkforge_azure.durable import write_atomic
 
 _BLOCK_BODY = """\
 **Spark Forge Azure** integration is active in this project.
@@ -83,6 +83,7 @@ def install_host_assets(
         "marker_files": [],
         "mirrors": {"written": 0, "roots": list(AGENT_MIRROR_ROOTS)},
         "skipped": [],
+        "preserved_foreign": [],
     }
 
     if write_markers:
@@ -129,16 +130,21 @@ def install_host_assets(
             rendered = render_agent_mirror(source_text, agent_id)
             for mroot in AGENT_MIRROR_ROOTS:
                 target = root / mroot / f"{mirror_name(agent_id)}.md"
-                target.parent.mkdir(parents=True, exist_ok=True)
-                write_atomic(target, rendered)
-                ledger = record_file(
+                # install-2.1: arquivo pre-existente nao-ledgered e
+                # estrangeiro — preservado, nunca adotado nem sobrescrito.
+                ledger, outcome = write_managed_file(
                     ledger,
                     target,
+                    rendered,
                     kind="agent_mirror",
-                    mode="file",
                     host=mroot.split("/")[0].lstrip("."),
                 )
-                report["mirrors"]["written"] += 1
+                if outcome == "preserved_foreign":
+                    report["preserved_foreign"].append(str(target))
+                    report["skipped"].append(
+                        f"{target.name} (foreign file preserved)")
+                else:
+                    report["mirrors"]["written"] += 1
 
     return ledger, report
 

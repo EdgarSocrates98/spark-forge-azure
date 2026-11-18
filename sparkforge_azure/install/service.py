@@ -189,30 +189,35 @@ def _asset_stub(root_kind: str, rel: str) -> str:
 
 def _install_skill_mirrors(
     root: Path, ledger: dict[str, Any], hosts: tuple[str, ...],
-) -> tuple[dict[str, Any], list[str]]:
+) -> tuple[dict[str, Any], list[str], list[str]]:
     """Write ``sparkforge-azure-<name>/SKILL.md`` mirrors into the selected
     host roots, ledgered like every other managed asset. Tambem emite os
     ponteiros `knowledge/<rel>` referenciados pelas skills (lf-0037): no
     wheel o knowledge mora no pacote, entao o stub aponta para os verbos
-    nativos em vez de deixar o link morto."""
-    from sparkforge_azure.distribution.managed import record_file
-    from sparkforge_azure.durable import write_atomic
+    nativos em vez de deixar o link morto.
+
+    Toda escrita whole-file passa por ``write_managed_file``: um arquivo
+    pre-existente nao-ledgered no caminho de um mirror/stub e ESTRANGEIRO —
+    preservado, nunca adotado, e reportado em ``skipped`` (install-2.1)."""
+    from sparkforge_azure.distribution.managed import write_managed_file
     from sparkforge_azure.skills.mirrors import mirror_name, render_mirror
 
     written: list[str] = []
+    skipped: list[str] = []
     asset_refs: set[tuple[str, str]] = set()
     for skill_name, text in _skill_sources():
         asset_refs |= _referenced_asset_paths(text)
         rendered = render_mirror(text, skill_name)
         for mroot in _skill_roots(hosts):
             target = root / mroot / mirror_name(skill_name) / "SKILL.md"
-            target.parent.mkdir(parents=True, exist_ok=True)
-            write_atomic(target, rendered)
-            ledger = record_file(
-                ledger, target, kind="skill_mirror", mode="file",
+            ledger, outcome = write_managed_file(
+                ledger, target, rendered, kind="skill_mirror",
                 host=mroot.split("/")[0].lstrip("."),
             )
-            written.append(str(target))
+            if outcome == "preserved_foreign":
+                skipped.append(str(target))
+            else:
+                written.append(str(target))
     for root_kind, rel in sorted(asset_refs):
         # Defesa em profundidade: `rel` vem de texto de documento — um `..`
         # residiria fora de `root/<kind>/` no syscall e viraria path com
@@ -223,13 +228,15 @@ def _install_skill_mirrors(
         # ref de arquivo vira stub no proprio caminho.
         stub_rel = rel if Path(rel).suffix else f"{rel}/README.md"
         stub = root / root_kind / stub_rel
-        stub.parent.mkdir(parents=True, exist_ok=True)
-        write_atomic(stub, _asset_stub(root_kind, rel))
-        ledger = record_file(
-            ledger, stub, kind=f"{root_kind}_pointer", mode="file",
+        ledger, outcome = write_managed_file(
+            ledger, stub, _asset_stub(root_kind, rel),
+            kind=f"{root_kind}_pointer",
         )
-        written.append(str(stub))
-    return ledger, written
+        if outcome == "preserved_foreign":
+            skipped.append(str(stub))
+        else:
+            written.append(str(stub))
+    return ledger, written, skipped
 
 
 def _mcp_config(root: Path, ledger: dict[str, Any]) -> tuple[dict[str, Any], str]:
@@ -359,10 +366,12 @@ def install(*, scope: str = "project", root: Path | None = None,
                     save_ledger,
                 )
                 ledger = load_ledger(state)
-                ledger, written = _install_skill_mirrors(
+                ledger, written, skipped = _install_skill_mirrors(
                     target, ledger, hosts)
                 save_ledger(state, ledger)
                 doc["skill_mirrors"] = written
+                if skipped:
+                    doc["foreign_preserved"] = skipped
                 doc["managed_files"] = [f["path"] for f in ledger["files"]]
         # `initialize` may report a refusal doc instead of raising.
         ok = doc.get("status") == "ok"
@@ -370,14 +379,29 @@ def install(*, scope: str = "project", root: Path | None = None,
         state.mkdir(parents=True, exist_ok=True)
         (state / "components.json").write_text(
             json.dumps(opts, indent=2), encoding="utf-8")
+    preserved = list(doc.get("foreign_preserved") or [])
+    preserved += list(
+        (doc.get("host_files") or {}).get("preserved_foreign") or []
+    )
+    checks = [{"id": "apply", "status": "PASS" if ok else "FAIL",
+               "detail": f"{len(doc.get('managed_files', []))} managed files"}]
+    if preserved:
+        # Um arquivo pre-existente nao-ledgered num caminho gerenciado e
+        # estrangeiro: preservado, nao adotado — e o plano NAO foi aplicado
+        # por inteiro, entao o recibo recusa honestamente (install-2.1).
+        checks.append(
+            {"id": "foreign-files", "status": "FAIL",
+             "detail": f"{len(preserved)} foreign file(s) preserved at "
+                       f"managed paths — not adopted"})
+        ok = False
     receipt = _receipt(
         "install", scope, target,
         status="completed" if ok else "failed",
-        checks=[{"id": "apply", "status": "PASS" if ok else "FAIL",
-                 "detail": f"{len(doc.get('managed_files', []))} managed files"}],
+        checks=checks,
         managed_files=doc.get("managed_files", []),
         extra={"components": opts or None,
                "gateway_profile": gateway_profile,
+               "preserved_foreign": preserved or None,
                "distribution": {k: v for k, v in doc.items()
                                 if k not in ("managed_files",)}})
     if ok:
@@ -409,12 +433,18 @@ def _install_user(home: Path, hosts: tuple[str, ...],
         home, ledger, hosts=detected,
         with_mirrors=(profile == "full"))
     written: list[str] = []
+    skipped: list[str] = []
     if profile in ("recommended", "full"):
-        ledger, written = _install_skill_mirrors(home, ledger, hosts)
+        ledger, written, skipped = _install_skill_mirrors(
+            home, ledger, hosts)
     save_ledger(state, ledger)
-    return {"status": "ok", "managed_files": [f["path"] for f in ledger["files"]],
-            "host_files": report, "skill_mirrors": written,
-            "mcp": outcome}
+    out = {"status": "ok",
+           "managed_files": [f["path"] for f in ledger["files"]],
+           "host_files": report, "skill_mirrors": written,
+           "mcp": outcome}
+    if skipped:
+        out["foreign_preserved"] = skipped
+    return out
 
 
 def status(*, scope: str = "project", root: Path | None = None) -> dict[str, Any]:
@@ -494,7 +524,7 @@ def repair(*, scope: str = "project", root: Path | None = None,
             )
             _drop_stale_doc_entries(state, target)
             ledger = load_ledger(state)
-            ledger, _w = _install_skill_mirrors(target, ledger, HOSTS)
+            ledger, _w, _s = _install_skill_mirrors(target, ledger, HOSTS)
             save_ledger(state, ledger)
         after = [a for a in assess_ledger(state) if a["state"] != "present"]
         # Registry de contexto + consumer docs: re-assert dos blocos
