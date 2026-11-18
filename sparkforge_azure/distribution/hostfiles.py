@@ -33,8 +33,8 @@ from sparkforge_azure.distribution.managed import (
     apply_marker_block,
     marker_block_sha,
     record_file,
+    write_managed_file,
 )
-from sparkforge_azure.durable import write_atomic
 
 _BLOCK_BODY = """\
 **Spark Forge Azure** integration is active in this project.
@@ -66,6 +66,16 @@ def _agent_sources() -> list[tuple[str, str]]:
     return out
 
 
+#: Which selected hosts each agent-mirror root serves (install-2.1). A
+#: root is written when ANY of its hosts is selected — `.agents/agents` is
+#: the shared Devin/Codex/Copilot surface, `.claude/agents/custom` is
+#: Claude-only.
+_AGENT_ROOT_HOSTS: dict[str, tuple[str, ...]] = {
+    ".claude/agents/custom": ("claude",),
+    ".agents/agents": ("devin", "codex", "copilot"),
+}
+
+
 def install_host_assets(
     root: Path,
     ledger: dict[str, Any],
@@ -73,19 +83,39 @@ def install_host_assets(
     hosts: tuple[str, ...] = (),
     with_mirrors: bool = False,
     write_markers: bool = True,
+    enabled_kinds: set[str] | None = None,
+    mirror_hosts: tuple[str, ...] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Write the host-facing files; returns (ledger, report).
 
     ``write_markers=False`` skips the legacy ``sparkforge-azure`` marker
     blocks — the ``forge:*`` consumer-docs layer (forge_context) owns
-    AGENTS.md/CLAUDE.md on the install path (lf-0036)."""
+    AGENTS.md/CLAUDE.md on the install path (lf-0036).
+
+    ``hosts`` steers detection-based choices (``CLAUDE.md`` only for
+    claude); ``mirror_hosts`` scopes the agent-mirror roots the install
+    selected via ``--host`` (install-2.1) — ``None`` keeps the legacy
+    bulk behavior (every declared root, used by ``distribution init``).
+    ``enabled_kinds`` narrows by asset kind (``agent``/``marker``) —
+    ``None`` means no narrowing."""
+    agent_roots = (
+        list(AGENT_MIRROR_ROOTS)
+        if mirror_hosts is None
+        else [
+            r for r in AGENT_MIRROR_ROOTS
+            if set(mirror_hosts) & set(_AGENT_ROOT_HOSTS.get(r, ()))
+        ]
+    )
     report: dict[str, Any] = {
         "marker_files": [],
-        "mirrors": {"written": 0, "roots": list(AGENT_MIRROR_ROOTS)},
+        "mirrors": {"written": 0, "roots": agent_roots},
         "skipped": [],
+        "preserved_foreign": [],
     }
 
-    if write_markers:
+    if write_markers and (
+        enabled_kinds is None or "marker" in enabled_kinds
+    ):
         # AGENTS.md — the generic contract (Codex, Devin and any agent CLI
         # read it).
         agents_md = root / "AGENTS.md"
@@ -121,24 +151,37 @@ def install_host_assets(
         else:
             report["skipped"].append("CLAUDE.md (host not detected)")
 
-    if with_mirrors:
+    if with_mirrors and (
+        enabled_kinds is None or "agent" in enabled_kinds
+    ):
+        from sparkforge_azure.skills.mirrors import namespace_knowledge_refs
+
         sources = _agent_sources()
         if not sources:
             report["skipped"].append("mirrors (no packaged agents found)")
         for agent_id, source_text in sources:
-            rendered = render_agent_mirror(source_text, agent_id)
-            for mroot in AGENT_MIRROR_ROOTS:
+            # install-2.1: `knowledge/<rel>` do espelho resolve contra a
+            # raiz compartilhada do alvo — reescrito para o subdir proprio
+            # `knowledge/sparkforge-azure/` onde os ponteiros vivem.
+            rendered = namespace_knowledge_refs(
+                render_agent_mirror(source_text, agent_id))
+            for mroot in agent_roots:
                 target = root / mroot / f"{mirror_name(agent_id)}.md"
-                target.parent.mkdir(parents=True, exist_ok=True)
-                write_atomic(target, rendered)
-                ledger = record_file(
+                # install-2.1: arquivo pre-existente nao-ledgered e
+                # estrangeiro — preservado, nunca adotado nem sobrescrito.
+                ledger, outcome = write_managed_file(
                     ledger,
                     target,
+                    rendered,
                     kind="agent_mirror",
-                    mode="file",
                     host=mroot.split("/")[0].lstrip("."),
                 )
-                report["mirrors"]["written"] += 1
+                if outcome == "preserved_foreign":
+                    report["preserved_foreign"].append(str(target))
+                    report["skipped"].append(
+                        f"{target.name} (foreign file preserved)")
+                else:
+                    report["mirrors"]["written"] += 1
 
     return ledger, report
 

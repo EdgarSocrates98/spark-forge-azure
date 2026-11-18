@@ -172,7 +172,14 @@ def register(sub: argparse._SubParsersAction) -> None:
     )
     p.add_argument("--scope", choices=("project", "workspace", "user"), default="project")
     p.add_argument("--root", default=None, help="explicit target root (default: resolved from cwd)")
-    p.add_argument("--host", default="all", choices=("claude", "devin", "codex", "copilot", "all"))
+    p.add_argument(
+        "--host",
+        default="all",
+        metavar="HOST[,HOST...]",
+        help="host selection: claude,devin,codex,copilot as CSV, 'all' "
+        "(default), or 'none' (no host-facing writes) — the service "
+        "validates and refuses unknown names",
+    )
     p.add_argument("--profile", default="recommended", choices=("minimal", "recommended", "full"))
     p.add_argument(
         "--gateway-profile", default="balanced", choices=("economy", "balanced", "deep"),

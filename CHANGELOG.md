@@ -1,5 +1,49 @@
 # Changelog
 
+## [Unreleased] — install-2.1 (Cycle-16 Wave-03)
+
+### Added
+
+- `forge.json` declares `installation_kind`, `install` (ops, flags,
+  hosts, scopes, profiles, approval) and `mcp_verify_tool:
+  sfa_version`; successful `project`/`workspace` installs register the
+  declared fields in `~/.forge/installations/spark-forge-azure.json`
+  via `_declared_install_fields` (user scope does not register a
+  project runtime).
+- `--host` accepts a CSV (`claude,devin`) or `none` (no host-facing
+  MCP/mirror/marker writes); unknown host names are refused.
+- `--components` filters asset kinds (mcp/skills/agents/knowledge/
+  rules/evals); the selection persists in `components.json` and
+  `repair` converges to it.
+- `--gateway-profile` propagates to the published MCP argv:
+  `economy`/`balanced` → `mcp serve --compact`; `deep` → `mcp serve`.
+- Skill mirrors ship the complete skill directory — `SKILL.md` plus
+  `references/`, `scripts/` and `_shared/` — with binary assets copied
+  byte-for-byte.
+- `knowledge/<rel>` refs in SKILL.md now mint pointer stubs under
+  `knowledge/sparkforge-azure/<rel>` plus a namespaced
+  `knowledge/sparkforge-azure/README.md` index; installed mirrors are
+  rewritten to the namespace (idempotent, never double-namespaced).
+
+### Fixed
+
+- Workspace scope no longer mints `.sparkforge-azure/project.yaml` at
+  the workspace root — member installs stay possible; member discovery
+  counts `.git` or a project manifest (gitless dirs included).
+- Whole-file managed writes check ownership first: a divergent
+  unledgered file is preserved, never overwritten or adopted, reported
+  as `preserved_foreign`, and fails the receipt (`foreign-files`
+  FAIL); a byte-identical pre-existing file is left unledgered so
+  uninstall never deletes it.
+- Legacy `knowledge/<rel>` stubs migrate honestly: intact ledgered
+  stubs are replaced by namespaced ones; modified ledgered stubs stay
+  on disk and leave the ledger; unledgered files are untouched.
+- Agent mirrors respect host selection (`.claude/agents/custom` only
+  for claude) and rewrite `knowledge/` refs into the namespace.
+- `_installkit` re-vendored 1.0.4 → 1.0.6 and `forge_bootstrap` synced
+  to canonical The Forge sources; `ui/{kit,i18n,wizard}` re-synced
+  (import renames only).
+
 ## [0.3.6] — 2026-11-13
 
 ### Changed

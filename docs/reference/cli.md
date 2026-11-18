@@ -304,14 +304,41 @@ vazios.
 | `mcp-verify` | handshake JSON-RPC stdio do `mcp serve` (initialize → tools/list) — honesto, nunca infere por existência de arquivo |
 
 Flags comuns: `--scope project|workspace|user` (default `project`;
-`workspace` resolve pelo `workspace.yaml` e instala no projeto corrente;
-`user` escreve só assets de host sob `~`, sem identidade de projeto),
-`--root`, `--host claude|devin|codex|copilot|all` (restringe os espelhos),
+`workspace` instala o contexto na raiz **sem** identidade de projeto —
+nenhum `.sparkforge-azure/project.yaml` é criado ali, então cada membro
+segue instalável com `--root`; descoberta de membros usa `.git` quando
+existe e diretórios com manifests quando não; `user` escreve só assets
+de host sob `~`, sem identidade de projeto e sem registro em
+`~/.forge/installations/`),
+`--root`, `--host claude|devin|codex|copilot` (CSV restringe as
+superfícies — ex.: `claude,devin`; `none` não escreve MCP/mirrors/
+marcadores — útil com `--components` para estado puro),
+`--components skills,agents,knowledge,rules,evals,mcp` (CSV restringe os
+kinds de asset — `--components skills` não escreve MCP nem ponteiros de
+knowledge; a seleção persiste em `components.json` e `repair` converge
+para ela), `--gateway-profile economy|balanced|deep` (economy/balanced
+publicam `mcp serve --compact`; deep publica o catálogo MCP completo),
 `--profile minimal|recommended|full` (minimal = marcadores + MCP;
 recommended = + espelhos de skills; full = + espelhos de agents).
+
+Espelhos de skills vão completos (`SKILL.md` + `references/` +
+`scripts/` + `_shared/`, binários byte-a-byte). Refs `knowledge/<rel>`
+de SKILL.md viram ponteiros sob `knowledge/sparkforge-azure/<rel>` (o
+subdir próprio da raiz compartilhada), com índice
+`knowledge/sparkforge-azure/README.md`; stubs legados `knowledge/<rel>`
+migram honestamente — intactos são substituídos, modificados ficam e
+saem do ledger, estrangeiros não são tocados. Todo arquivo de destino
+passa por checagem de posse: conteúdo estrangeiro divergente **nunca**
+é sobrescrito nem adotado — é preservado, reportado como
+`preserved_foreign` e reprova o install (`foreign-files`); idêntico
+byte-a-byte fica fora do ledger (uninstall não o remove).
+
 Recibos `forge/InstallReceipt/v1` com `status`
 `completed`/`planned`/`failed`; recusas `PortableError` → documento
-`refused` com `kind` (`FORGE-INSTALL-*`).
+`refused` com `kind` (`FORGE-INSTALL-*`). Instalações `project`/
+`workspace` bem-sucedidas registram metadados declarados do `forge.json`
+em `~/.forge/installations/spark-forge-azure.json` (`install`, hosts,
+scopes, profiles, `mcp_verify_tool: sfa_version`).
 
 ## `sparkforge-azure portal` — UI web local opcional
 

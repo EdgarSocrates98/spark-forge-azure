@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 from sparkforge_azure.skills.model import discover_skill_files, split_front_matter
 
@@ -17,6 +17,44 @@ MIRROR_PREFIX = "sparkforge-azure-"
 #: Host mirror roots, relative to the repository root.
 MIRROR_ROOTS: tuple[str, ...] = (".claude/skills", ".agents/skills")
 _NAME_LINE_RE = re.compile(r"^name:[ \t]*.*$", re.MULTILINE)
+
+#: Subdir proprio dentro de `knowledge/` do alvo (install-2.1): os ponteiros
+#: deste forge vivem em `knowledge/sparkforge-azure/<rel>`, nunca direto em
+#: `knowledge/<rel>` — a raiz e compartilhada entre forges e duas forjas nao
+#: podem ser donas do mesmo `<rel>` (colisao AWS↔Azure↔usuario).
+KNOWLEDGE_NAMESPACE = "sparkforge-azure"
+
+#: Mencao textual `knowledge/<rel>` — o alvo do ponteiro escrito no install
+#: e namespaced; a mencao canonica segue `knowledge/<rel>`.
+_KNOWLEDGE_MENTION_RE = re.compile(r"knowledge/([A-Za-z0-9_./-]+)")
+
+
+def _rel_seguro(rel: str) -> bool:
+    """Um `knowledge/<rel>` citado num doc vira path em disco no install —
+    `..`, absoluto, drive ou barra invertida escreveriam FORA da raiz."""
+    if not rel or "\\" in rel or ":" in rel or "%" in rel:
+        return False
+    partes = PurePosixPath(rel)
+    return not partes.is_absolute() and ".." not in partes.parts
+
+
+def namespace_knowledge_refs(text: str) -> str:
+    """Rewrite ``knowledge/<rel>`` mentions to
+    ``knowledge/sparkforge-azure/<rel>`` (install-2.1).
+
+    Applied ONLY to mirror text written into an install target — repo-local
+    mirrors keep canonical paths because the repo's own ``knowledge/``
+    holds the real content. Idempotent: mentions already under the
+    namespace and unsafe rels pass through unchanged."""
+    def fix(match: re.Match[str]) -> str:
+        raw = match.group(1)
+        rel = raw.rstrip(".,);]")
+        trail = raw[len(rel):]
+        if not _rel_seguro(rel) or rel.split("/")[0] == KNOWLEDGE_NAMESPACE:
+            return match.group(0)
+        return f"knowledge/{KNOWLEDGE_NAMESPACE}/{rel}{trail}"
+
+    return _KNOWLEDGE_MENTION_RE.sub(fix, text)
 
 
 def mirror_name(skill_name: str) -> str:

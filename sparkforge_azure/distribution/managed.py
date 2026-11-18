@@ -148,6 +148,61 @@ def save_ledger(state_root: Path, ledger: dict[str, Any]) -> Path:
     return target
 
 
+def ledger_entry(ledger: dict[str, Any], path: Path) -> dict[str, Any] | None:
+    """The ledger entry recorded for ``path`` (any mode), or None."""
+    key = path.as_posix()
+    for entry in ledger["files"]:
+        if entry.get("path") == key:
+            return entry
+    return None
+
+
+def write_managed_file(
+    ledger: dict[str, Any],
+    path: Path,
+    content: str | bytes,
+    *,
+    kind: str,
+    host: str | None = None,
+) -> tuple[dict[str, Any], str]:
+    """Whole-file managed write guarded by ownership (install-2.1).
+
+    ``content`` may be ``str`` (encoded UTF-8) or ``bytes`` — binary
+    assets like fonts/images under ``references/`` copy verbatim.
+
+    Outcomes:
+
+    - ``"written"`` — file absent, or already ledgered by us: our managed
+      asset is (re)asserted and re-recorded. A ledgered file whose bytes
+      drifted is ours too — re-writing reconverges drift, the same thing
+      ``repair`` does through this path.
+    - ``"unchanged"`` — file exists byte-identical but is *not* ledgered:
+      the correct content is already there, yet adopting it would make
+      ``detach`` delete a file we never wrote — it stays unrecorded.
+    - ``"preserved_foreign"`` — file exists, unledgered, different bytes:
+      a user/foreign file sitting at a managed path. It is preserved,
+      never recorded, and the caller reports the skip honestly.
+    """
+    data = (
+        content.encode("utf-8") if isinstance(content, str)
+        else bytes(content)
+    )
+    if path.exists() and ledger_entry(ledger, path) is None:
+        try:
+            current = path.read_bytes()
+        except OSError:
+            current = b""
+        if current == data:
+            return ledger, "unchanged"
+        return ledger, "preserved_foreign"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    from sparkforge_azure.durable import write_atomic_bytes
+
+    write_atomic_bytes(path, data)
+    ledger = record_file(ledger, path, kind=kind, mode="file", host=host)
+    return ledger, "written"
+
+
 def record_file(
     ledger: dict[str, Any],
     path: Path,
@@ -328,6 +383,7 @@ __all__ = [
     "assess_file",
     "assess_ledger",
     "forget_file",
+    "ledger_entry",
     "ledger_path",
     "load_ledger",
     "marker_block_sha",
@@ -336,4 +392,5 @@ __all__ = [
     "save_ledger",
     "strip_marker_block",
     "wrap_marker_block",
+    "write_managed_file",
 ]

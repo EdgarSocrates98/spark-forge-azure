@@ -45,6 +45,9 @@ _SKILL_ROOTS: dict[str, tuple[str, ...]] = {
     "copilot": (".agents/skills", ".github/skills"),
 }
 
+#: Subdir proprio dentro de `knowledge/` do alvo (install-2.1) — canonical
+#: em `skills/mirrors.py` (KNOWLEDGE_NAMESPACE), importado lazy onde usado.
+
 
 def _spec() -> kit.ForgeSpec:
     return kit.ForgeSpec(
@@ -76,20 +79,30 @@ def _state_dir(scope: str, target: Path) -> Path:
     return target / ".sparkforge-azure"
 
 
-def _skill_sources() -> list[tuple[str, str]]:
-    """``(skill_name, SKILL.md text)`` from the canonical ``skills/`` group —
-    source checkout or the ``_data/skills`` payload inside the wheel."""
+def _skill_source_dirs() -> list[tuple[str, Path]]:
+    """``(skill_name, skill_dir)`` from the canonical ``skills/`` group —
+    source checkout or the ``_data/skills`` payload inside the wheel. The
+    dir is needed so asset files (``references/``, ``scripts/``) can ship
+    alongside ``SKILL.md`` (install-2.1)."""
     from sparkforge_azure.distribution.assets import _group_dir
 
     root = _group_dir("skills")
-    out: list[tuple[str, str]] = []
+    out: list[tuple[str, Path]] = []
     if not root.is_dir():
         return out
     for item in sorted(root.iterdir(), key=lambda e: e.name):
-        skill_md = item / "SKILL.md"
-        if item.is_dir() and skill_md.is_file():
-            out.append((item.name, skill_md.read_text(encoding="utf-8")))
+        if item.is_dir() and (item / "SKILL.md").is_file():
+            out.append((item.name, item))
     return out
+
+
+def _skill_sources() -> list[tuple[str, str]]:
+    """``(skill_name, SKILL.md text)`` — convenience over
+    ``_skill_source_dirs`` for callers that only need the document."""
+    return [
+        (name, (sdir / "SKILL.md").read_text(encoding="utf-8"))
+        for name, sdir in _skill_source_dirs()
+    ]
 
 
 def _skill_roots(hosts: tuple[str, ...]) -> list[str]:
@@ -187,32 +200,148 @@ def _asset_stub(root_kind: str, rel: str) -> str:
     return _ASSET_STUB.format(kind=root_kind, rel=rel)
 
 
-def _install_skill_mirrors(
-    root: Path, ledger: dict[str, Any], hosts: tuple[str, ...],
-) -> tuple[dict[str, Any], list[str]]:
-    """Write ``sparkforge-azure-<name>/SKILL.md`` mirrors into the selected
-    host roots, ledgered like every other managed asset. Tambem emite os
-    ponteiros `knowledge/<rel>` referenciados pelas skills (lf-0037): no
-    wheel o knowledge mora no pacote, entao o stub aponta para os verbos
-    nativos em vez de deixar o link morto."""
-    from sparkforge_azure.distribution.managed import record_file
-    from sparkforge_azure.durable import write_atomic
-    from sparkforge_azure.skills.mirrors import mirror_name, render_mirror
+_KNOWLEDGE_INDEX = """\
+# knowledge/sparkforge-azure/ — ponteiros do sparkforge-azure
 
-    written: list[str] = []
+Os arquivos neste diretorio sao PONTEIROS (um por documento referenciado
+pelas skills/agents instalados). O knowledge real e versionado dentro do
+pacote `sparkforge-azure` e se recupera offline pelos verbos:
+
+    sparkforge-azure knowledge list
+    sparkforge-azure knowledge get <doc>
+    sparkforge-azure knowledge search "<termo>" [--domain <d>]
+    sparkforge-azure context pack --domain <d>
+    sparkforge-azure capabilities          # mapa completo ops -> verbos
+
+Total referenciado nesta instalacao: {total} documento(s).
+"""
+
+
+def _knowledge_index_stub(total: int) -> str:
+    """`knowledge/sparkforge-azure/README.md` do alvo: indice dos ponteiros
+    + os verbos de retrieval (paridade com a wave-02 do sibling AWS)."""
+    return _KNOWLEDGE_INDEX.format(total=total)
+
+
+def _migrate_legacy_knowledge_stubs(
+    root: Path, ledger: dict[str, Any],
+) -> tuple[dict[str, Any], list[str], list[str]]:
+    """install-2.0 wrote stubs at ``knowledge/<rel>`` (un-namespaced).
+
+    Honest migration (install-2.1): a ledgered stub whose bytes still match
+    the ledger is ours — it is unlinked and its entry dropped (the new
+    namespaced stub takes over). A ledgered stub whose bytes drifted was
+    edited by the user — the file is preserved and our claim is dropped
+    (``detach`` semantics), and an unledgered file was never ours — it is
+    left entirely alone. Returns ``(ledger, migrated, detached)``."""
+    from sparkforge_azure.distribution.managed import forget_file
+    from sparkforge_azure.skills.mirrors import KNOWLEDGE_NAMESPACE
+
+    kroot = (root / "knowledge").as_posix() + "/"
+    kns = (root / "knowledge" / KNOWLEDGE_NAMESPACE).as_posix() + "/"
+    migrated: list[str] = []
+    detached: list[str] = []
+    for entry in list(ledger["files"]):
+        path = str(entry.get("path") or "")
+        if not path.startswith(kroot) or path.startswith(kns):
+            continue
+        if entry.get("kind") != "knowledge_pointer":
+            continue
+        legacy = Path(path)
+        ledger = forget_file(ledger, legacy)
+        if not legacy.is_file():
+            migrated.append(path)  # already gone — just drop the claim
+            continue
+        import hashlib
+
+        if hashlib.sha256(legacy.read_bytes()).hexdigest() == entry.get("sha256"):
+            legacy.unlink()  # ours, unmodified — the namespaced stub replaces it
+            migrated.append(path)
+        else:
+            detached.append(path)  # user-edited — preserved, claim dropped
+    return ledger, migrated, detached
+
+
+def _skill_mirror_plan(
+    root: Path, hosts: tuple[str, ...],
+    include_agent_refs: bool = False,
+) -> list[tuple[Path, str, str]]:
+    """The ``(path, text, kind)`` plan for skill-layer writes under ``root``.
+
+    Covers ``SKILL.md`` + the ``references/``/``scripts/`` asset dirs each
+    skill ships + the shared ``_shared/`` tree (mirroring the repo-local
+    sync in ``skills/mirrors.py``, install-2.1) + the asset pointers
+    (`knowledge/` namespaced, ``rules/``/``evals/`` at their roots).
+    ``include_agent_refs`` folds agent-manifest `knowledge/` mentions into
+    the pointer set — only when agent mirrors actually install (full)."""
+    from sparkforge_azure.distribution.assets import _group_dir
+    from sparkforge_azure.skills.mirrors import (
+        ASSET_DIRS,
+        KNOWLEDGE_NAMESPACE,
+        SHARED_DIR,
+        _walk_files,
+        mirror_name,
+        namespace_knowledge_refs,
+        render_mirror,
+    )
+
+    def _asset_bytes(asset: Path) -> str | bytes:
+        """Texto com rewrite de namespace para `.md`; bytes verbatim para
+        o resto — assets binarios (fontes, imagens) sao copiados como sao."""
+        data = asset.read_bytes()
+        if asset.suffix != ".md":
+            return data
+        try:
+            return namespace_knowledge_refs(data.decode("utf-8"))
+        except UnicodeDecodeError:
+            return data
+
+    plan: list[tuple[Path, str | bytes, str]] = []
     asset_refs: set[tuple[str, str]] = set()
-    for skill_name, text in _skill_sources():
+    mroots = _skill_roots(hosts)
+    for skill_name, sdir in _skill_source_dirs():
+        text = (sdir / "SKILL.md").read_text(encoding="utf-8")
         asset_refs |= _referenced_asset_paths(text)
-        rendered = render_mirror(text, skill_name)
-        for mroot in _skill_roots(hosts):
-            target = root / mroot / mirror_name(skill_name) / "SKILL.md"
-            target.parent.mkdir(parents=True, exist_ok=True)
-            write_atomic(target, rendered)
-            ledger = record_file(
-                ledger, target, kind="skill_mirror", mode="file",
-                host=mroot.split("/")[0].lstrip("."),
-            )
-            written.append(str(target))
+        rendered = namespace_knowledge_refs(render_mirror(text, skill_name))
+        for mroot in mroots:
+            mdir = root / mroot / mirror_name(skill_name)
+            plan.append((mdir / "SKILL.md", rendered, "skill"))
+            for sub in ASSET_DIRS:
+                base = sdir / sub
+                if not base.is_dir():
+                    continue
+                for asset in _walk_files(base):
+                    rel = asset.relative_to(sdir)
+                    if asset.suffix == ".md":
+                        try:
+                            asset_refs |= _referenced_asset_paths(
+                                asset.read_text(encoding="utf-8"))
+                        except UnicodeDecodeError:
+                            pass
+                    plan.append((mdir / rel, _asset_bytes(asset), "skill"))
+    shared = _group_dir("skills") / SHARED_DIR
+    if shared.is_dir():
+        for asset in _walk_files(shared):
+            rel = asset.relative_to(shared)
+            if asset.suffix == ".md":
+                try:
+                    asset_refs |= _referenced_asset_paths(
+                        asset.read_text(encoding="utf-8"))
+                except UnicodeDecodeError:
+                    pass
+            for mroot in mroots:
+                plan.append(
+                    (root / mroot / SHARED_DIR / rel,
+                     _asset_bytes(asset), "skill"))
+    # Agent manifests citam `knowledge/<rel>` tambem — seus refs entram no
+    # mesmo conjunto de ponteiros, mas so quando os mirrors de agent
+    # instalam de fato (full + kind agent; o espelho e reescrito com o
+    # namespace em `install_host_assets`).
+    if include_agent_refs:
+        from sparkforge_azure.distribution.hostfiles import _agent_sources
+        for _agent_id, agent_text in _agent_sources():
+            asset_refs |= _referenced_asset_paths(agent_text)
+    knowledge_rels: set[str] = set()
     for root_kind, rel in sorted(asset_refs):
         # Defesa em profundidade: `rel` vem de texto de documento — um `..`
         # residiria fora de `root/<kind>/` no syscall e viraria path com
@@ -222,43 +351,108 @@ def _install_skill_mirrors(
         # Ref de diretorio (`knowledge/spark/`) vira stub `<dir>/README.md`;
         # ref de arquivo vira stub no proprio caminho.
         stub_rel = rel if Path(rel).suffix else f"{rel}/README.md"
-        stub = root / root_kind / stub_rel
-        stub.parent.mkdir(parents=True, exist_ok=True)
-        write_atomic(stub, _asset_stub(root_kind, rel))
-        ledger = record_file(
-            ledger, stub, kind=f"{root_kind}_pointer", mode="file",
+        if root_kind == "knowledge":
+            knowledge_rels.add(rel)
+            stub = root / "knowledge" / KNOWLEDGE_NAMESPACE / stub_rel
+        else:
+            stub = root / root_kind / stub_rel
+        plan.append((stub, _asset_stub(root_kind, rel), root_kind))
+    if knowledge_rels:
+        plan.append((
+            root / "knowledge" / KNOWLEDGE_NAMESPACE / "README.md",
+            _knowledge_index_stub(len(knowledge_rels)),
+            "knowledge",
+        ))
+    return plan
+
+
+def _install_skill_mirrors(
+    root: Path, ledger: dict[str, Any], hosts: tuple[str, ...],
+    enabled_kinds: set[str] | None = None,
+    include_agent_refs: bool = False,
+) -> tuple[dict[str, Any], list[str], list[str], list[str], list[str]]:
+    """Write the skill-layer plan into the selected host roots, ledgered
+    like every other managed asset. Knowledge pointers land namespaced
+    under ``knowledge/sparkforge-azure/`` (install-2.1); legacy
+    un-namespaced stubs migrate honestly first.
+
+    Toda escrita whole-file passa por ``write_managed_file``: um arquivo
+    pre-existente nao-ledgered no caminho de um mirror/stub e ESTRANGEIRO —
+    preservado, nunca adotado, e reportado em ``skipped`` (install-2.1).
+    ``enabled_kinds`` restringe o plano aos kinds selecionados por
+    ``--components``/profile."""
+    from sparkforge_azure.distribution.managed import write_managed_file
+
+    ledger, migrated, detached = _migrate_legacy_knowledge_stubs(root, ledger)
+    written: list[str] = []
+    skipped: list[str] = []
+    for target, text, kind in _skill_mirror_plan(
+            root, hosts, include_agent_refs):
+        if enabled_kinds is not None and kind not in enabled_kinds:
+            continue
+        rel_parts = target.relative_to(root).parts
+        host = (
+            rel_parts[0].lstrip(".")
+            if "/skills/" in target.as_posix()
+            else None
         )
-        written.append(str(stub))
-    return ledger, written
+        ledger, outcome = write_managed_file(
+            ledger, target, text,
+            kind=("skill_mirror" if kind == "skill" else f"{kind}_pointer"),
+            host=host,
+        )
+        if outcome == "preserved_foreign":
+            skipped.append(str(target))
+        else:
+            written.append(str(target))
+    return ledger, written, skipped, migrated, detached
 
 
-def _mcp_config(root: Path, ledger: dict[str, Any]) -> tuple[dict[str, Any], str]:
+def _mcp_config(root: Path, ledger: dict[str, Any],
+                profile: str | None = None) -> tuple[dict[str, Any], str]:
     from sparkforge_azure.distribution.hosts import MCP_SERVER_NAME, mcp_entry
     from sparkforge_azure.distribution.managed import apply_json_key
 
     ledger, outcome = apply_json_key(
-        root / ".mcp.json", f"mcpServers.{MCP_SERVER_NAME}", mcp_entry(),
+        root / ".mcp.json", f"mcpServers.{MCP_SERVER_NAME}",
+        mcp_entry(profile=profile),
         ledger=ledger, kind="mcp_config",
     )
     return ledger, outcome
 
 
 def _planned_files(target: Path, scope: str, hosts: tuple[str, ...],
-                   profile: str) -> list[str]:
-    from sparkforge_azure.skills.mirrors import mirror_name
+                   profile: str,
+                   enabled_kinds: set[str] | None = None) -> list[str]:
+    from sparkforge_azure.distribution.hostfiles import _AGENT_ROOT_HOSTS
 
-    out = [".mcp.json", "AGENTS.md"]
-    if scope != "user":
+    out = ["AGENTS.md"]
+    # `.mcp.json` entra no plano quando ha host selecionado E o kind mcp
+    # esta habilitado — `install` escreve a entrada nessa mesma condicao.
+    if hosts and (enabled_kinds is None or "mcp" in enabled_kinds):
+        out.append(".mcp.json")
+    if scope == "project":
         # install_docs sempre escreve CLAUDE.md + AGENT_PROTOCOL.md (lf-0036)
         out += [".sparkforge-azure/project.yaml", "CLAUDE.md",
                 "AGENT_PROTOCOL.md"]
+    elif scope == "workspace":
+        # install-2.1: workspace nao ganha project.yaml (membros precisam
+        # poder instalar depois) — so os consumer docs.
+        out += ["CLAUDE.md", "AGENT_PROTOCOL.md"]
     elif "claude" in hosts or (target / "CLAUDE.md").exists():
         out.append("CLAUDE.md")
     if profile in ("recommended", "full"):
-        for skill_name, _ in _skill_sources():
-            for mroot in _skill_roots(hosts):
-                out.append(f"{mroot}/{mirror_name(skill_name)}/SKILL.md")
-    if profile == "full":
+        # O plano real da camada de skills — SKILL.md + references/ +
+        # scripts/ + _shared/ + ponteiros namespaced (install-2.1) —
+        # filtrado pelos kinds efetivos (--components/profile).
+        out += [
+            p.relative_to(target).as_posix()
+            for p, _text, kind in _skill_mirror_plan(target, hosts)
+            if enabled_kinds is None or kind in enabled_kinds
+        ]
+    if profile == "full" and (
+        enabled_kinds is None or "agent" in enabled_kinds
+    ):
         from sparkforge_azure.agentmanifest.mirrors import (
             AGENT_MIRROR_ROOTS,
         )
@@ -266,8 +460,13 @@ def _planned_files(target: Path, scope: str, hosts: tuple[str, ...],
             mirror_name as agent_mirror_name,
         )
         from sparkforge_azure.distribution.hostfiles import _agent_sources
+        selected = set(hosts)
+        roots = [
+            r for r in AGENT_MIRROR_ROOTS
+            if selected & set(_AGENT_ROOT_HOSTS.get(r, ()))
+        ]
         for agent_id, _src in _agent_sources():
-            for mroot in AGENT_MIRROR_ROOTS:
+            for mroot in roots:
                 out.append(f"{mroot}/{agent_mirror_name(agent_id)}.md")
     return sorted(dict.fromkeys(out))
 
@@ -322,8 +521,15 @@ def install(*, scope: str = "project", root: Path | None = None,
         hosts = list(dict.fromkeys(nomes))
     target = _resolve(scope, root)
     state = _state_dir(scope, target)
-    opts = kit.component_options("recommended", components)
+    opts = kit.component_options(profile, components)
     opts["execution_profile"] = gateway_profile
+    # Kinds efetivos de asset: `--components` seleciona explicitamente;
+    # senao o default do profile (paridade AWS wave-02 — PROFILE_COMPONENTS
+    # / profile_asset_kinds). "config"/"marker"/"state" sao core.
+    if components is None:
+        enabled_kinds = set(kit.profile_asset_kinds(profile))
+    else:
+        enabled_kinds = set(opts.get("asset_kinds", ()))
 
     if dry_run:
         return _receipt(
@@ -334,8 +540,8 @@ def install(*, scope: str = "project", root: Path | None = None,
             extra={"dry_run": True,
                    "components": opts or None,
                    "gateway_profile": gateway_profile,
-                   "planned_files": _planned_files(target, scope, hosts,
-                                                   profile)})
+                   "planned_files": _planned_files(
+                       target, scope, hosts, profile, enabled_kinds)})
     if not yes:
         raise PortableError(
             kit.E_NOTAPPROVED,
@@ -343,14 +549,24 @@ def install(*, scope: str = "project", root: Path | None = None,
 
     with kit.acquire_lock(state):
         if scope == "user":
-            doc = _install_user(target, hosts, profile)
+            doc = _install_user(
+                target, hosts, profile, enabled_kinds, gateway_profile)
         else:
             # include_markers=False: os consumer docs (blocos `forge:*` +
             # AGENT_PROTOCOL.md consolidado) sao escritos pela camada
             # forge_context em `_register_context`, nao pelo ledger de
             # markers legado (lf-0036).
+            # mint_identity: workspace NAO e um projeto — sem project.yaml
+            # na raiz do workspace, senao member installs recusam com
+            # path_outside_root (install-2.1).
             doc = dist.initialize(
-                target, with_mirrors=(profile == "full"), include_markers=False
+                target,
+                with_mirrors=(profile == "full"),
+                include_markers=False,
+                hosts=tuple(hosts),
+                execution_profile=gateway_profile,
+                enabled_kinds=enabled_kinds,
+                mint_identity=(scope == "project"),
             )
             _drop_stale_doc_entries(state, target)
             if profile in ("recommended", "full"):
@@ -359,10 +575,23 @@ def install(*, scope: str = "project", root: Path | None = None,
                     save_ledger,
                 )
                 ledger = load_ledger(state)
-                ledger, written = _install_skill_mirrors(
-                    target, ledger, hosts)
+                with_agent_refs = (
+                    profile == "full"
+                    and (enabled_kinds is None or "agent" in enabled_kinds)
+                )
+                ledger, written, skipped, migrated, detached = (
+                    _install_skill_mirrors(
+                        target, ledger, hosts, enabled_kinds,
+                        with_agent_refs)
+                )
                 save_ledger(state, ledger)
                 doc["skill_mirrors"] = written
+                if skipped:
+                    doc["foreign_preserved"] = skipped
+                if migrated:
+                    doc["knowledge_migrated"] = migrated
+                if detached:
+                    doc["knowledge_detached"] = detached
                 doc["managed_files"] = [f["path"] for f in ledger["files"]]
         # `initialize` may report a refusal doc instead of raising.
         ok = doc.get("status") == "ok"
@@ -370,14 +599,29 @@ def install(*, scope: str = "project", root: Path | None = None,
         state.mkdir(parents=True, exist_ok=True)
         (state / "components.json").write_text(
             json.dumps(opts, indent=2), encoding="utf-8")
+    preserved = list(doc.get("foreign_preserved") or [])
+    preserved += list(
+        (doc.get("host_files") or {}).get("preserved_foreign") or []
+    )
+    checks = [{"id": "apply", "status": "PASS" if ok else "FAIL",
+               "detail": f"{len(doc.get('managed_files', []))} managed files"}]
+    if preserved:
+        # Um arquivo pre-existente nao-ledgered num caminho gerenciado e
+        # estrangeiro: preservado, nao adotado — e o plano NAO foi aplicado
+        # por inteiro, entao o recibo recusa honestamente (install-2.1).
+        checks.append(
+            {"id": "foreign-files", "status": "FAIL",
+             "detail": f"{len(preserved)} foreign file(s) preserved at "
+                       f"managed paths — not adopted"})
+        ok = False
     receipt = _receipt(
         "install", scope, target,
         status="completed" if ok else "failed",
-        checks=[{"id": "apply", "status": "PASS" if ok else "FAIL",
-                 "detail": f"{len(doc.get('managed_files', []))} managed files"}],
+        checks=checks,
         managed_files=doc.get("managed_files", []),
         extra={"components": opts or None,
                "gateway_profile": gateway_profile,
+               "preserved_foreign": preserved or None,
                "distribution": {k: v for k, v in doc.items()
                                 if k not in ("managed_files",)}})
     if ok:
@@ -385,31 +629,66 @@ def install(*, scope: str = "project", root: Path | None = None,
             target, receipt, scope=scope, profile=profile,
             hosts=hosts, components=opts or None,
         )
+        # O manifesto de conta (~/.forge/installations/) descreve o runtime
+        # instalado — escopo user instala assets sob ~, nao o runtime; o
+        # registro so e re-assertido nos escopos de projeto/workspace.
+        if scope != "user":
+            _register(target)
     return receipt
 
 
 def _install_user(home: Path, hosts: tuple[str, ...],
-                  profile: str) -> dict[str, Any]:
-    """User scope: host assets only — no project identity (that's per-repo)."""
+                  profile: str, enabled_kinds: set[str] | None = None,
+                  gateway_profile: str | None = None) -> dict[str, Any]:
+    """User scope: host assets only — no project identity (that's per-repo).
+
+    install-2.1: `hosts` escopa mirrors/configs (`--host`), `enabled_kinds`
+    restringe kinds (`--components`), `gateway_profile` seleciona o argv
+    MCP (economy/balanced → `--compact`)."""
     from sparkforge_azure.distribution.hostfiles import install_host_assets
     from sparkforge_azure.distribution.hosts import detect_hosts
     from sparkforge_azure.distribution.managed import load_ledger, save_ledger
 
     state = home / ".sparkforge-azure"
     ledger = load_ledger(state)
-    ledger, outcome = _mcp_config(home, ledger)
+    mcp_wanted = enabled_kinds is None or "mcp" in enabled_kinds
+    outcome = "skipped"
+    if mcp_wanted and hosts:
+        ledger, outcome = _mcp_config(
+            home, ledger, profile=gateway_profile)
     detected = tuple(h["name"] for h in detect_hosts()
                      if h["status"] == "available")
     ledger, report = install_host_assets(
         home, ledger, hosts=detected,
-        with_mirrors=(profile == "full"))
+        with_mirrors=(profile == "full"),
+        write_markers=bool(hosts),
+        enabled_kinds=enabled_kinds,
+        mirror_hosts=hosts)
     written: list[str] = []
+    skipped: list[str] = []
+    migrated: list[str] = []
+    detached: list[str] = []
     if profile in ("recommended", "full"):
-        ledger, written = _install_skill_mirrors(home, ledger, hosts)
+        with_agent_refs = (
+            profile == "full"
+            and (enabled_kinds is None or "agent" in enabled_kinds)
+        )
+        ledger, written, skipped, migrated, detached = (
+            _install_skill_mirrors(
+                home, ledger, hosts, enabled_kinds, with_agent_refs)
+        )
     save_ledger(state, ledger)
-    return {"status": "ok", "managed_files": [f["path"] for f in ledger["files"]],
-            "host_files": report, "skill_mirrors": written,
-            "mcp": outcome}
+    out = {"status": "ok",
+           "managed_files": [f["path"] for f in ledger["files"]],
+           "host_files": report, "skill_mirrors": written,
+           "mcp": outcome}
+    if skipped:
+        out["foreign_preserved"] = skipped
+    if migrated:
+        out["knowledge_migrated"] = migrated
+    if detached:
+        out["knowledge_detached"] = detached
+    return out
 
 
 def status(*, scope: str = "project", root: Path | None = None) -> dict[str, Any]:
@@ -475,21 +754,51 @@ def repair(*, scope: str = "project", root: Path | None = None,
                      "detail": f"{len(before)} drifted managed assets"}],
             extra={"dry_run": True,
                    "drifted": [a["path"] for a in before]})
+    # Converge para a selecao persistida (components.json) quando existe —
+    # um install com `--components skills` nao deve ganhar agents/knowledge
+    # no repair; sem o arquivo o plano e o default recommended.
+    saved_opts: dict[str, Any] = {}
+    cj = kit.components_path(state)
+    if cj.is_file():
+        try:
+            loaded = json.loads(cj.read_text(encoding="utf-8"))
+            if isinstance(loaded, dict):
+                saved_opts = loaded
+        except (OSError, ValueError):
+            saved_opts = {}
+    saved_kinds = (
+        set(saved_opts["asset_kinds"]) if saved_opts.get("asset_kinds")
+        else None
+    )
+    saved_gw = saved_opts.get("execution_profile")
     with kit.acquire_lock(state):
         if scope == "user":
-            _install_user(target, HOSTS, "recommended")
+            _install_user(
+                target, HOSTS, "recommended", saved_kinds, saved_gw)
         else:
             # include_markers=False: markers legados sao convergidos pela
             # camada forge_context (repair_docs abaixo); reescreve-los aqui
-            # recriaria o drift que estamos removendo (lf-0036).
-            dist.initialize(target, with_mirrors=False, include_markers=False)
+            # recriaria o drift que estamos removendo (lf-0036). Repair e
+            # convergencia da instalacao existente: mantem a identidade e
+            # nao restringe hosts — o alvo e o plano persistido.
+            dist.initialize(
+                target,
+                with_mirrors=False,
+                include_markers=False,
+                execution_profile=saved_gw,
+                enabled_kinds=saved_kinds,
+                mint_identity=(scope == "project"),
+            )
             from sparkforge_azure.distribution.managed import (
                 load_ledger,
                 save_ledger,
             )
             _drop_stale_doc_entries(state, target)
             ledger = load_ledger(state)
-            ledger, _w = _install_skill_mirrors(target, ledger, HOSTS)
+            ledger, _w, _s, _m, _d = _install_skill_mirrors(
+                target, ledger, HOSTS, saved_kinds,
+                include_agent_refs=(
+                    saved_kinds is not None and "agent" in saved_kinds))
             save_ledger(state, ledger)
         after = [a for a in assess_ledger(state) if a["state"] != "present"]
         # Registry de contexto + consumer docs: re-assert dos blocos
@@ -679,6 +988,16 @@ def _mds(base: Path) -> list[str]:
     return sorted(p.stem for p in base.glob("*.md")) if base.is_dir() else []
 
 
+def _bundled_json(name: str) -> dict[str, Any] | None:
+    """Manifesto JSON do pacote/checkout — ordem: `_data/` do wheel e a
+    raiz do repo (checkout/editable)."""
+    for cand in (_PKG_DIR / "_data" / name, _REPO_DIR / name):
+        data = kit._load_json(cand, None)
+        if isinstance(data, dict):
+            return data
+    return None
+
+
 def _context_manifest(
     *, scope: str, profile: str, hosts: list[str],
     components: dict[str, Any] | None,
@@ -686,13 +1005,6 @@ def _context_manifest(
     """Manifesto forge/context/v1 montado das fontes reais: `forge.json` +
     `forge.agentic.json` + `manifest.json` no checkout e os grupos de
     assets que o install usou."""
-    def _bundled_json(name: str) -> dict[str, Any] | None:
-        for cand in (_PKG_DIR / "_data" / name, _REPO_DIR / name):
-            data = kit._load_json(cand, None)
-            if isinstance(data, dict):
-                return data
-        return None
-
     forge_json = _bundled_json("forge.json")
     agentic = _bundled_json("forge.agentic.json")
 
@@ -908,6 +1220,92 @@ def _sweep_legacy_forge_ids(target: Path) -> list[str]:
             fctx.unregister_forge(target, legacy, owner=legacy)
             swept.append(legacy)
     return swept
+
+
+def _installation_manifest() -> dict[str, Any]:
+    path = kit.installations_dir() / f"{FORGE_ID}.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def _register(target: Path) -> None:
+    """Atualiza `~/.forge/installations/spark-forge-azure.json` quando o
+    bootstrap ja o escreveu (o runtime instalado e a autoridade); senao,
+    grava um manifesto minimo apontando para o estado do projeto."""
+    existing = _installation_manifest()
+    doc = dict(existing) if existing else {}
+    doc.update(
+        {
+            "schema": kit.SCHEMA_MANIFEST,
+            "forge_id": FORGE_ID,
+            "package": "sparkforge_azure",
+            "distribution": "sparkforge-azure",
+            "cli": {
+                "name": "sparkforge-azure",
+                "version_cmd": ["sparkforge-azure", "--version"],
+            },
+            "version": __version__,
+            "updated_at": kit._utc_now(),
+            "installed_at": doc.get("installed_at", kit._utc_now()),
+            "installed_by": doc.get(
+                "installed_by",
+                {"agent": "sparkforge-azure-cli", "version": __version__},
+            ),
+            "source": doc.get(
+                "source", {"kind": "project-install", "path": str(target)}
+            ),
+        }
+    )
+    doc.setdefault("install_root", str(kit.installs_root() / FORGE_ID))
+    doc.setdefault(
+        "mcp",
+        {
+            "server_name": "sparkforge-azure",
+            "command": ["sparkforge-azure", "mcp", "serve"],
+            "verify_tool": "sfa_version",
+            "verified": False,
+        },
+    )
+    doc.update(_declared_install_fields())
+    kit.register_installation(doc)
+
+
+def _declared_install_fields() -> dict[str, Any]:
+    """As declaracoes install-2.1 do `forge.json` deste forge — copiadas
+    verbatim para o manifesto registrado, nunca fabricadas (espelha o
+    passo `register` do `forge_bootstrap`):
+
+    - ``installation_kind``: ``content``|``service``|``control-tool`` —
+      a classe que o plano consolidado usa na ordenacao estavel.
+    - ``install``: a superficie declarada (operations/flags/hosts/scopes/
+      profiles/approval) — o argv builder do orquestrador so envia o que
+      esta declarado; ausente, o manifesto fica no default v1.
+    - ``depends_on``: forge_ids que devem instalar antes — declarado
+      mesmo quando vazio (``[]``): o plano consolidado le a presenca da
+      chave como declaracao explicita, nao como ausencia de dado.
+    """
+    cfg = _bundled_json("forge.json")
+    if not cfg:
+        return {}
+    from sparkforge_azure.distribution.errors import PortableError
+
+    doc: dict[str, Any] = {}
+    if cfg.get("installation_kind"):
+        kind = str(cfg["installation_kind"])
+        if kind not in kit.INSTALLATION_KINDS:
+            raise PortableError(
+                kit.E_UNSUPPORTED,
+                f"forge.json installation_kind {kind!r} — expected "
+                f"{kit.INSTALLATION_KINDS}",
+            )
+        doc["installation_kind"] = kind
+    if cfg.get("install"):
+        doc["install"] = dict(cfg["install"])
+    if "depends_on" in cfg:
+        doc["depends_on"] = [str(d) for d in cfg["depends_on"]]
+    return doc
 
 
 def _register_context(
