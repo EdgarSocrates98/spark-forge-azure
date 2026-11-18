@@ -597,6 +597,53 @@ def test_install_asset_refs_nao_ficam_mortos(project: Path) -> None:
     assert mortos == []
 
 
+def test_ponteiros_compartilhados_sem_identidade_de_forge(
+        project: Path) -> None:
+    """`evals/` e `rules/` sao raizes COMPARTILHADAS entre forges (install-2.1
+    so namespaceou `knowledge/`): num workspace federado o sibling
+    spark-forge-aws emite `evals/evals.json` no mesmo path — os bytes precisam
+    ser identicos, logo o ponteiro nao pode nomear forge, pacote nem verbos
+    proprios; quem le descobre o dono pelo registry de federacao."""
+    out = service.install(scope="project", root=project, yes=True)
+    assert out["status"] == "completed"
+    assert (project / "evals" / "evals.json").is_file()
+    forbidden = (
+        "sparkforge-azure", "sparkforge_azure", "SPARKFORGE_AZURE",
+        "sparkforge-aws", "sparkforge_aws", "SPARKFORGE_AWS",
+    )
+    pointers = [
+        p for base in ("evals", "rules")
+        for p in sorted((project / base).rglob("*"))
+        if p.is_file()
+    ]
+    assert pointers, "nenhum ponteiro emitido em evals/rules"
+    for p in pointers:
+        body = p.read_text(encoding="utf-8")
+        for token in forbidden:
+            assert token not in body, f"{token} em {p}"
+        assert ".forge/context/registry.json" in body, p
+
+
+def test_shared_instalado_byte_identico_ao_canonico(project: Path) -> None:
+    """Os `_shared/` instalados nos hosts (.claude/.agents) sao copias byte a
+    byte do canonico `skills/_shared/` — a paridade federada exige que cada
+    host receba exatamente os bytes canonicos (o sibling emite os mesmos)."""
+    from sparkforge_azure.distribution.assets import _group_dir
+
+    out = service.install(scope="project", root=project, yes=True)
+    assert out["status"] == "completed"
+    canon = _group_dir("skills") / "_shared"
+    files = [p for p in sorted(canon.rglob("*")) if p.is_file()]
+    assert files
+    for src in files:
+        rel = src.relative_to(canon)
+        for mroot in (".claude/skills", ".agents/skills",
+                      ".github/skills"):
+            inst = project / mroot / "_shared" / rel
+            assert inst.is_file(), inst
+            assert inst.read_bytes() == src.read_bytes(), inst
+
+
 def test_install_escreve_forge_context(project: Path) -> None:
     from sparkforge_azure import _forgecontext as fctx
 
