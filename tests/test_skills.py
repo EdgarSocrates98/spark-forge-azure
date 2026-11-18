@@ -373,6 +373,33 @@ def test_real_mirrors_in_sync():
     assert mirrors.check_mirrors(ROOT) == []
 
 
+def test_shared_refs_are_provider_neutral():
+    """`skills/_shared/` is mirrored UNPREFIXED into every host skills dir —
+    in a federated workspace the sibling forge (spark-forge-aws) ships the
+    exact same paths, so the bytes must name neither provider. A forge-id or
+    cloud-service token here makes the second install collide on the
+    foreign-file rule (preserved_foreign -> FAIL)."""
+    forbidden = (
+        "sparkforge-aws", "sparkforge_aws", "SPARKFORGE_AWS",
+        "sparkforge-azure", "sparkforge_azure", "SPARKFORGE_AZURE",
+        "AWS", "Amazon", "Azure", "IAM", "S3", "KMS", "SCP", "Glue",
+        "EMR", "Athena", "Lake Formation", "ADLS", "RBAC", "Key Vault",
+        "Unity Catalog", "Synapse", "Fabric", "Databricks", "Entra",
+        "AccessDenied", "AuthorizationPermissionMismatch",
+    )
+    base = ROOT / "skills" / "_shared"
+    files = [p for p in sorted(base.rglob("*")) if p.is_file()]
+    assert files, "skills/_shared vazio"
+    for path in files:
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue  # binario — nao e texto de contrato
+        for token in forbidden:
+            assert token not in text, (
+                f"{token} em {path.relative_to(ROOT)}")
+
+
 def test_render_mirror_is_deterministic_and_prefixed():
     src = (ROOT / "skills" / "delta-lake" / "SKILL.md").read_text(encoding="utf-8")
     a = mirrors.render_mirror(src, "delta-lake")
