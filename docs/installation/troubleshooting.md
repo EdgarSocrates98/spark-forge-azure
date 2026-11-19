@@ -3,6 +3,7 @@
 | Sintoma | Ação |
 |---|---|
 | `command not found: sparkforge-azure` | rode `./setup.sh` de novo; abra terminal novo (launcher no PATH) |
+| `setup: FORGE-PYTHON-NOT-FOUND` | nenhum python no PATH — instale Python >=3.10 e reabra o shell (rc=2; antes o script saía 1 em silêncio) |
 | `FORGE-INSTALL-LOCKED` | outra instalação em curso; se foi interrompida, o lock expira/recupera sozinho |
 | `FORGE-INSTALL-PLAN-NOT-APPROVED` | mutações exigem `--yes` (após o `--dry-run`) |
 | `FORGE-INSTALL-NOT-A-REPO` | escopo project precisa de `.git` ou `--root` |
