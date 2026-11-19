@@ -13,7 +13,9 @@ mirrors; ``full`` = + agent mirrors. Scopes: ``project`` / ``workspace``
 
 from __future__ import annotations
 
+import dataclasses
 import json
+import shutil
 import subprocess  # noqa: S404 — bounded argv to the installed venv pip
 import sys
 from pathlib import Path, PurePosixPath
@@ -49,15 +51,31 @@ _SKILL_ROOTS: dict[str, tuple[str, ...]] = {
 #: em `skills/mirrors.py` (KNOWLEDGE_NAMESPACE), importado lazy onde usado.
 
 
+def _resolved_mcp_command(spec: kit.ForgeSpec) -> tuple[str, ...] | None:
+    """Resolve the managed server argv without depending on the host PATH."""
+    if not spec.mcp_command:
+        return None
+    tail = spec.mcp_command[1:]
+    shim = (_installation_manifest().get("cli") or {}).get("shim")
+    if isinstance(shim, str) and shim and Path(shim).is_absolute():
+        return (shim, *tail)
+    return (sys.executable, "-m", spec.package, *tail)
+
+
+def _resolve_mcp_command() -> tuple[str, ...]:
+    command = shutil.which("sparkforge-azure")
+    return (command or "sparkforge-azure", "mcp", "serve")
+
+
 def _spec() -> kit.ForgeSpec:
-    return kit.ForgeSpec(
+    spec = kit.ForgeSpec(
         forge_id=FORGE_ID,
         package="sparkforge_azure",
         distribution="sparkforge-azure",
         cli_name="sparkforge-azure",
         python_spec=">=3.10",
         state_dir=".sparkforge-azure",
-        mcp_command=("sparkforge-azure", "mcp", "serve"),
+        mcp_command=_resolve_mcp_command(),
         mcp_server_name="sparkforge-azure",
         mcp_verify_tool="sfa_version",
         version_cmd=("--version",),
@@ -66,6 +84,8 @@ def _spec() -> kit.ForgeSpec:
         marker_body="",
         user_state_dir="~/.sparkforge-azure",
     )
+    resolved = _resolved_mcp_command(spec)
+    return dataclasses.replace(spec, mcp_command=resolved) if resolved else spec
 
 
 def _resolve(scope: str, root: Path | None) -> Path:
@@ -1558,6 +1578,7 @@ def _register(target: Path) -> None:
             "package": "sparkforge_azure",
             "distribution": "sparkforge-azure",
             "cli": {
+                **(existing.get("cli") or {}),
                 "name": "sparkforge-azure",
                 "version_cmd": ["sparkforge-azure", "--version"],
             },

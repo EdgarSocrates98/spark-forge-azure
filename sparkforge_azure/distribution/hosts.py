@@ -9,8 +9,9 @@ end-to-end integration is declared but not yet verified on this platform;
 Integration is *managed*: we only ever write the ``sparkforge-azure`` key of
 ``.mcp.json`` (Claude project scope) or a delimited managed block in files we
 own, and every write is recorded in the managed ledger for detach (§70–§71).
-The MCP entry references the installed ``sparkforge-azure`` binary — never a
-checkout path (§74–§75).
+The MCP entry resolves to the install environment's absolute argv — the
+registered ``sparkforge-azure`` shim or ``sys.executable -m
+sparkforge_azure`` — never a checkout-relative path (§74–§75, §9.3).
 """
 
 from __future__ import annotations
@@ -57,10 +58,13 @@ def mcp_entry(*, profile: str | None = None) -> dict[str, object]:
     full catalog. Unknown profiles are a named error, never a guess."""
     if profile not in (None, "economy", "balanced", "deep"):
         raise ValueError(f"unknown Gateway profile: {profile!r}")
-    args = list(MCP_ARGS)
+    from sparkforge_azure.install.service import _spec
+
+    argv = _spec().mcp_command
+    args = list(argv[1:])
     if profile in ("economy", "balanced"):
         args.append("--compact")
-    return {"command": MCP_COMMAND, "args": args}
+    return {"command": argv[0], "args": args}
 
 
 def detect_hosts(env_path: str | None = None) -> tuple[dict[str, object], ...]:

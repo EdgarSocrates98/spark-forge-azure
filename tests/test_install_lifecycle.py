@@ -537,15 +537,20 @@ def test_install_gateway_profile_compact_argv(project: Path) -> None:
         service.install(scope="project", root=p, gateway_profile=gw,
                         yes=True)
         mcp = _json.loads((p / ".mcp.json").read_text(encoding="utf-8"))
-        assert mcp["mcpServers"]["sparkforge-azure"]["args"] == [
-            "mcp", "serve", "--compact"]
+        entry = mcp["mcpServers"]["sparkforge-azure"]
+        # §9.3 — argv PATH-independente: o tail preserva o subcomando,
+        # o head é shim absoluto ou sys.executable (-m opcional).
+        assert Path(entry["command"]).is_absolute()
+        assert entry["args"][-3:] == ["mcp", "serve", "--compact"]
 
     p = project / "gw-deep"
     p.mkdir()
     service.install(scope="project", root=p, gateway_profile="deep",
                     yes=True)
     mcp = _json.loads((p / ".mcp.json").read_text(encoding="utf-8"))
-    assert mcp["mcpServers"]["sparkforge-azure"]["args"] == ["mcp", "serve"]
+    entry = mcp["mcpServers"]["sparkforge-azure"]
+    assert Path(entry["command"]).is_absolute()
+    assert entry["args"][-2:] == ["mcp", "serve"]
 
 
 def test_install_execution_profile_persistido(project: Path) -> None:

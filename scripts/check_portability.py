@@ -10,8 +10,9 @@ Static checks (always run):
     available);
   - portable docs current: the docs/portability/*.md set exists and is
     indexed in docs/README.md;
-  - no checkout dependency: the MCP entry references the installed
-    binary, never a path under the repo root.
+  - no checkout dependency: the MCP entry resolves to the install
+    environment's absolute argv (§9.3), never a path under the repo
+    root outside that environment.
 
 Wheel gate (``--wheel``, T3): builds the wheel, installs it in a temp
 venv *outside* the checkout, and runs the lifecycle end-to-end from the
@@ -125,13 +126,27 @@ def check_docs(errors: list[str]) -> None:
 
 def check_no_checkout_dep(errors: list[str]) -> None:
     from sparkforge_azure.distribution.hosts import mcp_entry
+    from sparkforge_azure.install.service import _installation_manifest
 
     entry = mcp_entry()
-    for value in json.dumps(entry).split('"'):
-        if str(ROOT) in value:
+    cmd = str(entry.get("command") or "")
+    args = [str(a) for a in (entry.get("args") or [])]
+    # §9.3: o argv gravado em `.mcp.json` é PATH-independent — comando
+    # absoluto (shim registrado no manifest de instalação ou
+    # `sys.executable -m <package>`). Caminhos do *ambiente de
+    # instalação* são o contrato; qualquer path dentro do checkout fora
+    # desse conjunto é leak (§74–§75).
+    allowed_env = {sys.executable}
+    shim = (_installation_manifest().get("cli") or {}).get("shim")
+    if isinstance(shim, str):
+        allowed_env.add(shim)
+    for value in (cmd, *args):
+        if str(ROOT) in value and value not in allowed_env:
             errors.append(f"mcp entry leaks checkout path: {entry}")
-    if entry.get("command") != "sparkforge-azure":
-        errors.append("mcp entry must invoke the installed binary")
+    if not Path(cmd).is_absolute():
+        errors.append("mcp entry must be PATH-independent (absolute command)")
+    if args[-2:] != ["mcp", "serve"]:
+        errors.append("mcp entry must invoke `mcp serve`")
 
 
 #: Módulos autorizados a tocar home/env de caminho (§103–§104).
