@@ -602,7 +602,7 @@ def _refresh_distribution_receipt(state: Path) -> str | None:
     ``initialize``'s snapshot, so the doc converges only once refreshed
     (cycle 16.1 §7.4). Returns the real action or None."""
     from sparkforge_azure.distribution.managed import load_ledger
-    from sparkforge_azure.durable import write_atomic
+    from sparkforge_azure.durable import write_atomic_bytes
 
     path = state / "receipt-distribution.json"
     if not path.is_file():
@@ -620,7 +620,10 @@ def _refresh_distribution_receipt(state: Path) -> str | None:
     if doc.get("managed_files") == managed:
         return "unchanged"
     doc["managed_files"] = managed
-    write_atomic(path, json.dumps(doc, indent=2, sort_keys=True) + "\n")
+    # bytes, not text — Windows `\r\n` would drift the ledger sha (§7.4).
+    write_atomic_bytes(
+        path, (json.dumps(doc, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    )
     # The ledger entry was recorded against the pre-refresh bytes — keep
     # the sha honest so the NEXT run's ledger compare is a fixpoint too.
     from sparkforge_azure.distribution.managed import record_file, save_ledger

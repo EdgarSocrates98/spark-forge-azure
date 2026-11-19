@@ -49,7 +49,7 @@ from sparkforge_azure.distribution.manifests import (
     write_project_identity,
 )
 from sparkforge_azure.distribution.paths import resolve_paths
-from sparkforge_azure.durable import write_atomic
+from sparkforge_azure.durable import write_atomic_bytes
 
 RECEIPT_NAME = "receipt-distribution.json"
 
@@ -357,12 +357,14 @@ def initialize(
         "asset_count": asset_summary()["asset_count"],
     }
     # Incremental (cycle 16.1 §7.4): identical receipts are not re-touched.
+    # Bytes, not text: text-mode writes `\n`→`\r\n` on Windows and the
+    # ledger sha256 would diverge per platform for identical content.
     payload = json.dumps(receipt, indent=2, sort_keys=True) + "\n"
     receipt_before = (
         receipt_path.read_bytes() if receipt_path.is_file() else None
     )
     if receipt_before != payload.encode("utf-8"):
-        write_atomic(receipt_path, payload)
+        write_atomic_bytes(receipt_path, payload.encode("utf-8"))
         file_actions[receipt_path.as_posix()] = (
             "created" if receipt_before is None else "updated"
         )
