@@ -326,3 +326,52 @@ def test_wheel_install_lifecycle_outside_checkout(tmp_path: Path):
 # `context`/`distribution` gain discovery verbs over the installed registry,
 # extend this test to read them — today retrieval proof is `knowledge select`
 # + `judge` (stable verbs).
+
+
+# ---------------------------------------------------------------------------
+# setup.sh — python-ausente (cycle-16.1.1 wave-04, mesmo bug do api-sentinel)
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.skipif(not shutil.which("bash"), reason="bash indisponivel")
+def test_setup_sh_python_ausente_recusa_nomeada(tmp_path: Path):
+    """PATH sem python: `FORGE-PYTHON-NOT-FOUND` + rc=2 (nunca rc=1 silencioso)."""
+    bash = shutil.which("bash")
+    assert bash is not None
+    # PATH com coreutils (dirname precisa existir) mas SEM python: aponta para
+    # um dir vazio + os dirs de coreutils reais.
+    stub = tmp_path / "stubbin"
+    stub.mkdir()
+    for tool in ("dirname",):
+        real = shutil.which(tool)
+        if real:
+            (stub / tool).symlink_to(real)
+    repo = Path(__file__).resolve().parents[1]
+    out = subprocess.run(  # noqa: S603 — script do repo, argv fixo
+        [bash, "setup.sh"],
+        cwd=repo,
+        env={"PATH": str(stub), "HOME": str(tmp_path)},
+        capture_output=True,
+        text=True,
+        timeout=60,
+        check=False,
+    )
+    assert out.returncode == 2
+    assert "FORGE-PYTHON-NOT-FOUND" in out.stderr
+
+
+@pytest.mark.skipif(not shutil.which("bash"), reason="bash indisponivel")
+def test_setup_sh_python_presente_nao_reporta_ausente():
+    """Caminho sadio: o guard nao dispara falso FORGE-PYTHON-NOT-FOUND."""
+    bash = shutil.which("bash")
+    assert bash is not None
+    repo = Path(__file__).resolve().parents[1]
+    out = subprocess.run(  # noqa: S603 — script do repo, argv fixo
+        [bash, "setup.sh", "--help"],
+        cwd=repo,
+        capture_output=True,
+        text=True,
+        timeout=180,
+        check=False,
+    )
+    assert "FORGE-PYTHON-NOT-FOUND" not in out.stderr

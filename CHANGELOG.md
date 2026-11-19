@@ -2,6 +2,15 @@
 
 ## [Unreleased] — install-2.2 (Cycle-16.1 Wave-04)
 
+### Fixed
+
+- `setup.sh` (cycle-16.1.1): `PY="$(command -v python3 || … )"` sob
+  `set -euo pipefail` saía `1` **em silêncio** quando todos os probes
+  falhavam — `FORGE-PYTHON-NOT-FOUND` nunca era emitido. Agora o probe
+  tolera todos-ausentes (`|| true`) → erro nomeado + `exit 2`, paridade
+  com `setup.ps1` e com o fix do api-sentinel. Regressão coberta em
+  `tests/test_wheel_isolation.py` (PATH sem python → rc=2 + mensagem).
+
 ### Added
 
 - `forge/InstallLifecycle/v1` block on every receipt and health doc:
