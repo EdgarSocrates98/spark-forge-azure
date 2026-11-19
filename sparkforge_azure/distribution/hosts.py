@@ -9,8 +9,9 @@ end-to-end integration is declared but not yet verified on this platform;
 Integration is *managed*: we only ever write the ``sparkforge-azure`` key of
 ``.mcp.json`` (Claude project scope) or a delimited managed block in files we
 own, and every write is recorded in the managed ledger for detach (§70–§71).
-The MCP entry references the installed ``sparkforge-azure`` binary — never a
-checkout path (§74–§75).
+The MCP entry resolves to the install environment's absolute argv — the
+registered ``sparkforge-azure`` shim or ``sys.executable -m
+sparkforge_azure`` — never a checkout-relative path (§74–§75, §9.3).
 """
 
 from __future__ import annotations
