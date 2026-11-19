@@ -57,10 +57,13 @@ def mcp_entry(*, profile: str | None = None) -> dict[str, object]:
     full catalog. Unknown profiles are a named error, never a guess."""
     if profile not in (None, "economy", "balanced", "deep"):
         raise ValueError(f"unknown Gateway profile: {profile!r}")
-    args = list(MCP_ARGS)
+    from sparkforge_azure.install.service import _spec
+
+    argv = _spec().mcp_command
+    args = list(argv[1:])
     if profile in ("economy", "balanced"):
         args.append("--compact")
-    return {"command": MCP_COMMAND, "args": args}
+    return {"command": argv[0], "args": args}
 
 
 def detect_hosts(env_path: str | None = None) -> tuple[dict[str, object], ...]:
