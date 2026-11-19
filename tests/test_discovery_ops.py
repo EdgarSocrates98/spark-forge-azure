@@ -199,10 +199,14 @@ def test_knowledge_pointer_stubs_for_skill_refs(tmp_path):
     from sparkforge_azure.install import service
 
     ledger = {"version": 1, "files": []}
-    ledger, written, skipped, migrated, detached = (
-        service._install_skill_mirrors(tmp_path, ledger, ("claude",)))
-    assert not skipped and not migrated and not detached
-    stubs = [w for w in written if "knowledge" in Path(w).parts]
+    ledger, mirror_report = service._install_skill_mirrors(
+        tmp_path, ledger, ("claude",))
+    assert (
+        not mirror_report["skipped"]
+        and not mirror_report["migrated"]
+        and not mirror_report["detached"]
+    )
+    stubs = [w for w in mirror_report["present"] if "knowledge" in Path(w).parts]
     assert stubs, "expected knowledge pointer stubs"
     assert all(
         "sparkforge-azure" in Path(stub).relative_to(tmp_path).parts[1]

@@ -1,5 +1,46 @@
 # Changelog
 
+## [Unreleased] — install-2.2 (Cycle-16.1 Wave-04)
+
+### Added
+
+- `forge/InstallLifecycle/v1` block on every receipt and health doc:
+  `lifecycle.{schema,state,detail}` is *derived* from evidence
+  (`status` + `verification` + checks + per-forge rows), never declared
+  by the writer. Closed vocabulary: `planned`, `blocked`, `failed`,
+  `applied`, `partially_applied`, `verified`, `unverified`, `ready`,
+  `certified`. `status: completed` no longer implies readiness — read
+  `lifecycle.state`.
+- Per-file action accounting: every managed write reports its real
+  action (`created`, `updated`, `restored`, `unchanged`) with `note`
+  for preserved foreign files; receipt `managed_files` entries carry
+  the contract shape `{path, sha256, kind, action[, note]}` plus
+  `counts` (`written`, `written_bytes`, per-action totals).
+- Honest context-economy metrics: `context.{skills,agents,knowledge,
+  rules,evals,managed}_bytes` measured at render/write time —
+  fabricated token savings are never emitted.
+- `_forgecontext` re-vendored to canonical (L0 compact `forge:*`
+  blocks); `_installkit` + `scripts/forge_installkit.py` re-synced —
+  `vendor.py --check` passes.
+
+### Changed
+
+- Incremental install: every writer compares bytes before writing —
+  whole files, marker blocks, shared JSON keys (`.mcp.json`),
+  `managed.json` ledger, `receipt-distribution.json` and
+  `components.json`. An identical second install rewrites **zero**
+  assets (`counts.written: 0`); only a new timestamped evidence receipt
+  appears under `.sparkforge-azure/receipts/`.
+- Declined interactive approval now emits a contract-valid receipt:
+  `status: failed` + `checks: [{id: approval, status: BLOCKED}]`
+  (deriving `lifecycle.state: blocked`) — `declined` was never a
+  `forge/InstallReceipt/v1` status.
+- `install doctor` maps advisory findings (`host:*` unresolved,
+  optional identity-manifest warnings) to `UNVERIFIED` checks instead
+  of `FAIL` — a healthy project install no longer reports `degraded`
+  because a host binary is unproven or `workspace.yaml` is absent;
+  real `warn`s (ledger drift, unwritable state) still degrade.
+
 ## [Unreleased] — install-2.1 (Cycle-16 Wave-03)
 
 ### Added

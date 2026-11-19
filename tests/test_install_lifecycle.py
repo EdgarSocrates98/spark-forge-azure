@@ -16,6 +16,7 @@ import pytest
 from sparkforge_azure import _installkit as kit
 from sparkforge_azure.distribution.errors import PortableError
 from sparkforge_azure.distribution.managed import load_ledger
+from sparkforge_azure.install import lifecycle as service_lifecycle
 from sparkforge_azure.install import service
 
 
@@ -814,3 +815,179 @@ def test_repair_reconstroi_bloco_danificado(project: Path) -> None:
         (c for c in out["checks"] if c["id"] == "consumer-docs"), None)
     assert check is not None and check["status"] == "PASS"
     assert "ADULTERADO" not in alvo.read_text(encoding="utf-8")
+
+
+# --- cycle 16.1 wave-04: forge/InstallLifecycle/v1 + incremental install ---
+
+
+def test_receipt_carries_lifecycle_block(project: Path) -> None:
+    doc = service.install(scope="project", root=project, yes=True)
+    lc = doc["lifecycle"]
+    assert lc["schema"] == "forge/InstallLifecycle/v1"
+    assert lc["state"] == "verified"
+    assert lc["state"] in service_lifecycle.STATES
+    assert doc["receipt_id"].startswith("sha256:")
+    # managed_files entries are contract-shaped objects, never bare paths.
+    assert doc["managed_files"]
+    for entry in doc["managed_files"]:
+        assert set(entry) >= {"path", "sha256", "kind", "action"}
+        assert entry["action"] in (
+            "created", "updated", "restored", "unchanged",
+            "adopted", "removed",
+        )
+    assert doc["counts"]["written"] > 0
+    assert doc["counts"]["written_bytes"] > 0
+
+
+def test_lifecycle_receipt_states() -> None:
+    """Every forge/InstallLifecycle/v1 state derives from evidence —
+    the writer never declares it (cycle 16.1 §13)."""
+    svc = service_lifecycle
+    assert svc.receipt_state({"status": "planned"})[0] == "planned"
+    assert svc.receipt_state({"status": "declined"})[0] == "blocked"
+    assert svc.receipt_state({"status": "refused"})[0] == "blocked"
+    # failed + all-gated checks → blocked, not failed
+    assert svc.receipt_state({
+        "status": "failed",
+        "checks": [{"id": "approval", "status": "BLOCKED"}],
+    })[0] == "blocked"
+    assert svc.receipt_state({
+        "status": "failed",
+        "checks": [{"id": "apply", "status": "FAIL"}],
+    })[0] == "failed"
+    # completed without verification → applied, never ready
+    assert svc.receipt_state({"status": "completed"})[0] == "applied"
+    assert svc.receipt_state({
+        "status": "completed",
+        "verification": {"status": "PASS"},
+    })[0] == "verified"
+    assert svc.receipt_state({
+        "status": "completed",
+        "verification": {"status": "FAIL"},
+    })[0] == "failed"
+    # mixed batch → partially_applied
+    assert svc.receipt_state({
+        "status": "completed",
+        "forges": [{"status": "completed"}, {"status": "failed"}],
+    })[0] == "partially_applied"
+    assert svc.receipt_state({"status": "mystery"})[0] == "unverified"
+    assert svc.receipt_state({})[0] == "unverified"
+
+
+def test_lifecycle_health_states() -> None:
+    svc = service_lifecycle
+    assert svc.health_state({"status": "healthy"})[0] == "ready"
+    assert svc.health_state({"status": "degraded"})[0] == "partially_applied"
+    assert svc.health_state({"status": "broken"})[0] == "failed"
+    assert svc.health_state({"status": "unverified"})[0] == "unverified"
+    # `certified` never derives from local evidence — external proof only.
+    assert "certified" in svc.STATES
+    assert svc.health_state({"status": "certified"})[0] == "unverified"
+
+
+def test_status_and_doctor_lifecycle_blocks(project: Path) -> None:
+    service.install(scope="project", root=project, yes=True)
+    st = service.status(scope="project", root=project)
+    assert st["lifecycle"]["schema"] == "forge/InstallLifecycle/v1"
+    assert st["lifecycle"]["state"] == "ready"
+    dr = service.doctor(scope="project", root=project)
+    assert dr["lifecycle"]["schema"] == "forge/InstallLifecycle/v1"
+    assert dr["lifecycle"]["state"] == "ready"
+    # no installation → honest unverified, never fabricated health
+    empty = tmp_projectless(project)
+    st2 = service.status(scope="project", root=empty)
+    assert st2["lifecycle"]["state"] == "unverified"
+
+
+def tmp_projectless(project: Path) -> Path:
+    alt = project.parent / "pristine"
+    alt.mkdir(exist_ok=True)
+    return alt
+
+
+def test_declined_approval_is_failed_blocked(
+        project: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """A declined interactive plan is `failed` + BLOCKED check — the
+    receipt enum has no `declined`; lifecycle derives `blocked`."""
+    import argparse
+
+    from sparkforge_azure.cli import cmd_install
+
+    monkeypatch.setattr(cmd_install, "_tty", lambda: True)
+    monkeypatch.setattr(
+        "sparkforge_azure.ui.kit.approve_plan", lambda plan: False)
+    args = argparse.Namespace(
+        op="apply", scope="project", root=str(project), host="all",
+        profile="recommended", gateway_profile="balanced",
+        components=None, yes=False, dry_run=False)
+    out = cmd_install._run(cmd_install._dispatch)(args)
+    assert out["status"] == "failed"
+    assert out["checks"][0]["status"] == "BLOCKED"
+    assert out["lifecycle"]["state"] == "blocked"
+    assert not (project / ".mcp.json").exists()
+
+
+def _snapshot(root: Path) -> dict[str, tuple[int, str]]:
+    import hashlib
+
+    return {
+        str(p.relative_to(root)): (
+            p.stat().st_mtime_ns,
+            hashlib.sha256(p.read_bytes()).hexdigest(),
+        )
+        for p in root.rglob("*")
+        if p.is_file() and "__pycache__" not in str(p)
+    }
+
+
+def test_reinstall_is_a_zero_write_fixpoint(
+        project: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """§7.4: a second install rewrites ZERO unchanged assets — every
+    byte-compare happens before write; the only new file is the
+    timestamped evidence receipt (its name is time-derived, so the
+    canonical kit emits one per run)."""
+    import itertools
+
+    counter = itertools.count()
+    base_ts = "2026-01-01T00:00:0{}Z"
+    monkeypatch.setattr(
+        kit, "_utc_now",
+        lambda: base_ts.format(next(counter) % 10))
+
+    service.install(scope="project", root=project, yes=True, host="all",
+                    profile="full")
+    before = _snapshot(project)
+    doc = service.install(scope="project", root=project, yes=True,
+                          host="all", profile="full")
+    after = _snapshot(project)
+
+    rewritten = sorted(
+        k for k in after if k in before and after[k] != before[k])
+    assert rewritten == [], f"unchanged assets rewritten: {rewritten}"
+    new = sorted(k for k in after if k not in before)
+    # only a fresh evidence receipt may appear — never a rewrite
+    assert all(
+        n.replace("\\", "/").startswith(".sparkforge-azure/receipts/")
+        for n in new
+    )
+    assert doc["counts"].get("written", 0) == 0
+    assert doc["counts"].get("written_bytes", 0) == 0
+    assert doc["lifecycle"]["state"] == "verified"
+
+
+def test_full_profile_context_bytes_measured(project: Path) -> None:
+    """§8.5: context economy reports measured BYTES per kind — token
+    savings are never invented (Observed ≠ Estimated)."""
+    doc = service.install(scope="project", root=project, yes=True,
+                          host="all", profile="full")
+    ctx = doc["context"]
+    assert ctx["skills_bytes"] and ctx["skills_bytes"] > 0
+    assert ctx["agents_bytes"] and ctx["agents_bytes"] > 0
+    assert ctx["knowledge_bytes"] and ctx["knowledge_bytes"] > 0
+    assert ctx["rules_bytes"] and ctx["rules_bytes"] > 0
+    assert ctx["managed_bytes"] == sum(
+        v for k, v in ctx.items()
+        if k.endswith("_bytes") and k != "managed_bytes" and v)
+    assert ctx["mcp_entries"] == 1
+    # bytes are never relabeled tokens
+    assert "token" not in json.dumps(ctx).lower()

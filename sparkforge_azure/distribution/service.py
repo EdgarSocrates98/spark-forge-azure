@@ -49,7 +49,7 @@ from sparkforge_azure.distribution.manifests import (
     write_project_identity,
 )
 from sparkforge_azure.distribution.paths import resolve_paths
-from sparkforge_azure.durable import write_atomic
+from sparkforge_azure.durable import write_atomic_bytes
 
 RECEIPT_NAME = "receipt-distribution.json"
 
@@ -214,11 +214,20 @@ def initialize(
             unlock=f"cd {found.project_root} or pass --root {found.project_root}",
         )
 
+    # Per-path real write actions (created/updated/restored/unchanged) —
+    # incremental-install evidence folded into the receipt's managed_files
+    # (cycle 16.1 §7.4). `file_notes` carries the honest annotation for
+    # paths we did NOT manage (foreign/conflict-preserved).
+    file_actions: dict[str, str] = {}
+    file_notes: dict[str, str] = {}
+    mcp_action: str | None = None
+
     existing = _project_or_none(base)
     identity = None
     if existing and not regen_id:
         identity = existing[1]
         kept.append("project_id")
+        file_actions[(base / STATE_DIR_NAME / "project.yaml").as_posix()] = "unchanged"
     elif existing and regen_id:
         previous = existing[1]
         identity = ProjectIdentity(
@@ -231,9 +240,11 @@ def initialize(
         write_project_identity(base, identity)
         created.append("project_id_regenerated")
         warnings.append(f"previous project_id {previous.project_id} superseded")
+        file_actions[(base / STATE_DIR_NAME / "project.yaml").as_posix()] = "updated"
     elif mint_identity:
         identity = init_project_identity(base, name=name)
         created.append("project.yaml")
+        file_actions[(base / STATE_DIR_NAME / "project.yaml").as_posix()] = "created"
 
     state = base / STATE_DIR_NAME
     ledger = load_ledger(state)
@@ -260,11 +271,16 @@ def initialize(
             )
         else:
             outcome = "skipped"
-        if outcome == "written":
+        if outcome in ("created", "updated", "unchanged"):
+            # `state` only — never the run's action: this doc is a stable
+            # state fixpoint (cycle 16.1 §7.4); per-run evidence lives in
+            # the timestamped `receipts/` trail and the forge receipt.
             host_configs.append(
                 {"file": str(mcp_path), "key": f"mcpServers.{MCP_SERVER_NAME}",
                  "state": "managed"}
             )
+            file_actions[mcp_path.as_posix()] = outcome
+            mcp_action = outcome
         elif outcome == "skipped":
             host_configs.append(
                 {"file": str(mcp_path), "key": f"mcpServers.{MCP_SERVER_NAME}",
@@ -276,6 +292,10 @@ def initialize(
                 {"file": str(mcp_path), "key": f"mcpServers.{MCP_SERVER_NAME}",
                  "state": "conflict_preserved",
                  "detail": "existing mcpServers.sparkforge-azure entry kept; not ours"},
+            )
+            file_actions[mcp_path.as_posix()] = "unchanged"
+            file_notes[mcp_path.as_posix()] = (
+                "user-owned, not managed — skipped"
             )
             warnings.append(
                 ".mcp.json has an unmanaged sparkforge-azure entry; left untouched"
@@ -300,6 +320,17 @@ def initialize(
         enabled_kinds=enabled_kinds,
         mirror_hosts=hosts,
     )
+    file_actions.update(host_files.get("actions") or {})
+    for foreign in host_files.get("preserved_foreign") or ():
+        file_actions[Path(foreign).as_posix()] = "unchanged"
+        file_notes[Path(foreign).as_posix()] = (
+            "user-owned, not managed — skipped"
+        )
+    # Agent-mirror payload bytes — measured at render, folded into the
+    # install receipt's `context.agents_bytes`/`written_bytes` (§7.4).
+    mirrors_report = host_files.get("mirrors") or {}
+    agent_bytes = int(mirrors_report.get("bytes") or 0)
+    agent_written_bytes = int(mirrors_report.get("written_bytes") or 0)
 
     if identity is not None:
         ledger = record_file(
@@ -308,20 +339,37 @@ def initialize(
             kind="project_manifest",
         )
     workspace = _workspace_or_none(base)
+    receipt_path = state / RECEIPT_NAME
+    receipt_path.parent.mkdir(parents=True, exist_ok=True)
+    # The receipt is ledgered below — include its own path in the listing
+    # so the document is a fixpoint from the first install (cycle 16.1
+    # §7.4: a second run must find identical bytes, not "self discovered").
     receipt = {
         "version": 1,
         "project_id": identity.project_id if identity else None,
         "workspace_id": workspace[1].workspace_id if workspace else None,
         "package_version": __version__,
-        "managed_files": [f["path"] for f in ledger["files"]],
+        "managed_files": sorted(
+            {f["path"] for f in ledger["files"]}
+            | {receipt_path.as_posix()}
+        ),
         "host_configs": host_configs,
         "asset_count": asset_summary()["asset_count"],
     }
-    receipt_path = state / RECEIPT_NAME
-    receipt_path.parent.mkdir(parents=True, exist_ok=True)
-    write_atomic(
-        receipt_path, json.dumps(receipt, indent=2, sort_keys=True) + "\n"
+    # Incremental (cycle 16.1 §7.4): identical receipts are not re-touched.
+    # Bytes, not text: text-mode writes `\n`→`\r\n` on Windows and the
+    # ledger sha256 would diverge per platform for identical content.
+    payload = json.dumps(receipt, indent=2, sort_keys=True) + "\n"
+    receipt_before = (
+        receipt_path.read_bytes() if receipt_path.is_file() else None
     )
+    if receipt_before != payload.encode("utf-8"):
+        write_atomic_bytes(receipt_path, payload.encode("utf-8"))
+        file_actions[receipt_path.as_posix()] = (
+            "created" if receipt_before is None else "updated"
+        )
+    else:
+        file_actions[receipt_path.as_posix()] = "unchanged"
     ledger = record_file(ledger, receipt_path, kind="receipt")
     save_ledger(state, ledger)
 
@@ -335,6 +383,11 @@ def initialize(
         "managed_files": [f["path"] for f in ledger["files"]],
         "host_configs": host_configs,
         "host_files": host_files,
+        "file_actions": file_actions,
+        "file_notes": file_notes,
+        "kind_bytes": {"agent": agent_bytes} if agent_bytes else {},
+        "written_bytes": agent_written_bytes,
+        "mcp_action": mcp_action,
         "warnings": warnings,
     }
 

@@ -44,10 +44,15 @@ def extract_marker_block(text: str) -> str | None:
 
 def apply_marker_block(path: Path, body: str) -> str:
     """Upsert the managed block in ``path``; user content outside markers
-    is byte-preserved (§70–§71). Returns the resulting file text."""
+    is byte-preserved (§70–§71). Returns the resulting file text.
+
+    Incremental (cycle 16.1 §7.4): when the upsert produces bytes identical
+    to what is already on disk nothing is written — re-installs do not
+    re-touch converged host docs."""
     block = wrap_marker_block(body)
-    if path.is_file():
-        text = path.read_text(encoding="utf-8")
+    old = path.read_text(encoding="utf-8") if path.is_file() else None
+    text = old
+    if text is not None:
         existing = extract_marker_block(text)
         if existing is not None:
             text = text.replace(existing, block.rstrip("\n"), 1)
@@ -59,8 +64,9 @@ def apply_marker_block(path: Path, body: str) -> str:
             text += "\n" + block if text.strip() else block
     else:
         text = block
-    path.parent.mkdir(parents=True, exist_ok=True)
-    write_atomic(path, text)
+    if text != old:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        write_atomic(path, text)
     return text
 
 
@@ -142,9 +148,13 @@ def load_ledger(state_root: Path) -> dict[str, Any]:
 
 
 def save_ledger(state_root: Path, ledger: dict[str, Any]) -> Path:
+    """Persist the ledger — compare-before-write: an identical payload is
+    never re-touched (incremental install, cycle 16.1 §7.4)."""
     target = ledger_path(state_root)
     target.parent.mkdir(parents=True, exist_ok=True)
-    write_atomic(target, json.dumps(ledger, indent=2, sort_keys=True) + "\n")
+    payload = json.dumps(ledger, indent=2, sort_keys=True) + "\n"
+    if not (target.is_file() and target.read_text(encoding="utf-8") == payload):
+        write_atomic(target, payload)
     return target
 
 
@@ -170,15 +180,19 @@ def write_managed_file(
     ``content`` may be ``str`` (encoded UTF-8) or ``bytes`` — binary
     assets like fonts/images under ``references/`` copy verbatim.
 
-    Outcomes:
+    Outcomes (the ``managed_files`` action vocabulary of
+    ``forge/InstallReceipt/v1``, cycle 16.1 §7.4):
 
-    - ``"written"`` — file absent, or already ledgered by us: our managed
-      asset is (re)asserted and re-recorded. A ledgered file whose bytes
-      drifted is ours too — re-writing reconverges drift, the same thing
-      ``repair`` does through this path.
-    - ``"unchanged"`` — file exists byte-identical but is *not* ledgered:
-      the correct content is already there, yet adopting it would make
-      ``detach`` delete a file we never wrote — it stays unrecorded.
+    - ``"created"`` — file absent and never ledgered: new managed asset.
+    - ``"restored"`` — file absent but ledgered: a deleted managed asset
+      is re-created (the same thing ``repair`` does through this path).
+    - ``"updated"`` — ledgered file whose bytes drifted: ours, so the
+      write reconverges drift.
+    - ``"unchanged"`` — file exists byte-identical: nothing is written.
+      Ledgered or not, the correct content is already there — for a
+      *non-ledgered* file adopting it would make ``detach`` delete a
+      file we never wrote, so it stays unrecorded. Callers can tell the
+      two cases apart via ``ledger_entry``.
     - ``"preserved_foreign"`` — file exists, unledgered, different bytes:
       a user/foreign file sitting at a managed path. It is preserved,
       never recorded, and the caller reports the skip honestly.
@@ -187,20 +201,25 @@ def write_managed_file(
         content.encode("utf-8") if isinstance(content, str)
         else bytes(content)
     )
-    if path.exists() and ledger_entry(ledger, path) is None:
+    entry = ledger_entry(ledger, path)
+    if path.exists():
         try:
             current = path.read_bytes()
         except OSError:
             current = b""
         if current == data:
             return ledger, "unchanged"
-        return ledger, "preserved_foreign"
+        if entry is None:
+            return ledger, "preserved_foreign"
+        action = "updated"
+    else:
+        action = "restored" if entry is not None else "created"
     path.parent.mkdir(parents=True, exist_ok=True)
     from sparkforge_azure.durable import write_atomic_bytes
 
     write_atomic_bytes(path, data)
     ledger = record_file(ledger, path, kind=kind, mode="file", host=host)
-    return ledger, "written"
+    return ledger, action
 
 
 def record_file(
@@ -299,10 +318,16 @@ def apply_json_key(
     If the key already exists with a different value and the ledger does not
     show we own it, the write is refused-by-skip: the caller reports the
     conflict instead of overwriting user configuration (§71).
+
+    Outcomes (cycle 16.1 §7.4 vocabulary): ``"created"`` (file absent),
+    ``"updated"`` (file existed, our key (re)written), ``"unchanged"``
+    (the key already holds our exact value — nothing is re-touched,
+    ownership is just re-claimed) or ``"conflict"`` (foreign value kept).
     """
     target = Path(path)
+    existed = target.is_file()
     data: dict[str, Any] = {}
-    if target.is_file():
+    if existed:
         try:
             loaded = json.loads(target.read_text(encoding="utf-8"))
         except (OSError, ValueError) as exc:
@@ -327,6 +352,18 @@ def apply_json_key(
     )
     if existing is not None and existing != value and not owned_here:
         return ledger, "conflict"
+    if existing == value:
+        # Converged — the key is already ours with the right value; claim
+        # ownership without re-touching the shared file (incremental).
+        return record_file(
+            ledger,
+            target,
+            kind=kind,
+            mode="merge",
+            owned_keys=(dotted_key,),
+            owned_key_hashes={dotted_key: _value_sha(value)},
+            host=host,
+        ), "unchanged"
     node[leaf] = value
     target.parent.mkdir(parents=True, exist_ok=True)
     write_atomic(target, json.dumps(data, indent=2, sort_keys=True) + "\n")
@@ -339,7 +376,7 @@ def apply_json_key(
         owned_key_hashes={dotted_key: _value_sha(value)},
         host=host,
     )
-    return ledger, "written"
+    return ledger, "updated" if existed else "created"
 
 
 def remove_json_key(path: Path, dotted_key: str) -> bool:
