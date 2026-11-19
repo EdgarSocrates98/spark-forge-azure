@@ -83,6 +83,8 @@ SUPERFICIES: frozenset[str] = frozenset({"cli", "mcp", "bundle", "doctor"})
 #: Entrada: (origem, destino) -> por que existe. Remover so quando a aresta
 #: sair do codigo; aresta ascendente nova reprova sem entrada aqui.
 EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
+    ("__main__", "cli"): "`python -m sparkforge_azure` delega ao console script (§9.3)",
+
     ("context", "agentic"): "gateway aplica TrustLabel/role_plan ao contexto",
     ("economy", "agentic"): "decision_plane consulta AgentGovernor",
     ("economy", "observability"): "ledger emite spans OTel",
