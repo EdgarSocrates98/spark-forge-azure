@@ -19,7 +19,7 @@ from sparkforge_azure.distribution.errors import PortableError, refused_document
 def _run(fn: Callable[[argparse.Namespace], dict[str, Any]]) -> Callable:
     def wrapped(args: argparse.Namespace) -> dict[str, Any]:
         try:
-            return fn(args)
+            out = fn(args)
         except PortableError as exc:
             return refused_document(exc)
         except Exception as exc:
@@ -29,6 +29,12 @@ def _run(fn: Callable[[argparse.Namespace], dict[str, Any]]) -> Callable:
             if isinstance(kind, str) and kind.startswith("FORGE-INSTALL"):
                 return refused_document(PortableError(kind, getattr(exc, "detail", str(exc))))
             raise
+        # forge/InstallLifecycle/v1 at the boundary: every forge/* receipt
+        # or health doc leaves with the derived state — the CLI never
+        # declares it, only attaches what the evidence already proves.
+        from sparkforge_azure.install import lifecycle
+
+        return lifecycle.with_lifecycle(out)
 
     return wrapped
 
@@ -84,12 +90,17 @@ def _install(args: argparse.Namespace) -> dict[str, Any]:
         except NonInteractive:
             approved = False
         if not approved:
+            # `declined` is not a forge/InstallReceipt/v1 status — the enum
+            # is planned/completed/failed/rolled-back. A gate refusal is
+            # `failed` + a BLOCKED check: the lifecycle derives `blocked`
+            # (sibling parity — spark-forge-aws wave-03).
             return {
                 "schema": "forge/InstallReceipt/v1",
                 "forge_id": "spark-forge-azure",
                 "operation": "install",
-                "status": "declined",
-                "checks": [],
+                "status": "failed",
+                "checks": [{"id": "approval", "status": "BLOCKED",
+                            "detail": "declined — nothing written"}],
                 "managed_files": [],
                 "verification": {"status": "UNVERIFIED"},
                 "error": {"kind": "SFA-INSTALL-DECLINED", "detail": "declined — nothing written"},

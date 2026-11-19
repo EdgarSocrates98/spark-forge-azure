@@ -340,6 +340,33 @@ Recibos `forge/InstallReceipt/v1` com `status`
 em `~/.forge/installations/spark-forge-azure.json` (`install`, hosts,
 scopes, profiles, `mcp_verify_tool: sfa_version`).
 
+**Lifecycle `forge/InstallLifecycle/v1`** (cycle 16.1): todo recibo e
+doc de saúde carrega um bloco `lifecycle` `{schema, state, detail}`
+**derivado** da evidência — o writer nunca o declara. Vocabulário
+fechado: `planned` (só plano), `blocked` (gate recusou: aprovação,
+superfície, lock), `failed` (rodou e errou), `applied` (escreveu, sem
+verificação), `partially_applied` (subconjunto), `verified` (checks do
+recibo PASS), `unverified` (sem prova), `ready` (saúde verde) e
+`certified` (só com evidência externa nomeando o SHA testado). `status:
+completed` no recibo **não** significa pronto — leia `lifecycle.state`.
+`applied` sai 0 na CLI por paridade, mas não prova readiness. Uma
+aprovação interativa declinada sai como `status: failed` + check
+`approval: BLOCKED` → `lifecycle.state: blocked` (o enum do recibo não
+tem `declined`).
+
+**Instalação incremental** (§7.4): cada escritor compara bytes antes de
+gravar — arquivo inteiro, bloco de marcador, chave de JSON compartilhada,
+ledger e receipts. Uma segunda execução idêntica **reescreve zero
+assets** (`counts.written: 0`); a única novidade é o recibo de evidência
+datado em `.sparkforge-azure/receipts/<op>-<ts>.json`. Ações reais por
+arquivo em `managed_files[].action`: `created`, `updated`, `restored`,
+`unchanged` (foreign preservado também reporta `unchanged` + `note`).
+
+**Economia de contexto honesta**: `counts.written_bytes` mede bytes
+realmente escritos; `context.*_bytes` (`skills_bytes`, `agents_bytes`,
+`knowledge_bytes`, `rules_bytes`, `evals_bytes`, `managed_bytes`) mede
+bytes renderizados por kind — nunca "tokens economizados" inventados.
+
 ## `sparkforge-azure portal` — UI web local opcional
 
 Portal web local-first sobre os mesmos serviços do CLI/MCP — jornada

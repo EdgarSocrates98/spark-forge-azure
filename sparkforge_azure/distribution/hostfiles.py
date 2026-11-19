@@ -108,9 +108,19 @@ def install_host_assets(
     )
     report: dict[str, Any] = {
         "marker_files": [],
-        "mirrors": {"written": 0, "roots": agent_roots},
+        "mirrors": {
+            "written": 0, "unchanged": 0,
+            # Payload bytes rendered / really written — measured bytes,
+            # never tokens (cycle 16.1 §7.4, context honesty §8.5).
+            "bytes": 0, "written_bytes": 0,
+            "roots": agent_roots,
+        },
         "skipped": [],
         "preserved_foreign": [],
+        # Per-path real action (created/updated/restored/unchanged) —
+        # incremental-install evidence the receipt folds into
+        # managed_files (cycle 16.1 §7.4).
+        "actions": {},
     }
 
     if write_markers and (
@@ -119,6 +129,7 @@ def install_host_assets(
         # AGENTS.md — the generic contract (Codex, Devin and any agent CLI
         # read it).
         agents_md = root / "AGENTS.md"
+        agents_before = agents_md.read_bytes() if agents_md.is_file() else None
         apply_marker_block(agents_md, _BLOCK_BODY)
         ledger = record_file(
             ledger,
@@ -131,11 +142,19 @@ def install_host_assets(
             host="generic",
         )
         report["marker_files"].append("AGENTS.md")
+        after = agents_md.read_bytes()
+        report["actions"][agents_md.as_posix()] = (
+            "unchanged" if after == agents_before
+            else "created" if agents_before is None else "updated"
+        )
 
         # CLAUDE.md — only when it already exists or claude was detected; we
         # don't create host files for hosts that were never seen (§76).
         claude_md = root / "CLAUDE.md"
         if claude_md.is_file() or "claude" in hosts:
+            claude_before = (
+                claude_md.read_bytes() if claude_md.is_file() else None
+            )
             apply_marker_block(claude_md, _BLOCK_BODY)
             ledger = record_file(
                 ledger,
@@ -148,6 +167,11 @@ def install_host_assets(
                 host="claude",
             )
             report["marker_files"].append("CLAUDE.md")
+            after = claude_md.read_bytes()
+            report["actions"][claude_md.as_posix()] = (
+                "unchanged" if after == claude_before
+                else "created" if claude_before is None else "updated"
+            )
         else:
             report["skipped"].append("CLAUDE.md (host not detected)")
 
@@ -167,6 +191,8 @@ def install_host_assets(
                 render_agent_mirror(source_text, agent_id))
             for mroot in agent_roots:
                 target = root / mroot / f"{mirror_name(agent_id)}.md"
+                payload = rendered.encode("utf-8")
+                report["mirrors"]["bytes"] += len(payload)
                 # install-2.1: arquivo pre-existente nao-ledgered e
                 # estrangeiro — preservado, nunca adotado nem sobrescrito.
                 ledger, outcome = write_managed_file(
@@ -180,8 +206,15 @@ def install_host_assets(
                     report["preserved_foreign"].append(str(target))
                     report["skipped"].append(
                         f"{target.name} (foreign file preserved)")
+                    report["actions"][target.as_posix()] = "unchanged"
+                elif outcome == "unchanged":
+                    report["mirrors"]["unchanged"] += 1
+                    report["actions"][target.as_posix()] = "unchanged"
                 else:
+                    # created | updated | restored — real byte writes.
                     report["mirrors"]["written"] += 1
+                    report["mirrors"]["written_bytes"] += len(payload)
+                    report["actions"][target.as_posix()] = outcome
 
     return ledger, report
 

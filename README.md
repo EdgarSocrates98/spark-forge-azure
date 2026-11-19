@@ -21,6 +21,12 @@ append-only (local, em `.sparkforge-azure/journal.jsonl`, fora do git).
   contexto bounded por scope (`target|direct|transitive|all`);
   `distribution detach` desfaz a integracao preservando estado e
   conteudo do usuario. Quickstart: `docs/guides/SPARKFORGE_AZURE_PORTABLE.md`
+- Ciclo de vida `forge/*`: `sparkforge-azure install` aplica assets
+  gerenciados com recibo `forge/InstallReceipt/v1` + estado derivado
+  `forge/InstallLifecycle/v1` (`planned→applied→verified→ready`;
+  `blocked`/`unverified` sao respostas honestas, nunca erros
+  escondidos). Reinstalacao e incremental — uma segunda execucao
+  identica regrava zero assets.
 - Especificacao: SDD em `docs/sdd/` — `sdd-define` abre a feature e
   `sparkforge-azure sdd check` e o gate (no sibling AWS e `sparkforge sdd check`)
 

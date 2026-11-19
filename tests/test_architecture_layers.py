@@ -285,6 +285,7 @@ EXCECOES_MEDIDAS: dict[tuple[str, str], str] = {
     ("graphview", "graph"): "projecao le o grafo persistido em graph.store",
     ("install", "agentmanifest"): "install --with-mirrors renderiza espelhos de agents",
     ("install", "distribution"): "install reusa hosts managed do lifecycle portavel",
+    ("install", "durable"): "refresh do receipt-distribution regrava via write_atomic",
     ("install", "skills"): "install renderiza os espelhos de skills",
     ("distribution", "install"): "ai le a saude da integracao via install.service",
     ("distribution", "skills"): (

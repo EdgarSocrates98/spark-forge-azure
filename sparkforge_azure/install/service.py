@@ -374,7 +374,7 @@ def _install_skill_mirrors(
     root: Path, ledger: dict[str, Any], hosts: tuple[str, ...],
     enabled_kinds: set[str] | None = None,
     include_agent_refs: bool = False,
-) -> tuple[dict[str, Any], list[str], list[str], list[str], list[str]]:
+) -> tuple[dict[str, Any], dict[str, Any]]:
     """Write the skill-layer plan into the selected host roots, ledgered
     like every other managed asset. Knowledge pointers land namespaced
     under ``knowledge/sparkforge-azure/`` (install-2.1); legacy
@@ -382,18 +382,36 @@ def _install_skill_mirrors(
 
     Toda escrita whole-file passa por ``write_managed_file``: um arquivo
     pre-existente nao-ledgered no caminho de um mirror/stub e ESTRANGEIRO —
-    preservado, nunca adotado, e reportado em ``skipped`` (install-2.1).
-    ``enabled_kinds`` restringe o plano aos kinds selecionados por
-    ``--components``/profile."""
-    from sparkforge_azure.distribution.managed import write_managed_file
+    preservado, nunca adotado nem sobrescrito, e reportado em ``skipped``
+    (install-2.1). ``enabled_kinds`` restringe o plano aos kinds
+    selecionados por ``--components``/profile.
+
+    Returns ``(ledger, report)`` — the report carries per-file
+    ``entries`` in the ``forge/InstallReceipt/v1`` ``managed_files``
+    shape (path/sha256/kind/action[+note]), ``kind_bytes`` measured on
+    the rendered payloads (never tokens), ``present`` (plan paths now
+    correct on disk), ``written_bytes`` and the migration lists
+    (cycle 16.1 §7.4)."""
+    import hashlib
+
+    from sparkforge_azure.distribution.managed import (
+        ledger_entry,
+        write_managed_file,
+    )
 
     ledger, migrated, detached = _migrate_legacy_knowledge_stubs(root, ledger)
-    written: list[str] = []
+    entries: list[dict[str, Any]] = []
+    present: list[str] = []
     skipped: list[str] = []
+    kind_bytes: dict[str, int] = {}
+    written_bytes = 0
     for target, text, kind in _skill_mirror_plan(
             root, hosts, include_agent_refs):
         if enabled_kinds is not None and kind not in enabled_kinds:
             continue
+        data = text.encode("utf-8") if isinstance(text, str) else bytes(text)
+        kind_bytes[kind] = kind_bytes.get(kind, 0) + len(data)
+        ledger_kind = "skill_mirror" if kind == "skill" else f"{kind}_pointer"
         rel_parts = target.relative_to(root).parts
         host = (
             rel_parts[0].lstrip(".")
@@ -402,14 +420,46 @@ def _install_skill_mirrors(
         )
         ledger, outcome = write_managed_file(
             ledger, target, text,
-            kind=("skill_mirror" if kind == "skill" else f"{kind}_pointer"),
+            kind=ledger_kind,
             host=host,
         )
+        key = target.as_posix()
         if outcome == "preserved_foreign":
             skipped.append(str(target))
-        else:
-            written.append(str(target))
-    return ledger, written, skipped, migrated, detached
+            try:
+                sha = hashlib.sha256(target.read_bytes()).hexdigest()
+            except OSError:
+                sha = ""
+            entries.append({
+                "path": key, "sha256": sha, "kind": ledger_kind,
+                "action": "unchanged",
+                "note": "user-owned, not managed — skipped",
+            })
+            continue
+        owned = ledger_entry(ledger, target) is not None
+        entry: dict[str, Any] = {
+            "path": key,
+            "sha256": hashlib.sha256(data).hexdigest(),
+            "kind": ledger_kind,
+            "action": outcome,
+        }
+        if outcome == "unchanged" and not owned:
+            # Byte-identical foreign file — never adopted (detach must not
+            # delete what we never wrote); the receipt says so honestly.
+            entry["note"] = "pre-existing identical — user-owned, not managed"
+        if outcome in ("created", "updated", "restored"):
+            written_bytes += len(data)
+        entries.append(entry)
+        present.append(str(target))
+    return ledger, {
+        "entries": entries,
+        "present": present,
+        "skipped": skipped,
+        "migrated": migrated,
+        "detached": detached,
+        "kind_bytes": kind_bytes,
+        "written_bytes": written_bytes,
+    }
 
 
 def _mcp_config(root: Path, ledger: dict[str, Any],
@@ -477,10 +527,22 @@ def _planned_files(target: Path, scope: str, hosts: tuple[str, ...],
 
 def _receipt(operation: str, scope: str, target: Path, *,
              status: str, checks: list[dict[str, Any]],
-             managed_files: list[str] | None = None,
+             managed_files: list[dict[str, Any]] | None = None,
              extra: dict[str, Any] | None = None) -> dict[str, Any]:
+    """``forge/InstallReceipt/v1`` doc — ``managed_files`` items carry the
+    contract shape ``{path, sha256, kind, action[, note]}`` measured by
+    the writers, and every receipt leaves with its derived
+    ``forge/InstallLifecycle/v1`` block (never a declared verdict)."""
+    from sparkforge_azure.install import lifecycle
+
+    seed = json.dumps(
+        {"o": operation, "t": str(target), "ts": kit._utc_now()},
+        sort_keys=True,
+    ).encode()
     doc = {
-        "schema": kit.SCHEMA_RECEIPT, "forge_id": FORGE_ID,
+        "schema": kit.SCHEMA_RECEIPT,
+        "receipt_id": f"sha256:{kit._sha(seed)}",
+        "forge_id": FORGE_ID,
         "operation": operation, "scope": scope,
         "target_root": str(target), "managed_files": managed_files or [],
         "checks": checks,
@@ -492,7 +554,79 @@ def _receipt(operation: str, scope: str, target: Path, *,
     }
     if extra:
         doc.update(extra)
+    doc["lifecycle"] = lifecycle.receipt_block(doc)
     return doc
+
+
+def _ledger_entries(
+    state: Path,
+    actions: dict[str, str],
+    notes: dict[str, str],
+    *,
+    ledger: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
+    """``managed_files`` entries for the state-layer files (mcp config,
+    project manifest, distribution receipt, marker docs, agent mirrors):
+    ``{path, sha256, kind, action[, note]}`` — sha/kind from the ledger
+    when the file is ours, from disk when it is not (foreign)."""
+    import hashlib
+
+    from sparkforge_azure.distribution.managed import load_ledger
+
+    files = (ledger if ledger is not None else load_ledger(state))["files"]
+    by_path = {f["path"]: f for f in files}
+    out: list[dict[str, Any]] = []
+    for path in sorted(actions):
+        owned = by_path.get(path)
+        if owned is not None:
+            sha, kind = owned.get("sha256") or "", owned.get("kind") or "asset"
+        else:
+            try:
+                sha = hashlib.sha256(Path(path).read_bytes()).hexdigest()
+            except OSError:
+                sha = ""
+            kind = "foreign"
+        entry: dict[str, Any] = {
+            "path": path, "sha256": sha, "kind": kind,
+            "action": actions[path],
+        }
+        if path in notes:
+            entry["note"] = notes[path]
+        out.append(entry)
+    return out
+
+
+def _refresh_distribution_receipt(state: Path) -> str | None:
+    """Re-assert ``receipt-distribution.json``'s ``managed_files`` against
+    the final ledger — the mirror layer ledgers its files *after*
+    ``initialize``'s snapshot, so the doc converges only once refreshed
+    (cycle 16.1 §7.4). Returns the real action or None."""
+    from sparkforge_azure.distribution.managed import load_ledger
+    from sparkforge_azure.durable import write_atomic
+
+    path = state / "receipt-distribution.json"
+    if not path.is_file():
+        return None
+    try:
+        doc = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return None
+    if not isinstance(doc, dict):
+        return None
+    ledger = load_ledger(state)
+    managed = sorted(
+        {str(f["path"]) for f in ledger["files"]} | {path.as_posix()}
+    )
+    if doc.get("managed_files") == managed:
+        return "unchanged"
+    doc["managed_files"] = managed
+    write_atomic(path, json.dumps(doc, indent=2, sort_keys=True) + "\n")
+    # The ledger entry was recorded against the pre-refresh bytes — keep
+    # the sha honest so the NEXT run's ledger compare is a fixpoint too.
+    from sparkforge_azure.distribution.managed import record_file, save_ledger
+
+    save_ledger(state, record_file(ledger, path, kind="receipt"))
+    return "updated"
 
 
 def install(*, scope: str = "project", root: Path | None = None,
@@ -551,6 +685,14 @@ def install(*, scope: str = "project", root: Path | None = None,
             kit.E_NOTAPPROVED,
             "install requires --yes or --dry-run; the plan is the contract")
 
+    # Incremental-install evidence (cycle 16.1 §7.4): every writer reports
+    # the REAL per-path action; the receipt folds them into managed_files
+    # entries + counts + measured context bytes (never tokens).
+    file_actions: dict[str, str] = {}
+    file_notes: dict[str, str] = {}
+    entries: list[dict[str, Any]] = []
+    kind_bytes: dict[str, int] = {}
+    written_bytes = 0
     with kit.acquire_lock(state):
         if scope == "user":
             doc = _install_user(
@@ -583,26 +725,50 @@ def install(*, scope: str = "project", root: Path | None = None,
                     profile == "full"
                     and (enabled_kinds is None or "agent" in enabled_kinds)
                 )
-                ledger, written, skipped, migrated, detached = (
-                    _install_skill_mirrors(
-                        target, ledger, hosts, enabled_kinds,
-                        with_agent_refs)
-                )
+                ledger, mirror_report = _install_skill_mirrors(
+                    target, ledger, hosts, enabled_kinds,
+                    with_agent_refs)
                 save_ledger(state, ledger)
-                doc["skill_mirrors"] = written
-                if skipped:
-                    doc["foreign_preserved"] = skipped
-                if migrated:
-                    doc["knowledge_migrated"] = migrated
-                if detached:
-                    doc["knowledge_detached"] = detached
+                doc["skill_mirrors"] = mirror_report["present"]
+                if mirror_report["skipped"]:
+                    doc["foreign_preserved"] = mirror_report["skipped"]
+                if mirror_report["migrated"]:
+                    doc["knowledge_migrated"] = mirror_report["migrated"]
+                if mirror_report["detached"]:
+                    doc["knowledge_detached"] = mirror_report["detached"]
+                doc["skill_entries"] = mirror_report["entries"]
+                merged_bytes = dict(doc.get("kind_bytes") or {})
+                for _k, _n in mirror_report["kind_bytes"].items():
+                    merged_bytes[_k] = merged_bytes.get(_k, 0) + _n
+                doc["kind_bytes"] = merged_bytes
+                doc["written_bytes"] = (
+                    doc.get("written_bytes") or 0
+                ) + mirror_report["written_bytes"]
                 doc["managed_files"] = [f["path"] for f in ledger["files"]]
+            # §7.4 fixpoint: `initialize` snapshots `managed_files` before
+            # the mirror layer ledgers its files — re-assert the doc
+            # against the final ledger so a second install sees identical
+            # bytes (zero rewrites of unchanged assets).
+            refreshed = _refresh_distribution_receipt(state)
+            if refreshed:
+                rkey = (state / dist.RECEIPT_NAME).as_posix()
+                actions = doc.setdefault("file_actions", {})
+                # don't downgrade `created` → `updated` within one run
+                if actions.get(rkey) != "created":
+                    actions[rkey] = refreshed
         # `initialize` may report a refusal doc instead of raising.
         ok = doc.get("status") == "ok"
     if opts:
         state.mkdir(parents=True, exist_ok=True)
-        (state / "components.json").write_text(
-            json.dumps(opts, indent=2), encoding="utf-8")
+        # Incremental (§7.4): components.json is state — identical bytes
+        # are never re-touched on reinstall.
+        components_path = state / "components.json"
+        payload = json.dumps(opts, indent=2)
+        if not (
+            components_path.is_file()
+            and components_path.read_text(encoding="utf-8") == payload
+        ):
+            components_path.write_text(payload, encoding="utf-8")
     preserved = list(doc.get("foreign_preserved") or [])
     preserved += list(
         (doc.get("host_files") or {}).get("preserved_foreign") or []
@@ -618,12 +784,54 @@ def install(*, scope: str = "project", root: Path | None = None,
              "detail": f"{len(preserved)} foreign file(s) preserved at "
                        f"managed paths — not adopted"})
         ok = False
+    file_actions.update(doc.get("file_actions") or {})
+    file_notes.update(doc.get("file_notes") or {})
+    entries.extend(_ledger_entries(state, file_actions, file_notes))
+    entries.extend(doc.get("skill_entries") or [])
+    entries.sort(key=lambda item: str(item.get("path") or ""))
+    for kind, amount in (doc.get("kind_bytes") or {}).items():
+        kind_bytes[kind] = kind_bytes.get(kind, 0) + amount
+    written_bytes += doc.get("written_bytes") or 0
+    counts: dict[str, int] = {}
+    for item in entries:
+        action = str(item.get("action", "?"))
+        counts[action] = counts.get(action, 0) + 1
+    counts["written"] = (
+        counts.get("created", 0)
+        + counts.get("updated", 0)
+        + counts.get("restored", 0)
+    )
+    from sparkforge_azure.distribution.hosts import MCP_SERVER_NAME
+
+    mcp_action = doc.get("mcp_action")
     receipt = _receipt(
         "install", scope, target,
         status="completed" if ok else "failed",
         checks=checks,
-        managed_files=doc.get("managed_files", []),
+        managed_files=entries,
         extra={"components": opts or None,
+               "profile": profile,
+               "execution_profile": gateway_profile,
+               "host": ",".join(hosts) or None,
+               "dry_run": False,
+               "counts": counts | {"written_bytes": written_bytes},
+               # Context-budget metrics — only bytes MEASURED at write
+               # time (§8.5/§13.2); tokens are never invented.
+               "context": {
+                   "profile": profile,
+                   "skills_bytes": kind_bytes.get("skill") or None,
+                   "agents_bytes": kind_bytes.get("agent") or None,
+                   "knowledge_bytes": kind_bytes.get("knowledge") or None,
+                   "rules_bytes": kind_bytes.get("rules") or None,
+                   "evals_bytes": kind_bytes.get("evals") or None,
+                   "managed_bytes": sum(kind_bytes.values()) or None,
+                   "mcp_entries": 1 if mcp_action else None,
+               },
+               "mcp": ([{
+                   "server": MCP_SERVER_NAME,
+                   "file": ".mcp.json",
+                   "action": mcp_action,
+               }] if mcp_action else []),
                "gateway_profile": gateway_profile,
                "preserved_foreign": preserved or None,
                "distribution": {k: v for k, v in doc.items()
@@ -633,11 +841,28 @@ def install(*, scope: str = "project", root: Path | None = None,
             target, receipt, scope=scope, profile=profile,
             hosts=hosts, components=opts or None,
         )
+        # `_register_context` may append checks and downgrade `status`:
+        # verification and lifecycle are re-derived from the FINAL
+        # receipt, never declared by the writer.
+        receipt["verification"]["status"] = (
+            "PASS"
+            if all(
+                c["status"] in ("PASS", "NOT_APPLICABLE", "UNVERIFIED")
+                for c in receipt["checks"]
+            )
+            else "FAIL"
+        )
+        from sparkforge_azure.install import lifecycle
+
+        receipt["lifecycle"] = lifecycle.receipt_block(receipt)
         # O manifesto de conta (~/.forge/installations/) descreve o runtime
         # instalado — escopo user instala assets sob ~, nao o runtime; o
         # registro so e re-assertido nos escopos de projeto/workspace.
         if scope != "user":
             _register(target)
+    # Canonical evidence trail: every real apply persists its final
+    # receipt under `.sparkforge-azure/receipts/` (kit `_write_receipt`).
+    kit._write_receipt(state, receipt)
     return receipt
 
 
@@ -655,11 +880,19 @@ def _install_user(home: Path, hosts: tuple[str, ...],
 
     state = home / ".sparkforge-azure"
     ledger = load_ledger(state)
+    file_actions: dict[str, str] = {}
+    file_notes: dict[str, str] = {}
     mcp_wanted = enabled_kinds is None or "mcp" in enabled_kinds
     outcome = "skipped"
     if mcp_wanted and hosts:
         ledger, outcome = _mcp_config(
             home, ledger, profile=gateway_profile)
+        mcp_key = (home / ".mcp.json").as_posix()
+        if outcome in ("created", "updated", "unchanged"):
+            file_actions[mcp_key] = outcome
+        elif outcome == "conflict":
+            file_actions[mcp_key] = "unchanged"
+            file_notes[mcp_key] = "user-owned, not managed — skipped"
     detected = tuple(h["name"] for h in detect_hosts()
                      if h["status"] == "available")
     ledger, report = install_host_assets(
@@ -668,24 +901,52 @@ def _install_user(home: Path, hosts: tuple[str, ...],
         write_markers=bool(hosts),
         enabled_kinds=enabled_kinds,
         mirror_hosts=hosts)
+    file_actions.update(report.get("actions") or {})
+    for foreign in report.get("preserved_foreign") or ():
+        file_actions[Path(foreign).as_posix()] = "unchanged"
+        file_notes[Path(foreign).as_posix()] = (
+            "user-owned, not managed — skipped"
+        )
+    agent_bytes = int((report.get("mirrors") or {}).get("bytes") or 0)
+    agent_written_bytes = int(
+        (report.get("mirrors") or {}).get("written_bytes") or 0
+    )
     written: list[str] = []
     skipped: list[str] = []
     migrated: list[str] = []
     detached: list[str] = []
+    skill_entries: list[dict[str, Any]] = []
+    kind_bytes: dict[str, int] = {}
+    written_bytes = 0
     if profile in ("recommended", "full"):
         with_agent_refs = (
             profile == "full"
             and (enabled_kinds is None or "agent" in enabled_kinds)
         )
-        ledger, written, skipped, migrated, detached = (
-            _install_skill_mirrors(
-                home, ledger, hosts, enabled_kinds, with_agent_refs)
-        )
+        ledger, mirror_report = _install_skill_mirrors(
+            home, ledger, hosts, enabled_kinds, with_agent_refs)
+        written = mirror_report["present"]
+        skipped = mirror_report["skipped"]
+        migrated = mirror_report["migrated"]
+        detached = mirror_report["detached"]
+        skill_entries = mirror_report["entries"]
+        kind_bytes = mirror_report["kind_bytes"]
+        written_bytes = mirror_report["written_bytes"]
+    if agent_bytes:
+        kind_bytes["agent"] = kind_bytes.get("agent", 0) + agent_bytes
+    written_bytes += agent_written_bytes
     save_ledger(state, ledger)
     out = {"status": "ok",
            "managed_files": [f["path"] for f in ledger["files"]],
            "host_files": report, "skill_mirrors": written,
-           "mcp": outcome}
+           "mcp": outcome,
+           "file_actions": file_actions,
+           "file_notes": file_notes,
+           "skill_entries": skill_entries,
+           "kind_bytes": kind_bytes,
+           "written_bytes": written_bytes}
+    if outcome in ("created", "updated", "unchanged"):
+        out["mcp_action"] = outcome
     if skipped:
         out["foreign_preserved"] = skipped
     if migrated:
@@ -697,13 +958,14 @@ def _install_user(home: Path, hosts: tuple[str, ...],
 
 def status(*, scope: str = "project", root: Path | None = None) -> dict[str, Any]:
     from sparkforge_azure.distribution import service as dist
+    from sparkforge_azure.install import lifecycle
 
     target = _resolve(scope, root)
     doc = dist.status(target)
     level = doc.get("status", "uninitialized")
     healthy = level == "initialized"
     drifted = level in ("drifted", "partial", "broken")
-    return {
+    out = {
         "schema": kit.SCHEMA_HEALTH, "forge_id": FORGE_ID,
         "status": ("healthy" if healthy else
                    ("degraded" if drifted else "unverified")),
@@ -716,15 +978,38 @@ def status(*, scope: str = "project", root: Path | None = None) -> dict[str, Any
         "repair_hint": ("sparkforge-azure install repair" if drifted
                         else doc.get("unlock")),
     }
+    out["lifecycle"] = lifecycle.health_block(out)
+    return out
 
 
 def doctor(*, scope: str = "project", root: Path | None = None) -> dict[str, Any]:
     from sparkforge_azure.distribution import service as dist
+    from sparkforge_azure.install import lifecycle
 
     target = _resolve(scope, root)
     doc = dist.doctor(target)
+    # Advisory findings stay honest UNVERIFIED, never FAIL: host detection
+    # is local/advisory (absence never fails a lifecycle verb), and the
+    # identity-manifest areas are discovery-optional — a project install
+    # never ships `workspace.yaml`, so its absence is not drift. Real
+    # `warn`s (managed-asset drift, unwritable state, broken runtime)
+    # still degrade health.
+    _ADVISORY = ("host:", "workspace", "project_identity")
+
+    def _dist_status(c: dict[str, Any]) -> str:
+        st = str(c.get("status"))
+        if st == "ok":
+            return "PASS"
+        area = str(c.get("area", ""))
+        if st == "unresolved" or any(
+            area == a or area.startswith(a)
+            for a in _ADVISORY
+        ):
+            return "UNVERIFIED"
+        return "FAIL"
+
     checks = [{"id": f"dist:{c.get('area', '?')}",
-               "status": "PASS" if c.get("status") == "ok" else "FAIL",
+               "status": _dist_status(c),
                "detail": str(c.get("detail", ""))}
               for c in doc.get("checks", [])]
     if not checks:
@@ -733,14 +1018,25 @@ def doctor(*, scope: str = "project", root: Path | None = None) -> dict[str, Any
                    "detail": "no checks reported"}]
     checks.append(kit.mcp_verify(_spec()))
     failed = any(c["status"] == "FAIL" for c in checks)
-    return {
+    # Honest state (forge/InstallLifecycle/v1): with no managed-asset
+    # evidence at this scope there is nothing to verify — `unverified`,
+    # never a fabricated `degraded`/`healthy` verdict.
+    from sparkforge_azure.distribution.managed import load_ledger
+
+    installed = bool(
+        load_ledger(_state_dir(scope, target)).get("files")
+    )
+    out = {
         "schema": kit.SCHEMA_HEALTH, "forge_id": FORGE_ID,
-        "status": "degraded" if failed else "healthy",
+        "status": ("unverified" if not installed
+                   else "degraded" if failed else "healthy"),
         "target_root": str(target), "checks": checks,
         "distribution": doc,
         "checked_at": kit._utc_now(),
         "repair_hint": "sparkforge-azure install repair" if failed else None,
     }
+    out["lifecycle"] = lifecycle.health_block(out)
+    return out
 
 
 def repair(*, scope: str = "project", root: Path | None = None,
@@ -799,11 +1095,14 @@ def repair(*, scope: str = "project", root: Path | None = None,
             )
             _drop_stale_doc_entries(state, target)
             ledger = load_ledger(state)
-            ledger, _w, _s, _m, _d = _install_skill_mirrors(
+            ledger, _mirror_report = _install_skill_mirrors(
                 target, ledger, HOSTS, saved_kinds,
                 include_agent_refs=(
                     saved_kinds is not None and "agent" in saved_kinds))
             save_ledger(state, ledger)
+            # same §7.4 fixpoint as install(): the dist receipt snapshots
+            # `managed_files` before the mirror layer ledgers its files.
+            _refresh_distribution_receipt(state)
         after = [a for a in assess_ledger(state) if a["state"] != "present"]
         # Registry de contexto + consumer docs: re-assert dos blocos
         # `forge:*` a partir dos manifests em `.forge/context/`; recusa
@@ -854,12 +1153,14 @@ def repair(*, scope: str = "project", root: Path | None = None,
         checks.append(ctx_check)
     if docs_check is not None:
         checks.append(docs_check)
-    return _receipt(
+    receipt = _receipt(
         "repair", scope, target,
         status="completed" if not after else "failed",
         checks=checks,
         extra={"repaired": [a["path"] for a in before
                             if a["path"] not in {b["path"] for b in after}]})
+    kit._write_receipt(state, receipt)
+    return receipt
 
 
 def uninstall(*, scope: str = "project", root: Path | None = None,
@@ -891,7 +1192,7 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
         if scope != "user" and _docs_leftovers(target):
             context_checks = _unregister_context(target)
     ctx_blocked = any(c.get("status") == "BLOCKED" for c in context_checks)
-    return _receipt(
+    receipt = _receipt(
         "uninstall", scope, target,
         status="planned" if dry_run else "failed" if ctx_blocked else "completed",
         checks=[{"id": "uninstall", "status": "PASS",
@@ -901,6 +1202,13 @@ def uninstall(*, scope: str = "project", root: Path | None = None,
         extra={"dry_run": dry_run, "removed": removed,
                "kept": out.get("preserved", []),
                "warnings": out.get("warnings", [])})
+    # Canonical parity: detach receipts persist only when state is not
+    # purged — writing one under a purged `.sparkforge-azure/` would
+    # resurrect the state dir uninstall just removed.
+    state = _state_dir(scope, target)
+    if not dry_run and not purge and state.exists():
+        kit._write_receipt(state, receipt)
+    return receipt
 
 
 def update(*, to: str | None = None, repo: Path | None = None,
