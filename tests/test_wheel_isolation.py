@@ -151,7 +151,15 @@ def test_wheel_install_lifecycle_outside_checkout(tmp_path: Path):
     python = scripts / "python"
     pip = scripts / "pip"
 
-    install = _run([str(pip), "install", "--quiet", str(wheel)], cwd=tmp_path, env=env)
+    # The `mcp-handshake` gate below requires the runtime extra — the consumer
+    # contract for MCP is `sparkforge-azure[mcp]` (the refusal message in
+    # `mcp serve` says exactly this). Installing the plain wheel and then
+    # asserting the handshake passes would only work via PATH leakage into
+    # whatever dev env happens to be on PATH — the leak this test exists to
+    # prove absent.
+    install = _run(
+        [str(pip), "install", "--quiet", f"{wheel}[mcp]"], cwd=tmp_path, env=env
+    )
     assert install.returncode == 0, f"pip install of wheel failed: {install.stderr[-800:]}"
 
     cli = scripts / CLI
