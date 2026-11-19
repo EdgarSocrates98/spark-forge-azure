@@ -966,7 +966,10 @@ def test_reinstall_is_a_zero_write_fixpoint(
     assert rewritten == [], f"unchanged assets rewritten: {rewritten}"
     new = sorted(k for k in after if k not in before)
     # only a fresh evidence receipt may appear — never a rewrite
-    assert all(n.startswith(".sparkforge-azure/receipts/") for n in new)
+    assert all(
+        n.replace("\\", "/").startswith(".sparkforge-azure/receipts/")
+        for n in new
+    )
     assert doc["counts"].get("written", 0) == 0
     assert doc["counts"].get("written_bytes", 0) == 0
     assert doc["lifecycle"]["state"] == "verified"
